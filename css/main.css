@@ -27,7 +27,7 @@ body {
     min-width:1000px;
 }
 #navdiv {
-    position:relative;
+    position:absolute;
     top:0px;
     right:0px;
     padding:10px;
