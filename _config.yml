@@ -1,0 +1,12 @@
+# Site settings
+title: RIS Tutorials
+description: Tutorials hosted and developed by RIS at MSI
+future: true
+# Build settings
+markdown: kramdown
+permalink: pretty
+
+# Custom Collections
+collections:
+  tutorials:
+    output: true
