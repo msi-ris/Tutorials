@@ -26,6 +26,17 @@ body {
     border:1px solid #ccc;
 }
 
+/* Text styling */
+h1 {
+    font-size:300%;
+}
+h2 {
+    font-size:275%;
+}
+h3 {
+    font-size:225%;
+}
+
 a {
     color:#990000;
     text-decoration:underline;
