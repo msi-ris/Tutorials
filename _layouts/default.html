@@ -7,8 +7,6 @@
         <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
     </head>
     <body>
-        {{ content }}
-
         <div id="navdiv">
             <h2>Offered Tutorials</h2>
             <ul>
@@ -17,5 +15,6 @@
                 {% endfor %}
             </ul>
         </div>
+        {{ content }}
     </body>
 </html>
