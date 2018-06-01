@@ -11,6 +11,7 @@ body {
     position:absolute;
     top:50px;
     left:50px;
+    width:500px;
     border:1px solid #ccc;
 }
 
