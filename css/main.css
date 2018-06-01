@@ -10,6 +10,7 @@ body {
 
 #maindiv {
     position:absolute;
+    display:block;
     top:10px;
     left:10px;
     margin-right:300px;
@@ -20,6 +21,7 @@ body {
 
 #navdiv {
     position:absolute;
+    display:block;
     top:10px;
     right:10px;
     padding:10px;
