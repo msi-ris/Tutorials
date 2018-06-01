@@ -21,7 +21,6 @@ body {
 
 #dummy {
     position:absolute;
-    display:none;
     top:10px;
     right:10px;
     width:100%;
