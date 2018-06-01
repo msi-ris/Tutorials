@@ -28,14 +28,6 @@ body {
     border:1px solid #ccc;
 }
 
-#dummy {
-    position:fixed;
-    top:0px;
-    right:0px;
-    width:100%;
-    min-width:1000px;
-    border:1px solid #000;
-}
 #navdiv {
     position:relative;
     top:0px;
