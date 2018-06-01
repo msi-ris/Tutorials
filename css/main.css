@@ -17,10 +17,10 @@ body {
     padding:0px;
 }
 #maindiv {
-    position:absolute;
+    position:relative;
     display:block;
-    top:10px;
-    left:10px;
+    top:0px;
+    left:0px;
     margin-right:320px;
     min-width:600px;
     padding:10px;
@@ -29,8 +29,8 @@ body {
 
 #dummy {
     position:fixed;
-    top:10px;
-    right:10px;
+    top:0px;
+    right:0px;
     width:100%;
     min-width:1000px;
 }
