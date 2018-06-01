@@ -20,14 +20,14 @@ body {
 }
 
 #dummy {
-    position:absolute;
+    position:fixed;
     top:10px;
     right:10px;
     width:100%;
     min-width:700px;
 }
 #navdiv {
-    position:relative;
+    position:absolute;
     top:0px;
     right:0px;
     padding:10px;
