@@ -9,9 +9,10 @@ body {
 
 #maindiv {
     position:absolute;
-    top:50px;
-    left:50px;
+    top:10px;
+    left:10px;
     margin-right:500px;
+    padding:10px;
     border:1px solid #ccc;
 }
 
