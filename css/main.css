@@ -18,7 +18,7 @@ body {
     border:1px solid #f00;
 }
 #maindiv {
-    position:relative;
+    position:absolute;
     display:block;
     top:0px;
     left:0px;
@@ -29,7 +29,7 @@ body {
 }
 
 #navdiv {
-    position:relative;
+    position:fixed;
     top:0px;
     right:0px;
     padding:10px;
