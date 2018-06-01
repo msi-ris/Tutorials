@@ -5,8 +5,3 @@ future: true
 # Build settings
 markdown: kramdown
 permalink: pretty
-
-# Custom Collections
-collections:
-  tutorials:
-    output: true
