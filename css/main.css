@@ -37,7 +37,7 @@ body {
     border:1px solid #000;
 }
 #navdiv {
-    position:absolute;
+    position:relative;
     top:0px;
     right:0px;
     padding:10px;
