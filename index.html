@@ -12,6 +12,6 @@ access and updating of the RIS tutorials.</p>
 <p>We currently offer the following tutorials:</p>
 <ul>
     {% for p in site.pages %}
-        {% if page.title %}<li>{{page.title}}</li>{% endif %}
+        {% if p.title %}<li>{{p.title}}</li>{% endif %}
     {% endfor %}
 </ul>
