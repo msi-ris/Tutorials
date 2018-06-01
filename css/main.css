@@ -8,6 +8,14 @@ body {
     min-width:1000px;
 }
 
+#comtainer {
+    position:absolute;
+    display:block;
+    top:10px;
+    left:10px;
+    min-width:1000px;
+    padding:0px;
+}
 #maindiv {
     position:absolute;
     display:block;
