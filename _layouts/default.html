@@ -7,16 +7,14 @@
         <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
     </head>
     <body>
-        <div id="container">
-            <div id="navdiv">
-                <h2>Offered Tutorials</h2>
-                <ul>
-                    {% for p in site.pages %}
-                        {% if p.title %}<li>{{p.title}}</li>{% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-            {{ content }}
+        <div id="navdiv">
+            <h2>Offered Tutorials</h2>
+            <ul>
+                {% for p in site.pages %}
+                    {% if p.title %}<li>{{p.title}}</li>{% endif %}
+                {% endfor %}
+            </ul>
         </div>
+        {{ content }}
     </body>
 </html>

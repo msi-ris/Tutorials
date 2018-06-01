@@ -8,15 +8,6 @@ body {
     min-width:1000px;
 }
 
-#container {
-    position:absolute;
-    display:block;
-    top:10px;
-    left:10px;
-    min-width:1000px;
-    padding:0px;
-    border:1px solid #f00;
-}
 #maindiv {
     position:absolute;
     display:block;
@@ -29,7 +20,7 @@ body {
 }
 
 #navdiv {
-    position:fixed;
+    position:absolute;
     top:0px;
     right:0px;
     padding:10px;
@@ -45,7 +36,7 @@ h2 {
     font-size:1.5em;
 }
 h3 {
-    font-size:1.3em%;
+    font-size:1.3em;
 }
 
 a {
