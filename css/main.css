@@ -15,6 +15,7 @@ body {
     left:10px;
     min-width:1000px;
     padding:0px;
+    border:1px solid #f00;
 }
 #maindiv {
     position:relative;
@@ -33,6 +34,7 @@ body {
     right:0px;
     width:100%;
     min-width:1000px;
+    border:1px solid #000;
 }
 #navdiv {
     position:absolute;
