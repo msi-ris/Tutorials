@@ -7,3 +7,11 @@ layout: default
     that this site will not support registration, nor will it give material for
     tutorials at MSI generally. This page is internally maintained for easy
 access and updating of the RIS tutorials.</p>
+
+<h2>Offered Tutorials</h2>
+<p>We currently offer the following tutorials:</p>
+<ul>
+    {% for p in site.pages %}
+        {% if page.title %}<li>{{page.title}}</li>{% endif %}
+    {% endfor %}
+</ul>
