@@ -13,10 +13,9 @@
                 <ul id="tutlist">
                     <li><a href="{{site.baseurl}}">Main Page</a></li>
                     {% for p in site.pages %}
-                        {% if p.hidden == 'true' %}
-                            {% continue %}
-                        {% endif %}
-                        {% if p.title %}<li><a href="{{ p.permalink | prepend: site.baseurl }}">{{p.title}}</a></li>{% endif %}
+                        {% unless p.exclude }
+                            <li><a href="{{ p.permalink | prepend: site.baseurl }}">{{p.title}}</a></li>
+                        {% endunless %}
                     {% endfor %}
                 </ul>
             </div>
