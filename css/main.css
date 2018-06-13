@@ -48,15 +48,15 @@ h3 {
 }
 
 a {
-    color:#990000;
+    color:#7a0019;
     text-decoration:underline;
 }
 a:hover {
-    color:#aa0000;
+    color:#7a0019;
     text-decoration:underline;
 }
 a:visited {
-    color:#330000;
+    color:#7a0019;
     text-decoration:underline;
 }
 
@@ -67,8 +67,5 @@ ul#tutlist {
 }
 li {
     padding-left:20px;
-}
-li:before {
-    color:"#7a0019";
 }
 
