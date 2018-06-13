@@ -33,13 +33,13 @@ available in the MSI instance send a request to help@msi.umn.edu.
 ### Scope of This Tutorial
 - Give participants experience with the basic functionality of Galaxy
     - Accessing Galaxy at MSI
-    – Galaxy layout
-    – Loading files into current Galaxy history
-    – Creating a workflow
-    – Sharing histories and workflows
-    – Where to get more information
+    - Galaxy layout
+    - Loading files into current Galaxy history
+    - Creating a workflow
+    - Sharing histories and workflows
+    - Where to get more information
 - Basic processing and quality control on Illumina sequencing data
-    – Evaluating read quality
-    – Adapter removal
-    – Low quality read removal
-    – Read trimming
+    - Evaluating read quality
+    - Adapter removal
+    - Low quality read removal
+    - Read trimming
