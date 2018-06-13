@@ -11,12 +11,13 @@
             <div id="navdiv">
                 <h2>Offered Tutorials</h2>
                 <ul id="tutlist">
-                    <li><a href="{{site.baseurl}}">Main Page</a></li>
-                    {% for p in site.pages %}
-                        {% unless p.permalink == '/' %}
-                            <li><a href="{{ p.permalink | prepend: site.baseurl }}">{{p.title}}</a></li>
-                        {% endunless %}
-                    {% endfor %}
+                    <li><a href="/">Main Page</a></li>
+                    <li><a href="/chip">ChIP</a></li>
+                    <li><a href="/galaxy">Galaxy</a></li>
+                    <li><a href="/illumina">Illumina Data QC</a></li>
+                    <li><a href="/proteomics">Proteomics</a></li>
+                    <li><a href="/rnaseq">RNASeq</a></li>
+                    <li><a href="/variant">Variant Detection</a></li>
                 </ul>
             </div>
         </div>
