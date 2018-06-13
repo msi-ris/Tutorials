@@ -1,13 +1,13 @@
 ---
 layout: default
-title: Illumina Data QC Tutorial
+title: Illumina Data QC Tutorial With Galaxy
 permalink: /illumina/
 exclude: false
 updated: 2018-06-13
 delivered: 2018-06-13
 ---
 
-# Illumina Data Quality Control
+# Illumina Data Quality Control With Galaxy
 *Last Updated: {{page.updated}}*
 
 *Last Delivered: {{page.delivered}}*
@@ -46,3 +46,9 @@ available in the MSI instance send a request to help@msi.umn.edu.
     - Adapter removal
     - Low quality read removal
     - Read trimming
+
+### Where to Get More Information
+- Other Galaxy users: https://wiki.galaxyproject.org/
+- MSI: https://www.msi.umn.edu/content/bioinformatics-analysis
+
+## Part 1: Getting Started With Galaxy
