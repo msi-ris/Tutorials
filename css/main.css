@@ -33,7 +33,7 @@ body {
     right:0px;
     padding:10px;
     width:250px;
-    border-style:none;
+    border-style:1px solid #ccc;
 }
 
 /* Text styling */
