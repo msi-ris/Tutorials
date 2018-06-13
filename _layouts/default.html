@@ -12,11 +12,13 @@
                 <h2>Offered Tutorials</h2>
                 <ul>
                     {% for p in site.pages %}
-                        {% if p.title %}<li>{{p.title}}</li>{% endif %}
+                        {% if p.title %}<li><a href="{{site.baseurl/p.permalink}}">{{p.title}}</a></li>{% endif %}
                     {% endfor %}
                 </ul>
             </div>
         </div>
-        {{ content }}
+        <div id="maindiv">
+            {{ content }}
+        </div>
     </body>
 </html>
