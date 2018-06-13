@@ -12,7 +12,7 @@ delivered: 2018-06-13
 
 *Last Delivered: {{page.delivered}}*
 
-This tutorial is also available as a PDF.
+This tutorial is also available as a [PDF](Illumina_QC_Galaxy_Current.pdf)
 
 ## Part 0: Introduction
 ### What is Galaxy?
