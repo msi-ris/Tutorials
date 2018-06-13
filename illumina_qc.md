@@ -29,3 +29,17 @@ While transferring workflows from one instance of Galaxy to another is easy, MSI
 has no control over which tools are available in other Galaxy instances. If
 there is a tool that you have used in a different instance of Galaxy that is not
 available in the MSI instance send a request to help@msi.umn.edu.
+
+### Scope of This Tutorial
+- Give participants experience with the basic functionality of Galaxy
+    - Accessing Galaxy at MSI
+    – Galaxy layout
+    – Loading files into current Galaxy history
+    – Creating a workflow
+    – Sharing histories and workflows
+    – Where to get more information
+- Basic processing and quality control on Illumina sequencing data
+    – Evaluating read quality
+    – Adapter removal
+    – Low quality read removal
+    – Read trimming
