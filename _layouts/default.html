@@ -11,6 +11,7 @@
             <div id="navdiv">
                 <h2>Offered Tutorials</h2>
                 <ul id="tutlist">
+                    <li><a href="{{site.baseurl}}">Main Page</a></li>
                     {% for p in site.pages %}
                         {% if p.title %}<li><a href="{{ p.permalink | prepend: site.baseurl }}">{{p.title}}</a></li>{% endif %}
                     {% endfor %}
