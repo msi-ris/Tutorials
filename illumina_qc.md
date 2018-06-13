@@ -52,3 +52,41 @@ available in the MSI instance send a request to help@msi.umn.edu.
 - MSI: https://www.msi.umn.edu/content/bioinformatics-analysis
 
 ## Part 1: Getting Started With Galaxy
+### Sections of Galaxy
+Galaxy has three main sections:
+- Tools pane
+    - Found on the left side of the browser
+    - Contains all of the tools that can be used with Galaxy, including those
+      that do simple text manipulations and arithmetic to those that do complex
+      functions specific to the analysis of NGS data and statistics.
+    - Combinations of tools allow you to analyze your data.
+    - Tools are organized by category, or can be found by the search bar.
+- Histories pane
+    - Found on the right side of the browser
+    - Contains the history of the tools you have used, and the results from
+      those tools
+    - Histories can be saved, shared, and turned into workflows that can *also*
+      be savd, shared, and reused.
+- Center pane
+    - Found in the center of the browser
+    - When using a tool, the options for that tool and information about the
+      tool will be in the center pane.
+    - Clicking on the *eye icon* in the history pane will open a view of the
+      data in the center pane.
+
+### Accessing Galaxy at MSI
+Open a web browser and navigate to the MSI Galaxy galaxy.msi.umn.edu. Log in
+with your MSI username and password
+
+The labeled items are as follows:
+
+A. Tools Pane
+B. Center pane
+C. History Pane
+D. The side panels can be collapsed via arrows in the bottom corner to provide a
+   better view of the center pane.
+E. Search bar to find tools.
+F. The total quantity of data your group has stored in Galaxy is displayed in
+   the top right corner.
+G. You can always get back to the main screen using *Analyze Data* in the top menu
+   bar
