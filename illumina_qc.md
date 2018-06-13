@@ -90,3 +90,32 @@ The labeled items are as follows:
    the top right corner.
 7. You can always get back to the main screen using *Analyze Data* in the top menu
    bar
+
+### Import FASTQ Files from Data Library
+#### Getting Data Into MSI Galaxy
+##### Sequencing Data from the UMGC
+Sequencing data from UMGC can be accessed in Galaxy though the creation of a
+data library. In general, each PI with access to Galaxy account will have one
+data library that can contain many different pieces of data. When you or your PI
+receives an email from UMGC indicating that your sequencing data is available
+you can have that data moved into your PI's Galaxy data library by forwarding
+the email to help@msi.umn.edu with a request to add the data to Galaxy. You can
+then access the sequencing data library from the *Shared Data* tab in the blue
+bar at the top of the Galaxy page. If your PI doesn't currently have a data
+library a new one will be created the first time you request to have data added
+to Galaxy.
+
+##### External Data
+The *Get Data* heading in the Tool Pane is a good resource for obtaining
+external data from public databases such as the UCSC genome browser and SRA.
+You can also upload small (<2GB) files directly from your computer. When data is
+uploaded using the tools under Get Data they will appear in your current
+history.
+
+##### Large External Datasets
+Data files that are larger than 2GB will have to be placed into a data library
+to be accessed in Galaxy. In your groups home directory there is a galaxy folder
+(`/home/yourGroup/galaxy`). To get data into your PI's data library move it into
+the galaxy folder in your groups home directory then send a ticket to
+help@msi.umn.edu with the location of the data to be added to your PI's data
+library.
