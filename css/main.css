@@ -70,11 +70,4 @@ ul#tutlist {
     padding-left:15px;
 }
 
-/* Styling for the markdown rendering */
-code {
-    font-family:monospace;
-    font-size:100%;
-    color:#000;
-    background-color:#eee;
-}
 
