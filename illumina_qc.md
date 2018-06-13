@@ -80,13 +80,13 @@ with your MSI username and password
 
 The labeled items are as follows:
 
-A. Tools Pane
-B. Center pane
-C. History Pane
-D. The side panels can be collapsed via arrows in the bottom corner to provide a
+1. Tools Pane
+2. Center pane
+3. History Pane
+4. The side panels can be collapsed via arrows in the bottom corner to provide a
    better view of the center pane.
-E. Search bar to find tools.
-F. The total quantity of data your group has stored in Galaxy is displayed in
+5. Search bar to find tools.
+6. The total quantity of data your group has stored in Galaxy is displayed in
    the top right corner.
-G. You can always get back to the main screen using *Analyze Data* in the top menu
+7. You can always get back to the main screen using *Analyze Data* in the top menu
    bar
