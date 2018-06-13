@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Illumina Data QC Tutorial With Galaxy
-permalink: /illumina/
+permalink: /illumina_galaxy/
 exclude: false
 updated: 2018-06-13
 delivered: 2018-06-13
@@ -12,7 +12,7 @@ delivered: 2018-06-13
 
 *Last Delivered: {{page.delivered}}*
 
-This tutorial is also available as a [PDF](Illumina_QC_Galaxy_Current.pdf)
+This tutorial is also available as a [PDF](Illumina_QC_Galaxy_Current.pdf).
 
 ## Part 0: Introduction
 ### What is Galaxy?
