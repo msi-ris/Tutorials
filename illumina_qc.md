@@ -3,6 +3,8 @@ layout: default
 title: Illumina Data QC Tutorial
 permalink: /illumina/
 exclude: false
+updated: 2018-06-13
 ---
 
-<p>This is the page for our Illumina data quality control tutorial.</p>
+# Illumina Data Quality Control
+Last Updated: {{page.updated}}
