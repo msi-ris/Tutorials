@@ -120,14 +120,6 @@ the galaxy folder in your groups home directory then send a ticket to
 help@msi.umn.edu with the location of the data to be added to your PI's data
 library.
 
-```python
-#!/usr/bin/env python
-import sys
-with open(sys.argv[1], 'r') as f:
-    for line in f:
-        print line.strip()
-```
-
 ## Part 2: Evaluating FASTQ Quality
 ## Part 3: Cleaning FASTQ Datasets
 ## Part 4: Evaluate Cleaned FASTQ Quality

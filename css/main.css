@@ -39,35 +39,3 @@ body {
     background-color:#fff;
 }
 
-/* Text styling */
-h1 {
-    font-size:2em;
-}
-h2 {
-    font-size:1.5em;
-}
-h3 {
-    font-size:1.3em;
-}
-
-a {
-    color:#7a0019;
-    text-decoration:underline;
-}
-a:hover {
-    color:#7a0019;
-    text-decoration:underline;
-}
-a:visited {
-    color:#7a0019;
-    text-decoration:underline;
-}
-
-ul#tutlist {
-    list-style-type:square;
-    padding:0;
-    margin:0;
-    padding-left:15px;
-}
-
-
