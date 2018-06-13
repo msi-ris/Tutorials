@@ -119,3 +119,11 @@ to be accessed in Galaxy. In your groups home directory there is a galaxy folder
 the galaxy folder in your groups home directory then send a ticket to
 help@msi.umn.edu with the location of the data to be added to your PI's data
 library.
+
+## Part 2: Evaluating FASTQ Quality
+## Part 3: Cleaning FASTQ Datasets
+## Part 4: Evaluate Cleaned FASTQ Quality
+## Part 5: Evaluating and Cleaning Paired-End Data
+## Part 6: Workflows
+## Part 7: Sharing Workflows and Histories
+## Part 8: Cleaning up Histories and Deleting Data from Galaxy
