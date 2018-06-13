@@ -10,7 +10,7 @@
         <div id="navcontainer">
             <div id="navdiv">
                 <h2>Offered Tutorials</h2>
-                <ul>
+                <ul id="tutlist">
                     {% for p in site.pages %}
                         {% if p.title %}<li><a href="{{ p.permalink | prepend: site.baseurl }}">{{p.title}}</a></li>{% endif %}
                     {% endfor %}

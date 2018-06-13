@@ -60,3 +60,15 @@ a:visited {
     text-decoration:underline;
 }
 
+ul#tutlist {
+    list-style-type:square;
+    padding:0;
+    margin:0;
+}
+li {
+    padding-left:20px;
+}
+li:before {
+    color:"#7a0019";
+}
+
