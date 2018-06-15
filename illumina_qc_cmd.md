@@ -292,3 +292,6 @@ contains the quality report of the sequences, and the ZIP file contains the
 raw data used to generate the HTML report. Use FileZilla to copy the HTML file
 to your local machine to view it in a web browser.
 
+## Part 4: Cleaning Reads
+We will use `trimmomatic` to clean the low quality bases and adapter
+contamination from the reads.
