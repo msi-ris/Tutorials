@@ -128,9 +128,9 @@ or a different file format. Quality control tools for other NGS data types can
 be found under the NGS: QC and manipulation heading in the Tool Pane.
 
 A sequence record in a FASTQ file consist of four lines:
-1. an @accession line
+1. an `@accession` line
 2. sequence data
-3. + place holder line
+3. `+` place holder line
 4. quality score line
 
 FASTQ quality scores encode the estimated chance of a miscalled base at each
