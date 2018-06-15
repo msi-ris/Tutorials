@@ -7,7 +7,7 @@ updated: 2014-09-16
 delivered: 2018-06-13
 ---
 
-# Illumina Data Quality Control With Galaxy
+# Illumina Data Quality Control at the Command Line
 *Last Updated: {{page.updated}}*
 
 *Last Delivered: {{page.delivered}}*
