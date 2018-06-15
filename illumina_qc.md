@@ -233,7 +233,7 @@ Groomer to ensure your data is in the Sanger/Illumina 1.8 + encoding
 2. Select the FastQC: Read QC tool.
 3. Alternatively, use the search bar at the top of the tool pane to find FastQC.
 4. Make sure that you are using FastQC:ReadQC (version 0.60).
-5. Select the file to analyze from the drop-down menu: RNA-Seq.fastq
+5. Select the file to analyze from the drop-down menu: `RNA-Seq.fastq`
 6. Rename the output file to something meaningful such as "Precleaning".
 7. Select Execute
 
@@ -292,17 +292,17 @@ and the sequence of the primers.
 
 ### Remove Low Quality Tails and Adapter Contamination With Trimmomatic
 1. Under the NGS: QC and manipulation header select Trimmomatic
-2. Select Single End Mode in the top drop down menu.
-3. Select RNA-Seq.fastq from the second drop down menu.
+2. Select `Single End Mode` in the top drop down menu.
+3. Select `RNA-Seq.fastq` from the second drop down menu.
 4. Trimmomatic allows you to build a list of modules to complete all of your
    clean-up steps at once.
-5. The first module ILLUMINACLIP will identify and remove adapter contamination.
+5. The first module `ILLUMINACLIP` will identify and remove adapter contamination.
 6. Select TruSeq2-SE from the adapters drop down menu.
 7. To add another module select Add new Task at the bottom of the module.
-8. Select LEADING from the task drop down menu, the page with refresh and new
-   options associated with the LEADING module will appear. Use the default
+8. Select `LEADING` from the task drop down menu, the page with refresh and new
+   options associated with the `LEADING` module will appear. Use the default
    settings.
-9. Next add the TRAILING module, SLIDINGWINDOW and the MINLEN module. The
+9. Next add the `TRAILING` module, `SLIDINGWINDOW` and the `MINLEN` module. The
    default settings will work for all of these modules.
 10. Once all of the modules have been added select Execute.
 
@@ -320,7 +320,7 @@ FASTQ files as well as those from the quality and adapter trimmed FASTQ files.
 3. Scroll down to "Sequence Length Distribution". Note the degree of trimming
    that has occurred. A vast majority of your data is still full length with
    only a very limited number of sequences that are between 36 and 40bp.
-   Changing the MINLEN settings during trimming will change this distribution.
+   Changing the `MINLEN` settings during trimming will change this distribution.
 4. Scroll down to "Sequence Duplication Levels". Note the removal of the highly
    repeated sequences.
 5. Scroll down to the list of Overrepresented Sequences. The percentage of your
@@ -334,13 +334,13 @@ data.
 2. Select Shared Data then Data Libraries from the top header bar.
 3. Select QC of Illumina Data from the list of data libraries. Remember the
    search bar!
-4. Import Tutorial file R1.fastq and Tutorial file R2.fastq into your new
+4. Import `Tutorial file R1.fastq` and `Tutorial file R2.fastq` into your new
    history.
 5. Run FastQC on the new fastq files. You will have to run the tool on each
    fastq individually.
 6. Use Trimmomatic in Paired End Mode with TruSeq2-PE adapters to trim the data.
-   Use the ILLUMINACLIP, LEADING, TRAILING, SLIDINGWINDOW and MINLEN modules
-   with the default settings.
+   Use the `ILLUMINACLIP`, `LEADING`, `TRAILING`, `SLIDINGWINDOW` and `MINLEN`
+   modules with the default settings.
 7. Notice there are 4 Trimmomatic outputs: forward paired, forward unpaired,
    reverse paired and reverse unpaired.
 8. Run FastQC on the forward paired and reverse paired data to see the effect
