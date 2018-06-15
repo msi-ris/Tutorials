@@ -242,7 +242,7 @@ Groomer to ensure your data is in the Sanger/Illumina 1.8 + encoding
    using the FastQC: ReadQC tool. This will allow you to view the results in the
    Center Pane.
 2. Scroll to the "Per base sequence quality".
-3. Note how the quality of the reads drops towards the 3’ ends of the reads
+3. Note how the quality of the reads drops towards the 3′ ends of the reads
 4. The per tile sequence quality is all blue because the overall quality of the
    reads is good.
 5. Scroll to "Per sequence quality scores".
@@ -260,6 +260,36 @@ Groomer to ensure your data is in the Sanger/Illumina 1.8 + encoding
     biological and not a data quality issue
 
 ## Part 3: Cleaning FASTQ Datasets
+### Why is Cleaning Required?
+#### Low Quality Tails and Failed Cycles
+For a variety of reasons, including decay of reagents as they sit on the
+sequencing machine, the quality of base calls tends to decrease as sequencing
+progresses. As a result the 5′ ends will tend to have higher quality than the 3′
+ends and forward reads will tend to have better quality than reverse reads. Low
+quality base calls can impair the accuracy of mapping algorithms so it is
+important to to remove them. Low quality tails can be removed though the removal
+of the 3′ ends from all of the reads but, that would result in the removal of
+many reads that were of higher quality as well. More sophisticated methods only
+remove the tails that show evidence of low quality. In Galaxy there are tools
+that can accomplish either style of read trimming. Cycles fail because of
+sequencing machine error, such as failure to incorporate a base, or failure to
+image a specific region. For most analysis failed cycles can be ignored as they
+will not have large effects.
+
+#### Adapter Contamination
+Illumina libraries consist of the DNA of interest (green) with ligated adapter
+(red + yellow) on the 5′ and 3′ ends to proved priming site for the sequencing
+reactions. The forward adapter (left) provides a region that binds to the
+Illumina flow cell plate (blue) and a region to which the sequencing primer
+binds to start the sequencing reactions. The reverse adapter (right) has the
+same structure with the addition of a barcode sequence (yellow). Adapter
+contamination occurs when the DNA fragment of interest is shorter than the
+length of the sequencing read. This results in the opposite primer included in
+the sequence of the final read, leading to adapter contamination.
+
+Removal of adapter contamination in Galaxy can be accomplished using CutAdapt
+and the sequence of the primers.
+
 ## Part 4: Evaluate Cleaned FASTQ Quality
 ## Part 5: Evaluating and Cleaning Paired-End Data
 ## Part 6: Workflows
