@@ -180,5 +180,7 @@ directory. Your home directory will always have the format of
 `/home/yourGroup/yourMSIaccount`.
 
 ```
- ljmills@labq59 [~] % pwd /home/msistaff/ljmills ljmills@labq59 [~] %
+konox006@labq59 [~] % pwd
+/home/msistaff/konox006
+konox006@labq59 [~] %
 ```
