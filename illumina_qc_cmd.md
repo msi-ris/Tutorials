@@ -104,7 +104,59 @@ personal computer).
 
   <http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html>
 
-  Setup: <https://www.msi.umn.edu/support/putty>  
+  Setup: <https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems>  
   Unlike Mac/OSX windows does not have a native UNIX terminal. PuTTY is a
   terminal emulator for Windows and will allow you to interact with MSI systems
   using UNIX commands.
+
+## Part 2: Accessing MSI Systems
+On OSX or Linux, open your terminal emulator, and connect to the MSI login nodes
+with `ssh username@login.msi.umn.edu`.
+
+On Windows, open PuTTY, and follow the instructions at
+[this link](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
+
+```
+ljmills-MacBookAir:~ ljmills$ ssh ljmills@login.msi.umn.edu
+ljmills@login.msi.umn.edu's password: *************
+```
+
+If everything checks out, you will see the MSI message-of-the-day (MOTD), which
+confirms that you have successfully logged in.
+
+```
+Last login: Fri Jun 15 11:00:20 2018 from dhcp06.msi.umn.edu
+-------------------------------------------------------------------------------
+              University of Minnesota Supercomputing Institute
+-------------------------------------------------------------------------------
+For assistance please contact us at
+https://www.msi.umn.edu/support/request,
+help@msi.umn.edu, or 612-626-0802.
+-------------------------------------------------------------------------------
+This is a login host. Please avoid running resource-intensive tasks on
+this machine.
+
+MSI provides "Quick Start Guides"
+  https://www.msi.umn.edu/quick-start-guides
+
+For interactive workloads:
+  https://www.msi.umn.edu/content/interactive-hpc
+
+For batch workloads:
+  https://www.msi.umn.edu/content/hpc
+
+-------------------------------------------------------------------------------
+Files in /tmp and /scratch.global are automatically removed
+periodically. Please ensure finished work is copied to your home directory.
+-------------------------------------------------------------------------------
+konox006@login03 [~] %
+```
+
+The final line is your **prompt**, which is where you enter commands. It lists
+your username, host, and current directory. As the `@loginXX` after your
+username in the ternimal indicates, you are now connected to the login node.
+While you can move around the filesystem and use UNIX commands while connected
+to the login node you won’t beable to use any of the software installed on MSI
+systems. In order to gain access to the installed software you will need to
+connect to either the Lab or Itasca systems. We are going to connect to the lab
+system though a command called `isub`.
