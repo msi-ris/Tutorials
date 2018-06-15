@@ -109,7 +109,7 @@ personal computer).
   terminal emulator for Windows and will allow you to interact with MSI systems
   using UNIX commands.
 
-## Part 2: Accessing MSI Systems
+## Part 2: Accessing MSI Systems and Getting Tutorial Data
 On OSX or Linux, open your terminal emulator, and connect to the MSI login nodes
 with `ssh username@login.msi.umn.edu`.
 
@@ -184,3 +184,111 @@ konox006@labq59 [~] % pwd
 /home/msistaff/konox006
 konox006@labq59 [~] %
 ```
+
+You can list directory contents with the `ls` command:
+
+```
+konox006@labq59 [~] % ls
+bin    Downloads  Music Public       Soft       Videos
+Desktop    igv        Pictures  R      Templates
+Documents  logs       Projects  smrtlinktunnel.sh  tmp
+```
+
+And you can use `cd` to move around the directory structure. The `..` directory
+means to move "up" one level.
+
+```
+konox006@labq59 [~] % cd ..
+konox006@labq59 [/home/msistaff] % ls
+... (names removed) ...
+```
+
+The tutorial files are located in the `/home/msistaff/public/qcIllumina`
+directory. Let's navigate there.
+
+```
+konox006@labq59 [~] % cd /home/msistaff/public/qcIllumina
+konox006@labq59 [/home/msistaff/public/qcIllumina] % ls
+fastqc_only.sh  Tutorial_file_R1.fastq  tutorial_trim.sh
+trim_loop.sh  Tutorial_file_R2.fastq
+tutorial  tutorial_trim2.sh
+```
+
+This directory listing format isn't very useful. We can use the `-l` option to
+get a long listing of the files, and the `-h` option to show us the sizes, in
+human-readable formats. The long format contains (among other information), a
+permission string, an owner name, a group name, size, modification date, and the
+filename.
+
+```
+konox006@labq59 [/home/msistaff/public/qcIllumina] % ls -lh
+total 277M
+-rwxrwxr--. 1 ljmills  msistaff  355 Sep 18  2014 fastqc_only.sh
+-rw-r-----. 1 ljmills  msistaff 1.2K Apr  6  2017 trim_loop.sh
+drwxr-sr-x. 2 fallo002 msistaff 4.0K Jun 28  2017 tutorial
+-rwxrwxrwx. 1 ljmills  msistaff 123M Sep 18  2014 Tutorial_file_R1.fastq
+-rwxrwxrwx. 1 ljmills  msistaff 123M Apr  8  2017 Tutorial_file_R2.fastq
+-rwxrwxr--. 1 ljmills  msistaff  684 Nov 19  2015 tutorial_trim2.sh
+-rwxrwxr--. 1 ljmills  msistaff  558 Jul 17  2015 tutorial_trim.sh
+```
+
+Go back to your home directory. There are multiple ways to do this. You can
+run `cd` without any arguments, use the `~` shorthand for your home directory,
+or type out the full path. The following are equiavalent:
+
+```
+konox006@labq59 [/home/msistaff/public/qcIllumina] % cd
+konox006@labq59 [/home/msistaff/public/qcIllumina] % cd ~
+konox006@labq59 [/home/msistaff/public/qcIllumina] % cd /home/msistaff/konox006
+```
+
+Now that you're in the home directory, you can make a new directory for the
+tutorial and copy the example data into it. The files you will copy are called
+`Tutorial_file_R1.fastq` and `Tutorial_file_R2.fastq`.
+
+```
+konox006@labq59 [~] % mkdir tutorial
+konox006@labq59 [~] % cd tutorial
+konox006@labq59 [~/tutorial] % cp /home/msistaff/public/qcIllumina/Tutorial_file_R1.fastq .
+konox006@labq59 [~/tutorial] % cp /home/msistaff/public/qcIllumina/Tutorial_file_R2.fastq .
+```
+
+Note the trailing `.` at the end of the `cp` command - it is a shorthand to
+refer to the current working directory. Now is also a good time to point out
+that you don't have to remember those long directory paths - you can type the
+first few characters, then press the `Tab` key to have the shell auto-fill in
+the rest of the filename.
+
+
+## Part 3: Running FastQC
+Next, we will use the `fastqc` tool to assess the quality of the sequences in
+the FASTQ files that we just copied. To get access to the `fastqc` program, we
+have to load the *software module*. This can be done with the `module` command.
+
+```
+konox006@labq59 [~/tutorial] % module load fastqc/0.11.7
+```
+
+Then, you can analyze the FASTQ file. This may take a minute or two, and you
+will see progress output written to the terminal while `fastqc` works.
+
+```
+konox006@labq59 [~/tutorial] % fastqc Tutorial_file_R1.fastq
+Started analysis of Tutorial_file_R1.fastq
+Approx 5% complete for Tutorial_file_R1.fastq
+Approx 10% complete for Tutorial_file_R1.fastq
+Approx 15% complete for Tutorial_file_R1.fastq
+Approx 20% complete for Tutorial_file_R1.fastq
+Approx 25% complete for Tutorial_file_R1.fastq
+...
+Analysis complete for Tutorial_file_R1.fastq
+konox006@labq59 [~/tutorial] % ls
+Tutorial_file_R1.fastq        Tutorial_file_R1_fastqc.zip
+Tutorial_file_R1_fastqc.html  Tutorial_file_R2.fastq
+```
+
+`fastqc` created two new files: an HTML file and a ZIP file. The HTML file
+contains the quality report of the sequences, and the ZIP file contains the
+raw data used to generate the HTML report. Use FileZilla to copy the HTML file
+to your local machine to view it in a web browser.
+
