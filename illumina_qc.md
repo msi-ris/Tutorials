@@ -235,7 +235,7 @@ Groomer to ensure your data is in the Sanger/Illumina 1.8 + encoding
 4. Make sure that you are using FastQC:ReadQC (version 0.60).
 5. Select the file to analyze from the drop-down menu: `RNA-Seq.fastq`
 6. Rename the output file to something meaningful such as "Precleaning".
-7. Select Execute
+7. Select `Execute`
 
 ### Viewing and Understanding FastQC Results
 1. In the History Pane select the Eye Icon next to the name of the output from
@@ -297,14 +297,14 @@ and the sequence of the primers.
 4. Trimmomatic allows you to build a list of modules to complete all of your
    clean-up steps at once.
 5. The first module `ILLUMINACLIP` will identify and remove adapter contamination.
-6. Select TruSeq2-SE from the adapters drop down menu.
+6. Select `TruSeq2-SE` from the adapters drop down menu.
 7. To add another module select Add new Task at the bottom of the module.
 8. Select `LEADING` from the task drop down menu, the page with refresh and new
    options associated with the `LEADING` module will appear. Use the default
    settings.
 9. Next add the `TRAILING` module, `SLIDINGWINDOW` and the `MINLEN` module. The
    default settings will work for all of these modules.
-10. Once all of the modules have been added select Execute.
+10. Once all of the modules have been added select `Execute`.
 
 ## Part 4: Evaluate Cleaned FASTQ Quality
 In this section we will compare the results from FastQC between the original
@@ -365,13 +365,107 @@ required for the tool can be found above the horizontal line in the box while
 the possible outputs are found below the line. Outputs from each tool can be
 saved and/or used as in the input for the next tool. Selecting the box will
 display the settings associated with the tool allowing you to preset parameters
-to reuse each time the workflow is run
+to reuse each time the workflow is run.
 
 ### Extract Workflow from Current History
 1. Select the Gear Icon from the top of the history pane.
-2. Select Extract Workflow from the menu.
+2. Select `Extract Workflow` from the menu.
 3. In Workflow name enter "QC and Cleanup".
-4. Select Create Workflow.
+4. Select `Create Workflow`.
+
+### View and Edit the Workflow
+1. Select Workflow from the top bar.
+2. Select the workflow that you just created and select Edit from the drop down
+   menu.
+3. The initial view of the workflow may be very messy. You can drag the boxes
+   around on the screen to make the workflow easier to interpret. You can also
+   move the blue box in the bottom right corner to view other sections of the
+   workflow.
+4. The workflow will follow the same logic as the history you created it from.
+   Can you trace the steps you took for each initial FASTQ file though the QC
+   and clean up process?
+5. Select a FastQC:Read QC box which will open the Details Pane on the right.
+   Is this for the Left or Right reads?
+6. Select the Input dataset box that is attached (connected arrows) to the
+   FastQC:Read QC box you just viewed.
+7. Label the Input dataset either Left or Right to correspond with the
+   information from the FastQC:Read QC box you just viewed.
+8. Do the same for the other Input dataset.
+9. The next time you need to run QC and clean up FASTQ data you might need to
+   use different adapter sequences. Selecting the Trimmomatic box to view the
+   options in the Details Pane.
+10. In the Details Pane for Trimmomatic change the adapter sequence to
+   `Set at runtime` using the small arrow next to `fastaWithAdapters`.
+11. Select the Gear Icon then Save from the menu.
+
+### Running a Workflow
+1. Select Analyze Data from the top bar to return to the main Galaxy screen.
+2. Create a new history by selecting the Gear Icon then Create New from the menu.
+3. Name the history `Workflow Test`
+4. Import `Tutorial file workflow R1.fastq` and `Tutorial file workflow R2.fastq`
+   into the current `Workflow Test` history from the data library. Don't forget
+   to set the file attributes.
+5. Select Workflow from the top bar to display your saved workflow from the data
+   library.
+6. Select the QC and Cleanup workflow you just created then select Run from the
+   drop down menu.
+7. Set the input datasets and the adapter using the drop down menus.
+8. Scroll to the bottom of the main view and select Run workflow
+9. Select Analyze Data in the top bar to return to the main Galaxy view.
+10. You will be able to watch the progress of the workflow in the History Pane
 
 ## Part 7: Sharing Workflows and Histories
+It is possible to share workflow and histories with other Galaxy users. This
+allows you to share data, results and methods with collaborators or anyone who
+might want to recreate your methodology. Galaxy histories and workflows can be
+shared via a link or they can be saved as stand alone files that can then be
+uploaded to any Galaxy instance.
+
+### Share a History
+1. To share your current history select the Gear Icon then Share or Publish
+2. To share the history though a web link select Make History Accessible via
+   Link. You can share this link with anyone who has access to Galaxy at MSI
+   allowing them to view the history and the data in it.
+3. Make History Accessible and Publish will also create a link to the history
+   but it will also publish the history making it public to anyone with access
+   to Galaxy at MSI under the Shared Data tab.
+
+### Share a Workflow
+1. When you select a workflow from the list one of the options is Share or
+   Publish.
+2. To share the workflow though a web link select Make Workflow Accessible via
+   Link. You can share this link with anyone who has access to Galaxy at MSI
+   allowing them to view and use the workflow.
+3. Make Workflow Accessible and Publish also creates a link to the workflow but
+   it will also publish the workflow making it public to anyone with access to
+   Galaxy at MSI under the Shared Data tab.
+4. You can also download a workflow to be imported into another Galaxy instance
+   or to be archived by selecting Download or Export.
+
 ## Part 8: Cleaning up Histories and Deleting Data from Galaxy
+Galaxy is a shared resource so the amount of data you and your group can have in
+Galaxy is limited. We estimate that even a relatively simple RNA-seq analysis
+will use 4-5 times the storage of the raw sequencing files. Many of these files
+are intermediate and can be discarded once the analysis is complete. Also, since
+Galaxy allows you to create workflows it is easy to recreate intermediate files
+if they are needed later. It is good practice to extract workflows from
+histories then discard the histories once you have completed the analyses.
+
+Your groups current Galaxy usage is displayed in the top bar on the far right.
+You can view the size of your different Galaxy histories when you view you saved
+Galaxy histories using the Gear Icon and below the name of your current history.
+If you delete a Galaxy history before you extract a workflow you will not be
+able to do so later.
+
+### Deleting Intermediate Files and Histories from Galaxy
+1. Select Analyze Data in the top bar to get to the main Galaxy view.
+2. Select the Gear Icon and then Saved Histories from the menu.
+3. Select the history you created when you tested your workflow then select
+   Switch to open the history in the Galaxy History Pane.
+4. To delete specific pieces of data from a Galaxy history you can select the X.
+5. Notice that when the data set is deleted that the size of the history does
+   not change. This is because Galaxy has a recycling bin type function.
+6. To permanently delete a dataset first unhide the hidden datasets by selecting
+   the Gear Icon then Include Deleted Datasets.
+7. Select the here link displayed in the history pane for the data you would
+   like to delete. This will actually reduce the size of the history
