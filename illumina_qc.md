@@ -154,8 +154,10 @@ Groomer to ensure your data is in the Sanger/Illumina 1.8 + encoding
 
 ### FastQC Metrics
 - Basic Statistics
+
   Gives the name of the input file, encoding used for the quality score, total
   sequence count, average sequence length and GC content (%).
+
 - Per Base Sequence Quality
 A important figure showing the average quality score at each position across all reads. In
 general, quality scores are lower at the start and each of reads. Sudden dips in the middle
