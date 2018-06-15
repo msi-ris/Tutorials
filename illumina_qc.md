@@ -75,8 +75,8 @@ Galaxy has three main sections:
       data in the center pane.
 
 ### Accessing Galaxy at MSI
-Open a web browser and navigate to the MSI Galaxy <galaxy.msi.umn.edu>. Log in
-with your MSI username and password
+Open a web browser and navigate to the MSI Galaxy <https://galaxy.msi.umn.edu>.
+Log in with your MSI username and password.
 
 The labeled items are as follows:
 
