@@ -3,7 +3,7 @@ layout: default
 title: Illumina Data QC Tutorial With Galaxy
 permalink: /illumina_galaxy/
 exclude: false
-updated: 2018-06-13
+updated: 2014-09-16
 delivered: 2018-06-13
 ---
 
@@ -290,8 +290,88 @@ the sequence of the final read, leading to adapter contamination.
 Removal of adapter contamination in Galaxy can be accomplished using CutAdapt
 and the sequence of the primers.
 
+### Remove Low Quality Tails and Adapter Contamination With Trimmomatic
+1. Under the NGS: QC and manipulation header select Trimmomatic
+2. Select Single End Mode in the top drop down menu.
+3. Select RNA-Seq.fastq from the second drop down menu.
+4. Trimmomatic allows you to build a list of modules to complete all of your
+   clean-up steps at once.
+5. The first module ILLUMINACLIP will identify and remove adapter contamination.
+6. Select TruSeq2-SE from the adapters drop down menu.
+7. To add another module select Add new Task at the bottom of the module.
+8. Select LEADING from the task drop down menu, the page with refresh and new
+   options associated with the LEADING module will appear. Use the default
+   settings.
+9. Next add the TRAILING module, SLIDINGWINDOW and the MINLEN module. The
+   default settings will work for all of these modules.
+10. Once all of the modules have been added select Execute.
+
 ## Part 4: Evaluate Cleaned FASTQ Quality
+In this section we will compare the results from FastQC between the original
+FASTQ file and the quality and adapter trimmed FASTQ files. You should always
+examine the results post FASTQ file clean up before moving forward with more
+complex analysis. Here we will be showing both the results from the original
+FASTQ files as well as those from the quality and adapter trimmed FASTQ files.
+
+1. Use FastQC to examine the quality statistics for the quality and adapter
+   trimmed FASTQ files. Select the Eye Icon to view the results.
+2. Scroll down to "Per base sequence quality". Note the improvement in the
+   average quality of the read tails.
+3. Scroll down to "Sequence Length Distribution". Note the degree of trimming
+   that has occurred. A vast majority of your data is still full length with
+   only a very limited number of sequences that are between 36 and 40bp.
+   Changing the MINLEN settings during trimming will change this distribution.
+4. Scroll down to "Sequence Duplication Levels". Note the removal of the highly
+   repeated sequences.
+5. Scroll down to the list of Overrepresented Sequences. The percentage of your
+   data that is an overrepresented is now greatly reduced.
+
 ## Part 5: Evaluating and Cleaning Paired-End Data
+This section will guide you though using FastQC and Trimmomatic on paired-end
+data.
+
+1. Using the gear icon at the top of the History Pane create a new history.
+2. Select Shared Data then Data Libraries from the top header bar.
+3. Select QC of Illumina Data from the list of data libraries. Remember the
+   search bar!
+4. Import Tutorial file R1.fastq and Tutorial file R2.fastq into your new
+   history.
+5. Run FastQC on the new fastq files. You will have to run the tool on each
+   fastq individually.
+6. Use Trimmomatic in Paired End Mode with TruSeq2-PE adapters to trim the data.
+   Use the ILLUMINACLIP, LEADING, TRAILING, SLIDINGWINDOW and MINLEN modules
+   with the default settings.
+7. Notice there are 4 Trimmomatic outputs: forward paired, forward unpaired,
+   reverse paired and reverse unpaired.
+8. Run FastQC on the forward paired and reverse paired data to see the effect
+   of your trimming.
+
 ## Part 6: Workflows
+### Creating a Workflow
+The ability to create, reuse, share and publish workflows is on of Galaxy's
+largest strengths. Creating workflows allows you and anyone you want to
+collaborate with to exactly recreate analysis. You can think of workflows as
+your computational lab notebook, they are how you document your computational
+work. Workflows are also handy when you have to clean up your Galaxy space.
+Saving the raw input data and the workflow that leads to a final result allows
+you to delete the intermediate files yet retain the ability to recreate the
+entire analysis at any time. Workflows can be extracted from histories or
+created from scratch. Either method will result in a useable workflow so how you
+choose to build one is up to you.
+
+Workflows are made up of connected tools, each tool is represented as a box and
+data moving from one tool to another is represented by the arrows. The inputs
+required for the tool can be found above the horizontal line in the box while
+the possible outputs are found below the line. Outputs from each tool can be
+saved and/or used as in the input for the next tool. Selecting the box will
+display the settings associated with the tool allowing you to preset parameters
+to reuse each time the workflow is run
+
+### Extract Workflow from Current History
+1. Select the Gear Icon from the top of the history pane.
+2. Select Extract Workflow from the menu.
+3. In Workflow name enter "QC and Cleanup".
+4. Select Create Workflow.
+
 ## Part 7: Sharing Workflows and Histories
 ## Part 8: Cleaning up Histories and Deleting Data from Galaxy
