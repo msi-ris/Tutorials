@@ -228,6 +228,37 @@ Groomer to ensure your data is in the Sanger/Illumina 1.8 + encoding
   levels of overrepresented sequences usually arise from adapter contamination
   and these levels should drop after adapters are removed from your data.
 
+### Running FastQC
+1. From the Tools Pane select the MSI header.
+2. Select the FastQC: Read QC tool.
+3. Alternatively, use the search bar at the top of the tool pane to find FastQC.
+4. Make sure that you are using FastQC:ReadQC (version 0.60).
+5. Select the file to analyze from the drop-down menu: RNA-Seq.fastq
+6. Rename the output file to something meaningful such as "Precleaning".
+7. Select Execute
+
+### Viewing and Understanding FastQC Results
+1. In the History Pane select the Eye Icon next to the name of the output from
+   using the FastQC: ReadQC tool. This will allow you to view the results in the
+   Center Pane.
+2. Scroll to the "Per base sequence quality".
+3. Note how the quality of the reads drops towards the 3’ ends of the reads
+4. The per tile sequence quality is all blue because the overall quality of the
+   reads is good.
+5. Scroll to "Per sequence quality scores".
+6. The over all quality of the reads is high with a vast majority of the reads
+   having quality scores over 30.
+7. Scroll to "Sequence duplication levels".
+8. Note the presence of a small number of highly duplicated reads. The
+   duplicated sequences and counts can be found in the Overrepresented
+   Sequences (J) table.
+9. The high count and percentage values for the top three sequences in the
+   Overrepresented Sequences list represent adapter contamination in this
+   dataset and need to be removed.
+10. Scroll down to "Kmer content"
+11. These very spiky regions of over represented Kmers are common and often are
+    biological and not a data quality issue
+
 ## Part 3: Cleaning FASTQ Datasets
 ## Part 4: Evaluate Cleaned FASTQ Quality
 ## Part 5: Evaluating and Cleaning Paired-End Data
