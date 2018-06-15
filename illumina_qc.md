@@ -31,7 +31,7 @@ The tools available will vary depending on which instance of Galaxy you use.
 While transferring workflows from one instance of Galaxy to another is easy, MSI
 has no control over which tools are available in other Galaxy instances. If
 there is a tool that you have used in a different instance of Galaxy that is not
-available in the MSI instance send a request to help@msi.umn.edu.
+available in the MSI instance send a request to <help@msi.umn.edu>.
 
 ### Scope of This Tutorial
 - Give participants experience with the basic functionality of Galaxy
@@ -48,8 +48,8 @@ available in the MSI instance send a request to help@msi.umn.edu.
     - Read trimming
 
 ### Where to Get More Information
-- Other Galaxy users: https://wiki.galaxyproject.org/
-- MSI: https://www.msi.umn.edu/content/bioinformatics-analysis
+- Other Galaxy users: <https://wiki.galaxyproject.org/>
+- MSI: <https://www.msi.umn.edu/content/bioinformatics-analysis>
 
 ## Part 1: Getting Started With Galaxy
 ### Sections of Galaxy
@@ -99,9 +99,9 @@ data library. In general, each PI with access to Galaxy account will have one
 data library that can contain many different pieces of data. When you or your PI
 receives an email from UMGC indicating that your sequencing data is available
 you can have that data moved into your PI's Galaxy data library by forwarding
-the email to help@msi.umn.edu with a request to add the data to Galaxy. You can
-then access the sequencing data library from the *Shared Data* tab in the blue
-bar at the top of the Galaxy page. If your PI doesn't currently have a data
+the email to <help@msi.umn.edu> with a request to add the data to Galaxy. You
+can then access the sequencing data library from the *Shared Data* tab in the
+blue bar at the top of the Galaxy page. If your PI doesn't currently have a data
 library a new one will be created the first time you request to have data added
 to Galaxy.
 
@@ -117,7 +117,7 @@ Data files that are larger than 2GB will have to be placed into a data library
 to be accessed in Galaxy. In your groups home directory there is a galaxy folder
 (`/home/yourGroup/galaxy`). To get data into your PI's data library move it into
 the galaxy folder in your groups home directory then send a ticket to
-help@msi.umn.edu with the location of the data to be added to your PI's data
+<help@msi.umn.edu> with the location of the data to be added to your PI's data
 library.
 
 ## Part 2: Evaluating FASTQ Quality
