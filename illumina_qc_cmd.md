@@ -88,21 +88,29 @@ personal computer).
   the editors can do much fancier tricks.
 
   `Preferences->Servers-> + button` Server type: SFTP
+
   Name: MSI
+
   Hostname: `login.msi.umn.edu`
+
   Username: `<your MSI username>`
+
   Password: `<your MSI password>`
 
 - **FileZilla Client**
 
   <https://filezilla-project.org/>
+
   Setup: <https://www.msi.umn.edu/support/filezilla>
+
   This SFTP/FTP client will help you move files into and out of your MSI space.
 
 - **PuTTY** (*Windows Users Only*)
 
   <http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html>
+
   Setup: <https://www.msi.umn.edu/support/putty>
+
   Unlike Mac/OSX windows does not have a native UNIX terminal. PuTTY is a
   terminal emulator for Windows and will allow you to interact with MSI systems
   using UNIX commands.
