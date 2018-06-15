@@ -117,8 +117,8 @@ On Windows, open PuTTY, and follow the instructions at
 [this link](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
 
 ```
-ljmills-MacBookAir:~ ljmills$ ssh ljmills@login.msi.umn.edu
-ljmills@login.msi.umn.edu's password: *************
+konox006-MacBookAir:~ konox006$ ssh konox006@login.msi.umn.edu
+konox006@login.msi.umn.edu's password: *************
 ```
 
 If everything checks out, you will see the MSI message-of-the-day (MOTD), which
@@ -156,7 +156,29 @@ The final line is your **prompt**, which is where you enter commands. It lists
 your username, host, and current directory. As the `@loginXX` after your
 username in the ternimal indicates, you are now connected to the login node.
 While you can move around the filesystem and use UNIX commands while connected
-to the login node you won’t beable to use any of the software installed on MSI
+to the login node you won't be able to use any of the software installed on MSI
 systems. In order to gain access to the installed software you will need to
-connect to either the Lab or Itasca systems. We are going to connect to the lab
-system though a command called `isub`.
+connect to one of the HPC systems. We are going to connect to the lab system
+though a command called `isub`.
+
+Type `isub -m 8gb -w 4:00:00` and press enter to request an interactive session
+on the Lab HPC system. This command will request 8gb of memory for four hours.
+If you would like to see all options availale for `isub`, type `isub -h` and 
+press enter.
+
+```
+konox006@login03 [~] % isub -m 8gb -w 4:00:00
+qsub: waiting for job 217341.nokomis0015.msi.umn.edu to start
+qsub: job 217341.nokomis0015.msi.umn.edu ready
+konox006@labq59 [~] %
+```
+
+The prompt updates to show us that we are logged into a lab node now. Let's see
+where we are in the file system. Use the `pwd` command to do this. When you log
+into the system for the first time you are automatically taken to your home
+directory. Your home directory will always have the format of
+`/home/yourGroup/yourMSIaccount`.
+
+```
+ ljmills@labq59 [~] % pwd /home/msistaff/ljmills ljmills@labq59 [~] %
+```
