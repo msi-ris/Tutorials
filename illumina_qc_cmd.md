@@ -87,14 +87,10 @@ personal computer).
   still learn how to use an editor because you might not always have Komodo and
   the editors can do much fancier tricks.
 
-  `Preferences->Servers-> + button` Server type: SFTP
-
-  Name: MSI
-
-  Hostname: `login.msi.umn.edu`
-
-  Username: `<your MSI username>`
-
+  `Preferences->Servers-> + button` Server type: SFTP\
+  Name: MSI\
+  Hostname: `login.msi.umn.edu`\
+  Username: `<your MSI username>`\
   Password: `<your MSI password>`
 
 - **FileZilla Client**
