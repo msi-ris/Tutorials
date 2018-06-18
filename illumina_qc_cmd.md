@@ -398,4 +398,13 @@ konox006@labq59 [~/tutorial] % qsub tutorial_trim.sh
 The text that writes to the terminal is the ID of the job, and confirms that
 your job has been sucessfully submitted. If you get a different message, it
 means there was some error in your job request, usually in the `#PBS` lines.
-Check your spelling and limits allowed in the queues and try again.
+Check your spelling and limits allowed in the queues and try again. You will
+get email notifications when your job starts and when your job exits.
+
+## Part 5: Automating FastQC and Trimmomatic With Scripts
+This script is good - it runs `fastqc` on the raw reads, then cleans them with
+`trimmomatic`, then runs `fastqc` on the cleaned output. But it's not very
+flexible and would require a lot of modifications or a different dataset. In
+this section, we will look at some more advance scripts that will both teach
+cool tricks and give you a more general script that can be used across multiple
+projects with minimal rewriting.
