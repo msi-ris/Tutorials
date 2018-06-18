@@ -294,4 +294,108 @@ to your local machine to view it in a web browser.
 
 ## Part 4: Cleaning Reads
 We will use `trimmomatic` to clean the low quality bases and adapter
-contamination from the reads.
+contamination from the reads. Like with `fastqc`, you access it with the
+`module` command:
+
+```
+konox006@labq59 [~/tutorial] % module load trimmomatic
+konox006@labq59 [~/tutorial] % _JAVA_OPTIONS="-Xmx4g" java -jar \
+> ${TRIMMOMATIC}/trimmomatic.jar PE -phred33 \
+> Tutorial_file_R1.fastq Tutorial_file_R2.fastq \
+> R1.PE.fastq R1.SE.fastq R2.PE.fastq R2.SE.fastq \
+> ILLUMINACLIP:${TRIMMOMATIC}/adapters/TruSeq2-PE.fa:2:30:10:2:true \
+> LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:30
+```
+
+Note that the `\` and the new lines are merely for readability. You can skip
+those and enter all of the command on a single line. This will also take a
+few minutes to run.
+
+Check the current directory contents. What got created? Run `fastqc` on the new
+PE FASTQ files. Use the `*` (wildcard character) to cut down on the number of
+commands that you have to type:
+
+```
+konox006@labq59 [~/tutorial] % ls
+hs_err_pid24802.log  R2.PE.fastq       Tutorial_file_R1_fastqc.html
+R1.PE.fastq      R2.SE.fastq       Tutorial_file_R1_fastqc.zip
+R1.SE.fastq      Tutorial_file_R1.fastq  Tutorial_file_R2.fastq
+konox006@labq59 [~/tutorial] % fastqc *PE.fastq
+...
+```
+
+### A Note About Scripting
+While interactive sessions are useful for running quick analyses, there are some
+important disadvantages to keep in mind.
+
+1. You have to build the commands properly each time.
+2. You may have to rerun the same commands with slight modifications if there
+   are many files (or build a loop interactively).
+3. You have to wait for each command to finish before moving on.
+4. **You don't have a record of your work.**
+
+The best way to address each of these issues is to submit jobs to the queue
+as shell scripts. Your script will still need to have properly formatted
+commands, but you will have a file that lists exactly the parameters that you
+specified and the input and output files that you used.
+
+We have provided an example script that runs `trimmomatic` to get you started.
+Copy `/home/msistaff/public/qcIllumina/tutorial_trim.sh` into the tutorial
+directory. Open it with Komodo Edit with `File` > `Open` > `Remote File`. Enter
+your MSI login credentials, then navigate to the tutorial script.
+
+```
+konox006@labq59 [~/tutorial] % cp /home/msistaff/public/qcIllumina/tutorial_trim.sh .
+```
+
+The contents of the script are shown below:
+
+```bash
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=6,mem=15GB,walltime=1:00:00
+#PBS -m ae
+#PBS -M youremail
+#PBS -e trimmomatic.error
+#PBS -o trimmomatic.out
+#PBS -N tutorial_trim
+
+module load trimmomatic
+module load fastqc
+
+cd /home/msistaff/konox006/tutorial
+fastqc Tutorial_file_R*.fastq
+
+java -jar ${TRIMMOMATIC}/trimmomatic.jar PE \
+    -phred33 Tutorial_file_R1.fastq Tutorial_file_R2.fastq \
+    R1.PE.fastq R1.SE.fastq R2.PE.fastq R2.SE.fastq \
+    ILLUMINACLIP:${TRIMMOMATIC}/adapters/TruSeq2-PE.fa:2:30:10:2:true \
+    LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:30
+fastqc *.PE.fastq
+```
+
+The first line is a special line that tells the operating system to use the
+`bash` shell interpreter to run the script. When we enter commands
+interactively, we are doing it through the `bash` shell. The next four lines
+that start with `#PBS` are special lines that declare the compute resources that
+the job will require. Fill in your email address after the `-M`. For a more
+complete description of the information in the `#PBS` lines, see [this link](https://www.msi.umn.edu/content/job-submission-and-scheduling-pbs-scripts). To see allowed limits for
+computational resources, see [this link](https://www.msi.umn.edu/queues).
+
+The next lines are all regular `bash` scripting lines. Note that these are
+identical to the commands that we entered interactively in the previous steps.
+Be sure to edit the script so that the directories given are for your MSI
+account - you will get permissions errors if you try to work with another
+person's files.
+
+Once you edit and save the script, submit it to the job queue with the `qsub`
+command:
+
+```
+konox006@labq59 [~/tutorial] % qsub tutorial_trim.sh
+675304.nokomis0015.msi.umn.edu
+```
+
+The text that writes to the terminal is the ID of the job, and confirms that
+your job has been sucessfully submitted. If you get a different message, it
+means there was some error in your job request, usually in the `#PBS` lines.
+Check your spelling and limits allowed in the queues and try again.
