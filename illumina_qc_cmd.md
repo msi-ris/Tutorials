@@ -365,10 +365,10 @@ module load fastqc
 cd /home/msistaff/konox006/tutorial
 fastqc Tutorial_file_R*.fastq
 
-java -jar ${TRIMMOMATIC}/trimmomatic.jar PE \
+java -jar $TRIMMOMATIC/trimmomatic.jar PE \
     -phred33 Tutorial_file_R1.fastq Tutorial_file_R2.fastq \
     R1.PE.fastq R1.SE.fastq R2.PE.fastq R2.SE.fastq \
-    ILLUMINACLIP:${TRIMMOMATIC}/adapters/TruSeq2-PE.fa:2:30:10:2:true \
+    ILLUMINACLIP:$TRIMMOMATIC/adapters/TruSeq2-PE.fa:2:30:10:2:true \
     LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:30
 fastqc *.PE.fastq
 ```
@@ -442,4 +442,108 @@ done
 This script looks simple, but it has a few new concepts. The first is a
 *variable*. Both the `$FASTQ` and `$F` are variables. When you set the value
 of a variable (or "declare" or "initialize" it), you do not need the `$` sigil
-in front. When you want to use the value
+in front. There cannot be any spaces between the variable name, the `=`
+operator, and the value when you want to assign values. When you want to use the
+value (or "reference" it), you need to use the `$` sigil. Naming variables in
+ALLCAPS is not necessary, but it is a convention to do so, to make them easier
+to see.
+
+The next concept is the `for` loop. This construct lets you run a sequence of
+commands without having to type each one individually. This is very useful when
+you want to run the same command on many files. The general structure of a `for`
+loop is as follows:
+
+```bash
+for VAR in LIST
+do
+    command $VAR
+done
+```
+
+This will take a list of things (files, numbers, etc.), and sequentially run
+`command` on each item. The current value of the loop is stored in the variable
+`$VAR`. The `do` and `done` keywords are required for `for` loops. In our
+example, the `LIST` has two elements, `Tutorial_file_R1.fastq` and
+`Tutorial_file_R2.fastq`, and we will run `fastqc` on each of them.
+
+You can also build the list dynamically, using the output of another command.
+This next script uses *command substitution* to do this. The command to be
+run is between the `$()` characters. In this case, we run `ls *.fastq`, which
+returns a list of files ending in `.fastq`, and use that as the list for
+iteration. Command substution looks somewhat like a variable reference, but they
+are very different:
+
+```bash
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=4,mem=15GB,walltime=1:00:00
+#PBS -m ae
+#PBS -e trimmomatic.error
+#PBS -o trimmomatic.out
+#PBS -N trimmomatic
+
+module load trimmomatic
+module load fastqc
+
+cd /home/msistaff/konox006/tutorial
+
+FASTQ="/home/msistaff/konox006/tutorial"
+
+for F in $(ls *.fastq)
+do
+    fastqc -o $FASTQ $F
+done
+```
+
+Let's combine the FastQC calls with the Trimmomatic calls. Because Trimmomatic
+requires two input files, you need to be a bit more sophisticated with data
+in the `for` loop. Copy the tutorial FASTQ files back into your directory, and
+give them new names. We will do this just to illustrate how to iterate over
+multiple sets of FASTQ files.
+
+```
+konox006@labq59 [~/tutorial] % cp /home/msistaff/public/qcIllumina/Tutorial_file_R1.fastq new_tutorial_file_R1.fastq
+konox006@labq59 [~/tutorial] % cp /home/msistaff/public/qcIllumina/Tutorial_file_R2.fastq new_tutorial_file_R2.fastq
+```
+
+Copy the `tutorial_trim2.sh` file from the tutorial directory and open it Komodo
+Edit. The contents of the script are below:
+
+```bash
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=4,mem=15GB,walltime=1:00:00
+#PBS -m ae
+#PBS -e trimmomatic.error
+#PBS -o trimmomatic.out
+#PBS -N trimmomatic
+
+module load trimmomatic
+module load fastqc
+
+cd /home/msistaff/konox006/tutorial
+
+FASTQ="/home/msistaff/konox006/tutorial"
+
+for F in "Tutorial_file_R1.fastq Tutorial_file_R2.fastq" "new_tutorial_file_R1.fastq new_tutorial_file_R2.fastq"
+do
+set -- $F
+R1="$FASTQ/$1"
+R2="$FASTQ/$2"
+fastqc -f fastq $R1 $R2 -o $FASTQ
+java -jar $TRIMMOMATIC/trimmomatic.jar PE \
+    -phred33 $R1 $R2 ${1}.PE ${1}.SE ${2}.PE ${2}.SE\
+    ILLUMINACLIP:$TRIMMOMATIC/adapters/TruSeq2-PE.fa:2:30:10 \
+    LEADING:3 TRAILING:3 SLIDINGWINDOW:4:20 MINLEN:36
+fastqc ${1}.PE ${2}.PE
+done
+```
+
+Notice how the pairs of FASTQ files are enclosed in double quotes (`""`). This
+is to keep them associated during iteration through the `for` loop. Then, in
+the set of commands to run, we split them into the `$1` and `$2` variables with
+`set -- $F`. Also notices how some of the variables also have curly braces
+(`{}`) around them. This is to clearly define where the name of the variable
+starts and stops. `bash` will read `$1.PE` as a variable named `1.PE`, which we
+have not defined. In order to have the value of `$1` be substituted with a `.PE`
+at the end, we have to enclose the `1` in curly braces: `${1}.PE`. In general,
+I always enclose my variable names in curly braces because it is the safest
+way to reference them, even if it is a bit of extra typing.
