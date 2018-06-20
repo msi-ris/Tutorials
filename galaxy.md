@@ -1,7 +1,0 @@
----
-layout: default
-title: Galaxy Tutorial
-permalink: /galaxy/
----
-
-<p>This is the page for our Galaxy tutorial.</p>

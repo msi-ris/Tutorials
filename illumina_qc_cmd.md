@@ -408,3 +408,38 @@ flexible and would require a lot of modifications or a different dataset. In
 this section, we will look at some more advance scripts that will both teach
 cool tricks and give you a more general script that can be used across multiple
 projects with minimal rewriting.
+
+Copy the `fastqc_only.sh` script out of the tutorial directory. Open it with
+Komodo Edit like the first script.
+
+```
+konox006@labq59 [~/tutorial] % cp /home/msistaff/public/qcIllumina/fastqc_only.sh .
+```
+
+The contents of this script are shown below:
+
+```bash
+#!/bin/bash -l
+#PBS -l nodes=1:ppn=4,mem=15GB,walltime=1:00:00
+#PBS -m ae
+#PBS -e trimmomatic.error
+#PBS -o trimmomatic.out
+#PBS -N trimmomatic
+
+module load trimmomatic
+module load fastqc
+
+cd /home/msistaff/konox006/tutorial
+
+FASTQ="/home/msistaff/konox006/tutorial"
+
+for F in Tutorial_file_R1.fastq Tutorial_file_R2.fastq
+do
+    fastqc -o $FASTQ $F
+done
+```
+
+This script looks simple, but it has a few new concepts. The first is a
+*variable*. Both the `$FASTQ` and `$F` are variables. When you set the value
+of a variable (or "declare" or "initialize" it), you do not need the `$` sigil
+in front. When you want to use the value
