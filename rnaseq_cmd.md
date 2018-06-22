@@ -22,7 +22,19 @@ delivered: NA
   counts, and testing for differential expression
 
 ### Required Software
-### UNIX Basics
+### UNIX (and Linux) Basics
+MSI systems run GNU/Linux, which is a functional equivalent of commercial UNIX
+(like Apple's OSX). The way that you will interact with Linux is very similar to
+the way you would interact with a traditional UNIX system - through the command
+line.
+
+![Terminal]({{ /graphics/rnaseq_cmd/terminal.png | prepend: site.baseurl }})
+
+Be warned, though, because the GNU/Linux versions of the programs behave
+very similarly to the UNIX versions, but they are not identical. Always check
+the help or manual pages if you experience some unexpected behavior from one
+of the programs that you are running.
+
 - common commands
 - other resources (TLDP ABS)
 
