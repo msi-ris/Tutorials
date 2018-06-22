@@ -26,11 +26,11 @@ You will need the following pieces of software to be installed on your local
 computer to follow along with the tutorial.
 
 - Terminal emulator
-    - For Windows, use PuTTY (<https://www.putty.org/>)
+    - For Windows, use PuTTY (<https://www.putty.org/>).
         - Setup instructions [here](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
-    - For Mac, use Terminal, which is built-in
+    - For Mac, use Terminal, which is built-in.
         - Go to Applications>Utilities>Terminal.app
-    - For Linux, you should know how to get to your terminal emulator
+    - For Linux, you should know how to get to your terminal emulator already.
 - File transfer client
     - We recommend FileZilla (<https://filezilla-project.org/>) because it is
       reasonably powerful and easy to use.
