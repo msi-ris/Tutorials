@@ -132,7 +132,33 @@ that we will use in this tutorial.
     GGTAC...
     ```
 
+    Reference sequences are generally stored in the FASTA format.
 - FASTQ
+
+    Holds sequence information with associated quality scores. Each FASTQ record
+    has four lines: a name, a nucleotide sequence, a comment, and a quality
+    string. The name starts with `@` and the comment starts with `+`. The
+    quality scores are stored as ASCII characters, treating each character's
+    decimal value as the quality score (with a +33 offset\*). You will not have
+    to read a FASTQ directly - the alignment programs will understand them.
+    Quality is defined as -log10(P that the base is called incorrectly), which
+    is the Phred scale used in Sanger sequencing traces.
+
+    \*: Note that older FASTQ files may have a +64 offset. The quality control
+    program we will use in this tutorial will make an educated guess as to the
+    proper offset.
+
+    ```
+    @D00635:256:CB8P5ANXX:1:1108:2215:2225 1:N:0:ATTACTCG+TATAGCCT
+    GCGCTAAAGCAGTGATTAGAGGGAAATTTATAGCACCAAATGCCCACAGAA
+    +
+    @B=BBGGGGCBDDC@GGEGGGGGGGGGGGGGFGGGEGGGGGGGGGGGGG>D
+    @D00635:256:CB8P5ANXX:1:1108:2547:2188 1:N:0:ATTACTCG+TATAGCCT
+    CCGCACATCACAAACGTGATTCTGCGAATGCTTCTGACTAGTTTTTGTCGG
+    +
+    BBBCCEGGGCGGGGGGGGGGGGCGGGGGGGGGGGGGGGGG>F>F>GGGGGG
+    ```
+
 - SAM/BAM
 - GTF/GFF
 
