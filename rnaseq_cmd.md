@@ -189,6 +189,16 @@ that we will use in this tutorial.
     A link to the SAM/BAM specification is [here](https://samtools.github.io/hts-specs/SAMv1.pdf).
 - GTF/GFF
 
+    Holds genomic feature annotations, like gene models. These formats are
+    somewhat loosely defined, but variants from databases such as NCBI or
+    Ensembl should be handled well by genomics analysis programs. The
+    information stored in a GTF or GFF includes each feature's boundaries,
+    type (gene, CDS, TF binding site, etc), strand, name, and any parent/child
+    relationships. For example, a `mRNA` feature may be the child of a `gene`
+    feature, and may have several `CDS` and `exon` children features.
+
+    The GFF and GTF specifications can be found [here](https://useast.ensembl.org/info/website/upload/gff.html).
+
 ### Overall Workflow
 - cartoon
 - Numbered list of steps
