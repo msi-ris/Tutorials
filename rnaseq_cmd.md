@@ -1,18 +1,17 @@
 ---
 layout: default
-title: Illumina Data QC Tutorial at the Command Line
-permalink: /illumina_cmd/
+title: RNASeq Analysis With the Command Line
+permalink: /rnaseq_cmd/
 exclude: false
-updated: 2014-09-16
-delivered: 2018-06-13
+updated: 2018-06-22
+delivered: NA
 ---
 
-# Illumina Data Quality Control at the Command Line
+# {{page.title}}
 *Last Updated: {{page.updated}}*
 
 *Last Delivered: {{page.delivered}}*
 
-This tutorial is also available as a [PDF]({{"/materials/illumina_qc_cmd/Illumina_QC_Cmd_Current.pdf" | prepend: site.baseurl }}).
 
 ## Part 0: Introduction
 ### Goals
