@@ -187,7 +187,7 @@ that we will use in this tutorial.
     ```
 
     A link to the SAM/BAM specification is [here](https://samtools.github.io/hts-specs/SAMv1.pdf).
-- GTF/GFF
+- GTF/GFF (GFF3)
 
     Holds genomic feature annotations, like gene models. These formats are
     somewhat loosely defined, but variants from databases such as NCBI or
