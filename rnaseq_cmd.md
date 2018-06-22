@@ -114,7 +114,24 @@ to the system.
 - reduced representation, genes are often the most interpretable pieces of a genome
 
 ### Common Genomics File Formats
-- FASTA/FASTQ
+RNASeq, being a genomics technique, uses standard file formats for genomics
+analysis. This is not an exhaustive list, but should introduce the file types
+that we will use in this tutorial.
+
+- FASTA
+    Holds sequence information, without any associated quality information. The
+    FASTA format has a sequence name, denoted with `>` followed by the name of
+    the sequence. The next line(s) have the sequences. The file may have one or
+    more sequence records.
+
+    ```
+    >Sequence 1
+    ATCGA...
+    >Sequence 2
+    GGTAC...
+    ```
+
+- FASTQ
 - SAM/BAM
 - GTF/GFF
 
