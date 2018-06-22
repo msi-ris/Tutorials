@@ -22,6 +22,27 @@ delivered: NA
   counts, and testing for differential expression
 
 ### Required Software
+You will need the following pieces of software to be installed on your local
+computer to follow along with the tutorial.
+
+- Terminal emulator
+    - For Windows, use PuTTY (<https://www.putty.org/>)
+        - Setup instructions [here](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
+    - For Mac, use Terminal, which is built-in
+        - Go to Applications>Utilities>Terminal.app
+    - For Linux, you should know how to get to your terminal emulator
+- File transfer client
+    - We recommend FileZilla (<https://filezilla-project.org/>) because it is
+      reasonably powerful and easy to use.
+    - Setup instructions [here](https://www.msi.umn.edu/support/faq/how-do-i-use-filezilla-transfer-data).
+- Text editor
+    - We will use KomodoEdit (<https://www.activestate.com/komodo-ide/downloads/edit>)
+      because it allows us to edit text files on a remote machine. You can use
+      a terminal-based editor if you so choose.
+
+The software required for the actual RNASeq analysis is already installed on MSI
+systems. We will show you how to access the analysis programs in later sections.
+
 ### UNIX (and Linux) Basics
 MSI systems run GNU/Linux, which is a functional equivalent of commercial UNIX
 (like Apple's OSX). The way that you will interact with Linux is very similar to
