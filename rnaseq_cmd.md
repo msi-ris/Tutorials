@@ -200,7 +200,12 @@ that we will use in this tutorial.
     The GFF and GTF specifications can be found [here](https://useast.ensembl.org/info/website/upload/gff.html).
 
 ### Overall Workflow
-- cartoon
+Here is a schematic of the workflow that we will follow for this tutorial. The
+pieces of data are shown in rectangles, and the software are shown in rounded
+bubbles with dashed borders. The final output is shown in red.
+
+![Workflow]({{ "/graphics/rnaseq_cmd/workflow.png" | prepend: site.baseurl }})
+
 - Numbered list of steps
 
 ## Part 2: FASTQ Quality Control
