@@ -159,7 +159,23 @@ that we will use in this tutorial.
     BBBCCEGGGCGGGGGGGGGGGGCGGGGGGGGGGGGGGGGG>F>F>GGGGGG
     ```
 
+    Reads from the sequencing instrument are generally stored in the FASTQ
+    format.
 - SAM/BAM
+
+    Holds alignment information. While sequence alingments can technically be
+    stored in FASTA format, it is very inefficient for genomics datasets.
+    Additionally, genomics alignments tend to be a series of pairwise alignments
+    to a reference sequence, and not a multiple sequence alignment.
+
+    A SAM (**S**equence **A**lignment/**M**ap) file stores positon, read
+    sequence, mismatch information, and alignment confidence scores, among other
+    information. A BAM file is a binary representation of a SAM file, which is
+    machine-readable and much smaller on disk. You generally will not have to
+    parse a SAM/BAM file on your own; most of the tools you will encounter will
+    know how to perform operations on them.
+
+    A link to the SAM/BAM specification is [here](https://samtools.github.io/hts-specs/SAMv1.pdf).
 - GTF/GFF
 
 ### Overall Workflow
