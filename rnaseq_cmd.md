@@ -119,6 +119,7 @@ analysis. This is not an exhaustive list, but should introduce the file types
 that we will use in this tutorial.
 
 - FASTA
+
     Holds sequence information, without any associated quality information. The
     FASTA format has a sequence name, denoted with `>` followed by the name of
     the sequence. The next line(s) have the sequences. The file may have one or
