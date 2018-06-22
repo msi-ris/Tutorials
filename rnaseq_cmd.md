@@ -35,8 +35,33 @@ very similarly to the UNIX versions, but they are not identical. Always check
 the help or manual pages if you experience some unexpected behavior from one
 of the programs that you are running.
 
-- common commands
-- other resources (TLDP ABS)
+#### Common Commands
+Throughout this tutorial, we will be using the command line to run programs that
+analyze sequencing data. You will need to be familiar with navigating the MSI
+directory structure and doing simple operations on files. Here are some of the
+common commands that we will be using:
+
+- `cd`: change directory. This command will move you around the directory
+  structure on the cluster.
+- `ls`: list files. This command will show you files and sub-directories that
+  are contained within a specified location.
+- `pwd`: print working directory. This command will show you the directory that
+  you are currently working in.
+- `cp`: copy. This command will copy files from one location to another.
+- `mv`: move. This command will *move* files from one location to another.
+- `rm`: remove. This command will delete files. Becareful, once they're gone,
+  they're gone for good.
+- `head`: show the "head" of a file. This command will show you the first few
+  lines of a file.
+
+#### Other Resources
+There are plenty of resources available for learning how to interact with the
+computer through the command line. For technical reference, the default
+command line program on MSI, or shell, is called `bash`. Here are a few other
+links for `bash` resources:
+
+- [UCR Linux Basics](http://hpcc.ucr.edu/manuals_linux-basics_intro)
+- [Advaned Bash Scripting Guide from The Linux Documentation Project](https://www.tldp.org/LDP/abs/html/)
 
 ### Intro to MSI
 - login (screenshots of puTTy and Terminal)
