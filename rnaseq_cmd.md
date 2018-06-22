@@ -28,7 +28,7 @@ MSI systems run GNU/Linux, which is a functional equivalent of commercial UNIX
 the way you would interact with a traditional UNIX system - through the command
 line.
 
-![Terminal]({{ /graphics/rnaseq_cmd/terminal.png | prepend: site.baseurl }})
+![Terminal]({{ "/graphics/rnaseq_cmd/terminal.png" | prepend: site.baseurl }})
 
 Be warned, though, because the GNU/Linux versions of the programs behave
 very similarly to the UNIX versions, but they are not identical. Always check
