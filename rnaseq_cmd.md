@@ -36,7 +36,7 @@ computer to follow along with the tutorial.
       reasonably powerful and easy to use.
     - Setup instructions [here](https://www.msi.umn.edu/support/faq/how-do-i-use-filezilla-transfer-data).
 - Text editor
-    - We will use KomodoEdit (<https://www.activestate.com/komodo-ide/downloads/edit>)
+    - We will use Komodo Edit (<https://www.activestate.com/komodo-ide/downloads/edit>)
       because it allows us to edit text files on a remote machine. You can use
       a terminal-based editor if you so choose.
 
@@ -74,6 +74,8 @@ common commands that we will be using:
   they're gone for good.
 - `head`: show the "head" of a file. This command will show you the first few
   lines of a file.
+- `ssh`: secure shell. This will let you log in to a remote machine to execute
+  commands. We will use this command to log in to MSI systems.
 
 #### Other Resources
 There are plenty of resources available for learning how to interact with the
@@ -84,9 +86,25 @@ links for `bash` resources:
 - [UCR Linux Basics](http://hpcc.ucr.edu/manuals_linux-basics_intro)
 - [Advaned Bash Scripting Guide from The Linux Documentation Project](https://www.tldp.org/LDP/abs/html/)
 
-### Intro to MSI
-- login (screenshots of puTTy and Terminal)
-- HPC and queues
+### Accessing MSI
+We will now log in to MSI systems. The first host we will access is called the
+`login` node. **Don't run computationally intense tasks on this node.** You
+will make it hard for other uses to access the systems by reducing the
+performance of the login gateway, and we will yell at you. A lot.
+
+On Windows, open PuTTY, and follow the instructions at the PuTTY setup link
+given in the previous section. You can skip step 5, because we will just connect
+to the login node.
+
+For Mac or Linux users, type `ssh X.500@login.msi.umn.edu` and press enter.
+Replace the `X.500` with your UMN X.500 ID. It will most likely ask you for a
+password. Enter your UMN internet ID password, and press enter. You won't be
+able to see the password as it's entered. If it goes well, the server will
+give you a message-of-the-day, confirming that you have successfully logged in
+to the system.
+
+![Login]({{ "/graphics/rnaseq_cmd/login.png" | prepend: site.baseurl }})
+
 
 ## Part 1: RNASeq Overview
 ### Why RNASeq
