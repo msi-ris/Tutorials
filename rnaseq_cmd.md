@@ -103,6 +103,7 @@ able to see the password as it's entered. If it goes well, the server will
 give you a message-of-the-day, confirming that you have successfully logged in
 to the system.
 
+![SSH]({{ "/graphics/rnaseq_cmd/ssh.png" | prepend: site.baseurl }})
 ![Login]({{ "/graphics/rnaseq_cmd/login.png" | prepend: site.baseurl }})
 
 
