@@ -53,7 +53,7 @@ available in the MSI instance send a request to <help@msi.umn.edu>.
 
 ## Part 1: Getting Started With Galaxy
 
-<div id="info">
+<div id="info" markdown="1">
 
 ### Sections of Galaxy
 Galaxy has three main sections:
