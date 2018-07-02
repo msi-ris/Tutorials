@@ -15,6 +15,22 @@ delivered: 2018-06-13
 This tutorial is also available as a [PDF]({{"/materials/illumina_qc_galaxy/Illumina_QC_Galaxy_Current.pdf" | prepend: site.baseurl }}).
 
 ## Part 0: Introduction
+### Formatting in This Document
+Throughout this tutorial, there will be formatting cues to highlight various
+pieces of information.
+
+<div class="info" markdown="1">
+
+This is just information. There are no tutorial-related tasks in these boxes.
+We will write background or supporting information like this.
+
+</div>
+
+```
+This is code, or a literal value that you must enter or select to run a part
+of the tutorial
+```
+
 ### What is Galaxy?
 Galaxy is a web-based interface that allows users to create complex
 computational pipelines to analyze biological data. Galaxy is designed to help
@@ -93,7 +109,7 @@ The labeled items are as follows:
 5. Search bar to find tools.
 6. The total quantity of data your group has stored in Galaxy is displayed in
    the top right corner.
-7. You can always get back to the main screen using *Analyze Data* in the top menu
+7. You can always get back to the main screen using `Analyze Data` in the top menu
    bar
 
 ### Import FASTQ Files from Data Library
@@ -105,7 +121,7 @@ data library that can contain many different pieces of data. When you or your PI
 receives an email from UMGC indicating that your sequencing data is available
 you can have that data moved into your PI's Galaxy data library by forwarding
 the email to <help@msi.umn.edu> with a request to add the data to Galaxy. You
-can then access the sequencing data library from the *Shared Data* tab in the
+can then access the sequencing data library from the `Shared Data` tab in the
 blue bar at the top of the Galaxy page. If your PI doesn't currently have a data
 library a new one will be created the first time you request to have data added
 to Galaxy.
@@ -152,10 +168,10 @@ in 100,000 chance of an incorrect base call.
 Unfortunately, FASTQ files from different sources sometimes encode quality
 scores slightly differently. Sanger and current Illumina FASTQ format uses a
 Phred+33 encoding, which means that the lowest Phred score of 0 is encoded as
-ASCII character 33 (!), while Solexa and pre-2012 Illumina software uses
-Phred+64 encoding (Phred 0 encoded as @). But in all cases, the higher the Phred
-quality scores the higher quality the base call. In Galaxy you can use FASTQ
-Groomer to ensure your data is in the Sanger/Illumina 1.8 + encoding
+ASCII character 33 (`!`), while Solexa and pre-2012 Illumina software uses
+Phred+64 encoding (Phred 0 encoded as `@`). But in all cases, the higher the
+Phred quality scores the higher quality the base call. In Galaxy you can use
+FASTQ Groomer to ensure your data is in the Sanger/Illumina 1.8 + encoding
 
 ### FastQC Metrics
 - **Basic Statistics**
@@ -256,7 +272,7 @@ Groomer to ensure your data is in the Sanger/Illumina 1.8 + encoding
 7. Scroll to "Sequence duplication levels".
 8. Note the presence of a small number of highly duplicated reads. The
    duplicated sequences and counts can be found in the Overrepresented
-   Sequences (J) table.
+   Sequences table.
 9. The high count and percentage values for the top three sequences in the
    Overrepresented Sequences list represent adapter contamination in this
    dataset and need to be removed.
