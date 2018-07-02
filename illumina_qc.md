@@ -52,7 +52,9 @@ available in the MSI instance send a request to <help@msi.umn.edu>.
 - MSI: <https://www.msi.umn.edu/content/bioinformatics-analysis>
 
 ## Part 1: Getting Started With Galaxy
+
 <div id="info">
+
 ### Sections of Galaxy
 Galaxy has three main sections:
 - Tools pane
@@ -74,7 +76,9 @@ Galaxy has three main sections:
       tool will be in the center pane.
     - Clicking on the *eye icon* in the history pane will open a view of the
       data in the center pane.
+
 </div>
+
 ### Accessing Galaxy at MSI
 Open a web browser and navigate to MSI Galaxy (<https://galaxy.msi.umn.edu>).
 Log in with your MSI username and password.
