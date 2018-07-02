@@ -39,7 +39,7 @@ body {
     background-color:#fff;
 }
 
-.info {
+div.info {
     position:relative;
     left:10px;
     padding-right:10px;
