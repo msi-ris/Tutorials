@@ -335,6 +335,9 @@ FASTQ Groomer to ensure your data is in the Sanger/Illumina 1.8 + encoding
     biological and not a data quality issue
 
 ## Part 3: Cleaning FASTQ Datasets
+
+<div class="info" markdown="1">
+
 ### Why is Cleaning Required?
 #### Low Quality Tails and Failed Cycles
 For a variety of reasons, including decay of reagents as they sit on the
@@ -364,6 +367,8 @@ the sequence of the final read, leading to adapter contamination.
 
 Removal of adapter contamination in Galaxy can be accomplished using CutAdapt
 and the sequence of the primers.
+
+</div>
 
 ### Remove Low Quality Tails and Adapter Contamination With Trimmomatic
 1. Under the NGS: QC and manipulation header select Trimmomatic
