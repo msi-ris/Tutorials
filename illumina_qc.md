@@ -146,6 +146,50 @@ library.
 
 </div>
 
+1. At the top of the screen select `Shared Data` then in the menu 
+   `Data Libraries`.
+2. Select `QC Illumina Data` from the list of data libraries.
+3. Expand the `FastQ` folder and check the boxes next to the first file,
+   `RNA-Seq.fastq`.
+4. Select `Go` next to `Import` to current history below the data files to move
+   the data to your current history.
+5. Select `Analyze Data` in the blue bar to move back to the main Galaxy view.
+
+#### Set File Attributes
+
+<div class="info" markdown="1">
+
+##### Attributes
+Setting the file attributes will tell the different tools in Galaxy what format
+the data is in. Galaxy does some work to auto detect the files that can be used
+as inputs for different tools. If you find that the file you want to use as an
+input is not available in a drop down menu check to see if you have set the file
+attributes. Information about different files types can be found though the USCS
+genome browser and from Current Protocols in Bioinformatics.
+
+#####Special note about FASTQ
+FASTQ files contain quality information for each sequenced base encoded using
+the characters found in the fourth line of each block. The preferred encoding
+for MSI Galaxy is Sanger. If you are looking at Illumina data created in 2012 or
+later your FASTQ files already using the Sanger encoding. If you sequencing was
+done before 2012 then you should use FASTQ Groomer to convert to the Sanger
+encoding (Sanger & Illumina 1.8+).
+
+</div>
+
+1. In the *History Pane* click on the `pencil icon` next to `RNA-Seq.fastq`.
+   This will bring up the files Attributes in the *Center Pane*.
+2. This is a human dataset so select `Human hg19 in GATK canonical` in the drop
+   down menu under `Database/Build:`. You can scroll or if you begin to type
+   `hg19` then you will only see the options with `hg19` in the name.
+3. Click `Save`
+4. Switch to the `Datatype` tab by selecting it from the top of the
+   *Center Pane*.
+5. Select `fastqsanger` from the drop down menu. You can scroll or if you begin
+   to type `fastq` then you will see the options with `fastq` in the name.
+   **NOTE: do not select `fastqcsanger`.**
+6. Click `Save`
+
 ## Part 2: Evaluating FASTQ Quality
 ### FASTQ Format and Quality Scores
 This tutorial is geared towards Illumina data in FASTQ format, other sequencing
