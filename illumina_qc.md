@@ -191,6 +191,9 @@ encoding (Sanger & Illumina 1.8+).
 6. Click `Save`
 
 ## Part 2: Evaluating FASTQ Quality
+
+<div class="info" markdown="1">
+
 ### FASTQ Format and Quality Scores
 This tutorial is geared towards Illumina data in FASTQ format, other sequencing
 methods (i.e., Roche 454) may produce reads with a different patterns of errors
@@ -208,7 +211,7 @@ location. Single ASCII characters are used to encode the quality scores, as
 opposed to raw numbers, so that there is always a 1-to-1 relationship between
 the number of bases in the read and the length of the quality score. Quality
 score reflect the probability that a base call was incorrect, calculated as a
-Phred quality score ( Phred Q = -10log(p), where p isthe probability that the
+Phred quality score ( Phred Q = -10log(p), where p is the probability that the
 inferred base is incorrect). The higher the Phred score the smaller the
 probability that the base call was incorrect. A Phred score of 10 indicates a 1
 in 10 chance of an incorrect base call while a oared score of 50 indicates a 1
@@ -297,6 +300,8 @@ FASTQ Groomer to ensure your data is in the Sanger/Illumina 1.8 + encoding
   Shows the amount (% of reads) and sequence of overrepresented K-mers. High
   levels of overrepresented sequences usually arise from adapter contamination
   and these levels should drop after adapters are removed from your data.
+
+</div>
 
 ### Running FastQC
 1. From the Tools Pane select the MSI header.
