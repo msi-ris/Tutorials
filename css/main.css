@@ -39,3 +39,10 @@ body {
     background-color:#fff;
 }
 
+.info {
+    position:relative;
+    left:10px;
+    padding-right:10px;
+    border:1px dashed #000;
+    background-color:#ffffcc;
+}
