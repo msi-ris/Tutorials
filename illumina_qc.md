@@ -528,6 +528,9 @@ uploaded to any Galaxy instance.
    or to be archived by selecting Download or Export.
 
 ## Part 8: Cleaning up Histories and Deleting Data from Galaxy
+
+<div class="info" markdown="1">
+
 Galaxy is a shared resource so the amount of data you and your group can have in
 Galaxy is limited. We estimate that even a relatively simple RNA-seq analysis
 will use 4-5 times the storage of the raw sequencing files. Many of these files
@@ -541,6 +544,8 @@ You can view the size of your different Galaxy histories when you view you saved
 Galaxy histories using the Gear Icon and below the name of your current history.
 If you delete a Galaxy history before you extract a workflow you will not be
 able to do so later.
+
+</div>
 
 ### Deleting Intermediate Files and Histories from Galaxy
 1. Select Analyze Data in the top bar to get to the main Galaxy view.
