@@ -114,6 +114,9 @@ The labeled items are as follows:
 
 ### Import FASTQ Files from Data Library
 #### Getting Data Into MSI Galaxy
+
+<div class="info" markdown="1">
+
 ##### Sequencing Data from the UMGC
 Sequencing data from UMGC can be accessed in Galaxy though the creation of a
 data library. In general, each PI with access to Galaxy account will have one
@@ -140,6 +143,8 @@ to be accessed in Galaxy. In your groups home directory there is a galaxy folder
 the galaxy folder in your groups home directory then send a ticket to
 <help@msi.umn.edu> with the location of the data to be added to your PI's data
 library.
+
+</div>
 
 ## Part 2: Evaluating FASTQ Quality
 ### FASTQ Format and Quality Scores
