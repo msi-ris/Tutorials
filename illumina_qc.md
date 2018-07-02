@@ -167,7 +167,7 @@ input is not available in a drop down menu check to see if you have set the file
 attributes. Information about different files types can be found though the USCS
 genome browser and from Current Protocols in Bioinformatics.
 
-#####Special note about FASTQ
+##### Special note about FASTQ
 FASTQ files contain quality information for each sequenced base encoded using
 the characters found in the fourth line of each block. The preferred encoding
 for MSI Galaxy is Sanger. If you are looking at Illumina data created in 2012 or
