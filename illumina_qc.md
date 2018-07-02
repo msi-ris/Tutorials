@@ -428,6 +428,9 @@ data.
 
 ## Part 6: Workflows
 ### Creating a Workflow
+
+<div class="info" markdown="1">
+
 The ability to create, reuse, share and publish workflows is on of Galaxy's
 largest strengths. Creating workflows allows you and anyone you want to
 collaborate with to exactly recreate analysis. You can think of workflows as
@@ -446,6 +449,8 @@ the possible outputs are found below the line. Outputs from each tool can be
 saved and/or used as in the input for the next tool. Selecting the box will
 display the settings associated with the tool allowing you to preset parameters
 to reuse each time the workflow is run.
+
+</div>
 
 ### Extract Workflow from Current History
 1. Select the Gear Icon from the top of the history pane.
