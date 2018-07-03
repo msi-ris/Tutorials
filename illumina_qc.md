@@ -101,6 +101,8 @@ Log in with your MSI username and password.
 
 The labeled items are as follows:
 
+![Galaxy Screenshot]({{"/graphics/illumina_qc_galaxy/Galaxy_Homepage_Screenshot.png" | prepend: site.baseurl }})
+
 1. Tools Pane
 2. Center pane
 3. History Pane
