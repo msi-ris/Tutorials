@@ -210,7 +210,7 @@ encoding (Sanger & Illumina 1.8+).
    **NOTE: do not select `fastqcsanger`.**
 5. Click `Change Datatype` to save the new data type.
 
-    ![Galaxy Edit Attributes]({{"/graphics/illumina_qc_galaxy/Galaxy_Edit_Attr_Build.png" | prepend: site.baseurl }})
+    ![Galaxy Edit Attributes]({{"/graphics/illumina_qc_galaxy/Galaxy_Edit_Attr_Datatype.png" | prepend: site.baseurl }})
 
 ## Part 2: Evaluating FASTQ Quality
 
