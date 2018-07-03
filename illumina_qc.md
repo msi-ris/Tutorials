@@ -162,7 +162,8 @@ library.
 
 3. Go to the second page, and click the checkboxes next to
    `Tutorial_File_R1.fastq` and `Tutorial_File_R2.fastq`.
-4. Select the `Import to Current History` button.
+4. Select the `Import to Current History` button. Enter a name for you history;
+   it does not matter what you call it, so long as it is meaningful for you.
 
     ![Galaxy Tutorial Files]({{"/graphics/illumina_qc_galaxy/Galaxy_Tut_Files.png" | prepend: site.baseurl }})
 
@@ -192,16 +193,24 @@ encoding (Sanger & Illumina 1.8+).
 
 1. In the *History Pane* click on the `pencil icon` next to `RNA-Seq.fastq`.
    This will bring up the files Attributes in the *Center Pane*.
+
+    ![Galaxy Edit Attributes]({{"/graphics/illumina_qc_galaxy/Galaxy_Edit_Attr.png" | prepend: site.baseurl }})
+
 2. This is a human dataset so select `Human hg19 in GATK canonical` in the drop
    down menu under `Database/Build:`. You can scroll or if you begin to type
-   `hg19` then you will only see the options with `hg19` in the name.
-3. Click `Save`
-4. Switch to the `Datatype` tab by selecting it from the top of the
+   `hg19` then you will only see the options with `hg19` in the name. Click
+   `Save`
+3. Switch to the `Datatypes` tab by selecting it from the top of the
    *Center Pane*.
-5. Select `fastqsanger` from the drop down menu. You can scroll or if you begin
+
+    ![Galaxy Edit Attributes]({{"/graphics/illumina_qc_galaxy/Galaxy_Edit_Attr_Build.png" | prepend: site.baseurl }})
+
+4. Select `fastqsanger` from the drop down menu. You can scroll or if you begin
    to type `fastq` then you will see the options with `fastq` in the name.
    **NOTE: do not select `fastqcsanger`.**
-6. Click `Save`
+5. Click `Change Datatype` to save the new data type.
+
+    ![Galaxy Edit Attributes]({{"/graphics/illumina_qc_galaxy/Galaxy_Edit_Attr_Build.png" | prepend: site.baseurl }})
 
 ## Part 2: Evaluating FASTQ Quality
 
