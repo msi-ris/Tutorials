@@ -153,11 +153,11 @@ library.
 1. At the top of the screen select `Shared Data` then in the menu 
    `Data Libraries`.
 
-  ![Galaxy Data Library]({{"/graphics/illumina_qc_galaxy/Galaxy_DataLib.png" | prepend: site.baseurl }})
+    ![Galaxy Data Library]({{"/graphics/illumina_qc_galaxy/Galaxy_DataLib.png" | prepend: site.baseurl }})
 
 2. Select `QC Illumina Data` from the list of data libraries.
 
-  ![Galaxy QC Library]({{"/graphics/illumina_qc_galaxy/Galaxy_QC_Lib.png" | prepend: site.baseurl }})
+    ![Galaxy QC Library]({{"/graphics/illumina_qc_galaxy/Galaxy_QC_Lib.png" | prepend: site.baseurl }})
 
 3. Expand the `FastQ` folder and check the boxes next to the first file,
    `RNA-Seq.fastq`.
