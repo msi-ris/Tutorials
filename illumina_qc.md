@@ -155,14 +155,17 @@ library.
 
     ![Galaxy Data Library]({{"/graphics/illumina_qc_galaxy/Galaxy_DataLib.png" | prepend: site.baseurl }})
 
-2. Select `QC Illumina Data` from the list of data libraries.
+2. Enter `QC` into the search box, and select `QC of Illumina Data` from the
+   list of data libraries.
 
     ![Galaxy QC Library]({{"/graphics/illumina_qc_galaxy/Galaxy_QC_Lib.png" | prepend: site.baseurl }})
 
-3. Expand the `FastQ` folder and check the boxes next to the first file,
-   `RNA-Seq.fastq`.
-4. Select `Go` next to `Import` to current history below the data files to move
-   the data to your current history.
+3. Go to the second page, and click the checkboxes next to
+   `Tutorial_File_R1.fastq` and `Tutorial_File_R2.fastq`.
+4. Select the `Import to Current History` button.
+
+    ![Galaxy Tutorial Files]({{"/graphics/illumina_qc_galaxy/Galaxy_Tut_Files.png" | prepend: site.baseurl }})
+
 5. Select `Analyze Data` in the blue bar to move back to the main Galaxy view.
 
 #### Set File Attributes
