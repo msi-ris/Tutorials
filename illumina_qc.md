@@ -155,7 +155,6 @@ library.
 
   ![Galaxy Data Library]({{"/graphics/illumina_qc_galaxy/Galaxy_DataLib.png" | prepend: site.baseurl }})
 
-
 2. Select `QC Illumina Data` from the list of data libraries.
 
   ![Galaxy QC Library]({{"/graphics/illumina_qc_galaxy/Galaxy_QC_Lib.png" | prepend: site.baseurl }})
