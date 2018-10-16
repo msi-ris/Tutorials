@@ -419,6 +419,80 @@ By default these files are stored in scratch, which is cleaned during monthly
 maintenance. Be sure to save the files from your analysis before the
 maintenance cycle!
 
+You can verify that the jobs are submitted by issuing the `qstat -t` command.
+The `-t` expands the job array that we use to process samples in batches.
+
+```
+konox006@ln0004 [~] % qstat -t
+Job ID                    Name             User            Time Use S Queue
+------------------------- ---------------- --------------- -------- - -----
+8635654[1].mesabim3.msi.umn.e ..._sample.pbs-1 konox006               0 Q small
+8635654[2].mesabim3.msi.umn.e ..._sample.pbs-2 konox006               0 Q small
+8635654[3].mesabim3.msi.umn.e ..._sample.pbs-3 konox006               0 Q small
+8635654[4].mesabim3.msi.umn.e ..._sample.pbs-4 konox006               0 Q small
+8635654[5].mesabim3.msi.umn.e ..._sample.pbs-5 konox006               0 Q small
+8635654[6].mesabim3.msi.umn.e ..._sample.pbs-6 konox006               0 Q small
+8635654[7].mesabim3.msi.umn.e ..._sample.pbs-7 konox006               0 Q small
+8635654[8].mesabim3.msi.umn.e ..._sample.pbs-8 konox006               0 Q small
+8635655.mesabim3.msi.umn.edu ...ary_stats.pbs konox006               0 H small
+```
+
+The `Q` means that the job is queued. When the jobs begins to run, it will turn
+to `R`. When it finishes, it will become `C`. The `H` means that the job is
+held - we set this job to wait until the previous jobs complete successfully
+before marking it as eligible to run. The `H` will eventually become `Q`, and
+then `R` and `C`. After a while, the job will be cleared from the list.
+
+#### Viewing Results
+Once all of the jobs have finished (all are listed with `C` status, or are
+no longer in the output of `qstat -t`), you will be able to view the results.
+The output is in the directory that was given as the output directory in the
+pipeline output message. For our example, this is
+`/panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq`.
+
+Navigate to the output directory and list the contents
+
+```
+konox006@ln0004 [~] % cd /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq
+konox006@ln0004 [/panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq] % ls -lF
+total 11M
+-rw-rw---- 1 konox006 msistaff  137 Oct 16 14:25 2018-10-16.konox006.bulk_rnaseq.groups.csv
+-rw-rw---- 1 konox006 msistaff 1.3K Oct 16 15:14 2018-10-16.konox006.bulk_rnaseq.pipeline.sh
+-rw-rw---- 1 konox006 msistaff 4.0K Oct 16 15:14 2018-10-16.konox006.bulk_rnaseq.samplesheet.txt
+lrwxrwxrwx 1 konox006 msistaff   66 Oct 16 15:07 allsamples_work_directory -> /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq.work/allsamples/
+-rw-rw---- 1 konox006 msistaff 8.5M Oct 16 15:07 annotations.gtf.gz
+-rw-rw---- 1 konox006 msistaff 2.7K Oct 16 15:06 bulk_rnaseq_single_sample.pbs.e8635654-1
+-rw-rw---- 1 konox006 msistaff 2.8K Oct 16 15:06 bulk_rnaseq_single_sample.pbs.e8635654-2
+-rw-rw---- 1 konox006 msistaff 2.8K Oct 16 15:06 bulk_rnaseq_single_sample.pbs.e8635654-3
+-rw-rw---- 1 konox006 msistaff 2.8K Oct 16 15:06 bulk_rnaseq_single_sample.pbs.e8635654-4
+-rw-rw---- 1 konox006 msistaff 2.8K Oct 16 15:06 bulk_rnaseq_single_sample.pbs.e8635654-5
+-rw-rw---- 1 konox006 msistaff 2.8K Oct 16 15:06 bulk_rnaseq_single_sample.pbs.e8635654-6
+-rw-rw---- 1 konox006 msistaff 2.8K Oct 16 15:06 bulk_rnaseq_single_sample.pbs.e8635654-7
+-rw-rw---- 1 konox006 msistaff 2.8K Oct 16 15:06 bulk_rnaseq_single_sample.pbs.e8635654-8
+-rw-rw---- 1 konox006 msistaff   88 Oct 16 15:06 bulk_rnaseq_single_sample.pbs.o8635654-1
+-rw-rw---- 1 konox006 msistaff   89 Oct 16 15:06 bulk_rnaseq_single_sample.pbs.o8635654-2
+-rw-rw---- 1 konox006 msistaff   89 Oct 16 15:06 bulk_rnaseq_single_sample.pbs.o8635654-3
+-rw-rw---- 1 konox006 msistaff   89 Oct 16 15:06 bulk_rnaseq_single_sample.pbs.o8635654-4
+-rw-rw---- 1 konox006 msistaff   90 Oct 16 15:06 bulk_rnaseq_single_sample.pbs.o8635654-5
+-rw-rw---- 1 konox006 msistaff   89 Oct 16 15:06 bulk_rnaseq_single_sample.pbs.o8635654-6
+-rw-rw---- 1 konox006 msistaff   89 Oct 16 15:06 bulk_rnaseq_single_sample.pbs.o8635654-7
+-rw-rw---- 1 konox006 msistaff   89 Oct 16 15:06 bulk_rnaseq_single_sample.pbs.o8635654-8
+drwxrwx--- 2 konox006 msistaff 4.0K Oct 16 15:07 Counts/
+drwxrwx--- 2 konox006 msistaff 4.0K Oct 16 15:07 DEGs/
+drwxrwx--- 2 konox006 msistaff 4.0K Oct 16 15:07 Logs/
+drwxrwx--- 2 konox006 msistaff 4.0K Oct 16 15:07 Plots/
+-rw-rw---- 1 konox006 msistaff 8.9K Oct 16 15:07 run_summary_stats.pbs.e8635655
+-rw-rw---- 1 konox006 msistaff    0 Oct 16 15:07 run_summary_stats.pbs.o8635655
+lrwxrwxrwx 1 konox006 msistaff   69 Oct 16 15:07 singlesamples_work_directory -> /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq.work/singlesamples/
+```
+
+The `-l` option to `ls` gives "long format" which includes permissions, owner,
+group, and modification times. The `-F` option displays  characters at the end
+of names that signify the type of object it is, like `/` at the end of the names
+of directories.
+
+There are multiple levels types of output that get generated.
+
 ## Part 2: Detailed Description of Pipeline Steps
 ### Part 2.1: Summarizing Read Quality
 ### Part 2.2: Cleaning Reads
