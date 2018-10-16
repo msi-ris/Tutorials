@@ -3,7 +3,7 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2018-06-22
+updated: 2018-10-16
 delivered: NA
 ---
 
@@ -20,6 +20,8 @@ delivered: NA
 - Become familiar with several core file formats of genomics
 - Learn the basics of RNASeq data analysis, including read mapping, expression
   counts, and testing for differential expression
+- Learn how to use the UMII-RIS pipelines to perform a differential expression
+  analysis with RNAseq
 
 ### Required Software
 You will need the following pieces of software to be installed on your local
@@ -190,7 +192,7 @@ that we will use in this tutorial.
 - GTF/GFF (GFF3)
 
     Holds genomic feature annotations, like gene models. These formats are
-    somewhat loosely defined, but variants from databases such as NCBI or
+    somewhat loosely defined, but files from databases such as NCBI or
     Ensembl should be handled well by genomics analysis programs. The
     information stored in a GTF or GFF includes each feature's boundaries,
     type (gene, CDS, TF binding site, etc), strand, name, and any parent/child
@@ -206,9 +208,251 @@ bubbles with dashed borders. The final output is shown in red.
 
 ![Workflow]({{ "/graphics/rnaseq_cmd/workflow.png" | prepend: site.baseurl }})
 
-- Numbered list of steps
+The steps of the workflow are as follows:
 
-## Part 2: FASTQ Quality Control
+1. Summarize read quality
+2. Clean reads for low-quality bases and adapter contaminants
+3. Map reads to genome
+4. Count reads within genes
+5. Filter counts for genes with low epxression
+6. Test for differential expression
+
+## Part 2: Running an Analysis With `gopher-pipelines`
+The workflow steps outlined in the previous section are implemented in a package
+developed and maintained by the University of Minnesota Informatics Institute
+and the Research Informatics Solutions groups. This software package is
+available on MSI systems as a software module.
+
+You may also download the latest version of the code from the UMN GitHub
+instance: https://github.umn.edu/MSI-RIS/gopher-pipeline-refactor. This will
+give you greater flexibility, because you will be able to modify the underlying
+Python and shell scripts. However, we offer limited support for workflows that
+use modified versions of our pipelines.
+
+### Prepare to Run `gopher-pipelines`
+First, connect to a head node on Mesabi by typing `ssh mesabi` at the login
+prompt. If you do no have ssh keys set up, you will have to enter your password
+again. It is the same as your X.500 password. Note the `@login` part of the
+prompt changes to reflect that you have started a shell on the Mesabi head
+node.
+
+![Mesabi]({{ "/graphics/rnaseq_cmd/mesabi.png" | prepend: site.baseurl }})
+
+From here on, the commands and their output will be shown in text, rather than
+in screenshots of terminal emulators.
+
+Next, load the pipeline module by typing `module load gopher-pipelines-refactor`
+at the command prompt. You can now execute the main pipeline control script,
+called `gopher-pipelines.py`.
+
+```
+konox006@ln0004 [~] % module load gopher-pipelines-refactor
+konox006@ln0004 [~] % gopher-pipelines.py 
+Usage: gopher-pipelines.py <subcommand> <options>
+
+where <subcommand> is the name of the pipeline that is to be run. The specified
+<options> will be applied to the operations in the pipeline. Each pipeline has
+its own set of options that must be specified. To see a full listing of each
+available option for a given pipeline, pass the '--help' option. Alternately,
+online help is maintained at the GitHub repository.
+
+Currently, the following subcommands are supported:
+    - bulk_rnaseq
+
+For issues, contact help@msi.umn.edu.
+Version: 0.0
+2018-07-24
+
+```
+
+If you get a message similar to the one above, then you are ready to run the
+pipelines.
+
+### Input Data for the Pipelines
+The pipelines requires that the following pieces of data be available:
+
+- Directory of FASTQ files from the UMGC
+- Reference genome indexed with HISAT2
+- Gene annotations in GTF format
+
+For this tutorial, we have provided these data. The FASTQ files are located at
+`/panfs/roc/scratch/data_release/umgc/hiseq/run_id/Example_Project_001`. The
+indexed reference genome is located at
+`/panfs/roc/scratch/example_analysis/genome/Reference`. The accompanying GTF
+gene annotations are located at
+`/panfs/roc/scratch/example_analysis/genome/annotations.gtf.gz`.
+
+When you run your own analysis, you may need to generate your own HISAT2 index
+for your reference genome. We will provide some brief instructions in a later
+section of this tutorial document, but the best source of instructions is from
+the HISAT2 manual.
+
+### Running the Pipeline
+The subcommand that we will be using in this tutorial is the `bulk_rnaseq`
+subcommand. Provide it as an argument after the `gopher-pipelines.py` command.
+The default help message tells you the bare minimum arguments that are required
+to analyze the data. To see a full help message, add the `-h` option after the
+`bulk_rnaseq` subcommand. For more detail on the options that are available
+for the `bulk_rnaseq` pipeline, you can access the latest version of the manual
+at the [GitHub Wiki page](https://github.umn.edu/MSI-RIS/gopher-pipeline-refactor/wiki/bulk_rnaseq).
+
+```
+konox006@ln0004 [~] % gopher-pipelines.py bulk_rnaseq
+----------
+ERROR
+
+
+You did not specify sufficient options to run the bulk_rnaseq subcommand of
+gopher-pipelines. You must specify a FASTQ directory (-f). Additionally, you
+must either specify a path to a HISAT2 index (-x) and GTF (-g), or an organism
+name (-r). If you are building a group template file, you need only specify a
+FASTQ directory. Please fix your command line and re-run.
+
+```
+
+As the help message shows, you must specify a FASTQ directory, a HISAT2 index,
+and a GTF file. We will eventually use these files to run an analysis.
+
+#### Generating Experimental Groups
+For differential expression testing, we have to generate a file that describes
+which samples are part of which experimental group. We do this with the
+`group_template` subcommand. This particular subcommand takes an additional
+argument. In this case, we will supply `bulk_rnaseq` because we are generating
+a groups file for the `bulk_rnaseq` pipeline. We supply the FASTQ directory as
+the argument:
+
+```
+konox006@ln0004 [~] % gopher-pipelines.py group_template bulk_rnaseq \
+    -f /panfs/roc/scratch/data_release/umgc/hiseq/run_id/Example_Project_001/
+2018-10-16 14:25:58,865 - GopherPipelines.ExperimentGroup.ExpGroup - WARNING: Output dir /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq does not exist, making it
+----------
+SUCCESS
+
+Template file: /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq/2018-10-16.konox006.bulk_rnaseq.groups.csv
+
+All sample groups and any additional columns have specified have been filled
+with NULL. Please edit the file and write in the correct values for your
+dataset. Samples with the same "Group" label will be treated as replicates
+in the analysis. Samples with a "Group" value of NULL will not be used in
+downstream differential expression analysis. When you have edited the file to
+your liking, supply its path to the "bulk_rnaseq" pipeline with the -e
+option to enable group testing.
+
+```
+
+The template file must then be edited to contain the assignments to each group.
+By default, all samples are listed as being part of a group labeled `NULL`. The
+default file is shown below:
+
+```
+SampleName,Group
+GrpA-0-07,NULL
+GrpA-0-08,NULL
+GrpA-0-09,NULL
+GrpA-0-15,NULL
+GrpB-0-06,NULL
+GrpB-0-07,NULL
+GrpB-0-13,NULL
+GrpB-0-14,NULL
+```
+
+Use the `nano` text editor (or your favorite terminal editor program) to assign
+the samples to their groups. In this case, the first four samples are part of
+group `A` and the final four samples are part of group `B`.
+
+```
+SampleName,Group
+GrpA-0-07,A
+GrpA-0-08,A
+GrpA-0-09,A
+GrpA-0-15,A
+GrpB-0-06,B
+GrpB-0-07,B
+GrpB-0-13,B
+GrpB-0-14,B
+```
+
+This is a manual step because the researcher must made a decision as to which
+groups should be compared for differential expression testing.
+
+#### Submitting the Pipeline Jobs
+Now that we have assigned the samples to groups, we will run the `bulk_rnaseq`
+pipeline, supplying the file that contains the group assignments. This is done
+by supplying the `-e` option in addition to the `-f`, `-x`, and `-g` options. We
+also supply the `--submit` option to automatically send the jobs to the queue.
+If you omit the `--submit` option, then you will have a chance to edit the
+pipeline script and the samplesheet. The formats for these files will be
+described later in the document.
+
+```
+konox006@ln0004 [~] % gopher-pipelines.py bulk_rnaseq \
+    -e /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq/2018-10-16.konox006.bulk_rnaseq.groups.csv \
+    -f /panfs/roc/scratch/data_release/umgc/hiseq/run_id/Example_Project_001/ \
+    -x /panfs/roc/scratch/example_analysis/genome/Reference \
+    -g /panfs/roc/scratch/example_analysis/genome/annotations.gtf.gz \
+    --submit
+2018-10-16 15:05:08,107 - GopherPipelines.Pipelines.Pipeline - WARNING: Output dir /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq is not empty! Results may be clobbered.
+2018-10-16 15:05:08,107 - GopherPipelines.Pipelines.Pipeline - WARNING: Working dir /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq.work does not exist, making it
+----------
+SUCCESS
+
+Your pipeline has been submitted. For reference, the pipeline script and the
+samplesheet are given at the paths below:
+
+Pipeline script: /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq/2018-10-16.konox006.bulk_rnaseq.pipeline.sh
+Samplesheet: /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq/2018-10-16.konox006.bulk_rnaseq.samplesheet.txt
+
+Below is the output from qsub.
+Qsub stdout:
+Output and logs will be written to /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq
+Emails will be sent to konox006@umn.edu
+Single samples job array ID: 8635654[].mesabim3.msi.umn.edu
+Summary job ID: 8635655.mesabim3.msi.umn.edu
+
+Qsub stderr:
+```
+
+The message that prints tells you the IDs of the submitted jobs and the
+address to which the email notifications will be sent. For your reference, the
+pipeline script and samplesheet paths are also printed. If you would like to
+reproduce the analysis, you must keep both the pipeline script and the
+samplesheet.
+
+By default these files are stored in scratch, which is cleaned during monthly
+maintenance. Be sure to save the files from your analysis before the
+maintenance cycle!
+
+## Part 2: Detailed Description of Pipeline Steps
+### Part 2.1: Summarizing Read Quality
+### Part 2.2: Cleaning Reads
+### Part 2.3: Mapping Reads
+### Part 2.4: Counting Reads in Genes
+### Part 2.5: Filtering and Differential Expression Testing
+
+## Part 3: More Complex Analyses
+
+## Part 4: Recommendations
+
+## Part 5: Other RNASeq Applications
+The first step is to summarize the quality of the reads. This will give you an
+idea of how well the sequencing reactions took place and how aggressive you will
+have to be with removing low-quality bases and potential contaminants.
+
+First, connect to a head node on Mesabi by typing `ssh mesabi` at the login
+prompt. If you do no have ssh keys set up, you will have to enter your password
+again. It is the same as your X.500 password. Note the `@login` part of the
+prompt changes to reflect that you have started a shell on the Mesabi head
+node.
+
+![Mesabi]({{ "/graphics/rnaseq_cmd/mesabi.png" | prepend: site.baseurl }})
+
+Next, load the `python3` module. We can use the default here, because it will
+not be used for any analysis. In general, though, you should **always** document
+which versions of software modules that you use. This will help to make your
+analysis reproducible.
+
+The tutorial files are placed in `path`. There are a **NUM** samples and **NUM**
+treatment groups. 
 - isub
 - copy tutorial files
 - load fastqc module
