@@ -459,7 +459,8 @@ total 11M
 -rw-rw---- 1 konox006 msistaff  137 Oct 16 14:25 2018-10-16.konox006.bulk_rnaseq.groups.csv
 -rw-rw---- 1 konox006 msistaff 1.3K Oct 16 15:14 2018-10-16.konox006.bulk_rnaseq.pipeline.sh
 -rw-rw---- 1 konox006 msistaff 4.0K Oct 16 15:14 2018-10-16.konox006.bulk_rnaseq.samplesheet.txt
-lrwxrwxrwx 1 konox006 msistaff   66 Oct 16 15:07 allsamples_work_directory -> /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq.work/allsamples/
+lrwxrwxrwx 1 konox006 msistaff   66 Oct 16 15:07 allsamples_work_directory ->
+/panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq.work/allsamples/
 -rw-rw---- 1 konox006 msistaff 8.5M Oct 16 15:07 annotations.gtf.gz
 -rw-rw---- 1 konox006 msistaff 2.7K Oct 16 15:06 bulk_rnaseq_single_sample.pbs.e8635654-1
 -rw-rw---- 1 konox006 msistaff 2.8K Oct 16 15:06 bulk_rnaseq_single_sample.pbs.e8635654-2
@@ -479,11 +480,13 @@ lrwxrwxrwx 1 konox006 msistaff   66 Oct 16 15:07 allsamples_work_directory -> /p
 -rw-rw---- 1 konox006 msistaff   89 Oct 16 15:06 bulk_rnaseq_single_sample.pbs.o8635654-8
 drwxrwx--- 2 konox006 msistaff 4.0K Oct 16 15:07 Counts/
 drwxrwx--- 2 konox006 msistaff 4.0K Oct 16 15:07 DEGs/
+drwxrwx--- 2 konox006 msistaff 4.0K Oct 16 15:07 InsertSizeMetrics/
 drwxrwx--- 2 konox006 msistaff 4.0K Oct 16 15:07 Logs/
 drwxrwx--- 2 konox006 msistaff 4.0K Oct 16 15:07 Plots/
 -rw-rw---- 1 konox006 msistaff 8.9K Oct 16 15:07 run_summary_stats.pbs.e8635655
 -rw-rw---- 1 konox006 msistaff    0 Oct 16 15:07 run_summary_stats.pbs.o8635655
-lrwxrwxrwx 1 konox006 msistaff   69 Oct 16 15:07 singlesamples_work_directory -> /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq.work/singlesamples/
+lrwxrwxrwx 1 konox006 msistaff   69 Oct 16 15:07 singlesamples_work_directory ->
+/panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq.work/singlesamples/
 ```
 
 The `-l` option to `ls` gives "long format" which includes permissions, owner,
@@ -491,7 +494,21 @@ group, and modification times. The `-F` option displays  characters at the end
 of names that signify the type of object it is, like `/` at the end of the names
 of directories.
 
-There are multiple levels types of output that get generated.
+There are multiple levels types of output that get generated:
+
+- PBS output files
+- Insert size metrics (if data are paired-end)
+- Expression counts
+- Summary plots
+- Differentially expressed genes (if groups were specified)
+- Per-sample log files
+
+There are also links to the working directories that get placed in the output
+directory. Additionally, a copy of the GTF that was used for expression counts
+is placed in the output directory.
+
+##### PBS Output Files
+
 
 ## Part 2: Detailed Description of Pipeline Steps
 ### Part 2.1: Summarizing Read Quality
