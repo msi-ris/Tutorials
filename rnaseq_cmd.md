@@ -324,7 +324,6 @@ the argument:
 ```
 konox006@ln0004 [~] % gopher-pipelines.py group_template bulk_rnaseq \
     -f /panfs/roc/scratch/data_release/umgc/hiseq/run_id/Example_Project_001/
-2018-10-16 14:25:58,865 - GopherPipelines.ExperimentGroup.ExpGroup - WARNING: Output dir /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq does not exist, making it
 ----------
 SUCCESS
 
@@ -391,8 +390,6 @@ konox006@ln0004 [~] % gopher-pipelines.py bulk_rnaseq \
     -x /panfs/roc/scratch/example_analysis/genome/Reference \
     -g /panfs/roc/scratch/example_analysis/genome/annotations.gtf.gz \
     --submit
-2018-10-16 15:05:08,107 - GopherPipelines.Pipelines.Pipeline - WARNING: Output dir /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq is not empty! Results may be clobbered.
-2018-10-16 15:05:08,107 - GopherPipelines.Pipelines.Pipeline - WARNING: Working dir /panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq.work does not exist, making it
 ----------
 SUCCESS
 
