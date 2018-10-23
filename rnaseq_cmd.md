@@ -136,6 +136,9 @@ to the system.
 
 
 ## Part 1: RNASeq Overview
+
+<div class="info" markdown="1">
+
 ### 1.1: Why RNASeq
 - expression
 - variant discovery without reference genome
@@ -226,6 +229,8 @@ that we will use in this tutorial.
     feature, and may have several `CDS` and `exon` children features.
 
     The GFF and GTF specifications can be found [here](https://useast.ensembl.org/info/website/upload/gff.html).
+
+</div>
 
 ### 1.3: Overall Workflow
 Here is a schematic of the workflow that we will follow for this tutorial. The
@@ -419,10 +424,14 @@ If you omit the `--submit` option, then you will have a chance to edit the
 pipeline script and the samplesheet. The formats for these files will be
 described later in the document.
 
+<div class="warn" markdown="1">
+
 **NOTE!** We are using the `--unstranded` option here because the source of the
 data is from a lab that used an unstranded library prep protocol (NEBNext Ultra
 RNA kit). The default option is for reverse-stranded libraries, which is the
 standard kit used by the UMGC (TruSeq RNA).
+
+</div>
 
 For the sake of getting the jobs completed more quickly, we will decrease the
 size of the resource request.
@@ -457,6 +466,15 @@ Qsub stderr:
 
 ```
 
+<div class="warn" markdown="1">
+
+The default locations of the output and working directories is in global scratch
+space. If you want to save any of the files from your analysis, be sure to
+copy them into your home space before monthly maintenance (first Wednesday of
+every month, except university holidays).
+
+</div>
+
 The message that prints tells you the IDs of the submitted jobs and the
 address to which the email notifications will be sent. For your reference, the
 pipeline script and samplesheet paths are also printed. If you would like to
@@ -466,10 +484,6 @@ samplesheet.
 Note that the paths to the pipeline script and the samplesheet have been
 truncated in this webpage for readability. When you run the pipeline in the
 terminal, you will see the full path printed.
-
-By default these files are stored in scratch, which is cleaned during monthly
-maintenance. Be sure to save the files from your analysis before the
-maintenance cycle!
 
 You can verify that the jobs are submitted by issuing the `qstat -t` command.
 The `-t` expands the job array that we use to process samples in batches.
@@ -705,6 +719,8 @@ ENSMUSG00000025083 3.73161698219916  8.30730527741837 137.203730521482 3.1864277
 ENSMUSG00000025060 -1.51128832611889 12.8822670060406 132.426442306639 3.7705700500812e-07  2.24139441865938e-05
 ```
 
+<div class="warn" markdown="1">
+
 **NOTE!** If you do not get any differentially expressed genes in your actual
 analysis it does not necessarily mean that there was a sample label issue. This
 was an engineered example to illustrate how to read the plots and make inference
@@ -723,6 +739,10 @@ And on biological factors:
 - Nested, multi-facotial, or time-series designs
 
 Please see **Part 5** for information on more complex designs.
+
+</div>
+
+<div class="info" markdown="1">
 
 ## Part 3: Detailed Description of Pipeline Steps
 This section contains a detailed description of all constituent steps of the
@@ -903,3 +923,5 @@ automatically assign samples to groups based on patterns in the filenames.
 - Coexpression (WGCNA)
 - Tx assembly (including splicing)
 - Variant discovery (in absence of reference genome)
+
+</div>
