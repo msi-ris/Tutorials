@@ -19,12 +19,16 @@ Throughout this tutorial, there will be formatting cues to highlight various
 pieces of information.
 
 <div class="info" markdown="1">
+
 This is just information. There are no tutorial-related tasks in these boxes.
 We will write background or supporting information like this.
+
 </div>
 
 <div class="warn" markdown="1">
+
 This is a warning. Important warnings will appear like this
+
 </div>
 
 ```
@@ -62,6 +66,8 @@ computer to follow along with the tutorial.
 
 The software required for the actual RNASeq analysis is already installed on MSI
 systems. We will show you how to access the analysis programs in later sections.
+
+<div class="info" markdown="1">
 
 ### 0.4: UNIX (and Linux) Basics
 MSI systems run GNU/Linux, which is a functional equivalent of commercial UNIX
@@ -105,6 +111,8 @@ links for `bash` resources:
 
 - [UCR Linux Basics](http://hpcc.ucr.edu/manuals_linux-basics_intro)
 - [Advaned Bash Scripting Guide from The Linux Documentation Project](https://www.tldp.org/LDP/abs/html/)
+
+</div>
 
 ### 0.5: Accessing MSI
 We will now log in to MSI systems. The first host we will access is called the
