@@ -52,3 +52,7 @@ div.warn {
     padding:6px 10px;
     border-radius:3px;
 }
+
+.warn p {
+    font-weight:bold;
+}
