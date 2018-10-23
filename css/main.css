@@ -44,3 +44,9 @@ div.info {
     background-color:#ffffcc;
     padding:10px;
 }
+
+div.warn {
+    border:1px dashed #900;
+    background-color:#ffcccc;
+    padding:10;px;
+}

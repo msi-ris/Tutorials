@@ -19,10 +19,12 @@ Throughout this tutorial, there will be formatting cues to highlight various
 pieces of information.
 
 <div class="info" markdown="1">
-
 This is just information. There are no tutorial-related tasks in these boxes.
 We will write background or supporting information like this.
+</div>
 
+<div class="warn" markdown="1">
+This is a warning. Important warnings will appear like this
 </div>
 
 ```
