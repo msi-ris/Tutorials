@@ -761,7 +761,7 @@ We have made attempts to include situations that you may encounter in actual
 experiments, such as PCR duplication and low quality reads in your dataset. If
 you need consultation on data analyis, or would like to contract the RIS group
 at MSI to analyze data for you, please contact the MSI help desk at
-help@msi.umn.edu.
+<help@msi.umn.edu>.
 
 <div class="info" markdown="1">
 
