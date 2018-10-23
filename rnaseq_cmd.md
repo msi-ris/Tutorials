@@ -425,7 +425,7 @@ Spleen-4,NULL
 
 Use the `nano` text editor (or your favorite terminal editor program) to assign
 the samples to their groups. In this case, the first four samples are part of
-group `A` and the final four samples are part of group `B`.
+group `BoneMarrow` and the final four samples are part of group `Spleen`.
 
 ```
 SampleName,Group
