@@ -12,7 +12,6 @@ delivered: NA
 
 *Last Delivered: {{page.delivered}}*
 
-
 ## Part 0: Introduction
 ### 0.1 Formatting in This Document
 Throughout this tutorial, there will be formatting cues to highlight various
@@ -54,7 +53,7 @@ tutorial document for coexpression analysis and transcriptome assembly.
 
 While we will be teaching how to use analysis tools from the command-line, the
 names and options that we are supplying should be available in the Galaxy
-versions. See our [Illumina QC With Galaxy]((https://pages.github.umn.edu/MSI-RIS/Tutorials/illumina_galaxy/).
+versions. See our [Illumina QC With Galaxy](https://pages.github.umn.edu/MSI-RIS/Tutorials/illumina_galaxy/).
 tutorial for details on how to create workflows with Galaxy that will let you
 run similar analyses that we will cover here.
 
