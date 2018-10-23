@@ -1125,7 +1125,7 @@ experimental conditions are available in the SRA, but RNA quality summaries and
 sample handling information is not available. Collaborative work between some
 members of the RIS group and UMGC Funded Services group has shown that technical
 variables such as sample storage can drive major patterns of differentiation
-of gene expression profiles. Such data are not often deposited with public
+of gene expression profiles. Such metadata are not often deposited with public
 data, so be cautious when analyzing data from the SRA with no technical
 metadata.
 
