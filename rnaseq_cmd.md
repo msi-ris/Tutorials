@@ -46,8 +46,11 @@ of the tutorial
   analysis with RNAseq
 
 ### 0.3: Scope of the Tutorial
-This tutorial will only cover analysis of **bulk RNAseq** of mRNA. We will not
-cover single cell RNAseq analysis or small RNA sequencing analysis.
+This tutorial will only cover differentiual gene expression analysis of
+**bulk RNAseq** of mRNA. We will not cover single cell RNAseq analysis or small
+RNA sequencing analysis. We will also not cover coexpression analysis or
+transcriptome assembly in detail. There are links to guides at the bottom of the
+tutorial document for coexpression analysis and transcriptome assembly.
 
 While we will be teaching how to use analysis tools from the command-line, the
 names and options that we are supplying should be available in the Galaxy
