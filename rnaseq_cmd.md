@@ -756,7 +756,7 @@ genome and annotation to only include chromosome 19.
 
 The following perturbations to the subset reads were performed:
 
-- `Spleen-1` was subject random reductions in base quality
+- `Spleen-1` was subject to random reductions in base quality
 - `BoneMarrow-3` was subject to random reductions in base quality
 - `BoneMarrow-4` was subject to random sequence duplication
 - `Spleen-2` and `BoneMarrow-2` labels were swapped
