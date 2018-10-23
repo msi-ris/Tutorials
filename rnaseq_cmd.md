@@ -27,7 +27,7 @@ We will write background or supporting information like this.
 
 <div class="warn" markdown="1">
 
-This is a warning. Important warnings will appear like this
+This is a warning. Important warnings will appear like this.
 
 </div>
 
