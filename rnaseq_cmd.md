@@ -45,7 +45,17 @@ of the tutorial
 - Learn how to use the UMII-RIS pipelines to perform a differential expression
   analysis with RNAseq
 
-### 0.3: Required Software
+### 0.3: Scope of the Tutorial
+This tutorial will only cover analysis of **bulk RNAseq** of mRNA. We will not
+cover single cell RNAseq analysis or small RNA sequencing analysis.
+
+While we will be teaching how to use analysis tools from the command-line, the
+names and options that we are supplying should be available in the Galaxy
+versions. See our [Illumina QC With Galaxy]((https://pages.github.umn.edu/MSI-RIS/Tutorials/illumina_galaxy/).
+tutorial for details on how to create workflows with Galaxy that will let you
+run similar analyses that we will cover here.
+
+### 0.4: Required Software
 You will need the following pieces of software to be installed on your local
 computer to follow along with the tutorial.
 
@@ -69,7 +79,7 @@ systems. We will show you how to access the analysis programs in later sections.
 
 <div class="info" markdown="1">
 
-### 0.4: UNIX (and Linux) Basics
+### 0.5: UNIX (and Linux) Basics
 MSI systems run GNU/Linux, which is a functional equivalent of commercial UNIX
 (like Apple's OSX). The way that you will interact with Linux is very similar to
 the way you would interact with a traditional UNIX system - through the command
@@ -82,7 +92,7 @@ very similarly to the UNIX versions, but they are not identical. Always check
 the help or manual pages if you experience some unexpected behavior from one
 of the programs that you are running.
 
-#### 0.4.1: Common Commands
+#### 0.5.1: Common Commands
 Throughout this tutorial, we will be using the command line to run programs that
 analyze sequencing data. You will need to be familiar with navigating the MSI
 directory structure and doing simple operations on files. Here are some of the
@@ -103,7 +113,7 @@ common commands that we will be using:
 - `ssh`: secure shell. This will let you log in to a remote machine to execute
   commands. We will use this command to log in to MSI systems.
 
-#### 0.4.2: Other Resources
+#### 0.5.2: Other Resources
 There are plenty of resources available for learning how to interact with the
 computer through the command line. For technical reference, the default
 command line program on MSI, or shell, is called `bash`. Here are a few other
@@ -114,7 +124,7 @@ links for `bash` resources:
 
 </div>
 
-### 0.5: Accessing MSI
+### 0.6: Accessing MSI
 We will now log in to MSI systems. The first host we will access is called the
 `login` node. **Don't run computationally intense tasks on this node.** You
 will make it hard for other uses to access the systems by reducing the
@@ -134,7 +144,7 @@ to the system.
 ![SSH]({{ "/graphics/rnaseq_cmd/ssh.png" | prepend: site.baseurl }})
 ![Login]({{ "/graphics/rnaseq_cmd/login.png" | prepend: site.baseurl }})
 
-##0 0.6: Feedback
+## 0.7: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
 tutorial delivery feedback to that address.
@@ -144,9 +154,20 @@ tutorial delivery feedback to that address.
 <div class="info" markdown="1">
 
 ### 1.1: Why RNASeq
-- expression
-- variant discovery without reference genome
-- reduced representation, genes are often the most interpretable pieces of a genome
+RNAseq is name for a high-throughout sequencing technique that targets the
+transcribed portions of the genome. For this tutorial, we will be focusing on
+the analysis of **bulk RNAseq** data. This type of data involves extraction of
+messenger RNA (mRNA) from whole tissue, organ, or organism samples. This
+technique is often applied for studies of gene expression, but can also be
+used to assemble transcript sequences or identify genetic variants (see
+**Part 7** at the end of this document for more information).
+
+Bulk RNAseq is a useful tool to identify the transcriptomic response to a
+disease or stress condition, changes in expression during development of an
+organism, or differences in expression among tissue types. The transcribed
+gene regions are often the most interpretable regions of the genome, because
+changes in mRNA content are correlated with changes in protein content (though,
+not always).
 
 ### 1.2: Common Genomics File Formats
 RNASeq, being a genomics technique, uses standard file formats for genomics
