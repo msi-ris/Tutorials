@@ -1086,8 +1086,8 @@ Various packages exist to analyze expression data. We have chosen to use `edgeR`
 in our pipeline, but the counts marix and group CSV are compatible with many
 others.
 
-`DESeq2` [[Link]](https://bioconductor.org/packages/release/bioc/html/DESeq2.html)
-is another popular package for analyzing RNAseq data.
+[DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) is
+another popular package for analyzing RNAseq data.
 
 The [edgeR Manual](https://www.bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf)
 also contains useful information for analyzing more complex designs.
