@@ -721,9 +721,9 @@ ENSMUSG00000025060 -1.51128832611889 12.8822670060406 132.426442306639 3.7705700
 
 <div class="warn" markdown="1">
 
-**NOTE!** If you do not get any differentially expressed genes in your actual
-analysis it does not necessarily mean that there was a sample label issue. This
-was an engineered example to illustrate how to read the plots and make inference
+If you do not get any differentially expressed genes in your actuak analysis it
+does not necessarily mean that there was a sample label issue. This was an
+engineered example to illustrate how to read the plots and make inference
 about sample quality. The results of a real experiment depends on technical
 factors:
 
@@ -741,6 +741,27 @@ And on biological factors:
 Please see **Part 5** for information on more complex designs.
 
 </div>
+
+### 2.4 Data Sources
+These data were downloaded from the NCBI Sequence Read Archive (SRA) accession
+number SRP164768. Files were renamed to the same format that the UMGC will
+deliver to your MSI group. Reads were filtered to contain fragments that map to
+mouse chromosome 19, along with approximately 15% reads from other chromosomes.
+The reference and annotated gene set are subset versions of the MM10 reference
+genome and annotation to only include chromosome 19.
+
+The following perturbations to the subset reads were performed:
+
+- `Spleen-1` was subject random reductions in base quality
+- `BoneMarrow-3` was subject to random reductions in base quality
+- `BoneMarrow-4` was subject to random sequence duplication
+- `Spleen-2` and `BoneMarrow-2` labels were swapped
+
+We have made attempts to include situations that you may encounter in actual
+experiments, such as PCR duplication and low quality reads in your dataset. If
+you need consultation on data analyis, or would like to contract the RIS group
+at MSI to analyze data for you, please contact the MSI help desk at
+help@msi.umn.edu.
 
 <div class="info" markdown="1">
 
