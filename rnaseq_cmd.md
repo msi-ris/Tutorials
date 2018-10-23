@@ -3,7 +3,7 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2018-10-16
+updated: 2018-10-23
 delivered: NA
 ---
 
