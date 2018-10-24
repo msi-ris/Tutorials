@@ -497,8 +497,9 @@ Qsub stderr:
 
 The default locations of the output and working directories is in global scratch
 space. If you want to save any of the files from your analysis, be sure to
-copy them into your home space before monthly maintenance (first Wednesday of
-every month, except university holidays).
+copy them into your group's home directory. MSI removes data from global scratch
+that is older than 30 days. If you leave data there, then it will not be
+available for long-term reference.
 
 </div>
 
@@ -763,7 +764,7 @@ And on biological factors:
 
 - Type of input material (single cells, tissue sample, organ sample, etc.)
 - Change in gene expression that is effected by the experimental conditions
-- Nested, multi-facotial, or time-series designs
+- Nested, multi-factorial, or time-series designs
 
 Please see **Part 5** for information on more complex designs.
 
