@@ -12,6 +12,49 @@ delivered: NA
 
 *Last Delivered: {{page.delivered}}*
 
+## Table of Contents
+- Introduction
+    - Formatting in This Document
+    - Goals
+    - Scope of the Tutorial
+    - Required Software
+    - UNIX (and Linux) Basics
+    - Accessing MSI
+- RNASeq Overview
+    - Why RNASeq
+    - Common Genomics File Formats
+    - Overall Workflow
+- Running an Analysis with `gopher-pipelines`
+    - Preapre to Run `gopher-pipelines`
+    - Input Data for the Pipelines
+    - Running the Pipeline
+        - Generating Experimental Groups
+        - Submitting the Pipeline Jobs
+        - Viewing Results
+        - Fixing Sample Labels
+    - Data Sources
+- Detailed Description of Pipeline Steps
+    - Summarizing Read Quality
+    - Cleaning Reads
+    - Mapping Reads
+    - Counting Reads in Genes
+    - Filtering and Differential Expression Testing
+- Pipeline File Formats
+    - Experimental Groups Template
+    - Pipeline.sh Script
+    - Samplesheet
+- More Complex Analyses
+    - `group_template` Columns
+    - Links to Analysis Guides
+- Recommendations
+    - General Considerations for Experimental Design
+    - How Much Sequence Data to Collect
+    - Analytical Workflow Considerations
+- Other RNASeq Applications
+    - Coexpression
+    - Transcriptome Assembly
+    - Variant Discovery
+
 ## Part 0: Introduction
 ### 0.1 Formatting in This Document
 Throughout this tutorial, there will be formatting cues to highlight various
