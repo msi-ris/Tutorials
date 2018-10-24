@@ -1123,6 +1123,7 @@ Additionally, [GPClust](https://github.com/SheffieldML/GPclust) can be used to
 identify modules of genes with similar expression profiles over time.
 
 ## Part 6: Recommendations
+### 6.1: General Considerations for Experimental Design
 In reference to the warnings given above, it is important to design powerful
 experiments and keep detailed notes on your samples. Your experiments should
 have a clear control for each experimental treatment. Your null hypothesis
@@ -1134,6 +1135,10 @@ underpowered experiment. However, emprirical scientific research is about
 balancing insight and practical limitations. A good analytical workflow can help
 make sure that you get the most value out of your data.
 
+### 6.2: How Much Sequence Data to Collect
+See UMGC recommendations here.
+
+### 6.3: Analytical Workflow Considerations
 There are a few additional concerns for RNAseq experiments:
 
 1. Be careful with data from public sources
