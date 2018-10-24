@@ -1184,6 +1184,8 @@ between 10 million and 20 million reads per sample. For a a two-condition
 experiment, you should have at least three replicates per experiment. This
 translates to *something about instrument cost and output here*.
 
+For transcriptome assembly, you should collect at least X reads.
+
 ### 6.3: Analytical Workflow Considerations
 There are a few additional concerns for RNAseq experiments:
 
