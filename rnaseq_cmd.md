@@ -1166,7 +1166,6 @@ Additionally, [GPClust](https://github.com/SheffieldML/GPclust) can be used to
 identify modules of genes with similar expression profiles over time.
 
 ## Part 6: Recommendations
-
 ### 6.1: General Considerations for Experimental Design
 In reference to the warnings given above, it is important to design powerful
 experiments and keep detailed notes on your samples. Your experiments should
