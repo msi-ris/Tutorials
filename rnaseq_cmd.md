@@ -541,7 +541,7 @@ Qsub stderr:
 The default locations of the output and working directories is in global scratch
 space. If you want to save any of the files from your analysis, be sure to
 copy them into your group's home directory. MSI removes data from global scratch
-that is more than 30 dats old. If you leave data there, then it will not be
+that is more than 30 days old. If you leave data there, then it will not be
 available for long-term reference.
 
 </div>
