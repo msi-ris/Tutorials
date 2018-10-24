@@ -1179,7 +1179,10 @@ balancing insight and practical limitations. A good analytical workflow can help
 make sure that you get the most value out of your data.
 
 ### 6.2: How Much Sequence Data to Collect
-See UMGC recommendations here.
+For differential gene expression analysis, the UMGC recommends that you collect
+between 10 million and 20 million reads per sample. For a a two-condition
+experiment, you should have at least three replicates per experiment. This
+translates to *something about instrument cost and output here*.
 
 ### 6.3: Analytical Workflow Considerations
 There are a few additional concerns for RNAseq experiments:
