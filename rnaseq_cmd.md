@@ -7,7 +7,7 @@ updated: 2018-10-23
 delivered: NA
 ---
 
-# {{page.title}}
+#<a name="top"></a>{{page.title}}
 *Last Updated: {{page.updated}}*
 
 *Last Delivered: {{page.delivered}}*
@@ -16,47 +16,48 @@ delivered: NA
 - [Introduction](#0)
     - [Formatting in This Document](#0.1)
     - [Goals](#0.2)
-    - Scope of the Tutorial
-    - Required Software
-    - UNIX (and Linux) Basics
-    - Accessing MSI
-- RNASeq Overview
-    - Why RNASeq
-    - Common Genomics File Formats
-    - Overall Workflow
-- Running an Analysis with `gopher-pipelines`
-    - Preapre to Run `gopher-pipelines`
-    - Input Data for the Pipelines
-    - Running the Pipeline
-        - Generating Experimental Groups
-        - Submitting the Pipeline Jobs
-        - Viewing Results
-        - Fixing Sample Labels
-    - Data Sources
-- Detailed Description of Pipeline Steps
-    - Summarizing Read Quality
-    - Cleaning Reads
-    - Mapping Reads
-    - Counting Reads in Genes
-    - Filtering and Differential Expression Testing
-- Pipeline File Formats
-    - Experimental Groups Template
-    - Pipeline.sh Script
-    - Samplesheet
-- More Complex Analyses
-    - `group_template` Columns
-    - Links to Analysis Guides
-- Recommendations
-    - General Considerations for Experimental Design
-    - How Much Sequence Data to Collect
-    - Analytical Workflow Considerations
-- Other RNASeq Applications
-    - Coexpression
-    - Transcriptome Assembly
-    - Variant Discovery
+    - [Scope of the Tutorial](#0.3)
+    - [Required Software](#0.4)
+    - [UNIX (and Linux) Basics](#0.5)
+    - [Accessing MSI](#0.6)
+- [RNASeq Overview](#1)
+    - [Why RNASeq](#1.1)
+    - [Common Genomics File Formats](#1.2)
+    - [Overall Workflow](#0.3)
+- [Running an Analysis with `gopher-pipelines`](#2)
+    - [Preapre to Run `gopher-pipelines`](#2.1)
+    - [Input Data for the Pipelines](#2.2)
+    - [Running the Pipeline](#2.3)
+        - [Generating Experimental Groups](#2.3.1)
+        - [Submitting the Pipeline Jobs](#2.3.2)
+        - [Viewing Results](#2.3.3)
+        - [Fixing Sample Labels](#2.3.4)
+    - [Data Sources](#2.4)
+- [Detailed Description of Pipeline Steps](#3)
+    - [Summarizing Read Quality](#3.1)
+    - [Cleaning Reads](#3.2)
+    - [Mapping Reads](#3.3)
+    - [Counting Reads in Genes](#3.4)
+    - [Filtering and Differential Expression Testing](#3.5)
+- [Pipeline File Formats](#4)
+    - [Experimental Groups Template](#4.1)
+    - [Pipeline.sh Script](#4.2)
+    - [Samplesheet](#4.3)
+- [More Complex Analyses](#5)
+    - [`group_template` Columns](#5.1)
+    - [Links to Analysis Guides](#5.2)
+- [Recommendations](#6)
+    - [General Considerations for Experimental Design](#6.1)
+    - [How Much Sequence Data to Collect](#6.2)
+    - [Analytical Workflow Considerations](#6.3)
+- [Other RNASeq Applications](#7)
+    - [Coexpression](#7.1)
+    - [Transcriptome Assembly](#7.2)
+    - [Variant Discovery](#7.3)
 
+[Return to top](#top)
 ## <a name="0"></a>Part 0: Introduction
-### 0.1 Formatting in This Document
+### <a name="0.1"></a>0.1 Formatting in This Document
 Throughout this tutorial, there will be formatting cues to highlight various
 pieces of information.
 
@@ -78,7 +79,8 @@ This is code, or a literal value that you must enter or select to run a part
 of the tutorial
 ```
 
-### 0.2: Goals
+[Return to top](#top)
+### <a name="0.2"></a> 0.2: Goals
 - Learn some fundamental bash commands for interacting with MSI systems
 - Log in to MSI systems and access a high-performance compute node
 - Become familiar with several core file formats of genomics
@@ -87,7 +89,8 @@ of the tutorial
 - Learn how to use the UMII-RIS pipelines to perform a differential expression
   analysis with RNAseq
 
-### 0.3: Scope of the Tutorial
+[Return to top](#top)
+### <a name="0.3"></a> 0.3: Scope of the Tutorial
 This tutorial will only cover differentiual gene expression analysis of
 **bulk RNAseq** of mRNA. We will not cover single cell RNAseq analysis or small
 RNA sequencing analysis. We will also not cover coexpression analysis or
@@ -100,7 +103,8 @@ versions. See our [Illumina QC With Galaxy](https://pages.github.umn.edu/MSI-RIS
 tutorial for details on how to create workflows with Galaxy that will let you
 run similar analyses that we will cover here.
 
-### 0.4: Required Software
+[Return to top](#top)
+### <a name="0.4"></a> 0.4: Required Software
 You will need the following pieces of software to be installed on your local
 computer to follow along with the tutorial.
 
@@ -122,9 +126,10 @@ computer to follow along with the tutorial.
 The software required for the actual RNASeq analysis is already installed on MSI
 systems. We will show you how to access the analysis programs in later sections.
 
+[Return to top](#top)
 <div class="info" markdown="1">
 
-### 0.5: UNIX (and Linux) Basics
+### <a name="0.5"></a> 0.5: UNIX (and Linux) Basics
 MSI systems run GNU/Linux, which is a functional equivalent of commercial UNIX
 (like Apple's OSX). The way that you will interact with Linux is very similar to
 the way you would interact with a traditional UNIX system - through the command
@@ -137,6 +142,7 @@ very similarly to the UNIX versions, but they are not identical. Always check
 the help or manual pages if you experience some unexpected behavior from one
 of the programs that you are running.
 
+[Return to top](#top)
 #### 0.5.1: Common Commands
 Throughout this tutorial, we will be using the command line to run programs that
 analyze sequencing data. You will need to be familiar with navigating the MSI
@@ -158,6 +164,7 @@ common commands that we will be using:
 - `ssh`: secure shell. This will let you log in to a remote machine to execute
   commands. We will use this command to log in to MSI systems.
 
+[Return to top](#top)
 #### 0.5.2: Other Resources
 There are plenty of resources available for learning how to interact with the
 computer through the command line. For technical reference, the default
@@ -169,7 +176,8 @@ links for `bash` resources:
 
 </div>
 
-### 0.6: Accessing MSI
+[Return to top](#top)
+### <a name="0.6"></a> 0.6: Accessing MSI
 We will now log in to MSI systems. The first host we will access is called the
 `login` node. **Don't run computationally intense tasks on this node.** You
 will make it hard for other uses to access the systems by reducing the
@@ -189,16 +197,18 @@ to the system.
 ![SSH]({{ "/graphics/rnaseq_cmd/ssh.png" | prepend: site.baseurl }})
 ![Login]({{ "/graphics/rnaseq_cmd/login.png" | prepend: site.baseurl }})
 
+[Return to top](#top)
 ## 0.7: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
 tutorial delivery feedback to that address.
 
-## Part 1: RNASeq Overview
+[Return to top](#top)
+## <a name="1"></a> Part 1: RNASeq Overview
 
 <div class="info" markdown="1">
 
-### 1.1: Why RNASeq
+### <a name="1.1"></a> 1.1: Why RNASeq
 RNAseq is name for a high-throughout sequencing technique that targets the
 transcribed portions of the genome. For this tutorial, we will be focusing on
 the analysis of **bulk RNAseq** data. This type of data involves extraction of
@@ -214,7 +224,8 @@ gene regions are often the most interpretable regions of the genome, because
 changes in mRNA content are correlated with changes in protein content (though,
 not always).
 
-### 1.2: Common Genomics File Formats
+[Return to top](#top)
+### <a name="1.2"></a> 1.2: Common Genomics File Formats
 RNASeq, being a genomics technique, uses standard file formats for genomics
 analysis. This is not an exhaustive list, but should introduce the file types
 that we will use in this tutorial.
@@ -302,7 +313,8 @@ that we will use in this tutorial.
 
 </div>
 
-### 1.3: Overall Workflow
+[Return to top](#top)
+### <a name="1.3"></a> 1.3: Overall Workflow
 Here is a schematic of the workflow that we will follow for this tutorial. The
 pieces of data are shown in rectangles, and the software are shown in rounded
 bubbles with dashed borders. The final output is shown in red.
@@ -318,7 +330,8 @@ The steps of the workflow are as follows:
 5. Filter counts for genes with low epxression
 6. Test for differential expression
 
-## Part 2: Running an Analysis With `gopher-pipelines`
+[Return to top](#top)
+## <a name="2"></a> Part 2: Running an Analysis With `gopher-pipelines`
 The workflow steps outlined in the previous section are implemented in a package
 developed and maintained by the University of Minnesota Informatics Institute
 and the Research Informatics Solutions groups. This software package is
@@ -330,7 +343,8 @@ give you greater flexibility, because you will be able to modify the underlying
 Python and shell scripts. However, we offer limited support for workflows that
 use modified versions of our pipelines.
 
-### 2.1: Prepare to Run `gopher-pipelines`
+[Return to top](#top)
+### <a name="2.1"></a> 2.1: Prepare to Run `gopher-pipelines`
 First, connect to a head node on Mesabi by typing `ssh mesabi` at the login
 prompt. If you do no have ssh keys set up, you will have to enter your password
 again. It is the same as your X.500 password. Note the `@login` part of the
@@ -369,7 +383,8 @@ Version: 0.0
 If you get a message similar to the one above, then you are ready to run the
 pipelines.
 
-### 2.2: Input Data for the Pipelines
+[Return to top](#top)
+### <a name="2.2"></a> 2.2: Input Data for the Pipelines
 The pipelines requires that the following pieces of data be available:
 
 - Directory of FASTQ files from the UMGC
@@ -388,7 +403,8 @@ for your reference genome. We will provide some brief instructions in a later
 section of this tutorial document, but the best source of instructions is from
 the HISAT2 manual.
 
-### 2.3: Running the Pipeline
+[Return to top](#top)
+### <a name="2.3"></a> 2.3: Running the Pipeline
 The subcommand that we will be using in this tutorial is the `bulk_rnaseq`
 subcommand. Provide it as an argument after the `gopher-pipelines.py` command.
 The default help message tells you the bare minimum arguments that are required
@@ -423,7 +439,8 @@ mkdir /scratch.global/konox006/RNAseq_Tutorial_Out
 mkdir /scratch.global/konox006/RNAseq_Tutorial_Work
 ```
 
-#### 2.3.1: Generating Experimental Groups
+[Return to top](#top)
+#### <a name="2.3.1"></a> 2.3.1: Generating Experimental Groups
 For differential expression testing, we have to generate a file that describes
 which samples are part of which experimental group. We do this with the
 `group_template` subcommand. This particular subcommand takes an additional
@@ -485,7 +502,8 @@ Spleen-4,Spleen
 This is a manual step because the researcher must made a decision as to which
 groups should be compared for differential expression testing.
 
-#### 2.3.2: Submitting the Pipeline Jobs
+[Return to top](#top)
+#### <a name="2.3.2"></a> 2.3.2: Submitting the Pipeline Jobs
 Now that we have assigned the samples to groups, we will run the `bulk_rnaseq`
 pipeline, supplying the file that contains the group assignments. This is done
 by supplying the `-e` option in addition to the `-f`, `-x`, and `-g` options. We
@@ -580,7 +598,8 @@ held - we set this job to wait until the previous jobs complete successfully
 before marking it as eligible to run. The `H` will eventually become `Q`, and
 then `R` and `C`. After a while, the job will be cleared from the list.
 
-#### 2.3.3: Viewing Results
+[Return to top](#top)
+#### <a name="2.3.3"></a> 2.3.3: Viewing Results
 Once all of the jobs have finished (all are listed with `C` status, or are
 no longer in the output of `qstat -t`), you will be able to view the results.
 The output is in the directory that was given as the output directory in the
@@ -644,6 +663,7 @@ There are also links to the working directories that get placed in the output
 directory. Additionally, a copy of the GTF that was used for expression counts
 is placed in the output directory.
 
+[Return to top](#top)
 ##### PBS Output Files
 These files are the `bulk_rnaseq_single_sample.pbs.o...`,
 `bulk_rnaseq_single_sample.pbs.e...`, `run_summary_stats.pbs.o...`, and the
@@ -653,6 +673,7 @@ programs called by the programs of the pipeline. The situation in which you
 would most want to view the contents of these files is if your pipeline jobs
 are throwing error messages. For now, we do not have to examine them.
 
+[Return to top](#top)
 ##### Insert Size Metrics
 These files are located in the `InsertSizeMetics/` directory, and contain
 per-sample insert size summaries. It is only generated if the data are
@@ -660,6 +681,7 @@ paired-end. We will not examine these files for the tutorial, but they will
 be useful if you plan to submit your data to a database that requires summaries
 of the insert sizes, such as NCBI GEO.
 
+[Return to top](#top)
 ##### Expression Counts
 This is one of the main outputs of the `bulk_rnaseq` pipeline. There are two
 types of counts that get produced by the pipeline, raw counts, and counts per
@@ -678,6 +700,7 @@ normalized for library size, then scaled to CPM values. Like the raw counts,
 this file has genes as rows and samples as columns. However, the CPM file does
 not have gene lengths.
 
+[Return to top](#top)
 ##### Summary Plots
 This is another of the main outputs of the `bulk_rnaseq`. They are located in
 the `Plots/` directory. There are three plots that are produced. They are the
@@ -719,6 +742,7 @@ have swapped labels as the single blue label in a group of red, and vice-versa.
 We can also see that samples `Spleen.4` and `BoneMarrow.4` are not very tightly
 clustered with the other samples.
 
+[Return to top](#top)
 ##### Differentially Expressed Gene (DEG) List
 This file is written to the `DEGs/` directory in the output folder. Use `head`
 to look at the first six lines:
@@ -730,7 +754,8 @@ genes   logFC   logCPM  F   PValue  FDR
 
 There are no differentially expressed genes!
 
-#### 2.3.4: Fixing Sample Labels
+[Return to top](#top)
+#### <a name="2.3.4"></a> 2.3.4: Fixing Sample Labels
 One thing that could be contributing to the fact that we don't have any
 differentially expressed genes is that it appears as though there was a mix-up
 between a `Spleen` sample and a `BoneMarrow` sample. `Spleen-2` and
@@ -813,7 +838,8 @@ Please see **Part 5** for information on more complex designs.
 
 </div>
 
-### 2.4 Data Sources
+[Return to top](#top)
+### <a name="2.4"></a> 2.4 Data Sources
 These data were downloaded from the NCBI Sequence Read Archive (SRA) accession
 number SRP164768. Files were renamed to the same format that the UMGC will
 deliver to your MSI group. Reads were filtered to contain fragments that map to
@@ -834,9 +860,10 @@ you need consultation on data analyis, or would like to contract the RIS group
 at MSI to analyze data for you, please contact the MSI help desk at
 <help@msi.umn.edu>.
 
+[Return to top](#top)
 <div class="info" markdown="1">
 
-## Part 3: Detailed Description of Pipeline Steps
+## <a name="3"></a> Part 3: Detailed Description of Pipeline Steps
 This section contains a detailed description of all constituent steps of the
 `bulk_rnaseq` pipeline:
 
@@ -851,7 +878,8 @@ Steps **1**, **2** and **3** occur in a task array, with one task per sample.
 Steps **4**, **5**, and **6** occur in in a single job that processes the output
 from each single-sample task.
 
-### 3.1: Summarizing Read Quality
+[Return to top](#top)
+### <a name="3.1"></a> 3.1: Summarizing Read Quality
 The first part of the pipeline uses `fastqc` to generate summaries of read
 length, base quality, base composition, and non-biological sequence
 contamination. These reports are written to the working directory for each
@@ -863,7 +891,8 @@ reports generated by FastQC, please refer to our other tutorial that treats
 This step is always run. You should view the FastQC reports to see if there are
 technical explanations for patterns you observe in your results.
 
-### 3.2: Cleaning Reads
+[Return to top](#top)
+### <a name="3.2"></a> 3.2: Cleaning Reads
 The second part of the pipeline uses Trimmomatic to clean low quality bases,
 adapter contamination, and reads that fail length filters from your input
 datasets. This step is optional - there are arguments in favor of and against
@@ -912,7 +941,8 @@ After Trimmomatic cleaning, FastQC is run on the cleaned reads. You can then
 compare the raw and the processed reads to determine if you need to adjust any
 of the parameters for cleaning.
 
-### 3.3: Mapping Reads
+[Return to top](#top)
+### <a name="3.3"></a> 3.3: Mapping Reads
 Read mapping is performed with the splice-aware aligner, HISAT2. Note that we
 have moved away from TopHat2, which has been deprecated by its authors. It is
 possible to supply many options to modify how HISAT2 aligns reads against the
@@ -942,7 +972,8 @@ for alignment.
 After alignment, the resulting SAM file is sorted by read name (for
 fragment-based counting) and converted to BAM.
 
-### 3.4: Counting Reads in Genes
+[Return to top](#top)
+### <a name="3.4"></a> 3.4: Counting Reads in Genes
 Once the alignments are generated and sorted by read name, they are used as
 input for the `featureCounts` program, part of the `subread` package. We count
 *fragments* that map to genes to generate expression counts. That is, if the
@@ -959,7 +990,8 @@ mapping quality of 10 to reads that are considered as valid alignments for
 counts. If reads are not confidently mapped to a single location, then they are
 not used for counts.
 
-### 3.5: Filtering and Differential Expression Testing
+[Return to top](#top)
+### <a name="3.5"></a> 3.5: Filtering and Differential Expression Testing
 The raw counts matrix generated by `featureCounts` is then processed with a
 R script that filters the counts matrix, generates summary plots, calcualtes a
 normalized value for gene expression, and tests for differentially expressed
@@ -992,14 +1024,16 @@ raw counts matrix. You may contact the University of Minnesota Informatics
 Institute or the Research Informatics Solutions group at MSI for assistance
 with data analysis that falls outside of the `gopher-pipelines`.
 
-## Part 4: Pipeline File Formats
+[Return to top](#top)
+## <a name="4"></a> Part 4: Pipeline File Formats
 The `bulk_rnaseq` pipeline of `gopher-pipelines` generates up to three
 pipeline-specific file formats. Technically, these files are not proprietary
 in any way, and can be used by third-party applications and custom user scripts.
 However, we cannot support the diversity of ways that people may interact with
 the internal files of `gopher-pipelines`.
 
-### 4.1: Experimental Groups Template
+[Return to top](#top)
+### <a name="4.1"></a> 4.1: Experimental Groups Template
 This is a comma-separated values (CSV) file that contains placeholders for the
 experimental for the samples in question. By default, it contains only two
 fields, `SampleName` and `Group`. The `SampleName` field contains the inferred
@@ -1007,7 +1041,8 @@ name of the sample, derived from the filename of the FASTQ file. The `Group`
 column is auto-populated with a `NULL` value. We do not make any attempt to
 automatically assign samples to groups based on patterns in the filenames.
 
-### 4.2: Pipeline.sh Script
+[Return to top](#top)
+### <a name="4.2"></a> 4.2: Pipeline.sh Script
 This is a standard bash script that contains paths to the samplesheet and the
 PBS job scripts. The template for it is shown below:
 
@@ -1039,7 +1074,8 @@ Running this script will submit the entire pipeline to the scheduler. The only
 path that you will have to check is the `SAMPLESHEET=` declaration. This should
 be the location of the samplesheet that was generated by `gopher-pipelines.py`.
 
-### 4.3 Samplesheet
+[Return to top](#top)
+### <a name="4.3"></a> 4.3 Samplesheet
 The samplesheet contains the information necessary to process each sample, such
 as the paths to the reads, the reference genome for alignment, and trimming
 options that you have specified. The file is very "wide" (has long lines), so
@@ -1072,7 +1108,8 @@ block of sample data and the comment lines. The PBS worker scripts parse the
 sample data block and the final line in the file, so they must remain intact
 for the scripts to work.
 
-## Part 5: More Complex Analyses
+[Return to top](#top)
+## <a name="5"></a> Part 5: More Complex Analyses
 This section will cover how to prepare for more complicated analyses than we
 support in `gopher-pipelines`. Examples of these types of analyses are
 experiments with nested designes, multi-factorial comparisons, or time series
@@ -1085,7 +1122,8 @@ can consult a statistician or the RIS group at MSI for assistance. We can,
 however, provide some mechanisms for helping you analyze more complex datasets
 by automating some of the more tedious parts of the setup.
 
-### 5.1: `group_template` Columns
+[Return to top](#top)
+### <a name="5.1"></a> 5.1: `group_template` Columns
 By default, the `group_template` subcommand only makes a `SampleName` and a
 `Group` column. You can specify the `-e` option to add other columns to the
 groups CSV file. The argument given to the `-e` option is the name of the
@@ -1148,7 +1186,8 @@ was used for extraction and storage, and so on. Always keep good notes on these
 factors, because they may end up explaining a large portion of the variance in
 observed gene expression.
 
-### 5.2 Links to Analysis Guides
+[Return to top](#top)
+### <a name="5.2"></a> 5.2 Links to Analysis Guides
 Various packages exist to analyze expression data. We have chosen to use `edgeR`
 in our pipeline, but the counts marix and group CSV are compatible with many
 others.
@@ -1165,8 +1204,9 @@ profiles in combination with the negative binomial model for expression counts.
 Additionally, [GPClust](https://github.com/SheffieldML/GPclust) can be used to
 identify modules of genes with similar expression profiles over time.
 
-## Part 6: Recommendations
-### 6.1: General Considerations for Experimental Design
+[Return to top](#top)
+## <a name="6"></a> Part 6: Recommendations
+### <a name="6.1"></a> 6.1: General Considerations for Experimental Design
 In reference to the warnings given above, it is important to design powerful
 experiments and keep detailed notes on your samples. Your experiments should
 have a clear control for each experimental treatment. Your null hypothesis
@@ -1178,7 +1218,8 @@ underpowered experiment. However, emprirical scientific research is about
 balancing insight and practical limitations. A good analytical workflow can help
 make sure that you get the most value out of your data.
 
-### 6.2: How Much Sequence Data to Collect
+[Return to top](#top)
+### <a name="6.2"></a> 6.2: How Much Sequence Data to Collect
 For differential gene expression analysis, the UMGC recommends that you collect
 between 10 million and 20 million reads per sample. For a a two-condition
 experiment, you should have at least three replicates per experiment. This
@@ -1186,7 +1227,8 @@ translates to *something about instrument cost and output here*.
 
 For transcriptome assembly, you should collect at least X reads.
 
-### 6.3: Analytical Workflow Considerations
+[Return to top](#top)
+### <a name="6.3"></a> 6.3: Analytical Workflow Considerations
 There are a few additional concerns for RNAseq experiments:
 
 1. Be careful with data from public sources
@@ -1211,13 +1253,15 @@ different from that of RNAseq. Microarrays use hybridization, which is a
 fluorescence-based signal, rather than a counts-based signal. Be sure that the
 package you are using can handle RNAseq data before applying it.
 
-## Part 7: Other RNASeq Applications
+[Return to top](#top)
+## <a name="7"></a> Part 7: Other RNASeq Applications
 Finally, differential expression analysis is only a small set of what is
 possible with RNAseq data. Other types of analysis include co-expression
 analysis, transcriptome assembly and isoform discovery, and variant discovery
 in the absense of a reference genome.
 
-### 7.1 Coexpression
+[Return to top](#top)
+### <a name="7.1"></a> 7.1 Coexpression
 The gist of a coexpression analysis is that it identifies modules of genes that
 have similar expression profiles. That is, genes that are either expressed under
 the same conditions or are expressed in the same tissues. A popular package for
@@ -1231,7 +1275,8 @@ than the raw counts.
 
 [Link to WGCNA manual](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/)
 
-### 7.2 Transcriptome Assembly
+[Return to top](#top)
+### <a name="7.2"></a> 7.2 Transcriptome Assembly
 You can use RNAseq to assemble putative transcript sequences from your organism
 of choice. A popular tool for assembling transcripome sequences from short
 reads is Trinity. Trinity also has some capability of identifying isoforms of
@@ -1247,7 +1292,8 @@ ribosomal sequences may help save on computational time.
 
 [Link to Trinity manual](https://github.com/trinityrnaseq/trinityrnaseq/wiki)
 
-### 7.3 Variant Discovery
+[Return to top](#top)
+### <a name="7.3"></a> 7.3 Variant Discovery
 Despite the increasing accessibility of genomics technologies, the practical
 cost of genome sequencing and assembly is still very high. In the cases where
 a reference genome assembly is not available for an organism, a reference
@@ -1270,7 +1316,10 @@ discovery in RNAseq [here](https://gatkforums.broadinstitute.org/gatk/discussion
 
 </div>
 
+[Return to top](#top)
 ## Part 8: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
 tutorial delivery feedback to that address.
+
+[Return to top](#top)
