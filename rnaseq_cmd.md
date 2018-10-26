@@ -13,9 +13,9 @@ delivered: NA
 *Last Delivered: {{page.delivered}}*
 
 ## Table of Contents
-- Introduction
-    - Formatting in This Document
-    - Goals
+- [Introduction](#0)
+    - [Formatting in This Document](#0.1)
+    - [Goals](#0.2)
     - Scope of the Tutorial
     - Required Software
     - UNIX (and Linux) Basics
@@ -55,7 +55,7 @@ delivered: NA
     - Transcriptome Assembly
     - Variant Discovery
 
-## Part 0: Introduction
+## <a name="0"></a>Part 0: Introduction
 ### 0.1 Formatting in This Document
 Throughout this tutorial, there will be formatting cues to highlight various
 pieces of information.
