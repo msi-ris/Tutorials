@@ -416,6 +416,15 @@ at the [GitHub Wiki page](https://github.umn.edu/MSI-RIS/gopher-pipeline-refacto
 ```
 konox006@ln0004 [~] % gopher-pipelines.py bulk_rnaseq
 ----------
+Thank you for using the refactor of gopher-pipelines. This software was
+developed by the Research Informatics Solutions (RIS) group at MSI with funding
+from the University of Minnesota Informatics Institute (UMII). For help, please
+contact help@msi.umn.edu.
+
+https://www.msi.umn.edu/
+https://research.umn.edu/units/umii
+
+----------
 ERROR
 
 
@@ -452,6 +461,15 @@ the argument:
 konox006@ln0004 [~] % gopher-pipelines.py group_template bulk_rnaseq \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -o /scratch.global/konox006/RNAseq_Tutorial_Out/Groups.csv
+----------
+Thank you for using the refactor of gopher-pipelines. This software was
+developed by the Research Informatics Solutions (RIS) group at MSI with funding
+from the University of Minnesota Informatics Institute (UMII). For help, please
+contact help@msi.umn.edu.
+
+https://www.msi.umn.edu/
+https://research.umn.edu/units/umii
+
 ----------
 SUCCESS
 
@@ -534,6 +552,15 @@ konox006@ln0004 [~] % gopher-pipelines.py bulk_rnaseq \
     -d /scratch.global/konox006/RNAseq_Tutorial_Work \
     --unstranded \
     --ppn 4 --mem 8000 -w 2 --submit
+----------
+Thank you for using the refactor of gopher-pipelines. This software was
+developed by the Research Informatics Solutions (RIS) group at MSI with funding
+from the University of Minnesota Informatics Institute (UMII). For help, please
+contact help@msi.umn.edu.
+
+https://www.msi.umn.edu/
+https://research.umn.edu/units/umii
+
 ----------
 SUCCESS
 
