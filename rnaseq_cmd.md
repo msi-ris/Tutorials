@@ -1084,9 +1084,11 @@ user_name="$(id -u -n)"
 user_email="${user_name}@umn.edu"
 OUTDIR="/scratch.global/konox006/RNAseq_Tutorial_Out"
 WORKDIR="/scratch.global/konox006/RNAseq_Tutorial_Work"
-DE_SCRIPT="[...]summarize_bulk_rnaseq.R"
+DE_SCRIPT="[...]_bulk_rnaseq.R"
+REPORT_SCRIPT="[...]bulk_rnaseq_report.Rmd"
 SAMPLESHEET="[...]samplesheet.txt"
 PURGE="true"
+PIPE_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/$(basename $0)"
 single_id=$(qsub -q mesabi [...]single_sample.pbs || exit 1)
 summary_id=$(qsub -q mesabi [...]run_summary_stats.pbs || exit 1)
 echo "Output and logs will be written to ${OUTDIR}"
