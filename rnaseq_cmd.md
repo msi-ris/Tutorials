@@ -1239,22 +1239,68 @@ identify modules of genes with similar expression profiles over time.
 In reference to the warnings given above, it is important to design powerful
 experiments and keep detailed notes on your samples. Your experiments should
 have a clear control for each experimental treatment. Your null hypothesis
-should be clearly defined, and you should have an expected difference between
-your experimental conditions. Your samples should be randomized across technical
-variables (like extraction batch) whenever possible. Strong informatics skills
-and a clever analytical workflow cannot make meaningful results from an
-underpowered experiment. However, emprirical scientific research is about
-balancing insight and practical limitations. A good analytical workflow can help
-make sure that you get the most value out of your data.
+should be clearly defined, and you should have an expectation for the difference
+between your experimental conditions. Your samples should be randomized across
+technical variables (like extraction batch) whenever possible. Strong
+informatics skills and a clever analytical workflow cannot make meaningful
+results from an underpowered experiment. However, emprirical scientific research
+is about balancing insight and practical limitations. A good analytical workflow
+can help make sure that you get the most value out of your data.
 
 [Return to top](#top)
 ### <a name="6.2"></a> 6.2: How Much Sequence Data to Collect
-For differential gene expression analysis, the UMGC recommends that you collect
-between 10 million and 20 million reads per sample. For a a two-condition
-experiment, you should have at least three replicates per experiment. This
-translates to *something about instrument cost and output here*.
+For differential gene expression analyses in most animals or plants, we
+recommend a minimum of 20 million reads per sample. For simpler eukaryotes 
+(e.g., nematodes or yeast), 10 million reads per sample may suffice. You should
+have at least three biological replicates (i.e., samples from three different
+individuals or clonal pools) per experimental condition, if possible. There are
+cases where three replicates is excessive, such as high-resolution time series
+analyses, so use your best judgement.
 
-For transcriptome assembly, you should collect at least X reads.
+The UMGC recommends 50bp paired-end sequencing technology for differential
+gene expression analysis. For isoform-level expression or alternative splicing
+analysis, they recommend at least 125bp paired-end technology. It is possible
+to use single-end reads for differential gene expression, but it is not
+common, and it may take longer to move through the queue.
+
+The ENCODE project maintains [guidelines for RNAseq experiments](https://www.encodeproject.org/documents/cede0cbe-d324-4ce7-ace4-f0c3eddf5972/@@download/attachment/ENCODE%20Best%20Practices%20for%20RNA_v2.pdf) that may be helpful.
+
+If you are assembling a transcriptome, you should plan to collect at least 40
+to 50 million reads per sample. Collecting reads from multiple tissues,
+developmental time points, or experimental treatments is beneficial because
+many more transcripts are potentially represented than in any individual
+library.
+
+You may view information about the HiSeq2500, NextSeq, and NovaSeq that the UMGC
+operates at the following links:
+
+- [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php)
+- [NextSeq](http://genomics.umn.edu/nextgen-nextseq.php)
+- [NovaSeq](http://genomics.umn.edu/nextgen-novaseq.php)
+
+[Return to top](#top)
+#### <a name="6.2.1"></a> 6.2.1: Pricing
+Pricing depends on the instrument that you are requesting, the output mode
+that is being used, and whether your appointment is internal or external to the
+University of Minnesota. The pricing guides for the HiSeq2500, NextSeq, and
+NovaSeq at the UMGC are linked below:
+
+- [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php), click the "Pricing" tab.
+- [NextSeq and NovaSeq Internal](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_Internal_Pricing_032118_update.pdf)
+- [NextSeq and NovaSeq External](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_External_Pricing_032118_update.pdf)
+
+For a quote, you can contact the next-gen sequencing team UMGC by emailing
+<next-gen@umn.edu> with your desired read quantity, read length, and
+single/paired technology. They will prepare a quote that will be good for three
+months from the prepartion date.
+
+[Return to top](#top)
+#### <a name="6.2.2"></a> 6.2.2: Expected Turnaround Time
+The standard turnaround time for RNAseq projects at the UMGC is 6-8 weeks,
+assuming the libraries pass QC and there are no complications with the reagents
+or the instruments. For faster turnaround, you may request to use the NextSeq,
+which is a single lane, rather than a shared cell like with the other
+instruments.
 
 [Return to top](#top)
 ### <a name="6.3"></a> 6.3: Analytical Workflow Considerations
@@ -1262,7 +1308,7 @@ There are a few additional concerns for RNAseq experiments:
 
 1. Be careful with data from public sources
 2. Use "best in class" software
-  - HISAT2
+  - HISAT2, STAR
   - Kallisto (but only for specialized applications)
   - EdgeR or DESeq2 for differential expression analysis
 3. Be careful with tools built for microarrays
@@ -1276,6 +1322,17 @@ variables such as sample storage can drive major patterns of differentiation
 of gene expression profiles. Such metadata are not often deposited with public
 data, so be cautious when analyzing data from the SRA with no technical
 metadata.
+
+In regard to point **2**, most RNAseq alignment should be done with HISAT2 or
+STAR. STAR requires that you build a special index for each read length that
+you wish to align, so we cannot provide general instructions here. Kallisto can
+be used for transcript quantification, but is not a general purpose alignment
+tool for epxression analysis - you should only use Kallisto if your reads and
+reference genome have **very few** expected sequence differences. Most studies
+fall outside of this case, so we do not recommend it for general RNAseq
+analyses. Several packages and statistical models exist for identifying
+differentially expressed genes, but we recommend EdgeR or DESeq2 because they
+implement robust models and have well-documented features.
 
 For point **3**, the nature of the data from microarrays is fundamentally
 different from that of RNAseq. Microarrays use hybridization, which is a
