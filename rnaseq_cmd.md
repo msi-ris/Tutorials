@@ -49,6 +49,8 @@ delivered: NA
 - [Recommendations](#6)
     - [General Considerations for Experimental Design](#6.1)
     - [How Much Sequence Data to Collect](#6.2)
+        - [UMGC Pricing](#6.2.1)
+        - [Exepected Turnaround Time](#6.2.2)
     - [Analytical Workflow Considerations](#6.3)
 - [Other RNASeq Applications](#7)
     - [Coexpression](#7.1)
@@ -1279,7 +1281,7 @@ operates at the following links:
 - [NovaSeq](http://genomics.umn.edu/nextgen-novaseq.php)
 
 [Return to top](#top)
-#### <a name="6.2.1"></a> 6.2.1: Pricing
+#### <a name="6.2.1"></a> 6.2.1: UMGC Pricing
 Pricing depends on the instrument that you are requesting, the output mode
 that is being used, and whether your appointment is internal or external to the
 University of Minnesota. The pricing guides for the HiSeq2500, NextSeq, and
