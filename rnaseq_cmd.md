@@ -1117,7 +1117,7 @@ This should be formatted as a PBS job script and sent to the scheduler.
 
 <div class="warn" markdown="1">
 
-Please note that building index files for HISAT2 arememory intensive tasks, so
+Please note that building index files for HISAT2 are memory intensive tasks, so
 you will likely need to use the `ram256g` or `ram1t` queues to run your jobs.
 For limits on these queues, please refer to the [MSI queues page](https://www.msi.umn.edu/queues).
 
