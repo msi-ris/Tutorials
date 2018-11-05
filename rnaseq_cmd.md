@@ -340,9 +340,10 @@ and the Research Informatics Solutions groups. This software package is
 available on MSI systems as a software module.
 
 You may also download the latest version of the code from the UMN GitHub
-instance: https://github.umn.edu/MSI-RIS/CHURP. This willgive you greater flexibility, because you will be able to modify the underlying
-Python and shell scripts. However, we offer limited support for workflows that
-use modified versions of our pipelines.
+instance: <https://github.umn.edu/MSI-RIS/CHURP>. This willgive you greater
+flexibility, because you will be able to modify the underlying Python and shell
+scripts. However, we offer limited support for workflows that use modified
+versions of our pipelines.
 
 [Return to top](#top)
 ### <a name="2.1"></a> 2.1: Prepare to Run `CHURP`
