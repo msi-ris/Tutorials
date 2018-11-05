@@ -3,7 +3,7 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2018-10-23
+updated: 2018-11-05
 delivered: NA
 ---
 
@@ -39,23 +39,26 @@ delivered: NA
     - [Mapping Reads](#3.3)
     - [Counting Reads in Genes](#3.4)
     - [Filtering and Differential Expression Testing](#3.5)
-- [Pipeline File Formats](#4)
-    - [Experimental Groups Template](#4.1)
-    - [Pipeline.sh Script](#4.2)
-    - [Samplesheet](#4.3)
-- [More Complex Analyses](#5)
-    - [`group_template` Columns](#5.1)
-    - [Links to Analysis Guides](#5.2)
-- [Recommendations](#6)
-    - [General Considerations for Experimental Design](#6.1)
-    - [How Much Sequence Data to Collect](#6.2)
-        - [UMGC Pricing](#6.2.1)
-        - [Exepected Turnaround Time](#6.2.2)
-    - [Analytical Workflow Considerations](#6.3)
-- [Other RNASeq Applications](#7)
-    - [Coexpression](#7.1)
-    - [Transcriptome Assembly](#7.2)
-    - [Variant Discovery](#7.3)
+- [Getting Your Own Reference Genome Index Files](#4)
+    - [HISAT2 Pre-Built Indices](#4.1)
+    - [Building Your Own Index](#4.2)
+- [Pipeline File Formats](#5)
+    - [Experimental Groups Template](#5.1)
+    - [Pipeline.sh Script](#5.2)
+    - [Samplesheet](#5.3)
+- [More Complex Analyses](#6)
+    - [`group_template` Columns](#6.1)
+    - [Links to Analysis Guides](#6.2)
+- [Recommendations](#7)
+    - [General Considerations for Experimental Design](#7.1)
+    - [How Much Sequence Data to Collect](#7.2)
+        - [UMGC Pricing](#7.2.1)
+        - [Exepected Turnaround Time](#7.2.2)
+    - [Analytical Workflow Considerations](#7.3)
+- [Other RNASeq Applications](#8)
+    - [Coexpression](#8.1)
+    - [Transcriptome Assembly](#8.2)
+    - [Variant Discovery](#8.3)
 
 [Return to top](#top)
 ## <a name="0"></a>Part 0: Introduction
@@ -120,10 +123,6 @@ computer to follow along with the tutorial.
     - We recommend FileZilla (<https://filezilla-project.org/>) because it is
       reasonably powerful and easy to use.
     - Setup instructions [here](https://www.msi.umn.edu/support/faq/how-do-i-use-filezilla-transfer-data).
-- Text editor
-    - We will use Komodo Edit (<https://www.activestate.com/komodo-ide/downloads/edit>)
-      because it allows us to edit text files on a remote machine. You can use
-      a terminal-based editor if you so choose.
 
 The software required for the actual RNASeq analysis is already installed on MSI
 systems. We will show you how to access the analysis programs in later sections.
@@ -431,7 +430,7 @@ ERROR
 
 
 You did not specify sufficient options to run the bulk_rnaseq subcommand of
-gopher-pipelines. You must specify a FASTQ directory (-f). Additionally, you
+CHURP. You must specify a FASTQ directory (-f). Additionally, you
 must either specify a path to a HISAT2 index (-x) and GTF (-g), or an organism
 name (-r). If you are building a group template file, you need only specify a
 FASTQ directory. Please fix your command line and re-run.
@@ -1053,18 +1052,88 @@ In either of these cases, if you would like to analyze your data in a different
 way, then you may perform your analyses with the normalized counts matrix or the
 raw counts matrix. You may contact the University of Minnesota Informatics
 Institute or the Research Informatics Solutions group at MSI for assistance
-with data analysis that falls outside of the `gopher-pipelines`.
+with data analysis that falls outside of the `CHURP`.
 
 [Return to top](#top)
-## <a name="4"></a> Part 4: Pipeline File Formats
-The `bulk_rnaseq` pipeline of `gopher-pipelines` generates up to three
+## <a name="4"></a> Part 4: Getting Your Own Reference Genome Index Files
+### <a name="4.1"></a> 4.1: HISAT2 Pre-Built Indices
+The developers of HISAT2 maintain a collection of genome indices that are usable
+as targets for alignment (`-x` flag in our pipeline). You can find the various
+indices that are available on the right panel of the [HISAT2 homepage](https://ccb.jhu.edu/software/hisat2/index.shtml).
+Note that version of the genome assembly, version of the annotation, and the
+known SNPs and slice sites are important pieces of information to include.
+
+We generally recommend that you use index files that were built with known
+SNPs and splice sites. These are the `genome_snp_tran` files that are linked on
+the site. The inclusion of known SNPs and splice sites allows you to map reads
+accounting for the known structural differences between transcripts and the
+genome assembly and known sequence polymorphism between individuals in the
+species.
+
+### <a name="4.2"></a> 4.2: Building Your Own Index
+As of this writing (November 2018), the pre-built indices are only available
+for human, mouse mouse, Norway rat, common fruit fly, *C. elegans*, and baker's
+yeast. If you are analyzing data from a species that does not have a pre-built
+index, then you will have to produce your own.
+
+
+First, download a reference genome assembly and a gene annotation. A good source
+of reference genome assemblies is [Ensembl](https://ensemb.org). Make sure that
+you get a FASTA file for the genome assembly and a GTF file for the gene
+annotations. HISAT2 does not take gzipped input files for index building, so
+they must be unzipped. Additionally, if your study species has such infomration
+available, download a dbSNP build that includes polymorphisms discovered in your
+species of interest. You can download them from the [UCSC Genome Browser](http://hgdownload.cse.ucsc.edu/downloads.html).
+If you do not have a dbSNP dump for your species of interest, then you can use
+a VCF.
+
+<div class="warn" markdown="1">
+
+Note that not all SNPs in public databases (or even those derived from
+high-throughput sequencing analysis) are "real." Many are the result of poor
+alignment in regions of the genome that are difficult to assemble, or
+alignment errors involving short insertions/deletions. This shouldn't affect
+the index building procedure, but it is important to be aware of the error-prone
+nature of any "-omics" dataset.
+
+</div>
+
+Next, use auxiliary scripts that are bundled with HISAT2 to extract the splice
+sites and SNPs into a format that the index builder will read. These become
+available once you load the `hisat2` module on MSI systems. The names of the
+files are `hisat2_extract_snps_haplotypes_UCSC.py` for dbSNP dumps,
+`hisat2_extract_snps_haplotypes_VCF.py` for VCFs, and 
+`hisat2_extract_splice_sites.py` for GTFs. They write data to standard out,
+so be sure to redirect with the `>` character on the shell. The scripts are
+reasonably light, and can be run in an interactive HPC session. Note that at the
+time of this writing (November 2018, HISAT2 version 2.1.0), the auxiliary
+scripts require `python2`, and will not work with `python3`.
+
+Once you have SNPs and splice sites in HISAT2 input files, write the necessary
+commands for index building into a shell script following the
+[build instructions](https://ccb.jhu.edu/software/hisat2/manual.shtml#the-hisat2-build-indexer).
+This should be formatted as a PBS job script and sent to the scheduler.
+
+<div class="warn" markdown="1">
+
+Please note that building index files for HISAT2 arememory intensive tasks, so
+you will likely need to use the `ram256g` or `ram1t` queues to run your jobs.
+For limits on these queues, please refer to the [MSI queues page](https://www.msi.umn.edu/queues).
+
+For example, a build of the mm10 house mouse genome with known splice sites
+required approximately 350GB of memory.
+
+</div>
+
+## <a name="5"></a> Part 5: Pipeline File Formats
+The `bulk_rnaseq` pipeline of `CHURP` generates up to three
 pipeline-specific file formats. Technically, these files are not proprietary
 in any way, and can be used by third-party applications and custom user scripts.
 However, we cannot support the diversity of ways that people may interact with
-the internal files of `gopher-pipelines`.
+the internal files of `CHURP`.
 
 [Return to top](#top)
-### <a name="4.1"></a> 4.1: Experimental Groups Template
+### <a name="5.1"></a> 5.1: Experimental Groups Template
 This is a comma-separated values (CSV) file that contains placeholders for the
 experimental for the samples in question. By default, it contains only two
 fields, `SampleName` and `Group`. The `SampleName` field contains the inferred
@@ -1073,13 +1142,13 @@ column is auto-populated with a `NULL` value. We do not make any attempt to
 automatically assign samples to groups based on patterns in the filenames.
 
 [Return to top](#top)
-### <a name="4.2"></a> 4.2: Pipeline.sh Script
+### <a name="5.2"></a> 5.2: Pipeline.sh Script
 This is a standard bash script that contains paths to the samplesheet and the
 PBS job scripts. The template for it is shown below:
 
 ```
 #!/bin/bash
-# Generated by gopher-pipelines version 0.0.0
+# Generated by CHURP version 0.0.0
 # Generated at 2018-10-23 10:13:44
 set -e
 set -u
@@ -1105,17 +1174,18 @@ generate will have full paths in them.
 
 Running this script will submit the entire pipeline to the scheduler. The only
 path that you will have to check is the `SAMPLESHEET=` declaration. This should
-be the location of the samplesheet that was generated by `churp.py`. 
-[Return to
-top](#top) ### <a nam
-="4.3"></a> 4.3 Samplesheet 
+be the location of the samplesheet that was generated by `churp.py`.
+
+[Return totop](#top)
+
+### <a name="5.3"></a> 5.3 Samplesheet 
 The samplesheet contains the information necessary to process each sample, such
 as the paths to the reads, the reference genome for alignment, and trimming
 options that you have specified. The file is very "wide" (has long lines), so
 we will not reproduce it verbatim.
 
 The format is a series of pipe-delimited (`|`) fields. For version `0.0.1` of
-the `gopher-pipelines`, the fields are in the following order:
+the `CHURP`, the fields are in the following order:
 
 1. Sample name
 2. Experimental group
@@ -1142,9 +1212,9 @@ sample data block and the final line in the file, so they must remain intact
 for the scripts to work.
 
 [Return to top](#top)
-## <a name="5"></a> Part 5: More Complex Analyses
+## <a name="6"></a> Part 6: More Complex Analyses
 This section will cover how to prepare for more complicated analyses than we
-support in `gopher-pipelines`. Examples of these types of analyses are
+support in `CHURP`. Examples of these types of analyses are
 experiments with nested designes, multi-factorial comparisons, or time series
 analyses. The example data set used in this tutorial is actually part of a
 more complex design that we simplified for the purposes of the tutorial.
@@ -1156,7 +1226,7 @@ however, provide some mechanisms for helping you analyze more complex datasets
 by automating some of the more tedious parts of the setup.
 
 [Return to top](#top)
-### <a name="5.1"></a> 5.1: `group_template` Columns
+### <a name="6.1"></a> 6.1: `group_template` Columns
 By default, the `group_template` subcommand only makes a `SampleName` and a
 `Group` column. You can specify the `-e` option to add other columns to the
 groups CSV file. The argument given to the `-e` option is the name of the
@@ -1220,7 +1290,7 @@ factors, because they may end up explaining a large portion of the variance in
 observed gene expression.
 
 [Return to top](#top)
-### <a name="5.2"></a> 5.2 Links to Analysis Guides
+### <a name="6.2"></a> 6.2 Links to Analysis Guides
 Various packages exist to analyze expression data. We have chosen to use `edgeR`
 in our pipeline, but the counts marix and group CSV are compatible with many
 others.
@@ -1238,8 +1308,8 @@ Additionally, [GPClust](https://github.com/SheffieldML/GPclust) can be used to
 identify modules of genes with similar expression profiles over time.
 
 [Return to top](#top)
-## <a name="6"></a> Part 6: Recommendations
-### <a name="6.1"></a> 6.1: General Considerations for Experimental Design
+## <a name="7"></a> Part 7: Recommendations
+### <a name="7.1"></a> 7.1: General Considerations for Experimental Design
 In reference to the warnings given above, it is important to design powerful
 experiments and keep detailed notes on your samples. Your experiments should
 have a clear control for each experimental treatment. Your null hypothesis
@@ -1252,7 +1322,7 @@ is about balancing insight and practical limitations. A good analytical workflow
 can help make sure that you get the most value out of your data.
 
 [Return to top](#top)
-### <a name="6.2"></a> 6.2: How Much Sequence Data to Collect
+### <a name="7.2"></a> 7.2: How Much Sequence Data to Collect
 For differential gene expression analyses in most animals or plants, we
 recommend a minimum of 20 million reads per sample. For simpler eukaryotes 
 (e.g., nematodes or yeast), 10 million reads per sample may suffice. You should
@@ -1285,7 +1355,7 @@ operates at the following links:
 - [NovaSeq](http://genomics.umn.edu/nextgen-novaseq.php)
 
 [Return to top](#top)
-#### <a name="6.2.1"></a> 6.2.1: UMGC Pricing
+#### <a name="7.2.1"></a> 7.2.1: UMGC Pricing
 Pricing depends on the instrument that you are requesting, the output mode
 that is being used, and whether your appointment is internal or external to the
 University of Minnesota. The pricing guides for the HiSeq2500, NextSeq, and
@@ -1307,7 +1377,7 @@ as of November 2018. **The UMGC is updating their pricing schedule, however,
 so prices are subject to change in the next six months.**
 
 [Return to top](#top)
-#### <a name="6.2.2"></a> 6.2.2: Expected Turnaround Time
+#### <a name="7.2.2"></a> 7.2.2: Expected Turnaround Time
 The standard turnaround time for RNAseq projects at the UMGC is 6-8 weeks,
 assuming the libraries pass QC and there are no complications with the reagents
 or the instruments. For faster turnaround, you may request to use the NextSeq,
@@ -1315,7 +1385,7 @@ which is a single lane, rather than a shared cell like with the other
 instruments.
 
 [Return to top](#top)
-### <a name="6.3"></a> 6.3: Analytical Workflow Considerations
+### <a name="7.3"></a> 7.3: Analytical Workflow Considerations
 There are a few additional concerns for RNAseq experiments:
 
 1. Be careful with data from public sources
@@ -1352,14 +1422,14 @@ fluorescence-based signal, rather than a counts-based signal. Be sure that the
 package you are using can handle RNAseq data before applying it.
 
 [Return to top](#top)
-## <a name="7"></a> Part 7: Other RNASeq Applications
+## <a name="8"></a> Part 8: Other RNASeq Applications
 Finally, differential expression analysis is only a small set of what is
 possible with RNAseq data. Other types of analysis include co-expression
 analysis, transcriptome assembly and isoform discovery, and variant discovery
 in the absense of a reference genome.
 
 [Return to top](#top)
-### <a name="7.1"></a> 7.1 Coexpression
+### <a name="8.1"></a> 8.1 Coexpression
 The gist of a coexpression analysis is that it identifies modules of genes that
 have similar expression profiles. That is, genes that are either expressed under
 the same conditions or are expressed in the same tissues. A popular package for
@@ -1374,7 +1444,7 @@ than the raw counts.
 [Link to WGCNA manual](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/)
 
 [Return to top](#top)
-### <a name="7.2"></a> 7.2 Transcriptome Assembly
+### <a name="8.2"></a> 8.2 Transcriptome Assembly
 You can use RNAseq to assemble putative transcript sequences from your organism
 of choice. A popular tool for assembling transcripome sequences from short
 reads is Trinity. Trinity also has some capability of identifying isoforms of
@@ -1391,7 +1461,7 @@ ribosomal sequences may help save on computational time.
 [Link to Trinity manual](https://github.com/trinityrnaseq/trinityrnaseq/wiki)
 
 [Return to top](#top)
-### <a name="7.3"></a> 7.3 Variant Discovery
+### <a name="8.3"></a> 8.3 Variant Discovery
 Despite the increasing accessibility of genomics technologies, the practical
 cost of genome sequencing and assembly is still very high. In the cases where
 a reference genome assembly is not available for an organism, a reference
@@ -1415,7 +1485,7 @@ discovery in RNAseq [here](https://gatkforums.broadinstitute.org/gatk/discussion
 </div>
 
 [Return to top](#top)
-## Part 8: Feedback
+## Part 9: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
 tutorial delivery feedback to that address.
