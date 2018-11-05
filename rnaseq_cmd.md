@@ -1070,6 +1070,7 @@ accounting for the known structural differences between transcripts and the
 genome assembly and known sequence polymorphism between individuals in the
 species.
 
+[Return to top](#top)
 ### <a name="4.2"></a> 4.2: Building Your Own Index
 As of this writing (November 2018), the pre-built indices are only available
 for human, mouse mouse, Norway rat, common fruit fly, *C. elegans*, and baker's
@@ -1125,6 +1126,7 @@ required approximately 350GB of memory.
 
 </div>
 
+[Return to top](#top)
 ## <a name="5"></a> Part 5: Pipeline File Formats
 The `bulk_rnaseq` pipeline of `CHURP` generates up to three
 pipeline-specific file formats. Technically, these files are not proprietary
