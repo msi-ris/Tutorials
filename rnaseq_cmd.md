@@ -24,8 +24,8 @@ delivered: NA
     - [Why RNASeq](#1.1)
     - [Common Genomics File Formats](#1.2)
     - [Overall Workflow](#0.3)
-- [Running an Analysis with `gopher-pipelines`](#2)
-    - [Preapre to Run `gopher-pipelines`](#2.1)
+- [Running an Analysis with `CHURP`](#2)
+    - [Preapre to Run `CHURP`](#2.1)
     - [Input Data for the Pipelines](#2.2)
     - [Running the Pipeline](#2.3)
         - [Generating Experimental Groups](#2.3.1)
@@ -333,20 +333,19 @@ The steps of the workflow are as follows:
 6. Test for differential expression
 
 [Return to top](#top)
-## <a name="2"></a> Part 2: Running an Analysis With `gopher-pipelines`
+## <a name="2"></a> Part 2: Running an Analysis With `CHURP`
 The workflow steps outlined in the previous section are implemented in a package
 developed and maintained by the University of Minnesota Informatics Institute
 and the Research Informatics Solutions groups. This software package is
 available on MSI systems as a software module.
 
 You may also download the latest version of the code from the UMN GitHub
-instance: https://github.umn.edu/MSI-RIS/gopher-pipeline-refactor. This will
-give you greater flexibility, because you will be able to modify the underlying
+instance: https://github.umn.edu/MSI-RIS/CHURP. This willgive you greater flexibility, because you will be able to modify the underlying
 Python and shell scripts. However, we offer limited support for workflows that
 use modified versions of our pipelines.
 
 [Return to top](#top)
-### <a name="2.1"></a> 2.1: Prepare to Run `gopher-pipelines`
+### <a name="2.1"></a> 2.1: Prepare to Run `CHURP`
 First, connect to a head node on Mesabi by typing `ssh mesabi` at the login
 prompt. If you do no have ssh keys set up, you will have to enter your password
 again. It is the same as your X.500 password. Note the `@login` part of the
@@ -358,14 +357,15 @@ node.
 From here on, the commands and their output will be shown in text, rather than
 in screenshots of terminal emulators.
 
-Next, load the pipeline module by typing `module load gopher-pipelines-refactor`
-at the command prompt. You can now execute the main pipeline control script,
-called `gopher-pipelines.py`.
+Next, load the `python3` module. This is required to run `CHURP`. Navigate to
+the `/home/msistaff/public/RNAseq_Tutorial/CHURP` directory with `cd`. Run the
+main control script, `churp.py`.
 
 ```
-konox006@ln0004 [~] % module load gopher-pipelines-refactor
-konox006@ln0004 [~] % gopher-pipelines.py 
-Usage: gopher-pipelines.py <subcommand> <options>
+konox006@ln0004 [~] % module load python3
+konox006@ln0004 [~] % cd /home/msistaff/public/RNAseq_Tutorial/CHURP
+konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % python churp.py
+Usage: churp.py <subcommand> <options>
 
 where <subcommand> is the name of the pipeline that is to be run. The specified
 <options> will be applied to the operations in the pipeline. Each pipeline has
@@ -374,12 +374,12 @@ available option for a given pipeline, pass the '--help' option. Alternately,
 online help is maintained at the GitHub repository.
 
 Currently, the following subcommands are supported:
+    - group_template
     - bulk_rnaseq
 
 For issues, contact help@msi.umn.edu.
-Version: 0.0
-2018-07-24
-
+Version: 0.0.1
+2018-11-04
 ```
 
 If you get a message similar to the one above, then you are ready to run the
@@ -408,15 +408,14 @@ the HISAT2 manual.
 [Return to top](#top)
 ### <a name="2.3"></a> 2.3: Running the Pipeline
 The subcommand that we will be using in this tutorial is the `bulk_rnaseq`
-subcommand. Provide it as an argument after the `gopher-pipelines.py` command.
-The default help message tells you the bare minimum arguments that are required
-to analyze the data. To see a full help message, add the `-h` option after the
+subcommand. Provide it as an argument after the `churp.py` command. The default
+help message tells you the bare minimum arguments that are required to analyze
+the data. To see a full help message, add the `-h` option after the 
 `bulk_rnaseq` subcommand. For more detail on the options that are available
 for the `bulk_rnaseq` pipeline, you can access the latest version of the manual
-at the [GitHub Wiki page](https://github.umn.edu/MSI-RIS/gopher-pipeline-refactor/wiki/bulk_rnaseq).
-
+at the [GitHub Wiki page](https://github.umn.edu/MSI-RIS/CHURP/wiki/bulk_rnaseq).
 ```
-konox006@ln0004 [~] % gopher-pipelines.py bulk_rnaseq
+konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % python churp.py bulk_rnaseq
 ----------
 Thank you for using the refactor of gopher-pipelines. This software was
 developed by the Research Informatics Solutions (RIS) group at MSI with funding
@@ -446,8 +445,8 @@ long and it will be easier for you to remember a directory that you created
 yourself. Use your username instead of mine in the below commands:
 
 ```
-mkdir /scratch.global/konox006/RNAseq_Tutorial_Out
-mkdir /scratch.global/konox006/RNAseq_Tutorial_Work
+konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % mkdir /scratch.global/konox006/RNAseq_Tutorial_Out
+konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % mkdir /scratch.global/konox006/RNAseq_Tutorial_Work
 ```
 
 [Return to top](#top)
@@ -460,7 +459,7 @@ a groups file for the `bulk_rnaseq` pipeline. We supply the FASTQ directory as
 the argument:
 
 ```
-konox006@ln0004 [~] % gopher-pipelines.py group_template bulk_rnaseq \
+konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % python churp.py group_template bulk_rnaseq \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -o /scratch.global/konox006/RNAseq_Tutorial_Out/Groups.csv
 ----------
@@ -545,7 +544,7 @@ For the sake of getting the jobs completed more quickly, we will decrease the
 size of the resource request.
 
 ```
-konox006@ln0004 [~] % gopher-pipelines.py bulk_rnaseq \
+konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % python churp.py bulk_rnaseq \
     -e /scratch.global/konox006/RNAseq_Tutorial_Out/Groups.csv \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -x /home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19 \
@@ -607,7 +606,7 @@ You can verify that the jobs are submitted by issuing the `qstat -t` command.
 The `-t` expands the job array that we use to process samples in batches.
 
 ```
-konox006@ln0004 [~] % qstat -t
+konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % qstat -t
 Job ID                    Name             User            Time Use S Queue
 ------------------------- ---------------- --------------- -------- - -----
 8701303[1].mesabim3.msi.umn.e ..._sample.pbs-1 konox006               0 Q small
@@ -809,7 +808,8 @@ Re-run the pipeline with the same command, but be sure to add the `--purge`
 option. This tells the pipeline to regenerate alignments.
 
 ```
-konox006@ln0004 [~] % gopher-pipelines.py bulk_rnaseq \
+konox006@ln0004 [/scratch.global/konox006/RNAseq_Tutorial_Out/DEGs] % cd /home/msistaff/public/RNAseq_Tutorial/CHURP
+konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % python churp.py bulk_rnaseq \
     -e /scratch.global/konox006/RNAseq_Tutorial_Out/Groups.csv \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -x /home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19 \
@@ -926,9 +926,9 @@ The second part of the pipeline uses Trimmomatic to clean low quality bases,
 adapter contamination, and reads that fail length filters from your input
 datasets. This step is optional - there are arguments in favor of and against
 cleaning reads. To disable read cleaning, simply add the `--no-trim` option to
-the `gopher-pipelines.py bulk_rnaseq` command. We enable cleaning by default
-because it is relatively fast and in most cases, will not negatively impact a
-differential expression analysis.
+the `churp.py bulk_rnaseq` command. We enable cleaning by default because it 
+s relatively fast and in most cases, will not negatively impact a differenti
+l expression analysis. 
 
 The default options we have set for Trimmomatic are as follows:
 
@@ -956,10 +956,11 @@ These correspond to the following operations:
    18 bases.
 
 It is possible to override these options by supplying the
-`--trimmomatic-opts=" ... "` option to the `gopher-pipelines.py bulk_rnaseq`
-call. Please note that any options you supply will **totally override** the
-defaults that we set. If you want to only change one of our options, then you
-must specify the entire options string with your desired change inserted. Please
+`--trimmomatic-opts=" ... "` option to the `churp.py bulk_rnaseq` call. Pleas
+ note that any options you supply will **totally override** the defaults t
+ at we set. If you want to only change one of our options, then you
+ 
+ ust specify the entire options string with your desired change inserted. Please
 also note that if you supply alternative options to Trimmomatic, then the onus
 is on you to ensure that they are valid and produce the desired output. We
 cannot guarantee that any combination of options outside of our defaults will
@@ -987,10 +988,10 @@ These correspond to the following operations:
    cannot. By default, HISAT2 separates mates when one cannot find an alignment.
 2. Output a summary format that is easier to process with scripts
 3. Set the number of threads to the number of processors (can be changed with
-   the `--ppn` option to `gopher-pipelines.py bulk_rnaseq`)
-
-Note that these three options will always be specified, so you do not need to
-re-list them when supplying custom options with `--hisat2-opts=" ... "`. Like
+   the `--ppn` option to `churp.py bulk_rnaseq`) 
+Note that 
+hese three options will always be specified, so you do not need to re-list th
+m when supplying custom options with `--hisat2-opts=" ... "`. Like 
 with the Trimmomatic custom options, we cannot guarantee that any combination of
 options will work appropriately for your dataset. We further cannot validate
 any options that are passed; if your option string contains a typo or an illegal
@@ -1103,10 +1104,10 @@ generate will have full paths in them.
 
 Running this script will submit the entire pipeline to the scheduler. The only
 path that you will have to check is the `SAMPLESHEET=` declaration. This should
-be the location of the samplesheet that was generated by `gopher-pipelines.py`.
-
-[Return to top](#top)
-### <a name="4.3"></a> 4.3 Samplesheet
+be the location of the samplesheet that was generated by `churp.py`. 
+[Return to
+top](#top) ### <a nam
+="4.3"></a> 4.3 Samplesheet 
 The samplesheet contains the information necessary to process each sample, such
 as the paths to the reads, the reference genome for alignment, and trimming
 options that you have specified. The file is very "wide" (has long lines), so
@@ -1179,7 +1180,7 @@ In our example, we used the tissue type as the group, but we can specify
 additional columns by modifying our original call:
 
 ```
-konox006@ln0004 [~] % gopher-pipelines.py group_template bulk_rnaseq \
+konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % python churp.py group_template bulk_rnaseq \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -e Genotype \
     -e Tissue \
@@ -1262,10 +1263,12 @@ analyses, so use your best judgement.
 The UMGC recommends 50bp paired-end sequencing technology for differential
 gene expression analysis. For isoform-level expression or alternative splicing
 analysis, they recommend at least 125bp paired-end technology. It is possible
-to use single-end reads for differential gene expression, but it is not
-common, and it may take longer to move through the queue.
+to use single-end reads for differential gene expression, but it is not a widely
+requested technology, and it may take longer to move through the queue.
 
 The ENCODE project maintains [guidelines for RNAseq experiments](https://www.encodeproject.org/documents/cede0cbe-d324-4ce7-ace4-f0c3eddf5972/@@download/attachment/ENCODE%20Best%20Practices%20for%20RNA_v2.pdf) that may be helpful.
+You may also refer to [this page from Genohub](https://genohub.com/recommended-sequencing-coverage-by-application/)
+that lists recommendations for coverage for a variety of applications.
 
 If you are assembling a transcriptome, you should plan to collect at least 40
 to 50 million reads per sample. Collecting reads from multiple tissues,
@@ -1295,6 +1298,12 @@ For a quote, you can contact the next-gen sequencing team UMGC by emailing
 <next-gen@umn.edu> with your desired read quantity, read length, and
 single/paired technology. They will prepare a quote that will be good for three
 months from the prepartion date.
+
+For a full description of UMGC services and pricing, please see their
+[catalogue]({{"/materials/rnaseq_cmd/UMGC_2015-16_Catalog_Internal.pdf" | prepend: site.baseurl }}).
+Note that despite what the first page says, the prices are still current,
+as of November 2018. **The UMGC is updating their pricing schedule, however,
+so prices are subject to change in the next six months.**
 
 [Return to top](#top)
 #### <a name="6.2.2"></a> 6.2.2: Expected Turnaround Time
