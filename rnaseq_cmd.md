@@ -1090,7 +1090,7 @@ a VCF.
 
 <div class="warn" markdown="1">
 
-Note that not all SNPs in public databases (or even those derived from
+Note that not all SNPs in public databases (or even those derived from your own
 high-throughput sequencing analysis) are "real." Many are the result of poor
 alignment in regions of the genome that are difficult to assemble, or
 alignment errors involving short insertions/deletions. This shouldn't affect
