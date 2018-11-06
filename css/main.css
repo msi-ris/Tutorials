@@ -59,3 +59,7 @@ div.warn {
 .warn p {
     font-weight:bold;
 }
+
+li {
+    line-hieght:1.1;
+}
