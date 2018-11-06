@@ -879,7 +879,7 @@ ENSMUSG00000025060 -1.51128832611889 12.8822670060406 132.426442306639 3.7705700
 If you do not get any differentially expressed genes in your actual analysis it
 does not necessarily mean that there was a sample label issue. This was an
 engineered example to illustrate how to read the plots and make inference
-about sample quality. The results of a real experiment depends on technical
+about sample quality. The results of a real experiment depend on technical
 factors:
 
 - Quality of RNA extraction
