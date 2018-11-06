@@ -1109,7 +1109,7 @@ index, then you will have to produce your own.
 
 
 First, download a reference genome assembly and a gene annotation. A good source
-of reference genome assemblies is [Ensembl](https://ensemb.org). Make sure that
+of reference genome assemblies is [Ensembl](https://ensembl.org). Make sure that
 you get a FASTA file for the genome assembly and a GTF file for the gene
 annotations. HISAT2 does not take gzipped input files for index building, so
 they must be unzipped. Additionally, if your study species has such infomration
