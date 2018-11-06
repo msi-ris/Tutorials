@@ -1103,7 +1103,7 @@ species.
 [Return to top](#top)
 ### <a name="4.2"></a> 4.2: Building Your Own Index
 As of this writing (November 2018), the pre-built indices are only available
-for human, mouse mouse, Norway rat, common fruit fly, *C. elegans*, and baker's
+for human, house mouse, Norway rat, common fruit fly, *C. elegans*, and baker's
 yeast. If you are analyzing data from a species that does not have a pre-built
 index, then you will have to produce your own.
 
