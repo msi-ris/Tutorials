@@ -60,6 +60,6 @@ div.warn {
     font-weight:bold;
 }
 
-li {
-    line-hieght:1.1;
+li, ul, ol {
+    line-hieght:1;
 }
