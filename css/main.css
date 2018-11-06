@@ -47,7 +47,7 @@ div.info {
 }
 
 div.warn {
-    border:1px dashed #900;
+    border:2px solid #900;
     background-color:#ffcccc;
     background-image:url('/MSI-RIS/Tutorials/graphics/Warn.png');
     background-repeat:no-repeat;
