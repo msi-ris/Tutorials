@@ -1325,10 +1325,13 @@ observed gene expression.
 ### <a name="6.2"></a> 6.2 Links to Analysis Guides
 Various packages exist to analyze expression data. We have chosen to use `edgeR`
 in our pipeline, but the counts marix and group CSV are compatible with many
-others.
+others. In fact, one of the main use cases for `CHURP bulk_rnaseq` is to
+automate the generation of an expression counts matrix and metadata CSV so that
+gene expression can be analyzed in complex designs with specialized packages.
 
 [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) is
-another popular package for analyzing RNAseq data.
+another popular package for analyzing RNAseq data. It uses the same negative
+binomial model of read counts as `edgeR`.
 
 The [edgeR Manual](https://www.bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf)
 also contains useful information for analyzing more complex designs.
