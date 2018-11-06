@@ -216,7 +216,7 @@ the analysis of **bulk RNAseq** data. This type of data involves extraction of
 messenger RNA (mRNA) from whole tissue, organ, or organism samples. This
 technique is often applied for studies of gene expression, but can also be
 used to assemble transcript sequences or identify genetic variants (see
-**Part 7** at the end of this document for more information).
+[**Part 8**](#8) at the end of this document for more information).
 
 Bulk RNAseq is a useful tool to identify the transcriptomic response to a
 disease or stress condition, changes in expression during development of an
@@ -442,7 +442,7 @@ and a GTF file. We will eventually use these files to run an analysis. We will
 also take this time to make some easy-to-find output directories. The pipeline
 package will make default output and working directories, but the names are
 long and it will be easier for you to remember a directory that you created
-yourself. Use your username instead of mine in the below commands:
+yourself. Use your username instead of mine in the commands below:
 
 ```
 konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % mkdir /scratch.global/konox006/RNAseq_Tutorial_Out
@@ -507,6 +507,15 @@ the samples to their groups. In this case, the first four samples are part of
 group `BoneMarrow` and the final four samples are part of group `Spleen`.
 
 ```
+konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % nano \
+    /scratch.global/konox006/RNAseq_Tutorial_Out/Groups.csv
+```
+
+The window will display the contents of the CSV file. Use the arrow keys to
+move the cursor around in the window to replace text. Edit the file so that it
+looks like the file below:
+
+```
 SampleName,Group
 BoneMarrow-1,BoneMarrow
 BoneMarrow-2,BoneMarrow
@@ -518,8 +527,12 @@ Spleen-3,Spleen
 Spleen-4,Spleen
 ```
 
-This is a manual step because the researcher must made a decision as to which
-groups should be compared for differential expression testing.
+Once you are done editing the file, press `[Control]` and `O` (letter 'o') to
+save the file. It will ask you the file name; leave the default value to
+overwrite the CSV. Press `[Enter]` to confirm saving the file. Then press
+`[Control]` and `X` to exit. This is a manual step because the researcher must
+made a decision as to which groups should be compared for differential
+expression testing.
 
 [Return to top](#top)
 #### <a name="2.3.2"></a> 2.3.2: Submitting the Pipeline Jobs
@@ -533,10 +546,10 @@ described later in the document.
 
 <div class="warn" markdown="1">
 
-**NOTE!** We are using the `--unstranded` option here because the source of the
-data is from a lab that used an unstranded library prep protocol (NEBNext Ultra
-RNA kit). The default option is for reverse-stranded libraries, which is the
-standard kit used by the UMGC (TruSeq RNA).
+We are using the `--unstranded` option here because the source of the data is
+from a lab that used an unstranded library prep protocol (NEBNext Ultra RNA
+kit). The default option is for reverse-stranded libraries, which is the
+standard kit used by the UMGC (TruSeq Stranded RNA).
 
 </div>
 
@@ -552,7 +565,7 @@ konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % python churp.py 
     -o /scratch.global/konox006/RNAseq_Tutorial_Out \
     -d /scratch.global/konox006/RNAseq_Tutorial_Work \
     --unstranded \
-    --ppn 4 --mem 8000 -w 2 --submit
+    --ppn 4 --mem 12000 -w 2 --submit
 ----------
 Thank you for using the refactor of gopher-pipelines. This software was
 developed by the Research Informatics Solutions (RIS) group at MSI with funding
@@ -609,15 +622,15 @@ The `-t` expands the job array that we use to process samples in batches.
 konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % qstat -t
 Job ID                    Name             User            Time Use S Queue
 ------------------------- ---------------- --------------- -------- - -----
-8701303[1].mesabim3.msi.umn.e ..._sample.pbs-1 konox006               0 Q small
-8701303[2].mesabim3.msi.umn.e ..._sample.pbs-2 konox006               0 Q small
-8701303[3].mesabim3.msi.umn.e ..._sample.pbs-3 konox006               0 Q small
-8701303[4].mesabim3.msi.umn.e ..._sample.pbs-4 konox006               0 Q small
-8701303[5].mesabim3.msi.umn.e ..._sample.pbs-5 konox006               0 Q small
-8701303[6].mesabim3.msi.umn.e ..._sample.pbs-6 konox006               0 Q small
-8701303[7].mesabim3.msi.umn.e ..._sample.pbs-7 konox006               0 Q small
-8701303[8].mesabim3.msi.umn.e ..._sample.pbs-8 konox006               0 Q small
-8701304.mesabim3.msi.umn.edu ...ary_stats.pbs konox006               0 H small
+8840519[1].mesabim3.msi.umn.e ..._sample.pbs-1 konox006               0 Q small
+8840519[2].mesabim3.msi.umn.e ..._sample.pbs-2 konox006               0 Q small
+8840519[3].mesabim3.msi.umn.e ..._sample.pbs-3 konox006               0 Q small
+8840519[4].mesabim3.msi.umn.e ..._sample.pbs-4 konox006               0 Q small
+8840519[5].mesabim3.msi.umn.e ..._sample.pbs-5 konox006               0 Q small
+8840519[6].mesabim3.msi.umn.e ..._sample.pbs-6 konox006               0 Q small
+8840519[7].mesabim3.msi.umn.e ..._sample.pbs-7 konox006               0 Q small
+8840519[8].mesabim3.msi.umn.e ..._sample.pbs-8 konox006               0 Q small
+8840520.mesabim3.msi.umn.edu ...ary_stats.pbs konox006               0 H small
 ```
 
 The `Q` means that the job is queued. When the jobs begins to run, it will turn
@@ -632,45 +645,48 @@ Once all of the jobs have finished (all are listed with `C` status, or are
 no longer in the output of `qstat -t`), you will be able to view the results.
 The output is in the directory that was given as the output directory in the
 pipeline output message. For our example, this is
-`/panfs/roc/scratch/konox006/2018-10-16.bulk_rnaseq`.
+`/scratch.global/konox006/RNAseq_Tutorial_Out`.
 
-Navigate to the output directory and list the contents
+Navigate to the output directory and list the contents:
 
 ```
 konox006@ln0004 [~] % cd /scratch.global/konox006/RNAseq_Tutorial_Out
 konox006@ln0004 [/scratch.global/konox006/RNAseq_Tutorial_Out] % ls -lF
-total 2.0M
--rw-rw---- 1 konox006 msistaff 1.3K Oct 23 09:42 2018-10-23.konox006.bulk_rnaseq.pipeline.sh
--rw-rw---- 1 konox006 msistaff 4.9K Oct 23 09:42 2018-10-23.konox006.bulk_rnaseq.samplesheet.txt
-lrwxrwxrwx 1 konox006 msistaff   56 Oct 23 09:47 allsamples_work_directory ->
-/scratch.global/konox006/RNAseq_Tutorial_Work/allsamples/
--r--r----- 1 konox006 msistaff 732K Oct 23 09:47 Annotations.gtf.gz
--rw-rw---- 1 konox006 msistaff 6.6K Oct 23 09:46 bulk_rnaseq_single_sample.pbs.e8701303-1
--rw-rw---- 1 konox006 msistaff 6.6K Oct 23 09:46 bulk_rnaseq_single_sample.pbs.e8701303-2
--rw-rw---- 1 konox006 msistaff 6.6K Oct 23 09:46 bulk_rnaseq_single_sample.pbs.e8701303-3
--rw-rw---- 1 konox006 msistaff 6.6K Oct 23 09:46 bulk_rnaseq_single_sample.pbs.e8701303-4
--rw-rw---- 1 konox006 msistaff 6.2K Oct 23 09:46 bulk_rnaseq_single_sample.pbs.e8701303-5
--rw-rw---- 1 konox006 msistaff 6.2K Oct 23 09:46 bulk_rnaseq_single_sample.pbs.e8701303-6
--rw-rw---- 1 konox006 msistaff 6.2K Oct 23 09:46 bulk_rnaseq_single_sample.pbs.e8701303-7
--rw-rw---- 1 konox006 msistaff 6.2K Oct 23 09:46 bulk_rnaseq_single_sample.pbs.e8701303-8
--rw-rw---- 1 konox006 msistaff  493 Oct 23 09:45 bulk_rnaseq_single_sample.pbs.o8701303-1
--rw-rw---- 1 konox006 msistaff  493 Oct 23 09:45 bulk_rnaseq_single_sample.pbs.o8701303-2
--rw-rw---- 1 konox006 msistaff  493 Oct 23 09:45 bulk_rnaseq_single_sample.pbs.o8701303-3
--rw-rw---- 1 konox006 msistaff  493 Oct 23 09:45 bulk_rnaseq_single_sample.pbs.o8701303-4
--rw-rw---- 1 konox006 msistaff  453 Oct 23 09:45 bulk_rnaseq_single_sample.pbs.o8701303-5
--rw-rw---- 1 konox006 msistaff  453 Oct 23 09:45 bulk_rnaseq_single_sample.pbs.o8701303-6
--rw-rw---- 1 konox006 msistaff  453 Oct 23 09:45 bulk_rnaseq_single_sample.pbs.o8701303-7
--rw-rw---- 1 konox006 msistaff  453 Oct 23 09:45 bulk_rnaseq_single_sample.pbs.o8701303-8
-drwxrwx--- 2 konox006 msistaff 4.0K Oct 23 09:47 Counts/
-drwxrwx--- 2 konox006 msistaff 4.0K Oct 23 09:47 DEGs/
--rw-rw---- 1 konox006 msistaff  177 Oct 23 09:41 Groups.csv
-drwxrwx--- 2 konox006 msistaff 4.0K Oct 23 09:46 InsertSizeMetrics/
-drwxrwx--- 2 konox006 msistaff 4.0K Oct 23 09:47 Logs/
-drwxrwx--- 2 konox006 msistaff 4.0K Oct 23 09:47 Plots/
--rw-rw---- 1 konox006 msistaff  13K Oct 23 09:47 run_summary_stats.pbs.e8701304
--rw-rw---- 1 konox006 msistaff    0 Oct 23 09:47 run_summary_stats.pbs.o8701304
-lrwxrwxrwx 1 konox006 msistaff   59 Oct 23 09:47 singlesamples_work_directory ->
-/scratch.global/konox006/RNAseq_Tutorial_Work/singlesamples/
+total 5.1M
+-rw-rw---- 1 konox006 msistaff 1.5K Nov  6 10:01 2018-11-06.konox006.bulk_rnaseq.pipeline.sh
+-rw-rw---- 1 konox006 msistaff 4.9K Nov  6 10:01 2018-11-06.konox006.bulk_rnaseq.samplesheet.txt
+lrwxrwxrwx 1 konox006 msistaff   56 Nov  6 10:07 allsamples_work_directory
+-> /scratch.global/konox006/RNAseq_Tutorial_Work/allsamples/
+-r--r----- 1 konox006 msistaff 732K Nov  6 10:07 Annotations.gtf.gz
+-rw-rw---- 1 konox006 msistaff 2.5M Nov  6 10:07 Bulk_RNAseq_Report.html
+-rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-1
+-rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:05 bulk_rnaseq_single_sample.pbs.e8840519-2
+-rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-3
+-rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-4
+-rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:05 bulk_rnaseq_single_sample.pbs.e8840519-5
+-rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-6
+-rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-7
+-rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-8
+-rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-1
+-rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-2
+-rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-3
+-rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-4
+-rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-5
+-rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-6
+-rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-7
+-rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-8
+drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:05 Coordinate_Sorted_BAMs/
+drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:07 Counts/
+drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:07 DEGs/
+-rw-rw---- 1 konox006 msistaff  29K Nov  6 10:07 gene_id_gene_name_map.txt
+-rw-rw---- 1 konox006 msistaff  177 Nov  6 10:01 Groups.csv
+drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:05 InsertSizeMetrics/
+drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:06 Logs/
+drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:07 Plots/
+-rw-rw---- 1 konox006 msistaff  14K Nov  6 10:07 run_summary_stats.pbs.e8840520
+-rw-rw---- 1 konox006 msistaff 9.0K Nov  6 10:07 run_summary_stats.pbs.o8840520
+lrwxrwxrwx 1 konox006 msistaff   59 Nov  6 10:07 singlesamples_work_directory
+-> /scratch.global/konox006/RNAseq_Tutorial_Work/singlesamples/
 ```
 
 The `-l` option to `ls` gives "long format" which includes permissions, owner,
@@ -686,6 +702,7 @@ There are multiple levels types of output that get generated:
 - Summary plots
 - Differentially expressed genes (if groups were specified)
 - Per-sample log files
+- HTML report
 
 There are also links to the working directories that get placed in the output
 directory. Additionally, a copy of the GTF that was used for expression counts
@@ -783,11 +800,24 @@ genes   logFC   logCPM  F   PValue  FDR
 There are no differentially expressed genes!
 
 [Return to top](#top)
+##### HTML Report
+Finally, there is a summary report generated for the entire run. This is a large
+HTML file with embedded graphics and PDF objects. Much of the information in
+the HTML report is compiled from the summaries that we just went through above.
+Use Filezilla to copy the `Bulk_RNAseq_Report.html` file from the specified
+output directory to your desktop. Open it in the browser and take a few minutes
+to scroll through it.
+
+You can view an example of the HTML report [here]({{"/materials/rnaseq_cmd/Bulk_RNAseq_Report.html" | prepend: site.baseurl }}).
+Warning: it is large (approximately 3MB)!
+
+[Return to top](#top)
 #### <a name="2.3.4"></a> 2.3.4: Fixing Sample Labels
 One thing that could be contributing to the fact that we don't have any
 differentially expressed genes is that it appears as though there was a mix-up
 between a `Spleen` sample and a `BoneMarrow` sample. `Spleen-2` and
-`BoneMarrow-2` look like they were swapped, in particular. Let's fix this.
+`BoneMarrow-2` look like they were swapped, in particular. This is apparent in
+the MDS plot and in the clustering heatmap. Let's fix this.
 
 Edit the `Groups.csv` file that you made in **2.3.1** and re-assign labels for
 the problematic samples.
@@ -817,7 +847,7 @@ konox006@ln0004 [/home/msistaff/public/RNAseq_Tutorial/CHURP] % python churp.py 
     -o /scratch.global/konox006/RNAseq_Tutorial_Out \
     -d /scratch.global/konox006/RNAseq_Tutorial_Work \
     --unstranded \
-    --ppn 4 --mem 8000 -w 2 --submit --purge
+    --ppn 4 --mem 12000 -w 2 --submit --purge
 ```
 
 Now, take a look at the plots and the top of the DEG list file. They should
@@ -863,7 +893,7 @@ And on biological factors:
 - Change in gene expression that is effected by the experimental conditions
 - Nested, multi-factorial, or time-series designs
 
-Please see **Part 5** for information on more complex designs.
+Please see [**Part 6**](#6) for information on more complex designs.
 
 </div>
 
