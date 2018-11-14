@@ -792,9 +792,9 @@ There are no differentially expressed genes!
 Finally, there is a summary report generated for the entire run. This is a large
 HTML file with embedded graphics and PDF objects. Much of the information in
 the HTML report is compiled from the summaries that we just went through above.
-Use Filezilla to copy the `Bulk_RNAseq_Report.html` file from the specified
-output directory to your desktop. Open it in the browser and take a few minutes
-to scroll through it.
+Use FileZilla (or your favorite SFTP client) to copy the 
+`Bulk_RNAseq_Report.html` file from the specified output directory to your
+desktop. Open it in the browser and take a few minutes to scroll through it.
 
 You can view an example of the HTML report [here]({{"/materials/rnaseq_cmd/Bulk_RNAseq_Report.html" | prepend: site.baseurl }}).
 Warning: it is large (approximately 3MB)!
