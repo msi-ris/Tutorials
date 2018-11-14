@@ -52,7 +52,7 @@ delivered: 2018-11-06
     - [General Considerations for Experimental Design](#7.1)
     - [How Much Sequence Data to Collect](#7.2)
         - [UMGC Pricing](#7.2.1)
-        - [Exepected Turnaround Time](#7.2.2)
+        - [Expected Turnaround Time](#7.2.2)
     - [Analytical Workflow Considerations](#7.3)
 - [Other RNASeq Applications](#8)
     - [Coexpression](#8.1)
