@@ -265,7 +265,7 @@ that we will use in this tutorial.
     format.
 - SAM/BAM
 
-    Holds alignment information. While sequence alingments can technically be
+    Holds alignment information. While sequence alignments can technically be
     stored in FASTA format, it is very inefficient for genomics datasets.
     Additionally, genomics alignments tend to be a series of pairwise alignments
     to a reference sequence, and not a multiple sequence alignment.
