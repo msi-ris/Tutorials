@@ -19,6 +19,7 @@ delivered: 2018-11-06
     - [Scope of the Tutorial](#0.3)
     - [Required Software](#0.4)
     - [Accessing MSI](#0.5)
+    - [Practice Commands](#0.6)
 - [RNASeq Overview](#1)
     - [Why RNASeq](#1.1)
     - [Common Genomics File Formats](#1.2)
@@ -120,7 +121,8 @@ computer to follow along with the tutorial.
         - Setup instructions [here](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
     - For Mac, use Terminal, which is built-in.
         - Go to Applications>Utilities>Terminal.app
-    - For Linux, you should know how to get to your terminal emulator already.
+    - For Linux workstations in the MSI computer lab, go to Applications>System Tools>Terminal
+        - For personal Linux workstations, please refer to your distribution/desktop notes
 - File transfer client
     - We recommend FileZilla (<https://filezilla-project.org/>) because it is
       reasonably powerful and easy to use.
@@ -187,13 +189,99 @@ links for `bash` resources:
 
 </div>
 
-[Return to top](#top)
-## 0.7: Feedback
-This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
-Please send feedback and comments to konox006 [at] umn.edu. You may also send
-tutorial delivery feedback to that address.
+## <a name="0.6"></a> 0.6: Practice Commands
+To get familiar with the commands that we will be using in this tutorial, we
+will walk through a few commands that will help us set up the directories to run
+the pipeline we are teaching in this tutorial.
+
+1. Make a directory in global scratch for your files. We recommend organizing
+   your files in scratch in such a way that you can easily find your files and
+   do not clash with other users. Global scratch is a public space, so it is
+   helpful to be organized there. Use your X.500 ID instead of `YOUR_USER_NAME`
+   in the following command:
+
+   ```
+   % mkdir /scratch.global/YOUR_USER_NAME
+   ```
+
+   If you have already made this directory, then you will get an error saying
+   that it already exists. You can use the `-p` option to `mkdir` to disable
+   that behavior:
+
+   ```
+   % mkdir -p /scratch.global/YOUR_USER_NAME
+   ```
+
+2. Navigate to the directory you just made with the `cd` command:
+
+   ```
+   % cd /scratch.global/YOUR_USER_NAME
+   ```
+
+3. Verify that you got to the correct directory with the `pwd` command. `pwd`
+   will print your current working directory to the terminal.
+
+   ```
+   % pwd
+   /scratch.global/konox006
+   ```
+
+   You should see your username instead of `konox006`.
+
+4. Make output and working directories in your scratch directory. The output
+   directory will hold the final results of the pipeline and the working
+   directory will hold the intermediate files.
+
+   ```
+   % mkdir RNAseq_Tutorial_Out
+   % mkdir RNAseq_Tutorial_Work
+   ```
+
+   Like the previous `mkdir` command, you can also supply the `-p` option if
+   they already exist:
+
+   ```
+   % mkdir -p RNAseq_Tutorial_Out
+   % mkdir -p RNAseq_Tutorial_Work
+   ```
+
+5. Verify that the directories were made with the `ls` command. `ls` lists files
+   and directories that are contained in a specified location. If you run `ls`
+   without any arguments, then your current working directory is used:
+
+   ```
+   % ls
+   RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
+   ```
+
+   If you have been using your scratch directory, then you may see additional
+   files there.
+
+6. Just for illustrative purposes, let's copy the gene annotations file from the
+   tutorial directory into the scratch directory. Verify that it has been
+   copied, too, using `ls`. Be sure to put the dot (`.`) after the `cp` command.
+
+   ```
+   % cp /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz .
+   % ls
+   Annotations.gtf.gz  RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
+   ```
+
+   <div class="info" markdown="1">
+    The dot (`.`) is a bash shorthand for the current working directory when
+    used as an argument to a command.
+    </div>
+
+7. Then, you can delete it with the `rm` command.
+
+   ```
+   % rm Annotations.gtf.gz
+   % ls
+   RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
+   ```
 
 [Return to top](#top)
+
 ## <a name="1"></a> Part 1: RNASeq Overview
 
 <div class="info" markdown="1">
@@ -427,16 +515,9 @@ FASTQ directory. Please fix your command line and re-run.
 ```
 
 As the help message shows, you must specify a FASTQ directory, a HISAT2 index,
-and a GTF file. We will eventually use these files to run an analysis. We will
-also take this time to make some easy-to-find output directories. The pipeline
-package will make default output and working directories, but the names are
-long and it will be easier for you to remember a directory that you created
-yourself. Use your username instead of `YOUR_USER_NAME` in the commands below:
-
-```
-% mkdir /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out
-% mkdir /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Work
-```
+and a GTF file. We have provided these for you fur the tutorial, but eventually
+you will have your own files. Before we actually run the analysis, through, we
+have to generate experimental group files for differential expression testing.
 
 [Return to top](#top)
 #### <a name="2.3.1"></a> 2.3.1: Generating Experimental Groups
