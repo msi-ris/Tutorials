@@ -132,6 +132,21 @@ computer to follow along with the tutorial.
 The software required for the actual RNASeq analysis is already installed on MSI
 systems. We will show you how to access the analysis programs in later sections.
 
+<div class="info" markdown="1">
+
+The software that we use for the bulk RNAseq analysis are as follows:
+
+- FastQC for quality control of reads
+- Trimmomatic for quality and adapter trimming
+- HISAT2 for read mapping
+- SAMTools for sorting and filtering
+- Picard Tools for insert size metric calculation
+- featureCounts (from subread) for generating expression counts
+- edgeR (in R) for differential expression testing
+- Rmarkdown (in R) for report generation
+
+</div>
+
 [Return to top](#top)
 <div class="info" markdown="1">
 
