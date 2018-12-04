@@ -685,9 +685,9 @@ pipeline script and samplesheet paths are also printed. If you would like to
 reproduce the analysis, you must keep both the pipeline script and the
 samplesheet.
 
-Note that the paths to the pipeline script and the samplesheet have been
+*Note that the paths to the pipeline script and the samplesheet have been
 truncated in this webpage for readability. When you run the pipeline in the
-terminal, you will see the full path printed.
+terminal, you will see the full path printed.*
 
 You can verify that the jobs are submitted by issuing the `qstat -t` command.
 The `-t` expands the job array that we use to process samples in batches.
