@@ -147,6 +147,10 @@ The software that we use for the bulk RNAseq analysis are as follows:
 
 </div>
 
+You will not be required to call any of these program directly for the tutorial,
+but if you would like to implement the same pipeline outside of MSI, you will
+need those tools available.
+
 [Return to top](#top)
 <div class="info" markdown="1">
 
