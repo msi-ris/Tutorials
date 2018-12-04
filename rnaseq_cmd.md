@@ -526,7 +526,12 @@ which samples are part of which experimental group. We do this with the
 `group_template` subcommand. This particular subcommand takes an additional
 argument. In this case, we will supply `bulk_rnaseq` because we are generating
 a groups file for the `bulk_rnaseq` pipeline. We supply the FASTQ directory as
-the argument:
+the argument.
+
+*Please note that the backslashes `\` and new lines in the following commands
+are only for readability purposes. You don't have to reproduce the same
+indentation structure as the tutorial document! It should still work if you do
+reproduce the stucture, though.*
 
 ```
 % python churp.py group_template bulk_rnaseq \
