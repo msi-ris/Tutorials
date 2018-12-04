@@ -259,7 +259,8 @@ the pipeline we are teaching in this tutorial.
 
 6. Just for illustrative purposes, let's copy the gene annotations file from the
    tutorial directory into the scratch directory. Verify that it has been
-   copied, too, using `ls`. Be sure to put the dot (`.`) after the `cp` command.
+   copied, too, using `ls`. Be sure to put the dot (`.`) as the final argument
+   to the `cp` command.
 
    ```
    % cp /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz .
