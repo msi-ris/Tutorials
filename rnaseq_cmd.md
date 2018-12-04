@@ -532,7 +532,7 @@ the argument.
 *Please note that the backslashes `\` and new lines in the following commands
 are only for readability purposes. You don't have to reproduce the same
 indentation structure as the tutorial document! It should still work if you do
-reproduce the stucture, though.*
+reproduce the structure, though.*
 
 ```
 % python churp.py group_template bulk_rnaseq \
