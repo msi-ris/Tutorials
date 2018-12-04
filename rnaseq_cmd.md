@@ -515,9 +515,9 @@ FASTQ directory. Please fix your command line and re-run.
 ```
 
 As the help message shows, you must specify a FASTQ directory, a HISAT2 index,
-and a GTF file. We have provided these for you fur the tutorial, but eventually
-you will have your own files. Before we actually run the analysis, through, we
-have to generate experimental group files for differential expression testing.
+and a GTF file. We have provided these for you fur the tutorial, but before we
+actually run the analysis, through, we have to generate experimental group files
+for differential expression testing.
 
 [Return to top](#top)
 #### <a name="2.3.1"></a> 2.3.1: Generating Experimental Groups
