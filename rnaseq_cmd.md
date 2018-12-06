@@ -7,10 +7,6 @@ updated: 2018-12-06
 delivered: 2018-12-04
 ---
 
-# <a name="top"></a> {{page.title}}
-*Last Updated: {{page.updated}}*  
-*Last Delivered: {{page.delivered}}*
-
 <div id="navdiv" markdown="1">
 
 ## Table of Contents
@@ -61,6 +57,10 @@ delivered: 2018-12-04
     - [Variant Discovery](#8.3)
 
 </div>
+
+# <a name="top"></a> {{page.title}}
+*Last Updated: {{page.updated}}*  
+*Last Delivered: {{page.delivered}}*
 
 ## <a name="0"></a>Part 0: Introduction
 ### <a name="0.1"></a>0.1 Formatting in This Document
