@@ -20,7 +20,6 @@ delivered: 2018-12-04
     - [Scope of the Tutorial](#0.3)
     - [Required Software](#0.4)
     - [Accessing MSI](#0.5)
-    - [Practice Commands](#0.6)
 - [RNASeq Overview](#1)
     - [Why RNASeq](#1.1)
     - [Common Genomics File Formats](#1.2)
@@ -177,8 +176,6 @@ to the system.
 
 [Return to top](#top)
 
-<div class="info" markdown="1">
-
 #### 0.5.1: Common Commands
 Throughout this tutorial, we will be using the command line to run programs that
 analyze sequencing data. You will need to be familiar with navigating the MSI
@@ -200,19 +197,9 @@ common commands that we will be using:
 - `ssh`: secure shell. This will let you log in to a remote machine to execute
   commands. We will use this command to log in to MSI systems.
 
-[Return to top](#top)
-#### 0.5.2: Other Resources
-There are plenty of resources available for learning how to interact with the
-computer through the command line. For technical reference, the default
-command line program on MSI, or shell, is called `bash`. Here are a few other
-links for `bash` resources:
+<div class="info" markdown="1">
 
-- [UCR Linux Basics](http://hpcc.ucr.edu/manuals_linux-basics_intro)
-- [Advanced Bash Scripting Guide from The Linux Documentation Project](https://www.tldp.org/LDP/abs/html/)
-
-</div>
-
-## <a name="0.6"></a> 0.6: Practice Commands
+## <a name="0.5.2"></a> 0.5.2: Practice Commands
 To get familiar with the commands that we will be using in this tutorial, we
 will walk through a few commands that will help us set up the directories to run
 the pipeline we are teaching in this tutorial.
@@ -303,6 +290,18 @@ the pipeline we are teaching in this tutorial.
    % ls
    RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
    ```
+
+[Return to top](#top)
+#### 0.6.1: Other Resources
+There are plenty of resources available for learning how to interact with the
+computer through the command line. For technical reference, the default
+command line program on MSI, or shell, is called `bash`. Here are a few other
+links for `bash` resources:
+
+- [UCR Linux Basics](http://hpcc.ucr.edu/manuals_linux-basics_intro)
+- [Advanced Bash Scripting Guide from The Linux Documentation Project](https://www.tldp.org/LDP/abs/html/)
+
+</div>
 
 [Return to top](#top)
 
