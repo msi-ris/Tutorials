@@ -216,7 +216,7 @@ the pipeline we are teaching in this tutorial.
    helpful to be organized there. Use your X.500 ID instead of `YOUR_USER_NAME`
    in the following command:
 
-   ```
+   ```bash
    % mkdir /scratch.global/YOUR_USER_NAME
    ```
 
@@ -224,20 +224,20 @@ the pipeline we are teaching in this tutorial.
    that it already exists. You can use the `-p` option to `mkdir` to disable
    that behavior:
 
-   ```
+   ```bash
    % mkdir -p /scratch.global/YOUR_USER_NAME
    ```
 
 2. Navigate to the directory you just made with the `cd` command:
 
-   ```
+   ```bash
    % cd /scratch.global/YOUR_USER_NAME
    ```
 
 3. Verify that you got to the correct directory with the `pwd` command. `pwd`
    will print your current working directory to the terminal.
 
-   ```
+   ```bash
    % pwd
    /scratch.global/konox006
    ```
@@ -248,7 +248,7 @@ the pipeline we are teaching in this tutorial.
    directory will hold the final results of the pipeline and the working
    directory will hold the intermediate files.
 
-   ```
+   ```bash
    % mkdir RNAseq_Tutorial_Out
    % mkdir RNAseq_Tutorial_Work
    ```
@@ -256,7 +256,7 @@ the pipeline we are teaching in this tutorial.
    Like the previous `mkdir` command, you can also supply the `-p` option if
    they already exist:
 
-   ```
+   ```bash
    % mkdir -p RNAseq_Tutorial_Out
    % mkdir -p RNAseq_Tutorial_Work
    ```
@@ -265,7 +265,7 @@ the pipeline we are teaching in this tutorial.
    and directories that are contained in a specified location. If you run `ls`
    without any arguments, then your current working directory is used:
 
-   ```
+   ```bash
    % ls
    RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
    ```
@@ -278,7 +278,7 @@ the pipeline we are teaching in this tutorial.
    copied, too, using `ls`. Be sure to put the dot (`.`) as the final argument
    to the `cp` command.
 
-   ```
+   ```bash
    % cp /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz .
    % ls
    Annotations.gtf.gz  RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
@@ -291,7 +291,7 @@ the pipeline we are teaching in this tutorial.
 
 7. Then, you can delete it with the `rm` command.
 
-   ```
+   ```bash
    % rm Annotations.gtf.gz
    % ls
    RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
@@ -479,7 +479,7 @@ Next, load the `python3` module. This is required to run `CHURP`. Navigate to
 the `/home/msistaff/public/RNAseq_Tutorial/CHURP` directory with `cd`. Run the
 main control script, `churp.py`.
 
-```
+```bash
 % module load python3
 % cd /home/msistaff/public/RNAseq_Tutorial/CHURP
 % python churp.py
@@ -532,7 +532,8 @@ the data. To see a full help message, add the `-h` option after the
 `bulk_rnaseq` subcommand. For more detail on the options that are available
 for the `bulk_rnaseq` pipeline, you can access the latest version of the manual
 at the [GitHub Wiki page](https://github.umn.edu/MSI-RIS/CHURP/wiki/bulk_rnaseq).
-```
+
+```bash
 % python churp.py bulk_rnaseq
 ----------
 Thank you for using the refactor of gopher-pipelines. This software was
@@ -574,7 +575,7 @@ are only for readability purposes. You don't have to reproduce the same
 indentation structure as the tutorial document! It should still work if you do
 reproduce the structure, though.*
 
-```
+```bash
 % python churp.py group_template bulk_rnaseq \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
@@ -622,7 +623,7 @@ Use the `nano` text editor (or your favorite terminal editor program) to assign
 the samples to their groups. In this case, the first four samples are part of
 group `BoneMarrow` and the final four samples are part of group `Spleen`.
 
-```
+```bash
 % nano /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
 ```
 
@@ -671,7 +672,7 @@ standard kit used by the UMGC (TruSeq Stranded RNA).
 For the sake of getting the jobs completed more quickly, we will decrease the
 size of the resource request.
 
-```
+```bash
 % python churp.py bulk_rnaseq \
     -e /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
@@ -733,7 +734,7 @@ terminal, you will see the full path printed.*
 You can verify that the jobs are submitted by issuing the `qstat -t` command.
 The `-t` expands the job array that we use to process samples in batches.
 
-```
+```bash
 % qstat -t
 Job ID                    Name             User            Time Use S Queue
 ------------------------- ---------------- --------------- -------- - -----
@@ -764,7 +765,7 @@ pipeline output message. For our example, this is
 
 Navigate to the output directory and list the contents:
 
-```
+```bash
 % cd /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out
 % ls -lF
 total 5.1M
@@ -952,7 +953,7 @@ Spleen-4,Spleen
 Re-run the pipeline with the same command, but be sure to add the `--purge`
 option. This tells the pipeline to regenerate alignments.
 
-```
+```bash
 % cd /home/msistaff/public/RNAseq_Tutorial/CHURP
 % python churp.py bulk_rnaseq \
     -e /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv \
@@ -1291,31 +1292,31 @@ automatically assign samples to groups based on patterns in the filenames.
 This is a standard bash script that contains paths to the samplesheet and the
 PBS job scripts. The template for it is shown below:
 
-```
+```bash
 #!/bin/bash
-# Generated by CHURP version 0.0.0
-# Generated at 2018-10-23 10:13:44
+# Generated by CHURP version 0.0.1
+# Generated at 2018-12-04 15:31:08
 set -e
 set -u
 set -o pipefail
 user_name="$(id -u -n)"
 user_email="${user_name}@umn.edu"
-OUTDIR="/scratch.global/konox006/RNAseq_Tutorial_Out"
-WORKDIR="/scratch.global/konox006/RNAseq_Tutorial_Work"
-DE_SCRIPT="[...]_bulk_rnaseq.R"
-REPORT_SCRIPT="[...]bulk_rnaseq_report.Rmd"
-SAMPLESHEET="[...]samplesheet.txt"
+OUTDIR="/scratch.global/konox006/RNAseq_Tutorial_Out/"
+WORKDIR="/scratch.global/konox006/RNAseq_Tutorial_Work/"
+DE_SCRIPT="/panfs/roc/groups/14/msistaff/public/RNAseq_Tutorial/CHURP/R_Scripts/summarize_bulk_rnaseq.R"
+REPORT_SCRIPT="/panfs/roc/groups/14/msistaff/public/RNAseq_Tutorial/CHURP/R_Scripts/bulk_rnaseq_report.Rmd"
+SAMPLESHEET="/scratch.global/konox006/RNAseq_Tutorial_Out/2018-12-04.konox006.bulk_rnaseq.samplesheet.txt"
 PURGE="true"
 PIPE_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/$(basename $0)"
-single_id=$(qsub -q mesabi [...]single_sample.pbs || exit 1)
-summary_id=$(qsub -q mesabi [...]run_summary_stats.pbs || exit 1)
+single_id=$(qsub -q mesabi <options> [...]bulk_rnaseq_single_sample.pbs || exit 1)
+summary_id=$(qsub -q mesabi <options> [...]run_summary_stats.pbs || exit 1)
 echo "Output and logs will be written to ${OUTDIR}"
 echo "Emails will be sent to ${user_email}"
 echo "Single samples job array ID: ${single_id}"
 echo "Summary job ID: ${summary_id}"
 ```
-Note that long paths have been truncated for readability. The files that you
-generate will have full paths in them.
+Note that long paths and option strings have been truncated for readability.
+The files that you generate will have full paths and options lists in them.
 
 Running this script will submit the entire pipeline to the scheduler. The only
 path that you will have to check is the `SAMPLESHEET=` declaration. This should
@@ -1394,7 +1395,7 @@ that were swapped for instructional purposes.
 In our example, we used the tissue type as the group, but we can specify
 additional columns by modifying our original call:
 
-```
+```bash
 % python churp.py group_template bulk_rnaseq \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -e Genotype \
