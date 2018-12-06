@@ -69,14 +69,16 @@ pieces of information.
 
 <div class="info" markdown="1">
 
-This is just information. There are no tutorial-related tasks in these boxes.
-We will write background or supporting information like this.
+This is just background information. There are no tutorial-related tasks in
+these boxes. Links to supporting material and further explanations of points we
+raise in the tutorial will appear like this.
 
 </div>
 
 <div class="warn" markdown="1">
 
-This is a warning. Important warnings will appear like this.
+This is a warning. Common pitfalls, cautionary inforation, and important points
+to consider will appear like this.
 
 </div>
 
