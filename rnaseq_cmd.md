@@ -221,7 +221,7 @@ the pipeline we are teaching in this tutorial.
    helpful to be organized there. Use your X.500 ID instead of `YOUR_USER_NAME`
    in the following command:
 
-   ```
+   ```bash
    % mkdir /scratch.global/YOUR_USER_NAME
    ```
 
@@ -229,20 +229,20 @@ the pipeline we are teaching in this tutorial.
    that it already exists. You can use the `-p` option to `mkdir` to disable
    that behavior:
 
-   ```
+   ```bash
    % mkdir -p /scratch.global/YOUR_USER_NAME
    ```
 
 2. Navigate to the directory you just made with the `cd` command:
 
-   ```
+   ```bash
    % cd /scratch.global/YOUR_USER_NAME
    ```
 
 3. Verify that you got to the correct directory with the `pwd` command. `pwd`
    will print your current working directory to the terminal.
 
-   ```
+   ```bash
    % pwd
    /scratch.global/konox006
    ```
@@ -253,7 +253,7 @@ the pipeline we are teaching in this tutorial.
    directory will hold the final results of the pipeline and the working
    directory will hold the intermediate files.
 
-   ```
+   ```bash
    % mkdir RNAseq_Tutorial_Out
    % mkdir RNAseq_Tutorial_Work
    ```
@@ -261,7 +261,7 @@ the pipeline we are teaching in this tutorial.
    Like the previous `mkdir` command, you can also supply the `-p` option if
    they already exist:
 
-   ```
+   ```bash
    % mkdir -p RNAseq_Tutorial_Out
    % mkdir -p RNAseq_Tutorial_Work
    ```
@@ -270,7 +270,7 @@ the pipeline we are teaching in this tutorial.
    and directories that are contained in a specified location. If you run `ls`
    without any arguments, then your current working directory is used:
 
-   ```
+   ```bash
    % ls
    RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
    ```
@@ -283,7 +283,7 @@ the pipeline we are teaching in this tutorial.
    copied, too, using `ls`. Be sure to put the dot (`.`) as the final argument
    to the `cp` command.
 
-   ```
+   ```bash
    % cp /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz .
    % ls
    Annotations.gtf.gz  RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
@@ -296,7 +296,7 @@ the pipeline we are teaching in this tutorial.
 
 7. Then, you can delete it with the `rm` command.
 
-   ```
+   ```bash
    % rm Annotations.gtf.gz
    % ls
    RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
