@@ -1378,7 +1378,7 @@ groups CSV file. The argument given to the `-e` option is the name of the
 column, and the option can be specified multiple times.
 
 For example, a more complete set of information for the tutorial samples is
-shown below:. Note that this reflects the **true** data set, and not the labels
+shown below. Note that this reflects the **true** data set, and not the labels
 that were swapped for instructional purposes.
 
 | Name         | Genotype | Tissue      | Time |
