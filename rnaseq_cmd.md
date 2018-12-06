@@ -289,9 +289,10 @@ the pipeline we are teaching in this tutorial.
    RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
    ```
 
+[Return to top](#top)
+
 <div class="info" markdown="1">
 
-[Return to top](#top)
 #### 0.6.1: Other Resources
 There are plenty of resources available for learning how to interact with the
 computer through the command line. For technical reference, the default
