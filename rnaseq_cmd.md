@@ -3,7 +3,7 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2018-12-04
+updated: 2018-12-06
 delivered: 2018-12-04
 ---
 
@@ -203,8 +203,9 @@ common commands that we will be using:
   they're gone for good.
 - `head`: show the "head" of a file. This command will show you the first few
   lines of a file.
-- `ssh`: secure shell. This will let you log in to a remote machine to execute
-  commands. We will use this command to log in to MSI systems.
+- `ssh`: secure shell. This will let you log in to another machine to execute
+  commands. We will use this command to connect to a high-performance computing
+  login node from the main login nodes.
 
 ## <a name="0.5.2"></a> 0.5.2: Practice Commands
 To get familiar with the commands that we will be using in this tutorial, we
