@@ -124,7 +124,9 @@ computer to follow along with the tutorial.
         - Setup instructions [here](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
     - For Mac, use Terminal, which is built-in.
         - Go to Applications>Utilities>Terminal.app
-    - For Linux workstations in the MSI computer lab, go to Applications>System Tools>Terminal
+    - For Linux workstations in the MSI computer lab, go to
+      Applications>System Tools>Terminal. The Applications menu is in the
+      top-left of the desktop screen.
         - For personal Linux workstations, please refer to your distribution/desktop notes
 - File transfer client
     - We recommend FileZilla (<https://filezilla-project.org/>) because it is
