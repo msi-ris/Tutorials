@@ -466,10 +466,13 @@ node.
 
 <div class="warn" markdown="1">
 
-Do not run computationally intense tasks on this node, either; this is a login
+Do not run computationally-intense tasks on this node, either; this is a login
 node for the compute cluster. Running analysis tasks on the login node for the
 cluster will deplete the resources for other users to connect and get their
 work done, and will result in account restrictions.
+
+That said, running the pipelines as described in this tutorial does not count as
+a computationally-intense task; it properly submits tasks to the job scheduler.
 
 </div>
 
