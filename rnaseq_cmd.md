@@ -162,9 +162,10 @@ We will now log in to MSI systems. The first host we will access is called the
 
 <div class="warn" markdown="1">
 
-Don't run computationally intense tasks on this node. You will make it hard for
-other uses to access the systems by reducing the performance of the login
-gateway, and we will yell at you. A lot.
+Don't run computationally intense tasks on this node. Other users will not be
+able to access the systems because the login nodes will become unresponsive.
+Doing this will result in disciplinary action, and repeats will result in
+account restrictions.
 
 </div>
 
