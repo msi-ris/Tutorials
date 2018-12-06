@@ -158,9 +158,15 @@ you will need those tools available.
 
 ### <a name="0.5"></a> 0.5: Accessing MSI
 We will now log in to MSI systems. The first host we will access is called the
-`login` node. **Don't run computationally intense tasks on this node.** You
-will make it hard for other uses to access the systems by reducing the
-performance of the login gateway, and we will yell at you. A lot.
+`login` node.
+
+<div class="warn" markdown="1">
+
+Don't run computationally intense tasks on this node. You will make it hard for
+other uses to access the systems by reducing the performance of the login
+gateway, and we will yell at you. A lot.
+
+</div>
 
 On Windows, open PuTTY, and follow the instructions at the PuTTY setup link
 given in the previous section. You can skip step 5, because we will just connect
@@ -210,7 +216,7 @@ the pipeline we are teaching in this tutorial.
    helpful to be organized there. Use your X.500 ID instead of `YOUR_USER_NAME`
    in the following command:
 
-   ```bash
+   ```
    % mkdir /scratch.global/YOUR_USER_NAME
    ```
 
@@ -218,20 +224,20 @@ the pipeline we are teaching in this tutorial.
    that it already exists. You can use the `-p` option to `mkdir` to disable
    that behavior:
 
-   ```bash
+   ```
    % mkdir -p /scratch.global/YOUR_USER_NAME
    ```
 
 2. Navigate to the directory you just made with the `cd` command:
 
-   ```bash
+   ```
    % cd /scratch.global/YOUR_USER_NAME
    ```
 
 3. Verify that you got to the correct directory with the `pwd` command. `pwd`
    will print your current working directory to the terminal.
 
-   ```bash
+   ```
    % pwd
    /scratch.global/konox006
    ```
@@ -242,7 +248,7 @@ the pipeline we are teaching in this tutorial.
    directory will hold the final results of the pipeline and the working
    directory will hold the intermediate files.
 
-   ```bash
+   ```
    % mkdir RNAseq_Tutorial_Out
    % mkdir RNAseq_Tutorial_Work
    ```
@@ -250,7 +256,7 @@ the pipeline we are teaching in this tutorial.
    Like the previous `mkdir` command, you can also supply the `-p` option if
    they already exist:
 
-   ```bash
+   ```
    % mkdir -p RNAseq_Tutorial_Out
    % mkdir -p RNAseq_Tutorial_Work
    ```
@@ -259,7 +265,7 @@ the pipeline we are teaching in this tutorial.
    and directories that are contained in a specified location. If you run `ls`
    without any arguments, then your current working directory is used:
 
-   ```bash
+   ```
    % ls
    RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
    ```
@@ -272,7 +278,7 @@ the pipeline we are teaching in this tutorial.
    copied, too, using `ls`. Be sure to put the dot (`.`) as the final argument
    to the `cp` command.
 
-   ```bash
+   ```
    % cp /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz .
    % ls
    Annotations.gtf.gz  RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
@@ -285,7 +291,7 @@ the pipeline we are teaching in this tutorial.
 
 7. Then, you can delete it with the `rm` command.
 
-   ```bash
+   ```
    % rm Annotations.gtf.gz
    % ls
    RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
@@ -449,13 +455,22 @@ versions of our pipelines.
 
 [Return to top](#top)
 ### <a name="2.1"></a> 2.1: Prepare to Run `CHURP`
-First, connect to a head node on Mesabi by typing `ssh mesabi` at the login
+First, connect to a login node on Mesabi by typing `ssh mesabi` at the login
 prompt. If you do no have ssh keys set up, you will have to enter your password
 again. It is the same as your X.500 password. Note the `@login` part of the
-prompt changes to reflect that you have started a shell on the Mesabi head
+prompt changes to reflect that you have started a shell on the Mesabi login
 node.
 
 ![Mesabi]({{ "/graphics/rnaseq_cmd/mesabi.png" | prepend: site.baseurl }})
+
+<div class="warn" markdown="1">
+
+Do not run computationally intense tasks on this node, either; this is a login
+node for the compute cluster. Running analysis tasks on the login node for the
+cluster will deplete the resources for other users to connect and get their
+work done, and will result in account restrictions.
+
+</div>
 
 From here on, the commands and their output will be shown in text, rather than
 in screenshots of terminal emulators.
@@ -559,7 +574,7 @@ are only for readability purposes. You don't have to reproduce the same
 indentation structure as the tutorial document! It should still work if you do
 reproduce the structure, though.*
 
-```bash
+```
 % python churp.py group_template bulk_rnaseq \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
@@ -607,7 +622,7 @@ Use the `nano` text editor (or your favorite terminal editor program) to assign
 the samples to their groups. In this case, the first four samples are part of
 group `BoneMarrow` and the final four samples are part of group `Spleen`.
 
-```bash
+```
 % nano /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
 ```
 
@@ -656,7 +671,7 @@ standard kit used by the UMGC (TruSeq Stranded RNA).
 For the sake of getting the jobs completed more quickly, we will decrease the
 size of the resource request.
 
-```bash
+```
 % python churp.py bulk_rnaseq \
     -e /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
@@ -749,7 +764,7 @@ pipeline output message. For our example, this is
 
 Navigate to the output directory and list the contents:
 
-```bash
+```
 % cd /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out
 % ls -lF
 total 5.1M
@@ -937,7 +952,7 @@ Spleen-4,Spleen
 Re-run the pipeline with the same command, but be sure to add the `--purge`
 option. This tells the pipeline to regenerate alignments.
 
-```bash
+```
 % cd /home/msistaff/public/RNAseq_Tutorial/CHURP
 % python churp.py bulk_rnaseq \
     -e /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv \
@@ -1276,7 +1291,7 @@ automatically assign samples to groups based on patterns in the filenames.
 This is a standard bash script that contains paths to the samplesheet and the
 PBS job scripts. The template for it is shown below:
 
-```bash
+```
 #!/bin/bash
 # Generated by CHURP version 0.0.0
 # Generated at 2018-10-23 10:13:44
@@ -1379,7 +1394,7 @@ that were swapped for instructional purposes.
 In our example, we used the tissue type as the group, but we can specify
 additional columns by modifying our original call:
 
-```bash
+```
 % python churp.py group_template bulk_rnaseq \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -e Genotype \
