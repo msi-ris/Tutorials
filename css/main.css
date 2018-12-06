@@ -18,12 +18,9 @@ body {
     margin-bottom:10px;
     min-width:620px;
     padding:10px;
+    padding-right:330px;
     border:1px solid #7a0019;
     background-color:#fff;
-}
-
-#tutcontent {
-    padding-right:330px;
 }
 
 #navcontainer {
@@ -42,6 +39,7 @@ body {
     padding:10px;
     width:300px;
     height:800px;
+    margin-right:-300px;
     overflow:scroll;
     border:1px solid #999;
     background-color:#fff;
