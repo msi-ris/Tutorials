@@ -32,8 +32,7 @@ body {
     border-style:none;
 }
 #navdiv {
-    position:-webkit-sticky;
-    position:sticky;
+    position:fixed;
     top:0px;
     right:0px;
     padding:10px;
