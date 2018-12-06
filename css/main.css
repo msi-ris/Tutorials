@@ -15,6 +15,7 @@ body {
     top:10px;
     left:10px;
     margin-right:320px;
+    margin-bottom:10px;
     min-width:620px;
     padding:10px;
     border:1px solid #7a0019;
@@ -62,4 +63,42 @@ div.warn {
 
 li, ul, ol {
     line-hieght:1;
+    margin:0;
+}
+
+/* This is the CSS for the navbar style navigation that we are going to use */
+ul#nav {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    background-color:#eee;
+}
+
+ul#nav li {
+    float:left;
+    border-right:1px solid #fff;
+    font-weight:bold;
+}
+
+ul#nav li:last-child {
+  border-right: none;
+}
+
+ul#nav li a {
+  display:block;
+  color:#000;
+  text-align:center;
+  padding:5px 16px;
+  text-decoration:none;
+}
+
+ul#nav li a:hover:not(.active) {
+  background-color:#7a0019;
+  color:#fff;
+}
+
+ul#nav a.active {
+  background-color:#7a0019;
+  color:#fff;
 }

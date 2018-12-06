@@ -8,20 +8,15 @@
         <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
     </head>
     <body>
-        <div id="navcontainer">
-            <div id="navdiv">
-                <h2>Offered Tutorials</h2>
-                <ul id="tutlist">
-                    <li><a href="{{ "/" | prepend: site.baseurl }}">Main Page</a></li>
-                    <li><a href="{{ "/chip" | prepend: site.baseurl }}">ChIP</a></li>
-                    <li><a href="{{ "/illumina_galaxy" | prepend: site.baseurl }}">Illumina QC (Galaxy)</a></li>
-                    <li><a href="{{ "/rnaseq_cmd" | prepend: site.baseurl }}">RNAseq (Command Line)</a></li>
-                    <li><a href="{{ "/proteomics" | prepend: site.baseurl }}">Proteomics</a></li>
-                    <li><a href="{{ "/variant" | prepend: site.baseurl }}">Variant Detection</a></li>
-                </ul>
-            </div>
-        </div>
         <div id="maindiv">
+            <ul id="nav">
+                <!-- <li><a href="{{ "/chip" | prepend: site.baseurl }}">ChIP</a></li> -->
+                <li><a href="{{ "/illumina_galaxy" | prepend: site.baseurl }}">Illumina QC (Galaxy)</a></li>
+                <li><a href="{{ "/rnaseq_cmd" | prepend: site.baseurl }}">RNAseq (Command Line)</a></li>
+                <li><a href="{{ "/proteomics" | prepend: site.baseurl }}">Proteomics</a></li>
+                <!-- <li><a href="{{ "/variant" | prepend: site.baseurl }}">Variant Detection</a></li> -->
+                <li style="float:right"><a href="{{ "/" | prepend: site.baseurl }}">Home</a></li>
+            </ul>
             {{ content }}
         </div>
     </body>

@@ -8,9 +8,10 @@ delivered: 2018-12-04
 ---
 
 # <a name="top"></a> {{page.title}}
-*Last Updated: {{page.updated}}*
-
+*Last Updated: {{page.updated}}*  
 *Last Delivered: {{page.delivered}}*
+
+<div id="navcontainer" markdown="1">
 
 ## Table of Contents
 - [Introduction](#0)
@@ -60,7 +61,8 @@ delivered: 2018-12-04
     - [Transcriptome Assembly](#8.2)
     - [Variant Discovery](#8.3)
 
-[Return to top](#top)
+</div>
+
 ## <a name="0"></a>Part 0: Introduction
 ### <a name="0.1"></a>0.1 Formatting in This Document
 Throughout this tutorial, there will be formatting cues to highlight various
