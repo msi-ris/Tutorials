@@ -25,14 +25,6 @@ delivered: NA
 Throughout this tutorial, there will be formatting cues to highlight various
 pieces of information.
 
-<div class="info" markdown="1">
-
-This is just background information. There are no tutorial-related tasks in
-these boxes. Links to supporting material and further explanations of points we
-raise in the tutorial will appear like this.
-
-</div>
-
 <div class="warn" markdown="1">
 
 This is a warning. Common pitfalls, cautionary inforation, and important points
@@ -41,12 +33,9 @@ to consider will appear like this.
 </div>
 
 ```
-This is code, or a literal value that you must enter or select to run a part
-of the tutorial
+File contents or literal values will appear like this. We will use this format
+to illustrate file formats.
 ```
-
-Commands that are to be entered on the command-line will begin with `%`. Do not
-re-enter the `%` character when you type the commands into your prompt.
 
 [Return to top](#top)
 ### <a name="0.2"></a> 0.2: Goals
@@ -61,9 +50,6 @@ re-enter the `%` character when you type the commands into your prompt.
 [Return to top](#top)
 
 ## <a name="1"></a> Part 1: RNASeq Overview
-
-<div class="info" markdown="1">
-
 ### <a name="1.1"></a> 1.1: Why RNASeq
 RNAseq is name for a high-throughout sequencing technique that targets the
 transcribed portions of the genome. For this tutorial, we will be focusing on
@@ -167,8 +153,6 @@ that we will use in this tutorial.
 
     The GFF and GTF specifications can be found [here](https://useast.ensembl.org/info/website/upload/gff.html).
 
-</div>
-
 [Return to top](#top)
 
 ### <a name="1.3"></a> 1.3: Overall Workflow
@@ -188,8 +172,6 @@ The steps of the workflow are as follows:
 6. Test for differential expression
 
 [Return to top](#top)
-
-<div class="info" markdown="1">
 
 ### <a name="6.2"></a> 6.2 Links to Analysis Guides
 Various packages exist to analyze expression data. We have chosen to use `edgeR`
@@ -385,8 +367,6 @@ span intron-exon boundaries.
 
 The Broad Institute maintains a guide on the best practices for variant
 discovery in RNAseq [here](https://gatkforums.broadinstitute.org/gatk/discussion/4067/best-practices-for-variant-discovery-in-rnaseq).
-
-</div>
 
 [Return to top](#top)
 ## Part 9: Feedback
