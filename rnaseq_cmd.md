@@ -154,7 +154,6 @@ tutorial, but if you would like to implement the same pipeline outside of MSI,
 you will need those tools available.
 
 [Return to top](#top)
-<div class="info" markdown="1">
 
 ### <a name="0.5"></a> 0.5: Accessing MSI
 We will now log in to MSI systems. The first host we will access is called the
@@ -177,6 +176,9 @@ to the system.
 ![Login]({{ "/graphics/rnaseq_cmd/login.png" | prepend: site.baseurl }})
 
 [Return to top](#top)
+
+<div class="info" markdown="1">
+
 #### 0.5.1: Common Commands
 Throughout this tutorial, we will be using the command line to run programs that
 analyze sequencing data. You will need to be familiar with navigating the MSI
