@@ -197,8 +197,6 @@ common commands that we will be using:
 - `ssh`: secure shell. This will let you log in to a remote machine to execute
   commands. We will use this command to log in to MSI systems.
 
-<div class="info" markdown="1">
-
 ## <a name="0.5.2"></a> 0.5.2: Practice Commands
 To get familiar with the commands that we will be using in this tutorial, we
 will walk through a few commands that will help us set up the directories to run
@@ -290,6 +288,8 @@ the pipeline we are teaching in this tutorial.
    % ls
    RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
    ```
+
+<div class="info" markdown="1">
 
 [Return to top](#top)
 #### 0.6.1: Other Resources
