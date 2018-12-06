@@ -93,16 +93,11 @@ ul#nav li a {
     display:block;
     color:#000;
     text-align:center;
-    padding:5px 16px;
+    padding:5px 5px;
     text-decoration:none;
 }
 
-ul#nav li a:hover:not(.active) {
-    background-color:#7a0019;
-    color:#fff;
-}
-
-ul#nav a.active {
+ul#nav li a:hover {
     background-color:#7a0019;
     color:#fff;
 }
