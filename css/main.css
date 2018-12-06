@@ -76,6 +76,7 @@ ul#nav {
     background-color:#eee;
     position:-webkit-sticky;
     position:sticky;
+    z-index:999;
     top:0;
 }
 
@@ -86,23 +87,23 @@ ul#nav li {
 }
 
 ul#nav li:last-child {
-  border-right: none;
+    border-right: none;
 }
 
 ul#nav li a {
-  display:block;
-  color:#000;
-  text-align:center;
-  padding:5px 16px;
-  text-decoration:none;
+    display:block;
+    color:#000;
+    text-align:center;
+    padding:5px 16px;
+    text-decoration:none;
 }
 
 ul#nav li a:hover:not(.active) {
-  background-color:#7a0019;
-  color:#fff;
+    background-color:#7a0019;
+    color:#fff;
 }
 
 ul#nav a.active {
-  background-color:#7a0019;
-  color:#fff;
+    background-color:#7a0019;
+    color:#fff;
 }
