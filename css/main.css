@@ -84,17 +84,17 @@ ul#nav {
     top:0;
 }
 
-ul#nav li {
+#nav li {
     float:left;
     border-right:1px solid #fff;
     font-weight:bold;
 }
 
-ul#nav li:last-child {
+#nav li:last-child {
     border-right: none;
 }
 
-ul#nav li a {
+#nav li a {
     display:block;
     color:#000;
     text-align:center;
@@ -102,12 +102,12 @@ ul#nav li a {
     text-decoration:none;
 }
 
-ul#nav li a:hover:not(.active) {
+#nav li a:hover:not(.active) {
     background-color:#7a0019;
     color:#fff;
 }
 
-ul#nav a.active {
+#nav a.active {
     background-color:#7a0019;
     color:#fff;
 }
