@@ -31,7 +31,7 @@ body {
     min-width:950px;
     border-style:none;
 }
-#navdiv {
+# {
     position:-webkit-sticky;
     position:sticky;
     top:0px;
@@ -72,7 +72,7 @@ li, ul, ol {
 }
 
 /* This is the CSS for the navbar style navigation that we are going to use */
-ul#nav {
+#navdiv ul {
     list-style-type:none;
     margin:0;
     padding:0;
@@ -84,17 +84,17 @@ ul#nav {
     top:0;
 }
 
-#nav li {
+#navdiv li {
     float:left;
     border-right:1px solid #fff;
     font-weight:bold;
 }
 
-#nav li:last-child {
+#navdiv li:last-child {
     border-right: none;
 }
 
-#nav li a {
+#navdiv li a {
     display:block;
     color:#000;
     text-align:center;
@@ -102,12 +102,12 @@ ul#nav {
     text-decoration:none;
 }
 
-#nav li a:hover:not(.active) {
+#navdiv li a:hover:not(.active) {
     background-color:#7a0019;
     color:#fff;
 }
 
-#nav a.active {
+#navdiv a.active {
     background-color:#7a0019;
     color:#fff;
 }
