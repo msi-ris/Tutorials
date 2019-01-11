@@ -14,9 +14,9 @@ delivered: NA
     - [Formatting in This Document](#0.1)
     - [Goals](#0.2)
     - [Scope of the Tutorial](#0.3)
-- [Module 1: Intro to MSI](#1)
-- [Module 2: Intro to Genomics](#2)
-- [Module 3: Intro to PBS/Jobs](#3)
+- [Module 1: Introd to MSI](#1)
+- [Module 2: Introd to Genomics](#2)
+- [Module 3: Introd to PBS/Jobs](#3)
 - [Module 4: Parallelization](#4)
 
 </div>
@@ -65,6 +65,17 @@ re-enter the `%` character when you type the commands into your prompt.
 
 [Return to top](#top)
 ### <a name="0.3"></a> 0.3: Scope of the Tutorial
+
+
+## <a name="1"></a> Module 1: Introduction to MSI
+### Slide Deck
+You can view the slide deck [here](https://drive.google.com/open?id=1WWM2S9kYtWeT2rT9fMchb7VLqBUhI0Y3XE2S1U1WiX4)
+
+## <a name="2"></a> Module 2: Introduction to Genomics Techniques and Terminology
+
+## <a name="3"></a> Module 3: Introduction to PBS and Job Submission
+
+## <a name="4"></a> Module 4: Parallelization with GNU Parallel and Task Arrays
 
 ## Part 9: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
