@@ -3,8 +3,8 @@ layout: default
 title: MPGI-MSI Workshop
 permalink: /mpgi_msi/
 exclude: false
-updated: 2018-12-25
-delivered: NA
+updated: 2019-01-11
+delivered: 2019-01-11
 ---
 
 <div id="navdiv" markdown="1">
@@ -55,17 +55,9 @@ re-enter the `%` character when you type the commands into your prompt.
 
 [Return to top](#top)
 ### <a name="0.2"></a> 0.2: Goals
-- Learn some fundamental bash commands for interacting with MSI systems
-- Log in to MSI systems and access a high-performance compute node
-- Become familiar with several core file formats of genomics
-- Learn the basics of RNASeq data analysis, including read mapping, expression
-  counts, and testing for differential expression
-- Learn how to use the UMII-RIS pipelines to perform a differential expression
-  analysis with RNAseq
 
 [Return to top](#top)
 ### <a name="0.3"></a> 0.3: Scope of the Tutorial
-
 
 ## <a name="1"></a> Module 1: Introduction to MSI
 ### Slide Deck
@@ -83,7 +75,7 @@ You can view the slide deck [here](https://drive.google.com/open?id=14-QitVjoM7u
 ### Slide Deck
 You can view the slide deck [here](https://drive.google.com/open?id=1eD-qoXzRS2YI_MqI6OzVpNwA_IXHx07WXd_VM-6mQM8).
 
-## Part 9: Feedback
+## Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
 tutorial delivery feedback to that address.
