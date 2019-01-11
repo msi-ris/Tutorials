@@ -69,13 +69,19 @@ re-enter the `%` character when you type the commands into your prompt.
 
 ## <a name="1"></a> Module 1: Introduction to MSI
 ### Slide Deck
-You can view the slide deck [here](https://drive.google.com/open?id=1WWM2S9kYtWeT2rT9fMchb7VLqBUhI0Y3XE2S1U1WiX4)
+You can view the slide deck [here](https://drive.google.com/open?id=1WWM2S9kYtWeT2rT9fMchb7VLqBUhI0Y3XE2S1U1WiX4).
 
 ## <a name="2"></a> Module 2: Introduction to Genomics Techniques and Terminology
+### Slide Deck
+You can view the slide deck [here](https://drive.google.com/open?id=1FrTF8Kp6j3sCJq0bgkGvgqLqYQ-5cj9eLmxV3IiHdAs).
 
 ## <a name="3"></a> Module 3: Introduction to PBS and Job Submission
+### Slide Deck
+You can view the slide deck [here](https://drive.google.com/open?id=14-QitVjoM7uOo2QPNqWPD7TD2vPP3YzR5FicdtimCho).
 
 ## <a name="4"></a> Module 4: Parallelization with GNU Parallel and Task Arrays
+### Slide Deck
+You can view the slide deck [here](https://drive.google.com/open?id=1eD-qoXzRS2YI_MqI6OzVpNwA_IXHx07WXd_VM-6mQM8).
 
 ## Part 9: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
