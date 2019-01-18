@@ -158,7 +158,9 @@ nanoString nCounter Analysis System, which uses a variation of microarray
 technology to directly count the number of nucleic acid molecules in a sample.
 Bionano instruments hybridize probes to long DNA molecules and visualize them
 in a similar way to FISH to generate optical maps, which enable detection of
-large structural variants.
+large structural variants. There are many more genomics technologies and
+instruments available for your research. As always, the best way to know which
+technologies suit your research goals is to read current literature.
 
 #### Depth vs. Breadth
 It is important to consider a genomics experiment in terms of *depth* and
@@ -191,6 +193,25 @@ The University of Minnesota has a core facility that provides genomics services.
 The link to the UMGC site is [here](http://genomics.umn.edu/).
 
 #### Long vs. Short Read Sequencing
+Illumina (and 454 and Ion Torrent) sequencing are referred to as "short read"
+sequencing. Read lengths from Illumina instruments are between 36 and 600
+base pairs, with every read having a fixed read length dependent on the
+instrument and desired run type. Per base of sequence data, short read
+sequencing is very cheap and generates millions of reads. Each read has
+relatively low error rates, approximately 1 in 400 ([Pfeiffer et al. 2018](https://www.nature.com/articles/s41598-018-29325-6)).
+
+Reads from Pacific Biosciences SMRT sequencing and Oxford Nanopore sequencing
+are referred to as "long read" sequencing reads. They can be on the order of
+tens of kilobases long (e.g., [Hengyun et al. 2016](https://www.sciencedirect.com/science/article/pii/S1672022916301309)),
+which helps with assembly of large and repetitive genomes. Long reads can span
+repeated elements, which resolves the orientation and copy number of the
+sequence. Long reads are error-prone, with approximately 1 in 20 error rates
+(e.g., [Au et al. 2012](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0046679)).
+However, the errors are putatively random ([Robers et al. 2013](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2013-14-6-405)),
+which means that base confidence continually increases with increasing coverage,
+unlike short reads, which have biased error profiles. A common approach is to
+"patch" errors in long reads with short read sequencing data
+(e.g., [Zhang et al. 2018](https://onlinelibrary.wiley.com/doi/full/10.1111/tpj.14120)).
 
 ## <a name="3"></a> Module 3: Introduction to PBS and Job Submission
 ### Slide Deck
