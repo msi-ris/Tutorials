@@ -141,6 +141,57 @@ the new status page when it launches.
 ### Slide Deck
 You can view the slide deck [here](https://drive.google.com/open?id=1FrTF8Kp6j3sCJq0bgkGvgqLqYQ-5cj9eLmxV3IiHdAs).
 
+### Supporting Information
+#### Genomics Technologies
+High-throughput sequencing is one of the most common technologies used in
+genomics studies. Many studies derive results from a variant of a nucleic acid
+sequencing protocol, which is why we cover it extensively in the presentation.
+
+Other genomics technologies that are also in common use involve hybridization
+to an array and measurement of a fluorescent signal. These may be used in
+single nucleotide variant genotyping (e.g., Illumina Infinium arrays), gene
+expression assays (e.g., Affymetrix GeneChip arrays), and DNA methylation
+levels (e.g., Illumina Methylation arrays).
+
+More specialized genomics technologies include instruments such as the
+nanoString nCounter Analysis System, which uses a variation of microarray
+technology to directly count the number of nucleic acid molecules in a sample.
+Bionano instruments hybridize probes to long DNA molecules and visualize them
+in a similar way to FISH to generate optical maps, which enable detection of
+large structural variants.
+
+#### Depth vs. Breadth
+It is important to consider a genomics experiment in terms of *depth* and
+*breadth*. The *depth* of sampling refers to the intensity of data collection
+from each sample. The *breadth* of sampling refers to the number of biological
+or technical samples that are included in the study. With a constrained budget,
+there is a trade-off between depth and breadth.
+
+Projects such as genome assembly require very deep sampling, but not very broad
+sampling. Ideally, multiple technologies or multiple independent libraries from
+the same individual are used for genome assembly.
+
+Transcriptome assembly does not require as deep sampling because the target for
+assembly is much smaller than for genome assembly, but it is helpful to have
+slightly higher breadth. Samples from multiple time points, multiple tissues,
+or multiple environmental conditions aid in transcriptome assembly by capturing
+rare and conditionally expressed transcripts.
+
+Studies that examine variation among multiple samples, such as differential
+gene expression studies or genetic diversity studies, should focus more on
+breadth than depth of sampling.
+
+Detailed material for handling specific types of genomic data is covered by
+our other [tutorials](https://www.msi.umn.edu/tutorials). For now, we offer
+a tutorial about RNAseq analysis, but we plan to include other genomics
+analysis soon.
+
+#### University of Minnesota Genomics Center (UMGC)
+The University of Minnesota has a core facility that provides genomics services.
+The link to the UMGC site is [here](http://genomics.umn.edu/).
+
+#### Long vs. Short Read Sequencing
+
 ## <a name="3"></a> Module 3: Introduction to PBS and Job Submission
 ### Slide Deck
 You can view the slide deck [here](https://drive.google.com/open?id=14-QitVjoM7uOo2QPNqWPD7TD2vPP3YzR5FicdtimCho).
