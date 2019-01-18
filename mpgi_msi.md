@@ -3,7 +3,7 @@ layout: default
 title: MPGI-MSI Workshop
 permalink: /mpgi_msi/
 exclude: false
-updated: 2019-01-11
+updated: 2019-01-18
 delivered: 2019-01-11
 ---
 
@@ -14,9 +14,9 @@ delivered: 2019-01-11
     - [Formatting in This Document](#0.1)
     - [Goals](#0.2)
     - [Scope of the Tutorial](#0.3)
-- [Module 1: Introd to MSI](#1)
-- [Module 2: Introd to Genomics](#2)
-- [Module 3: Introd to PBS/Jobs](#3)
+- [Module 1: Intro to MSI](#1)
+- [Module 2: Intro to Genomics](#2)
+- [Module 3: Intro to PBS/Jobs](#3)
 - [Module 4: Parallelization](#4)
 
 </div>
@@ -40,7 +40,7 @@ raise in the tutorial will appear like this.
 
 <div class="warn" markdown="1">
 
-This is a warning. Common pitfalls, cautionary inforation, and important points
+This is a warning. Common pitfalls, cautionary information, and important points
 to consider will appear like this.
 
 </div>
@@ -55,13 +55,87 @@ re-enter the `%` character when you type the commands into your prompt.
 
 [Return to top](#top)
 ### <a name="0.2"></a> 0.2: Goals
+By the end of this workshop, you should
+
+- Be familiar with the structure of MSI systems
+- Know how to get an MSI account and know the default storage and compute allocations
+- Know how to get assistance with using MSI systems
+- Have a working definition of what constitutes a "genomics project"
+- Understand the difference between a "broad" and a "deep" sample
+- Know the difference between Illumina short read sequencing, Pacific Biosciences SMRT sequencing, and Oxford Nanopore sequencing
+- Log into MSI systems and access a compute node
+- Be able to write a basic PBS job script for use on MSI
+- Understand the job resource request and edit it to suit your needs
+- Be able to choose a system and queue to run your job
+- Be able to submit jobs to the compute queues
+- Understand the difference between processors/cores and nodes
+- Know the two basic methods for parallelization on MSI systems
+
+The modules in this workshop do not go into exhaustive detail on any of these
+topics. For more detailed information, please come to the other MSI tutorials.
+You can view a schedule of the tutorials we offer [here](https://www.msi.umn.edu/tutorials).
 
 [Return to top](#top)
-### <a name="0.3"></a> 0.3: Scope of the Tutorial
+### <a name="0.3"></a> 0.3: Scope of the Workshop
+This workshop is at the introductory level to acquaint new users with MSI
+resources and basic genomics concept. The material linked to in the later
+sections of this document is more detailed and advanced. The breakdown of
+content presented in each of the modules is as follows:
+
+#### Module 1: Introduction to MSI
+- Services that MSI provides
+- Physical location of MSI
+- Structure of MSI systems
+- Data storage service and policies
+- High performance computing service and policies
+- Job queues
+- Consulting and support services
+- Eligibility
+
+#### Module 2: Introduction to Genomics Techniques and Terminology
+- Examples of genomics questions
+- Common technologies in genomics
+- Depth vs. breadth
+- Modern types of sequencing
+- Variants of DNA and RNA sequencing
+- Considerations for genomics project design
+- Resources at MSI for genomics
+
+#### Module 3: Intro to PBS and Job Submission
+- What is PBS?
+- MSI system structure
+- Connecting to MSI systems
+- Writing a job script
+- PBS email reports
+- Modifying a resource request
+
+#### Module 4: Parallelization with GNU Parallel and Task Arrays
+- Difference between serial and parallel processing
+- Tools available on MSI for parallelization
+- How to choose parallel tools
+- Using GNU Parallel
+- Using task arrays
+- GNU Parallel with multiple nodes
 
 ## <a name="1"></a> Module 1: Introduction to MSI
 ### Slide Deck
 You can view the slide deck [here](https://drive.google.com/open?id=1WWM2S9kYtWeT2rT9fMchb7VLqBUhI0Y3XE2S1U1WiX4).
+
+### Supporting Material
+#### Links to MSI Services
+- [Storage, HPC, and consulting services](https://www.msi.umn.edu/services)
+- [Getting MSI access](https://www.msi.umn.edu/content/eligibility-getting-access)
+- [Storage allocation policies](https://www.msi.umn.edu/content/storage-allocations)
+- [HPC service](https://www.msi.umn.edu/content/hpc), including service unit (SU) and priority ("FairShare")
+- [Tutorial schedule](https://www.msi.umn.edu/tutorials)
+- [List of available software](https://www.msi.umn.edu/software)
+
+#### Links to MSI System Info
+- [Names and limits of queues](https://www.msi.umn.edu/queues)
+- [System status](https://www.msi.umn.edu/systemstatus); this page is in the process of being rebuilt. This link will update to reflect
+the new status page when it launches.
+- [Queue usage](https://www.msi.umn.edu/qstat), dynamically displays queue loads
+
 
 ## <a name="2"></a> Module 2: Introduction to Genomics Techniques and Terminology
 ### Slide Deck
