@@ -218,7 +218,7 @@ unlike short reads, which have biased error profiles. A common approach is to
 <div class="warn" markdown="1">
 
 #### Considerations for Genomics Projects
-- **GIGO: "Garbage in, garbage out"**
+- GIGO: "Garbage in, garbage out"
 
     Low-quality inputs (garbage in) will produce low-quality results (garbage
     out). This is a principle that was lifted over from computer science. The
@@ -227,14 +227,14 @@ unlike short reads, which have biased error profiles. A common approach is to
     high-quality sequence data from low-quality samples, and a genomics analysis
     workflow cannot generate high-quality results from low-quality data.
 
-- **Trade-offs between cost and effort**
+- Trade-offs between cost and effort
 
     Techniques that save on money up-front, such as reduced representation
     methods, often require more difficult analytical techniques to properly
     handle. Be sure to budget extra time and effort for your projects if you
     use a specialized protocol.
 
-- **KEEP NOTES!**
+- KEEP NOTES!
 
     Keep notes from the very beginning of your project. Sample metadata can be
     used as covariates when running your analyses to model variation from
