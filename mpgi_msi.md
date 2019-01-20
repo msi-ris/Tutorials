@@ -169,6 +169,8 @@ from each sample. The *breadth* of sampling refers to the number of biological
 or technical samples that are included in the study. With a constrained budget,
 there is a trade-off between depth and breadth.
 
+![Depth and breadth]({{ "/graphics/mpgi-msi/Depth-Breadth.png" | prepend: site.baseurl }})
+
 Projects such as genome assembly require very deep sampling, but not very broad
 sampling. Ideally, multiple technologies or multiple independent libraries from
 the same individual are used for genome assembly.
@@ -212,6 +214,56 @@ which means that base confidence continually increases with increasing coverage,
 unlike short reads, which have biased error profiles. A common approach is to
 "patch" errors in long reads with short read sequencing data
 (e.g., [Zhang et al. 2018](https://onlinelibrary.wiley.com/doi/full/10.1111/tpj.14120)).
+
+<div class="warn" markdown="1">
+
+#### Considerations for Genomics Projects
+- **GIGO: "Garbage in, garbage out"**
+
+    Low-quality inputs (garbage in) will produce low-quality results (garbage
+    out). This is a principle that was lifted over from computer science. The
+    meaning is not exactly the same in genomics as in computer science, but the
+    concept is still relevant. The sequencing facility cannot generate
+    high-quality sequence data from low-quality samples, and a genomics analysis
+    workflow cannot generate high-quality results from low-quality data.
+
+- **Trade-offs between cost and effort**
+
+    Techniques that save on money up-front, such as reduced representation
+    methods, often require more difficult analytical techniques to properly
+    handle. Be sure to budget extra time and effort for your projects if you
+    use a specialized protocol.
+
+- **KEEP NOTES!**
+
+    Keep notes from the very beginning of your project. Sample metadata can be
+    used as covariates when running your analyses to model variation from
+    technical sources. An example list of metadata to keep would be
+
+    - Collection site and conditions
+    - Collection time
+    - Extraction protocol
+    - Concentration
+    - RIN or DIN scores
+    - Who performed the extractions
+    - Sample storage conditions
+    - Bench/flat/cage/plate of sample rearing
+    - Library preparation protocol
+    - Flowcell ID
+    - Lane number
+
+    Additionally, keep your computational analyses as scripts with detailed
+    comments. Your collaborators, your supervisor, your peer reviewers, and
+    most importantly, your future self will need to know how you performed an
+    analysis. Be sure your scripts document at least the following
+
+    - Paths to data files
+    - Software names and versions
+    - Output file names
+    - Time and date that analyses were run
+    - Author of script
+
+</div>
 
 ## <a name="3"></a> Module 3: Introduction to PBS and Job Submission
 ### Slide Deck
