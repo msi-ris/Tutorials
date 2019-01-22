@@ -3,7 +3,7 @@ layout: default
 title: MPGI-MSI Workshop
 permalink: /mpgi_msi/
 exclude: false
-updated: 2019-01-18
+updated: 2019-01-22
 delivered: 2019-01-11
 ---
 
@@ -132,8 +132,7 @@ You can view the slide deck [here](https://drive.google.com/open?id=1WWM2S9kYtWe
 
 #### Links to MSI System Info
 - [Names and limits of queues](https://www.msi.umn.edu/queues)
-- [System status](https://www.msi.umn.edu/systemstatus); this page is in the process of being rebuilt. This link will update to reflect
-the new status page when it launches.
+- [System status](https://status.msi.umn.edu/)
 - [Queue usage](https://www.msi.umn.edu/qstat), dynamically displays queue loads
 
 
@@ -252,7 +251,7 @@ unlike short reads, which have biased error profiles. A common approach is to
     - Flowcell ID
     - Lane number
 
-    Additionally, keep your computational analyses as scripts with detailed
+    Additionally, maintain your computational analyses as scripts with detailed
     comments. Your collaborators, your supervisor, your peer reviewers, and
     most importantly, your future self will need to know how you performed an
     analysis. Be sure your scripts document at least the following
@@ -263,11 +262,69 @@ unlike short reads, which have biased error profiles. A common approach is to
     - Time and date that analyses were run
     - Author of script
 
+    A good scripting principle is that the script should be readable by
+    humans, but run on computers. You colleagues should be able to easily read
+    your script to know what it is doing, and it should run without throwing
+    errors.
+
 </div>
 
 ## <a name="3"></a> Module 3: Introduction to PBS and Job Submission
 ### Slide Deck
 You can view the slide deck [here](https://drive.google.com/open?id=14-QitVjoM7uOo2QPNqWPD7TD2vPP3YzR5FicdtimCho).
+
+### Supporting Material
+#### How to Connect to MSI Systems
+MSI maintains [a guide](https://www.msi.umn.edu/content/connecting-hpc-resources)
+for connecting to MSI systems. The instructions cover the required tools and
+procedures for Windows, Mac OSX, and Linux workstations.
+
+<div class="warn" markdown="1">
+
+If you are connecting from off-campus, you will need to connect through the
+university VPN. UMN OIT maintains a [page](https://it.umn.edu/downloads-guides)
+with download links, installation guides, and setup instructions for using the
+Univeristy of Minnesota VPN.
+
+</div>
+
+#### A Reminder: Structure of MSI Systems
+
+![MSI Systems]({{ "/graphics/mpgi-msi/Systems.png" | prepend: site.baseurl }})
+
+When you first connect to MSI systems, you will be connected to a `login`
+system. This is a system that serves as a common gateway to the HPC systems,
+which are more isolated from the Internet.
+
+From the `login` system, you must use `ssh` to connect to one of the HPC systems
+listed in the diagram above. When you connect to the HPC system, you will be
+connected to a login node for the HPC system. These are different from the
+`login` system that you connect to when you first access MSI servers.
+
+<div class="warn" markdown="1">
+
+Do not run computationally intense tasks on the HPC login nodes. You run the
+risk of crashing the node and impacting availability for other people on
+campus. This behavior has resulted in account restrictions in the past.
+
+</div>
+
+#### Job Queues
+Follow [this link](https://www.msi.umn.edu/queues) to view information about
+the job queues on the HPC systems. Use the job queues to run analyses in a
+**non-interactive** way. You can submit the job, and it will run on the cluster
+after you log out.
+
+#### Writing a Job Script
+MSI maintains [a guide](https://www.msi.umn.edu/content/job-submission-and-scheduling-pbs-scripts)
+for writing job scripts and submitting them to the various queues. We will
+digest the job script format here:
+
+#### q-Commands Documentation
+MSI servers run PBS TORQUE from Adaptive Computing. You can view the manual
+for the various commands mentioned (`qsub`, `qstat`, etc.)
+[here](http://docs.adaptivecomputing.com/torque/4-0-2/Content/topics/12-appendices/commandsOverview.htm).
+Please note that not all commands are available on our systems.
 
 ## <a name="4"></a> Module 4: Parallelization with GNU Parallel and Task Arrays
 ### Slide Deck
