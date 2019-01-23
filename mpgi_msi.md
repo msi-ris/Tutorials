@@ -660,6 +660,8 @@ write a job script that applies the processing to all pieces of data in a
 Bash array or a file. MSI maintains a [guide](https://www.msi.umn.edu/support/faq/how-do-i-use-job-array)
 on using this feature, but we will work through a detailed example here.
 
+## <a name="5"></a> Special Topics
+
 ## Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
