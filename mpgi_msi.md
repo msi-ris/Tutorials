@@ -583,7 +583,7 @@ offers several tutorials on the topic:
 
 <div class="info" markdown="1">
 
-This is actually an overly-simple description of the levels of parallelization
+This is very much an overly-simple description of the levels of parallelization
 that can happen in computing. There are whole books and computer science courses
 that are taught on the subject. I am not a computer scientist, software
 engineer, nor a professional programmer, so my knowledge of the topic is
