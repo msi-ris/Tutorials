@@ -16,8 +16,21 @@ delivered: 2019-01-11
     - [Scope of the Tutorial](#0.3)
 - [Module 1: Intro to MSI](#1)
 - [Module 2: Intro to Genomics](#2)
+    - [Depth vs. Breadth](#2.1)
+    - [Long Reds vs. Short Reads](#2.2)
+    - [Considerations for Genomics](#2.3)
 - [Module 3: Intro to PBS/Jobs](#3)
+    - [Structure of MSI Systems](#3.1)
+    - [Job Queues](#3.2)
+    - [Writing a Job Script](#3.3)
+    - [Reading a PBS Job Email](#3.4)
 - [Module 4: Parallelization](#4)
+    - [Flavors of Parallelization](#4.1)
+    - [Parallel Tools on MSI](#4.2)
+    - [GNU Parallel](#4.3)
+    - [PBS Task Arrays](#4.4)
+        - [Task Array Example Scripts](#4.4.1)
+- [Special Topics](#5)
 
 </div>
 
@@ -161,7 +174,7 @@ large structural variants. There are many more genomics technologies and
 instruments available for your research. As always, the best way to know which
 technologies suit your research goals is to read current literature.
 
-#### Depth vs. Breadth
+#### <a name="2.1"></a> Depth vs. Breadth
 It is important to consider a genomics experiment in terms of *depth* and
 *breadth*. The *depth* of sampling refers to the intensity of data collection
 from each sample. The *breadth* of sampling refers to the number of biological
@@ -193,7 +206,7 @@ analysis soon.
 The University of Minnesota has a core facility that provides genomics services.
 The link to the UMGC site is [here](http://genomics.umn.edu/).
 
-#### Long vs. Short Read Sequencing
+#### <a name="2.2"></a> Long vs. Short Read Sequencing
 Illumina (and 454 and Ion Torrent) sequencing are referred to as "short read"
 sequencing. Read lengths from Illumina instruments are between 36 and 600
 base pairs, with every read having a fixed read length dependent on the
@@ -216,7 +229,7 @@ unlike short reads, which have biased error profiles. A common approach is to
 
 <div class="warn" markdown="1">
 
-#### Considerations for Genomics Projects
+#### <a name="2.3"></a> Considerations for Genomics Projects
 - GIGO: "Garbage in, garbage out"
 
     Low-quality inputs (garbage in) will produce low-quality results (garbage
@@ -293,7 +306,7 @@ University of Minnesota VPN.
 
 </div>
 
-#### A Reminder: Structure of MSI Systems
+#### <a name="3.1"></a> A Reminder: Structure of MSI Systems
 
 ![MSI Systems]({{ "/graphics/mpgi-msi/Systems.png" | prepend: site.baseurl }})
 
@@ -314,13 +327,13 @@ campus. This behavior has resulted in account restrictions in the past.
 
 </div>
 
-#### Job Queues
+#### <a name="3.2"></a> Job Queues
 Follow [this link](https://www.msi.umn.edu/queues) to view information about
 the job queues on the HPC systems. Use the job queues to run analyses in a
 **non-interactive** way. You can submit the job, and it will run on the cluster
 after you log out.
 
-#### Writing a Job Script
+#### <a name="3.3"></a> Writing a Job Script
 MSI maintains [a guide](https://www.msi.umn.edu/content/job-submission-and-scheduling-pbs-scripts)
 for writing job scripts and submitting them to the various queues. We will
 digest the job script format here. The format is a standard Bash script with
@@ -452,7 +465,7 @@ contains many examples of sophisticated scripting techniques.
 
 </div>
 
-#### Reading a PBS Job Email
+#### <a name="3.4"></a> Reading a PBS Job Email
 When your job exits, you will get a cryptic-looking email that describes the
 results of your job. An example job email is pasted below:
 
@@ -560,7 +573,7 @@ Please note that not all commands are available on MSI systems.
 You can view the slide deck [here](https://drive.google.com/open?id=1eD-qoXzRS2YI_MqI6OzVpNwA_IXHx07WXd_VM-6mQM8).
 
 ### Supporting Information
-#### "Flavors" of Parallelization
+#### <a name="4.1"></a> "Flavors" of Parallelization
 MSI has both "high-level" and "low-level" tools available to help your analyses
 take advantage of the highly parallelized computing environment. "High-level"
 parallelization involves running a single command many times concurrently
@@ -594,7 +607,7 @@ I will say that as a biologist, most of my problems fall into the
 
 </div>
 
-#### Tools Available on MSI For High-Level Parallelization
+#### <a name="4.2"></a> Tools Available on MSI For High-Level Parallelization
 MSI has GNU Parallel installed as a software module for use on the HPC systems.
 Additionally, the job scheduler has a feature called task arrays that can run
 the same job script with varying input files.
@@ -620,7 +633,7 @@ they just use special variables inside of standard job scripts. However, they
 require knowledge of Bash arrays and they may be annoying because they generate
 many email notifications.
 
-#### GNU Parallel
+#### <a name="4.3"></a> GNU Parallel
 The GNU Parallel projects maintains a very detailed
 [tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html) that
 shows how to use all of the features implemented. I use this tutorial and
@@ -654,7 +667,7 @@ you want to send jobs, how many jobs at a time to send, and must also export
 the shell environment. The guide will illustrate how to write this into a
 job script.
 
-#### Task Arrays
+#### <a name="4.4"></a> Task Arrays
 The scheduler in use at MSI has a feature called task arrays that let you
 write a job script that applies the processing to all pieces of data in a
 Bash array or a file. MSI maintains a [guide](https://www.msi.umn.edu/support/faq/how-do-i-use-job-array)
@@ -771,7 +784,7 @@ PBS job emails to a special place!
 
 </div>
 
-##### All Together - Example Scripts
+##### <a name="4.4.1"></a> All Together - Example Scripts
 Here's an end-to-end working example. Suppose you have reads from 60 samples
 in `/home/PI/shared/Reads/Cool_Project/` and a BWA reference genome located at
 `/home/PI/shared/References/Genome/BWA_Index`. You want to write alignments
