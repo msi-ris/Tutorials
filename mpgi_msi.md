@@ -362,8 +362,8 @@ run the script (called "linting"):
 - Linux
     - [GEdit](https://wiki.gnome.org/Apps/Gedit)
 - Mac OS
-    - TextWrangler
-    - BBEdit
+    - [TextWrangler(https://www.barebones.com/products/textwrangler/)
+    - [BBEdit](https://www.barebones.com/products/bbedit/)
     - [TextMate](https://macromates.com/)
 - Multi-Platform
     - [Atom](https://atom.io/)
@@ -659,6 +659,202 @@ The scheduler in use at MSI has a feature called task arrays that let you
 write a job script that applies the processing to all pieces of data in a
 Bash array or a file. MSI maintains a [guide](https://www.msi.umn.edu/support/faq/how-do-i-use-job-array)
 on using this feature, but we will work through a detailed example here.
+
+Using task arrays requires a bit of setup to use effectively. First, the pieces
+of data that you want to process should be organized in a *Bash array* or in a
+*file-of-filenames*. This is generally a good strategy for organizing data
+anyway, because it makes batch processing easier. Second, you need to reference
+the variable `${PBS_ARRAYID}` in your script. We will describe this special
+variable in the later paragraphs. Briefly, it is the *array index variable* that
+specifies which piece of data in the array you want to process. Third, you
+must use the `-t` argument to `qsub` to specify the values of the array index
+variable.
+
+##### Organizing Your Data
+The easiest way to organize your data is to name your files in a consistent way
+and place them into a common directory. Following the example of mapping of 60
+samples' reads to a reference genome, a good way to organize the data would be
+to have a directory with files that look like this:
+
+```
+sample_01_reads.fastq.gz
+sample_02_reads.fastq.gz
+...
+sample_60_reads.fastq.gz
+```
+
+Then, building a Bash array can be done like so:
+
+```
+FILE_ARRAY=($(find /path/to/reads -maxdepth 1 -type f | sort -V))
+```
+
+The outer set of parentheses tells Bash to make an array variable. The `$()`
+construct around the `find` command tells Bash to run the command inside and
+return the output in a form that can be stored as a variable. So, this command
+would find all files in the reads directory, sort the filenames, and store that
+list of filenames as a Bash array called `FILE_ARRAY`
+
+To use a file-of-filenames instead of an array, you can just run the `find`
+command and redirect output to a text file on disk:
+
+```
+% find /path/to/reads -maxdepth 1 -type f | sort -V > reads_to_map.fofn
+```
+
+<div class="warn" markdown="1">
+
+Spaces in filenames will break the commands that are used in the later sections
+of this document. You can quote or escape the spaces to handle them, but in
+general, spaces in filenames is poor practice. Replace them with underscores
+(`_`) instead.
+
+</div>
+
+##### Array Index Variable
+Next, you need to tell the script to process the relevant piece of data. This
+is done by referncing the `${PBS_ARRAYID}` variable. This variable is
+automatically set by the scheduler when it detects that you are running a job
+array (by passing `-t` to `qsub`).
+
+<div class="warn" markdown="1">
+
+If you used the Bash array strategy in your script, then the first sample in
+the array has index 0. If you used the file-of-filenames strategy, then the
+first sample has index 1.
+
+Basically, Bash arrays start at 0, `head`/`tail`/`sed` to read lines out of a
+text file start at 1.
+
+</div>
+
+To reference a value out of a Bash array, use the following syntax:
+
+```
+CURRENT_SAMPLE=${FILE_ARRAY[${PBS_ARRAYID}]}
+```
+
+The variable `${CURRENT_SAMPLE}` now has the filename for the data that will be
+analyzed, and you can reference it as input for your commands.
+
+To reference a value out of a file-of-filenames, use the following syntax:
+
+```
+CURRENT_SAMPLE=$(sed "${PBS_ARRAYID}q;d" reads_to_map.fofn)
+```
+
+#### `qsub` Array Options
+Now, you are ready to submit the job with `qsub`. Use the `-t` option to specify
+the array index ranges. It can take ranges and comma-separated values. The
+ranges are *inclusive*. For example:
+
+```
+% qsub -t 0-10 bwa_align.sh
+```
+
+will submit a total of 11 jobs, for array indices 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+and 10. Mechanistically, the `${PBS_ARRAYID}` variable is just an integer, with
+the range of values specified by the `-t` argument.
+
+You can also specify individual indices to run:
+
+```
+% qsub -t 10,15,21 bwa_align.sh
+```
+
+will submit three jobs.
+
+<div class="warn" markdown="1">
+
+This will generate a LOT of email notifications. Set up a filter to send the
+PBS job emails to a special place!
+
+</div>
+
+##### All Together - Example Scripts
+Here's an end-to-end working example. Suppose you have reads from 60 samples
+in `/home/PI/shared/Reads/Cool_Project/` and a BWA reference genome located at
+`/home/PI/shared/References/Genome/BWA_Index`. You want to write alignments
+to `/scratch.global/PI/BWA_Aln/`.
+
+The files in your reads directory look like this:
+
+```
+Sample_01_Reads.fastq.gz
+Sample_02_Reads.fastq.gz
+Sample_03_Reads.fastq.gz
+...
+Sample_60_Reads.fastq.gz
+```
+
+A script using Bash arrays would look like this:
+
+```bash
+#!/bin/bash
+#PBS -l nodes=1:ppn=6,mem=16gb,walltime=8:00:00
+#PBS -m abe
+#PBS -M YOUR_X.500@umn.edu
+#PBS q mesabi
+
+module load bwa
+module load samtools
+
+REFERNCE="/home/PI/shared/References/Genome/BWA_Index"
+READS_DIR="/home/PI/shared/Reads/Cool_Project"
+OUT_DIR="/scratch.global/PI/BWA_Aln"
+
+READS_ARRAY=($(find ${READS_DIR} -maxdepth 1 -type f | sort -V))
+CURRENT_SAMPLE=${READS_ARRAY[${PBS_ARRAYID}]}
+SAMPLENAME=$(basename ${CURRENT_SAMPLE} | cut -f 1-2 -d '_')
+
+bwa mem -t 6 -k 15 -M ${REFERENCE} ${CURRENT_SAMPLE} \
+    | samtools view -hb > ${OUT_DIR}/${SAMPLENAME}.bam
+```
+
+Then, you can submit this script with the `-t` option to have it run on all of
+the reads in the directory. Recall that with Bash arrays, the first sample is
+index 0.
+
+```
+% qsub -t 0-59 bwa_align.sh
+```
+
+The same script using a file-of-filenames would look like this. First, generate
+the file-of-filenames:
+
+```
+% find /home/PI/shared/Reads/Cool_Project -maxdepth 1 -type f \
+    | sort -V > /scratch.global/PI/reads_to_map.fofn
+```
+
+And reference it in the script:
+
+```bash
+#!/bin/bash
+#PBS -l nodes=1:ppn=6,mem=16gb,walltime=8:00:00
+#PBS -m abe
+#PBS -M YOUR_X.500@umn.edu
+#PBS q mesabi
+
+module load bwa
+module load samtools
+
+REFERNCE="/home/PI/shared/References/Genome/BWA_Index"
+READS_FOFN="/scratch.global/PI/reads_to_map.fofn"
+OUT_DIR="/scratch.global/PI/BWA_Aln"
+
+CURRENT_SAMPLE=$(sed "${PBS_ARRAYID}q;d" ${READS_FOFN})
+SAMPLENAME=$(basename ${CURRENT_SAMPLE} | cut -f 1-2 -d '_')
+
+bwa mem -t 6 -k 15 -M ${REFERENCE} ${CURRENT_SAMPLE} \
+    | samtools view -hb > ${OUT_DIR}/${SAMPLENAME}.bam
+```
+
+When you submit this job, remember that the array starts at 1:
+
+```
+% qsub -t 1-60 bwa_align.sh
+```
 
 ## <a name="5"></a> Special Topics
 
