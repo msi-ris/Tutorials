@@ -362,7 +362,7 @@ run the script (called "linting"):
 - Linux
     - [GEdit](https://wiki.gnome.org/Apps/Gedit)
 - Mac OS
-    - [TextWrangler(https://www.barebones.com/products/textwrangler/)
+    - [TextWrangler](https://www.barebones.com/products/textwrangler/)
     - [BBEdit](https://www.barebones.com/products/bbedit/)
     - [TextMate](https://macromates.com/)
 - Multi-Platform
@@ -855,6 +855,12 @@ When you submit this job, remember that the array starts at 1:
 ```
 % qsub -t 1-60 bwa_align.sh
 ```
+
+Notice that these example scripts have relatively small resource requests! That
+is one nice thing about task arrays - they all run as independent jobs, so each
+job can be small. This lets the scheduler run these small jobs to "fill the
+space" around larger ones, so to speak, and your analyses ma run faster because
+of it.
 
 ## <a name="5"></a> Special Topics
 
