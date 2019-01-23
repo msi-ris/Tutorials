@@ -559,6 +559,107 @@ Please note that not all commands are available on MSI systems.
 ### Slide Deck
 You can view the slide deck [here](https://drive.google.com/open?id=1eD-qoXzRS2YI_MqI6OzVpNwA_IXHx07WXd_VM-6mQM8).
 
+### Supporting Information
+#### "Flavors" of Parallelization
+MSI has both "high-level" and "low-level" tools available to help your analyses
+take advantage of the highly parallelized computing environment. "High-level"
+parallelization involves running a single command many times concurrently
+across many cores or nodes. It is called high-level because it does not require
+any rewriting of the program of interest and does not interact directly with
+the computer hardware to parallelize computations. Some people will refer to
+this strategy as "embarrassingly parallel problems." In this case, the problem
+consists of many repetitive calls to the same code on different inputs.
+
+For example, this may be a set of 45,000 genes that need to be aligned to the
+orthologous gene from another species for divergence rate calculation.
+
+"Low-level" parallelization involves building compiled code that uses parallel
+library calls. This is an advanced topic, so we will not cover it here. MSI
+offers several tutorials on the topic:
+
+- [Parallel Computing Overview](https://www.msi.umn.edu/tutorials/parallel-computing-overview)
+- [MPI](https://www.msi.umn.edu/tutorials/mpi-0)
+- [OpenMP](https://www.msi.umn.edu/tutorials/openmp)
+
+<div class="info" markdown="1">
+
+This is actually an overly-simple description of the levels of parallelization
+that can happen in computing. There are whole books and computer science courses
+that are taught on the subject. I am not a computer scientist, software
+engineer, nor a professional programmer, so my knowledge of the topic is
+limited.
+
+I will say that as a biologist, most of my problems fall into the
+"embarrassingly parallel" category.
+
+</div>
+
+#### Tools Available on MSI For High-Level Parallelization
+MSI has GNU Parallel installed as a software module for use on the HPC systems.
+Additionally, the job scheduler has a feature called task arrays that can run
+the same job script with varying input files.
+
+I use both GNU Parallel and task arrays for my parallel computing tasks. I
+choose to use GNU Parallel when I have hundreds to thousands of tasks that are
+each small, and rerunning batches of them is not expensive. My previous example
+of aligning 45,000 genes would be a case in which I use GNU Parallel. I decide
+to use task arrays when the problem consists of tens of jobs that are each
+large or expensive to re-run. For example, I used task arrays to align whole
+genome resequencing data from 60 inbred lines of maize to two reference genomes
+because I wanted to be able to track which samples completed successfully and
+which failed.
+
+Technically, both GNU Parallel and task arrays would work for both of these
+example problems. That scheme I described is just what works for me - your
+strategy may be different!
+
+I find GNU Parallel to be less intuitive than task arrays, but it is much more
+flexible and powerful. It also requires some tricks for multi-node jobs (see
+note above). Task arrays are easier for me to understand initially because
+they just use special variables inside of standard job scripts. However, they
+require knowledge of Bash arrays and they may be annoying because they generate
+many email notifications.
+
+#### GNU Parallel
+The GNU Parallel projects maintains a very detailed
+[tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html) that
+shows how to use all of the features implemented. I use this tutorial and
+the manual page when I want to use fancy/sophisticated constructs. Otherwise,
+I just use the standard input method illustrated in the slide deck to run the
+commands in parallel.
+
+<div class="warn" markdown="1">
+
+When you are using GNU Parallel, note that the resource request must be large
+enough to accommodate all of the tasks that you wish to run. For example, if
+you have 10,000 tasks that each take one minute and require 1gb of memory,
+and you want to run 10 at a time, then the minimum resource request string
+should look like this:
+
+`nodes=1:ppn=10,mem=10gb,walltime=1:40:00`
+
+That is, 100 batches of 10 concurrent processes, with each batch requiring
+10 processors, 10gb of ram, and 1 minute. You should request more than this,
+just to be safe because `parallel` has time and memory overhead, and there
+will be variation in how long each process takes to complete.
+
+</div>
+
+If you are using GNU Parallel to dispatch jobs across multiple **nodes**,
+then you must take some special considerations. MSI maintains a
+[guide](https://www.msi.umn.edu/support/faq/how-can-i-use-gnu-parallel-run-lot-commands-parallel)
+that describes how to use parallel (scroll down to the "Multi-node Examples"
+section). The gist of it is that you must explicitly specify the nodes to which
+you want to send jobs, how many jobs at a time to send, and must also export
+the shell environment. The guide will illustrate how to write this into a
+job script.
+
+#### Task Arrays
+The scheduler in use at MSI has a feature called task arrays that let you
+write a job script that applies the processing to all pieces of data in a
+Bash array or a file. MSI maintains a [guide](https://www.msi.umn.edu/support/faq/how-do-i-use-job-array)
+on using this feature, but we will work through a detailed example here.
+
 ## Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
