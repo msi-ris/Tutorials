@@ -636,9 +636,9 @@ you have 10,000 tasks that each take one minute and require 1gb of memory,
 and you want to run 10 at a time, then the minimum resource request string
 should look like this:
 
-`nodes=1:ppn=10,mem=10gb,walltime=1:40:00`
+`nodes=1:ppn=10,mem=10gb,walltime=16:40:00`
 
-That is, 100 batches of 10 concurrent processes, with each batch requiring
+That is, 1,000 batches of 10 concurrent processes, with each batch requiring
 10 processors, 10gb of ram, and 1 minute. You should request more than this,
 just to be safe because `parallel` has time and memory overhead, and there
 will be variation in how long each process takes to complete.
