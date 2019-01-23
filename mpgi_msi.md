@@ -872,10 +872,133 @@ When you submit this job, remember that the array starts at 1:
 Notice that these example scripts have relatively small resource requests! That
 is one nice thing about task arrays - they all run as independent jobs, so each
 job can be small. This lets the scheduler run these small jobs to "fill the
-space" around larger ones, so to speak, and your analyses ma run faster because
+space" around larger ones, so to speak, and your analyses may run faster because
 of it.
 
 ## <a name="5"></a> Special Topics
+This section contains special topics that we could not cover during the lecture
+or workshop portions of the workshop. These are generally small tips and tricks
+or topics that do not fit well with the other modules that made up the
+workshop content.
+
+### <a name="5.1"></a> Permissions, Multi-User Systems, and `umask`
+MSI is a large multi-user environment. There will be times when you have to
+share data with other people in your lab or other lab groups at the university.
+To do this, you will need to alter file and directory permissions.
+
+To view the permissions of a file, you can use the `stat` command:
+
+```
+% stat push_LA.job
+  File: `push_LA.job'
+  Size: 229         Blocks: 64         IO Block: 16384  regular file
+Device: 17h/23d Inode: 3701266697  Links: 1
+Access: (0600/-rw-------)  Uid: (22350/konox006)   Gid: (13779/msistaff)
+Access: 2018-12-20 14:57:16.246691889 -0600
+Modify: 2018-12-20 14:57:16.245480000 -0600
+Change: 2018-12-20 14:57:16.246691889 -0600
+```
+
+This line:
+
+```
+Access: (0600/-rw-------)  Uid: (22350/konox006)   Gid: (13779/msistaff)
+```
+
+lists the permissions. Alternately, you can use the `-l` (lowercase L) option
+to `ls` to view the "long format" listing, which includes permissions:
+
+```
+% ls -l
+...
+-rw-------.  1 konox006 msistaff  229 Dec 20 14:57 push_LA.job
+...
+```
+
+The permissions string is broken down into three parts. The first part gives
+the *owner* permissions. The second part gives the *group* permissions, and the
+third part gives the *world* permissions. The way MSI is organized, your user
+account has owner permissions, other people in your PI group are governed by
+group permissions, and all users of MSI are governed by world permissions. In
+these examples, `rw-------` is the permissions string, `konox006` is the file
+owner, and `msistaff` is the group of the owner.
+
+Each set of permissions gets three characters. Using the file above as an
+example, `rw-` represents the owner permissions, `---` represents the group
+permissions, and `---` represents the world permissions. If a certain permission
+is `-`, then it is not set, and access for that type of operation is not
+permitted.
+
+There are three types of permissions, read (`r`), write/modify (`w`), and
+execute (`x`). In this example, the string `rw-------` means the following:
+
+- Owner permissions: read allowed, write/modify allowed, execute not allowed
+- Group permissions: read not allowed, write/modify not allowed, execute not allowed
+- World permissions: read not allowed, write/modify not allowed, execute not allowed
+
+This means that the owner (me) can see the file (read it), change its contents
+(write it), and cannot execute it. The people in my group cannot see the file,
+cannot change the contents, and cannot execute it. People using MSI generally
+cannot see the file, change its contents, and cannot execute it.
+
+<div class="warn" markdown="1">
+
+Write permissions include deleting the file! And for some reason, permissions
+to list the contents of and `cd` into a directory are called execute
+permissions. Directories that do not have the executable flag set cannot be
+traversed.
+
+</div>
+
+To change permissions, use the `chmod` command. If I wanted to make the file
+readable and writable for the group, I could run the following:
+
+```
+% chmod g+rw push_LA.job
+```
+
+The output of `stat` would reflect this:
+
+```
+% stat push_LA.job
+stat push_LA.job
+  File: `push_LA.job'
+  Size: 229         Blocks: 64         IO Block: 16384  regular file
+Device: 17h/23d Inode: 3701266697  Links: 1
+Access: (0660/-rw-rw----)  Uid: (22350/konox006)   Gid: (13779/msistaff)
+Access: 2018-12-20 14:57:16.246691889 -0600
+Modify: 2018-12-20 14:57:16.245480000 -0600
+Change: 2019-01-23 13:14:06.075335492 -0600
+```
+
+See the `660` before the permissions string. This is the *octal* representation
+of the permissions. It is three digits, with each digit representing the
+owner, group, and world permissions, respectively. The value of the digit is the
+sum of the permissions. Read permissions is 4, write permissions is 2, and
+execute permissions is 1.
+
+The equivalent of `chmod g+rw`, then is
+
+```
+% chmod 660 push_LA.job
+```
+
+You can use the octal permissions strings in a call to the `umask` command
+in your `~/.bashrc` file. `umask` takes an octal string, and *subtracts* it from
+full permissions (`777`) to obtain the permissions that will be applied to every
+file and directory that you make. I set my `umask` to `007` so that every file
+I make is automatically open to the group. This is the easiest way to share
+data with other members of your lab.
+
+The relevant line of my `.bashrc` file is:
+
+```
+umask 007
+```
+
+### Software Modules
+### Installing Your Own Software
+### Moving Data to and from Tier2
 
 ## Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
