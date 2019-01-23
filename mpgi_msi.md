@@ -3,7 +3,7 @@ layout: default
 title: MPGI-MSI Workshop
 permalink: /mpgi_msi/
 exclude: false
-updated: 2019-01-22
+updated: 2019-01-23
 delivered: 2019-01-11
 ---
 
@@ -31,6 +31,12 @@ delivered: 2019-01-11
     - [PBS Task Arrays](#4.4)
         - [Task Array Example Scripts](#4.4.1)
 - [Special Topics](#5)
+    - [Permissions, Multi-User, umask](#5.1)
+    - [Software Modules](#5.2)
+    - [Installing Your Own Software](#5.3)
+        - [Conda and Python](#5.3.1)
+        - [Custom R Libraries](#5.3.2)
+    - [Using Tier 2 Storage](#5.4)
 
 </div>
 
@@ -996,9 +1002,184 @@ The relevant line of my `.bashrc` file is:
 umask 007
 ```
 
-### Software Modules
-### Installing Your Own Software
-### Moving Data to and from Tier2
+To make it such that other members of your group can read (but not modify) the
+contents of your files, you can set this line:
+
+```
+umask 027
+```
+
+Log out and log back in for the changes to `.bashrc` to take effect.
+
+### <a name="5.2"></a> Software Modules
+MSI maintains a collection of software modules that contain the common analysis
+packages that are used in many fields of research. You can view the catalogue
+of software packages [here](https://www.msi.umn.edu/software).
+
+You can "load" a software module with the `module` command within scripts and
+on the command line. Instructions for finding and loading software modules
+can be found [here](https://www.msi.umn.edu/content/accessing-software-resources).
+For example, to load the software module for the
+[BWA aligner](http://bio-bwa.sourceforge.net/), you can run
+
+```
+% module load bwa/0.7.17.CentOS7
+```
+
+The full name of the software module is `bwa/0.7.17.CentOS7`, which includes a
+version string. To view all available versions of this software tool, you can
+run
+
+```
+% module avail bwa
+---------------------- /panfs/roc/soft/modulefiles.mesabi ----------------------
+bwa/0.7.12_gcc-4.9.2_haswell  bwa/0.7.17_gcc-7.2.0_haswell(default)
+
+---------------------- /panfs/roc/soft/modulefiles.common ----------------------
+bwa/0.5.9  bwa/0.7.4   bwa/0.7.12  bwa/0.7.17(default)
+bwa/0.6.2  bwa/0.7.10  bwa/0.7.15
+
+--------------------- /panfs/roc/soft/modulefiles.centos7 ----------------------
+bwa/0.7.17.CentOS7
+```
+
+<div class="warn" markdown="1">
+
+Not all software modules are available on all systems! Run `module avail` to
+check which versions are available for the system you are using. Also, make
+sure to document the version you are using!
+
+This also warrants a little extra discussion. Mesabi is running CentOS7, while
+Itasca is running CentOS6. Most of the software modules are compatible across
+systems, but there are some cases where the OS upgrade for Mesabi broke some of
+the older software packages. Look for the `CentOS7` name in the module version
+and use that one if you are running on Mesabi.
+
+</div>
+
+### <a name="5.3"></a> Installing Your Own Software
+If you need a highly specialized piece of software, then it may be easier to
+install it locally. MSI maintains several help pages that can point you in the
+right direction:
+
+- [New Software Install](https://www.msi.umn.edu/support/faq/i-need-software-msi-does-not-have-how-do-i-get-new-software-installed-msi)
+- [Compiling Instructions](https://www.msi.umn.edu/content/accessing-software-resources#install)
+- [Creating Your Own Software Modules](https://www.msi.umn.edu/support/faq/how-can-i-create-private-software-modules)
+
+Further, MSI offers a [tutorial](https://www.msi.umn.edu/tutorials/compiling-and-debugging)
+on compiling and debugging software on our systems.
+
+I like to have a directory in the group's shared directory (located at
+`/home/PI_group/shared`) where I install software with group read and
+execute permissions. That way, once I get a piece of software installed, anyone
+in the group can use it.
+
+<div class="warn" markdown="1">
+
+We cannot provide support for software that you install into your group's
+home directory. If you encounter unexpected behavior or compilation errors,
+you must troubleshoot them yourself, or contact the software developer.
+
+</div>
+
+#### <a name="5.3.1"></a> Conda and Python
+You can use a [Conda](https://conda.io/en/latest/) environment with Python
+to make an isolated package environment where you can specify the exact versions
+of a Python package to use. This is important, for example, with `scipy`, which
+changes the behavior of its optimization routines from version to version.
+
+To use Conda on MSI, you first load a Python software module:
+
+```
+% module load python3/3.7.1_anaconda
+```
+
+Then, make a `.yml` file that describes the environment that you want to build
+for your analysis. You can even specify other versions of Python! This example
+is from a Conda environment I built for demographic analysis of
+*Astyanax mexicanus* ([Herman et al. 2018](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.14877)):
+
+```
+name: dadi_env
+dependencies:
+    - python=2.7
+    - scipy=0.14
+    - numpy=1.9
+    - matplotlib
+```
+
+Then, create an environment from this `.yml` file and activate it:
+
+```
+% conda env create -f dadi_env.yml
+% source activate dadi_env
+```
+
+When you are ready to leave your Conda environment, you can run:
+
+```
+% source deactivate
+```
+
+#### <a name="5.3.2"></a> Custom R Package Paths
+You can also specify a custom directory to load R packages. This is useful if
+you would like to freeze your R environment at a specific date so that all
+analyses using a certain package are completely reproducible.
+
+<div class="warn" markdown="1">
+
+This can take up a LOT of space and a lot of time compiling and recompiling
+packages. Only do this if you absolutely must freeze all versions of the
+software you are using.
+
+</div>
+
+In an R terminal, you can specify a `lib="/path/to/library"` argument to
+`install.packages()` to have it write to a specific location. Then, in your
+R script, prepend that directory to the library path like so:
+
+```R
+.libPaths(c("/path/to/library", .libPaths()))
+```
+
+Additionally, tools like [Packrat](https://rstudio.github.io/packrat/) can help
+you manage multiple R libraries for various projects.
+
+### <a name="5.4"></a> Moving Data to and from Tier 2 Storage
+Several options exist for moving data to and from Tier 2 storage. For a
+graphical (browser-based) tool, you should use the [Globus](https://www.globus.org/)
+service. MSI maintains a [guide](https://www.msi.umn.edu/support/faq/how-do-i-use-globus-transfer-data-second-tier-storage-msi)
+for using Globus and Tier 2 storage.
+
+For a command line (terminal-based) tool, you should use the [S3Tools](https://s3tools.org/s3cmd)
+software. MSI maintains `s3cmd` as a software module that you can access
+by typing
+
+```
+% module load s3cmd
+```
+
+MSI also has a [guide](https://www.msi.umn.edu/support/faq/how-do-i-use-second-tier-storage-command-line)
+to using `s3cmd` in the terminal.
+
+<div class="warn" markdown="1">
+
+Note that Tier 2 storage is a separate volume from primary storage. You cannot
+modify data once it is written to Tier 2 storage - the only way to update it
+is to delete the data and upload a modified version.
+
+Tier 2 storage is also not snapshot-protected, so once something is deleted,
+it is gone.
+
+Owner/group/world permissions are also not implemented on Tier 2 storage. There
+is some capability to share data through Tier 2 storage using Globus. It
+involves sharing a Globus endpoint with another user. You can find a guide
+[here](https://www.msi.umn.edu/support/faq/how-do-i-transfer-data-second-tier-storage-between-users)
+
+For lab archival purposes, it is simpler to have someone who will be in the lab
+long-term be the data custodian.
+
+</div>
 
 ## Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
