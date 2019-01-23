@@ -284,7 +284,7 @@ procedures for Windows, Mac OSX, and Linux workstations.
 If you are connecting from off-campus, you will need to connect through the
 university VPN. UMN OIT maintains a [page](https://it.umn.edu/downloads-guides)
 with download links, installation guides, and setup instructions for using the
-Univeristy of Minnesota VPN.
+University of Minnesota VPN.
 
 </div>
 
@@ -318,13 +318,202 @@ after you log out.
 #### Writing a Job Script
 MSI maintains [a guide](https://www.msi.umn.edu/content/job-submission-and-scheduling-pbs-scripts)
 for writing job scripts and submitting them to the various queues. We will
-digest the job script format here:
+digest the job script format here. The format is a standard Bash script with
+a few special lines at the top of the file that declare the parameters for the
+job. These special lines (called "directives") start with `#PBS` and follow
+a special syntax for requesting resources. The header from the slide deck is
+pasted below:
+
+```
+#!/bin/bash
+#PBS -l nodes=1:ppn=1,mem=2gb,walltime=1:00:00
+#PBS -m abe
+#PBS -M YOUR_X.500@umn.edu
+#PBS -q lab
+```
+
+<div class="warn" markdown="1">
+
+All lines in the job script are case-sensitive, which means that capitalization
+is important. a is different from A.
+
+Spaces are also important. Pay attention to where the spaces are in the example
+script!
+
+</div>
+
+Each line will be desribed below:
+
+1. `#!/bin/bash`
+
+    This line is a special line that tells the operating system that the file
+    is a bash script. Specifically, the `#!` part is a special character that
+    tells the system to use the program that comes after it to run the script.
+    In this case, we specify `/bin/bash`, which is the standard Bash shell
+    interpreter.
+
+2. `#PBS -l nodes=1:ppn=1,mem=2gb,walltime=1:00:00`
+
+    This line contains a PBS directive, denoted by the `#PBS` at the beginning
+    of the line. The `-l` (lowercase L) flag means that this line contains a
+    resource request. The resource request does not have any spaces! In this
+    case, we are requesting one node (`nodes=1`), with one processor per node
+    (`ppn=1`). Note the colon (`:`) separating the `nodes=1` and `ppn=1`. The
+    next part of the request is a total of `2gb` of memory (`mem=2gb`). We are
+    also requesting a total of 1 hour of runtime (`walltime=1:00:00`). The
+    format for the walltime request is `HH:MM:SS`, where `HH` is hours, `MM` is
+    minutes, and `SS` is seconds.
+
+3. `#PBS -m abe`
+
+    This is another directive that specifies the email notification settings.
+    In this case, we are requesting an email notification be sent when the
+    job **a**borts with an error (`a`), when the job **b**egins (`b`), and
+    when the job **e**xits successfully (`e`).
+
+4. `#PBS -M YOUR_X.500@umn.edu`
+
+    This is another directive that specifies the email address to which to send
+    notifications. Note that this is a placeholder value in the example. Please
+    specify your own email address in the job script.
+
+5. `#PBS -q lab`
+
+    Finally, this directive specifies the queue to which you would like to send
+    your job. In this example, we are using the `lab` queue. Please refer to
+    our [queues page](https://www.msi.umn.edu/queues) to see the full list of
+    available queues. Remember that not all queues are available on all systems;
+    you must be submitting from a Measabi login node to run jobs in the
+    `mesabi` queue, for example.
+
+The directives can also be passed as options to `qsub` when you submit a job.
+The lines starting with `#PBS` could be omitted from you job script, and the
+job could be sent in exactly the same way by giving this command:
+
+```
+qsub -l nodes=1:ppn=1,mem=2gb,walltime=1:00:00 -m abe -M YOUR_X.500@umn.edu -q lab
+```
+
+I prefer to keep the directives written into the script so that I have a log of
+the size of the request I made. See the warnings in the Module 2 section above.
+If both `qsub` command line options and `#PBS` directives are given in the
+script, the `qsub` command line options take precedence.
+
+<div class="info" markdown="1">
+
+Job scripts are Bash scripts. If you would like to learn more about Bash
+scripting, there are many excellent guides available. One great introductory
+tutorial to scripting and the GNU/Linux command line is maintained by the
+[UC Riverside High Performance Computing Center](https://hpcc.ucr.edu/manuals_linux-basics_intro.html#).
+
+For more advanced Bash scripting, I like the
+[Advanced Bash Scripting Guide](https://www.tldp.org/LDP/abs/html/), which
+contains many examples of sophisticated scripting techniques.
+
+</div>
+
+#### Reading a PBS Job Email
+When your job exits, you will get a cryptic-looking email that describes the
+results of your job. An example job email is pasted below:
+
+```
+PBS Job Id: 762559.nokomis0015.msi.umn.edu
+Job Name:   push_LA.job
+Exec host:  labc01.msi.umn.edu/0
+Execution terminated
+Exit_status=0
+resources_used.cput=01:48:40
+resources_used.vmem=422480kb
+resources_used.walltime=06:19:51
+resources_used.mem=14396kb
+resources_used.energy_used=0
+req_information.task_count.0=1
+req_information.lprocs.0=1
+req_information.total_memory.0=4194304kb
+req_information.memory.0=4194304kb
+req_information.thread_usage_policy.0=allowthreads
+req_information.hostlist.0=labc01.msi.umn.edu:ppn=1
+req_information.task_usage.0.task.0={"task":{"cpu_list":"0","mem_list":"0",
+"cores":0,"threads":1,"host":"labc01.msi.umn.edu"}}
+Error_Path: labc03.msi.umn.edu:/panfs/roc/groups/14/msistaff/konox006/push_LA.job.e762559
+Output_Path: labc03.msi.umn.edu:/panfs/roc/groups/14/msistaff/konox006/push_LA.job.o762559
+```
+
+This is more information than you really need, so we will highlight the key
+pieces here.
+
+- `PBS Job Id: 762559.nokomis0015.msi.umn.edu`
+
+    This is the job ID in our system logs. If you request help or
+    troubleshooting for a particular job, you may be requested to send this
+    information.
+
+- `Job Name:   push_LA.job`
+
+    This is the job name. You can specify any name you want here, but I usually
+    leave it as the name of the script, which is the default.
+
+- `Exec host:  labc01.msi.umn.edu/0`
+
+    This is the name of the machine that ran your job. If you experience strange
+    issues, such as file permissions being incorrect or corrupted output files,
+    you may be asked to send this information for identifying troublesome
+    hardware.
+
+- `Execution terminated`
+
+    This just means the job finished.
+
+- `Exit_status=0`
+
+    This means the job finished successfully. Technically speaking, this is the
+    *exit status* of the script when it was run. By UNIX convention, an exit
+    status of `0` is a success. `1` is a general error. Other numbers are
+    generally program-specific, so you will have to dig into your script's log
+    files to see what went wrong.
+
+- `resources_used.cput=01:48:40`
+
+    This is the amount of CPU-time (CPU ticks * time) that was used. By itself,
+    it is not very useful information.
+
+- `resources_used.vmem=422480kb`
+
+    This is the amount of *virtual address space* used by the job. This is the
+    maximum amount of virtual memory (including RAM and temporary swap space
+    on disk) that was used by the job.
+
+- `resources_used.walltime=06:19:51`
+
+    This is the amount of walltime (real time) that was used by the job. This
+    directly corresponds to the `walltime=` part of the request.
+
+- `resources_used.mem=14396kb`
+
+    This is the maximum amount of *physical memory* used by job. When you are
+    tuning the resource request string, this value is the important one in
+    deciding how much memory to request.
+
+- `Error_Path: labc03.msi.umn.edu:/panfs/roc/groups/14/msistaff/konox006/push_LA.job.e762559`
+
+    This is the path to the *error file*. This does not necessarily mean that
+    your job encountered errors. Rather, it contains the text that is written
+    to the *standard error* output channel, which is used for warnings and
+    error messages, by convention. You can check this file for progress messages
+    or debugging messages for your job.
+
+- `Output_Path: labc03.msi.umn.edu:/panfs/roc/groups/14/msistaff/konox006/push_LA.job.o762559`
+
+    Similarly, this path contains the text that was written to the
+    *standard output* output channel. This does not necessarily mean that your
+    job finished successfully. It is also not necessarily the results of your
+    analysis.
 
 #### q-Commands Documentation
 MSI servers run PBS TORQUE from Adaptive Computing. You can view the manual
 for the various commands mentioned (`qsub`, `qstat`, etc.)
 [here](http://docs.adaptivecomputing.com/torque/4-0-2/Content/topics/12-appendices/commandsOverview.htm).
-Please note that not all commands are available on our systems.
+Please note that not all commands are available on MSI systems.
 
 ## <a name="4"></a> Module 4: Parallelization with GNU Parallel and Task Arrays
 ### Slide Deck
