@@ -345,9 +345,44 @@ is important. a is different from A.
 Spaces are also important. Pay attention to where the spaces are in the example
 script!
 
+Finally, your scripts must be saved as plain text. Scripts written in Word,
+OpenOffice, Apple Pages, or any other word processing software are highly
+unlikely to work.
+
 </div>
 
-Each line will be desribed below:
+<div class="info" markdown="1">
+
+Some good text editors are linked below. They have support for syntax
+highlighting, and some have support for checking for syntax errors before you
+run the script (called "linting"):
+
+- Windows
+    - [Notepad++](https://notepad-plus-plus.org/)
+- Linux
+    - [GEdit](https://wiki.gnome.org/Apps/Gedit)
+- Mac OS
+    - TextWrangler
+    - BBEdit
+    - [TextMate](https://macromates.com/)
+- Multi-Platform
+    - [Atom](https://atom.io/)
+    - [Visual Studio Code](https://code.visualstudio.com/)
+    - [Sublime Text](https://www.sublimetext.com/)
+
+This, of course, is not an exhaustive list!
+
+There are several text editors available on MSI servers:
+
+- [Vim](https://www.vim.org/docs.php)
+- [Emacs](https://www.gnu.org/software/emacs/documentation.html)
+- [Nano](https://www.nano-editor.org/docs.php)
+
+Of these, Nano is the easiest to learn.
+
+</div>
+
+Each line will be described below:
 
 1. `#!/bin/bash`
 
