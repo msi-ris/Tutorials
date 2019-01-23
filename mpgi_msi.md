@@ -251,6 +251,10 @@ unlike short reads, which have biased error profiles. A common approach is to
     - Flowcell ID
     - Lane number
 
+    [Karl Broman and Kara Woo](https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1375989)
+    have described a way to keep data that ensures that your values are properly
+    formatted and that analysis goes as smoothly as possible.
+
     Additionally, maintain your computational analyses as scripts with detailed
     comments. Your collaborators, your supervisor, your peer reviewers, and
     most importantly, your future self will need to know how you performed an
@@ -266,6 +270,7 @@ unlike short reads, which have biased error profiles. A common approach is to
     humans, but run on computers. You colleagues should be able to easily read
     your script to know what it is doing, and it should run without throwing
     errors.
+
 
 </div>
 
@@ -404,7 +409,7 @@ script, the `qsub` command line options take precedence.
 Job scripts are Bash scripts. If you would like to learn more about Bash
 scripting, there are many excellent guides available. One great introductory
 tutorial to scripting and the GNU/Linux command line is maintained by the
-[UC Riverside High Performance Computing Center](https://hpcc.ucr.edu/manuals_linux-basics_intro.html#).
+[UC Riverside High Performance Computing Center](https://hpcc.ucr.edu/manuals_linux-basics_intro.html).
 
 For more advanced Bash scripting, I like the
 [Advanced Bash Scripting Guide](https://www.tldp.org/LDP/abs/html/), which
