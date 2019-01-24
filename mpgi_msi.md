@@ -1145,6 +1145,70 @@ R script, prepend that directory to the library path like so:
 Additionally, tools like [Packrat](https://rstudio.github.io/packrat/) can help
 you manage multiple R libraries for various projects.
 
+For most documentation applications, it is sufficient to include the output of
+the R function `sessionInfo()` to display the packages that you are using.
+
+```R
+> library(lme4)
+> library(DESeq2)
+> library(fields)
+
+> sessionInfo()
+R version 3.5.2 (2018-12-20)
+Platform: x86_64-apple-darwin18.2.0 (64-bit)
+Running under: macOS Mojave 10.14.2
+
+Matrix products: default
+BLAS: /System/...libBLAS.dylib
+LAPACK: /System/...libLAPACK.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+ [1] parallel  stats4    grid      stats     graphics  grDevices utils
+ [8] datasets  methods   base
+
+other attached packages:
+ [1] DESeq2_1.22.1               SummarizedExperiment_1.12.0
+ [3] DelayedArray_0.8.0          BiocParallel_1.16.2
+ [5] matrixStats_0.54.0          Biobase_2.42.0
+ [7] GenomicRanges_1.34.0        GenomeInfoDb_1.18.1
+ [9] IRanges_2.16.0              S4Vectors_0.20.1
+[11] BiocGenerics_0.28.0         fields_9.6
+[13] maps_3.3.0                  spam_2.2-1
+[15] dotCall64_1.0-0             lme4_1.1-19
+[17] Matrix_1.2-15
+
+loaded via a namespace (and not attached):
+ [1] bit64_0.9-7            splines_3.5.2          Formula_1.2-3
+ [4] assertthat_0.2.0       latticeExtra_0.6-28    blob_1.1.1
+ [7] GenomeInfoDbData_1.2.0 RSQLite_2.1.1          pillar_1.3.1
+[10] backports_1.1.3        lattice_0.20-38        glue_1.3.0
+[13] digest_0.6.18          RColorBrewer_1.1-2     XVector_0.22.0
+[16] checkmate_1.8.5        minqa_1.2.4            colorspace_1.3-2
+[19] htmltools_0.3.6        plyr_1.8.4             XML_3.98-1.16
+[22] pkgconfig_2.0.2        genefilter_1.64.0      zlibbioc_1.28.0
+[25] xtable_1.8-3           purrr_0.2.5            scales_1.0.0
+[28] annotate_1.60.0        htmlTable_1.12         tibble_1.4.2
+[31] ggplot2_3.1.0          nnet_7.3-12            lazyeval_0.2.1
+[34] survival_2.43-3        magrittr_1.5           crayon_1.3.4
+[37] memoise_1.1.0          nlme_3.1-137           MASS_7.3-51.1
+[40] foreign_0.8-71         tools_3.5.2            data.table_1.11.8
+[43] stringr_1.3.1          locfit_1.5-9.1         munsell_0.5.0
+[46] cluster_2.0.7-1        AnnotationDbi_1.42.1   bindrcpp_0.2.2
+[49] compiler_3.5.2         rlang_0.3.0.1          RCurl_1.95-4.11
+[52] nloptr_1.2.1           rstudioapi_0.8         htmlwidgets_1.3
+[55] bitops_1.0-6           base64enc_0.1-3        gtable_0.2.0
+[58] DBI_1.0.0              R6_2.3.0               gridExtra_2.3
+[61] knitr_1.21             dplyr_0.7.8            bit_1.1-14
+[64] bindr_0.1.1            Hmisc_4.1-1            stringi_1.2.4
+[67] Rcpp_1.0.0             geneplotter_1.60.0     rpart_4.1-13
+[70] acepack_1.4.1          tidyselect_0.2.5       xfun_0.4
+```
+
+(Note that long paths have been truncated in the above snippet)
+
 ### <a name="5.4"></a> Moving Data to and from Tier 2 Storage
 Several options exist for moving data to and from Tier 2 storage. For a
 graphical (browser-based) tool, you should use the [Globus](https://www.globus.org/)
