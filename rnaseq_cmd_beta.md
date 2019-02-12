@@ -142,27 +142,29 @@ than through the graphical shell.
 
 ### <a name="1.2"></a> 1.2: Accessing a Command Line on MSI
 The computer you are using at the moment will determine how you connect to MSI
-systems. Here are the common ways users connect to our servers:
+systems. Here are the common ways users access a command line interface on our
+servers:
 
-- **Linux Workstations in SDVL**:
+- **Linux Workstations in SDVL:**
 
    Click the menu icon on the top left of the screen, then hover over
    "Applications," then "System Tools," and then click on "Terminal."
 
-- **Personal Linux Laptop**:
+- **Personal Linux Laptop:**
 
    Run your preferred terminal emulator application. Unfortunately, the name and
    location of the application varies by distribution and version. The most
    common distributions of Linux will have a similar layout to the SDVL
    workstations.
 
-- **Mac OS X Laptop**:
+- **Mac OS X Laptop:**
 
    Hold the `command` and `shift` keys and press the `a` key to open the
    Applications folder. Open the "Utilities" folder, and double-click 
-   on "Terminal."
+   on "Terminal." You must first click on a Finder window or the desktop window
+   before the keyboard shortcut will work.
 
-- **Windows Laptop**:
+- **Windows Laptop:**
 
    You will need to install additional software to use a command line interface.
    The software that MSI recommends is called PuTTY, and is available for
