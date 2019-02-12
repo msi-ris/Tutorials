@@ -127,6 +127,13 @@ run similar analyses that we will cover here.
 
 [Return to top](#top)
 
+## <a name="1"></a> Part 1: Introduction to the Command Line
+### <a name="1.1"></a> 1.1: What is a Shell?
+### <a name="1.2"></a> 1.2: Directories and Files
+### <a name="1.3"></a> 1.3: Basic Commands and Exercises
+### <a name="1.4"></a> 1.4: Other Useful Commands
+### <a name="1.5"></a> 1.5: Common Command Line Utilities in Bioinformatics
+
 ### <a name="1.3"></a> 1.3: Overall Workflow
 Here is a schematic of the workflow that we will follow for this tutorial. The
 pieces of data are shown in rectangles, and the software are shown in rounded
