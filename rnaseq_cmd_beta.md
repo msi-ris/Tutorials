@@ -182,13 +182,22 @@ For the other methods, follow these instructions:
 2. Enter your password at the prompt. Note that you will not see your password
    as you type it (not even stars). Press `Enter` when you have finished
    entering your password. If you have successfully entered it, you will see a
-   window that looks like the one below. If you did not enter it properly, it
-   will just ask you to try again.
+   window that looks like the one below. If you did not enter the password
+   properly, it will just ask you to try again.
 
    ![Login]({{ "/graphics/rnaseq_cmd/login.png" | prepend: site.baseurl }})
 
+   <div class="warn" markdown="1">
+
+   Repeated rejections of your password could indicate a problem with your UMN
+   account. Please contact the MSI help desk at <help@msi.umn.edu> if you cannot
+   get our servers to accept your user name and password.
+
+   </div>
+
 The message that prints to the screen is called the "message of the day" (MOTD)
-and confirms that you have successfully connected to MSI systems.
+and confirms that you have successfully connected to MSI systems. The line at
+the bottom of the screen is called the "prompt." 
 
 ### <a name="1.2"></a> 1.3: Directories and Files
 
