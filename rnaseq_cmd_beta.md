@@ -141,30 +141,41 @@ you will find that it can be much more powerful and fast to manipulate files
 than through the graphical shell.
 
 ### <a name="1.2"></a> 1.2: Accessing a Command Line on MSI
-If you are using a workstation in the SDVL, then you can access a command line
-interface in the following way. Click the menu icon on the top left of the
-screen, then hover over "Applications," then "System Tools," and then click
-on "Terminal."
+The computer you are using at the moment will determine how you connect to MSI
+systems. Here are the common ways users connect to our servers:
 
-If you are using a Linux laptop, run your preferred terminal emulator
-application. Unfortunately, the name and location of the application varies by
-distribution and version.
+- **Linux Workstations in SDVL**:
 
-If you are using a Mac OS X laptop, you can access a command line interface in
-the following way: hold the `command` and `shift` keys and press the `a` key to
-open the Applications folder. Open the "Utilities" folder, and double-click
-"Terminal."
+   Click the menu icon on the top left of the screen, then hover over
+   "Applications," then "System Tools," and then click on "Terminal."
 
-If you are using a Windows laptop, you will need to install additional software
-to use a command line interface. The software that MSI recommends is called
-PuTTY, and is available for download [here](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
-MSI maintains a [setup guide for PuTTY](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
+- **Personal Linux Laptop**:
 
-For Windows 10 machines, the [Bash subsystem](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
-should allow you to run a terminal emulator and connect to MSI systems without
-the PuTTY application. Similar to the Linux laptop case, the way to launch a
-terminal emulator application will depend on which distribution you choose to
-install.
+   Run your preferred terminal emulator application. Unfortunately, the name and
+   location of the application varies by distribution and version. The most
+   common distributions of Linux will have a similar layout to the SDVL
+   workstations.
+
+- **Mac OS X Laptop**:
+
+   Hold the `command` and `shift` keys and press the `a` key to open the
+   Applications folder. Open the "Utilities" folder, and double-click 
+   on "Terminal."
+
+- **Windows Laptop**:
+
+   You will need to install additional software to use a command line interface.
+   The software that MSI recommends is called PuTTY, and is available for
+   download [here](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+   MSI maintains a [setup guide for PuTTY](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
+
+   <div class="info" markdown="1">
+
+   For Windows 10 machines, the [Bash subsystem](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+   should allow you to run a terminal emulator and connect to MSI systems
+   without the PuTTY application. Similar to the Linux laptop case, the way to
+   launch a terminal emulator application will depend on which distribution you
+   choose to install.
 
 For PuTTY users, the process for connecting to MSI servers is somewhat different
 than for the other methods. Please follow the instructions in the
@@ -197,7 +208,9 @@ For the other methods, follow these instructions:
 
 The message that prints to the screen is called the "message of the day" (MOTD)
 and confirms that you have successfully connected to MSI systems. The line at
-the bottom of the screen is called the "prompt." 
+the bottom of the screen is called the "prompt." This is where you will type
+commands. Before we start to issue commands, though, we will talk about the
+structure of the data on MSI servers.
 
 ### <a name="1.2"></a> 1.3: Directories and Files
 
