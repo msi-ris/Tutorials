@@ -129,9 +129,19 @@ run similar analyses that we will cover here.
 
 ## <a name="1"></a> Part 1: Introduction to the Command Line
 ### <a name="1.1"></a> 1.1: What is a Shell?
+Generally speaking, a "shell" is a user interface that allows someone to
+interact with an operating system. Shells can either be *graphical* in nature
+or *textual*. The Microsoft Windows interface or the GNOME desktops that are
+running on the workstations in the SDVL are examples of a graphical shell
+interface. The main way we will be interacting through MSI systems is through a
+command line shell interface. 
+
 ### <a name="1.2"></a> 1.2: Directories and Files
+
 ### <a name="1.3"></a> 1.3: Basic Commands and Exercises
+
 ### <a name="1.4"></a> 1.4: Other Useful Commands
+
 ### <a name="1.5"></a> 1.5: Common Command Line Utilities in Bioinformatics
 
 ## <a name="2"></a> Part 2: RNASeq Analysis on the Command Line
