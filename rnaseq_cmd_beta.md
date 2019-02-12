@@ -158,7 +158,7 @@ open the Applications folder. Open the "Utilities" folder, and double-click
 If you are using a Windows laptop, you will need to install additional software
 to use a command line interface. The software that MSI recommends is called
 PuTTY, and is available for download [here](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
-MSI maintains a [setup guide for PuTTY](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems)
+MSI maintains a [setup guide for PuTTY](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
 
 For Windows 10 machines, the [Bash subsystem](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 should allow you to run a terminal emulator and connect to MSI systems without
@@ -173,12 +173,22 @@ to connect.
 
 For the other methods, follow these instructions:
 
-1. Type `ssh YOUR_X.500@login.msi.umn.edu` into the command prompt window.
-   Replace the `YOUR_X.500` placeholder text with your actual UMN X.500 ID.
+1. Type `ssh YOUR_X.500@login.msi.umn.edu` into the command prompt window, then
+   press the `Enter` key. Replace the `YOUR_X.500` placeholder text with your
+   actual UMN X.500 ID.
 
    ![SSH]({{ "/graphics/rnaseq_cmd/ssh.png" | prepend: site.baseurl }})
 
-2. Test.
+2. Enter your password at the prompt. Note that you will not see your password
+   as you type it (not even stars). Press `Enter` when you have finished
+   entering your password. If you have successfully entered it, you will see a
+   window that looks like the one below. If you did not enter it properly, it
+   will just ask you to try again.
+
+   ![Login]({{ "/graphics/rnaseq_cmd/login.png" | prepend: site.baseurl }})
+
+The message that prints to the screen is called the "message of the day" (MOTD)
+and confirms that you have successfully connected to MSI systems.
 
 ### <a name="1.2"></a> 1.3: Directories and Files
 
