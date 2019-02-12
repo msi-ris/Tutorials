@@ -131,7 +131,7 @@ h6 {
 }
 
 p, blockquote, ul, ol, dl, li, table, pre {
-  margin: 12px 12px;
+  margin: 12px 0px;
 }
 
 hr {
