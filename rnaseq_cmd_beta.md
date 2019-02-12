@@ -156,7 +156,29 @@ open the Applications folder. Open the "Utilities" folder, and double-click
 "Terminal."
 
 If you are using a Windows laptop, you will need to install additional software
-to use a command line interface.
+to use a command line interface. The software that MSI recommends is called
+PuTTY, and is available for download [here](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+MSI maintains a [setup guide for PuTTY](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems)
+
+For Windows 10 machines, the [Bash subsystem](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+should allow you to run a terminal emulator and connect to MSI systems without
+the PuTTY application. Similar to the Linux laptop case, the way to launch a
+terminal emulator application will depend on which distribution you choose to
+install.
+
+For PuTTY users, the process for connecting to MSI servers is somewhat different
+than for the other methods. Please follow the instructions in the
+[MSI PuTTY guide](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems)
+to connect.
+
+For the other methods, follow these instructions:
+
+1. Type `ssh YOUR_X.500@login.msi.umn.edu` into the command prompt window.
+   Replace the `YOUR_X.500` placeholder text with your actual UMN X.500 ID.
+
+   ![SSH]({{ "/graphics/rnaseq_cmd/ssh.png" | prepend: site.baseurl }})
+
+2. Test.
 
 ### <a name="1.2"></a> 1.3: Directories and Files
 
