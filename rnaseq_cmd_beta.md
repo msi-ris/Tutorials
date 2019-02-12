@@ -134,15 +134,37 @@ interact with an operating system. Shells can either be *graphical* in nature
 or *textual*. The Microsoft Windows interface or the GNOME desktops that are
 running on the workstations in the SDVL are examples of a graphical shell
 interface. The main way we will be interacting through MSI systems is through a
-command line shell interface. 
+command line shell interface.
 
-### <a name="1.2"></a> 1.2: Directories and Files
+Learning how to use the command line interface for MSI takes some practice, but
+you will find that it can be much more powerful and fast to manipulate files
+than through the graphical shell.
 
-### <a name="1.3"></a> 1.3: Basic Commands and Exercises
+### <a name="1.2"></a> 1.2: Accessing a Command Line on MSI
+If you are using a workstation in the SDVL, then you can access a command line
+interface in the following way. Click the menu icon on the top left of the
+screen, then hover over "Applications," then "System Tools," and then click
+on "Terminal."
 
-### <a name="1.4"></a> 1.4: Other Useful Commands
+If you are using a Linux laptop, run your preferred terminal emulator
+application. Unfortunately, the name and location of the application varies by
+distribution and version.
 
-### <a name="1.5"></a> 1.5: Common Command Line Utilities in Bioinformatics
+If you are using a Mac OS X laptop, you can access a command line interface in
+the following way: hold the `command` and `option` keys and press the `a` key to
+open the Applications folder. Open the "Utilities" folder, and double-click
+"Terminal."
+
+If you are using a Windows laptop, you will need to install additional software
+to use a command line interface.
+
+### <a name="1.2"></a> 1.3: Directories and Files
+
+### <a name="1.3"></a> 1.4: Basic Commands and Exercises
+
+### <a name="1.4"></a> 1.5: Other Useful Commands
+
+### <a name="1.5"></a> 1.6: Common Command Line Utilities in Bioinformatics
 
 ## <a name="2"></a> Part 2: RNASeq Analysis on the Command Line
 ### <a name="2.1"></a> 1.3: Overall Workflow
