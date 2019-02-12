@@ -151,7 +151,7 @@ application. Unfortunately, the name and location of the application varies by
 distribution and version.
 
 If you are using a Mac OS X laptop, you can access a command line interface in
-the following way: hold the `command` and `option` keys and press the `a` key to
+the following way: hold the `command` and `shift` keys and press the `a` key to
 open the Applications folder. Open the "Utilities" folder, and double-click
 "Terminal."
 
