@@ -134,7 +134,8 @@ run similar analyses that we will cover here.
 ### <a name="1.4"></a> 1.4: Other Useful Commands
 ### <a name="1.5"></a> 1.5: Common Command Line Utilities in Bioinformatics
 
-### <a name="1.3"></a> 1.3: Overall Workflow
+## <a name="2"></a> Part 2: RNASeq Analysis on the Command Line
+### <a name="2.1"></a> 1.3: Overall Workflow
 Here is a schematic of the workflow that we will follow for this tutorial. The
 pieces of data are shown in rectangles, and the software are shown in rounded
 bubbles with dashed borders. The final output is shown in red.
