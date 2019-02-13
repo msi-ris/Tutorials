@@ -143,7 +143,7 @@ than through the graphical shell.
 <div class="info" markdown="1">
 
 <details markdown="1">
-    <summary>Other graphical interfaces for MSI systems</summary>
+<summary>Other graphical interfaces for MSI systems</summary>
 
 This tutorial will cover using the command line interface to interact with MSI
 systems, but we do offer several graphical routes to use the compute resources
