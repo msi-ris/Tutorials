@@ -481,10 +481,10 @@ see a full listing of the software we have available.
 - **Next-Generation Sequence Data Processing**
     - FastQC - Quality control of NGS data
     - Trimmomatic - Clean contaminants and low-quality bases from NGS data
-    - BWA - Read mapping
-    - Minimap2 - Read mapping
-    - Bowtie2 - Read mapping
-    - HISAT2 - Splice-aware read mapping
+    - BWA - Short read mapping
+    - Minimap2 - Short and long read mapping
+    - Bowtie2 - Short read mapping
+    - HISAT2 - Splice-aware short read mapping
     - SAMTools - NGS alignment filtering
     - Picard Tools - NGS alignment filtering
 - **Sequence Assembly and Annotation**
