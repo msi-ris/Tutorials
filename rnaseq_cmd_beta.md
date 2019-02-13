@@ -92,6 +92,15 @@ This is code, or a literal value that you must enter or select to run a part
 of the tutorial
 ```
 
+<details markdown="1">
+<summary>These boxes contain Detailed information. Click on them to expand them</summary>
+
+When you click on these boxes, you will get a detailed view into a supplemental
+topic. The information in these boxes will be useful for advanced usage outside
+of the tutorial. We encourage you to read these!
+
+</details>
+
 Commands that are to be entered on the command-line will begin with `%`. Do not
 re-enter the `%` character when you type the commands into your prompt.
 
