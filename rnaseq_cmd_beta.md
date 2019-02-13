@@ -130,8 +130,8 @@ run similar analyses that we will cover here.
 ## <a name="1"></a> Part 1: Introduction to the Command Line
 ### <a name="1.1"></a> 1.1: What is a Shell?
 Generally speaking, a "shell" is a user interface that allows someone to
-interact with an operating system. Shells can either be *graphical* in nature
-or *textual*. The Microsoft Windows interface or the GNOME desktops that are
+interact with an operating system. Shells can either be *graphical* or *textual*
+in nature. The Microsoft Windows interface or the GNOME desktops that are
 running on the workstations in the SDVL are examples of a graphical shell
 interface. The main way we will be interacting through MSI systems is through a
 command line shell interface.
@@ -139,6 +139,21 @@ command line shell interface.
 Learning how to use the command line interface for MSI takes some practice, but
 you will find that it can be much more powerful and fast to manipulate files
 than through the graphical shell.
+
+<div class="info" markdown="1">
+
+This tutorial will cover using the command line interface to interact with MSI
+systems, but we do offer several graphical routes to use the compute resources
+that we have available. One is [NX NoMachine](https://www.msi.umn.edu/support/faq/how-do-i-get-started-nx)
+which will give you a "remote desktop" on the server.
+
+We also offer the [Galaxy](https://www.msi.umn.edu/content/galaxy) environment
+for running analytical workflows without the command line. Galaxy is a
+completely different paradigm than described here. We do offer a tutorial on
+[Illumina Data QC With Galaxy](https://pages.github.umn.edu/MSI-RIS/Tutorials/illumina_galaxy)
+which will acquaint you with the environment.
+
+</div>
 
 ### <a name="1.2"></a> 1.2: Accessing a Command Line on MSI
 The computer you are using at the moment will determine how you connect to MSI
