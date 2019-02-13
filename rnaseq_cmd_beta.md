@@ -448,6 +448,9 @@ command. Manual pages list all of the available options for a given program. If
 you want to know all of the ways that the behavior of a program can be modified,
 check the manual!
 
+<details markdown="1">
+<summary>View screenshot of manual page and other UNIX commands</summary>
+
 For instance, if you wanted to view a manual page for the `mkdir`
 command, you would type `man mkdir`:
 
@@ -480,6 +483,8 @@ go back **on month** from the from the current day. Global scratch is
 **not backed up by snapshots**, so when you delete data from there, it is gone
 for good.
 
+</details>
+
 #### A Note on `ln`
 *Linking* a file is a very useful way to make it available in other directories
 without having to copy it. A link looks like a regular file, but is actually
@@ -488,6 +493,9 @@ a reference or *alias* to another location on disk. We recommend using
 symbolic link ("symlink" for short) behaves as a separate file from the data
 to which it points. A hard link references the exact same data, so if you delete
 a hard link, the source data is also deleted.
+
+<details markdown="1">
+<summary>View symbolic link information</summary>
 
 To make a symlink, use the `-s` option to `ln`. The syntax is as follows:
 
@@ -520,6 +528,8 @@ when a dataset was collected or generated.
 
 </div>
 
+</details>
+
 <div class="warn" markdown="1">
 
 There are many versions of UNIX out there, and some of these commands have
@@ -533,12 +543,16 @@ command will do, check the manual page!
 
 ### <a name="1.5"></a> 1.6: Common Command Line Utilities in Bioinformatics
 Most of the commands listed in the previous section are standard UNIX commands.
-There are many commands that are specific to bioinformatics analysis. We cannot
-catalogue all of them here, but these are the programs that we regularly
-encounter. These are available as software modules on MSI systems; refer to
-our [module help page](https://www.msi.umn.edu/support/faq/what-module) to see
-how to load modules and our [software page](https://www.msi.umn.edu/software) to
-see a full listing of the software we have available.
+There are many other commands and programs that are specific to bioinformatics
+analysis. We cannot catalogue all of them here, but these are the programs that
+we regularly encounter. These are available as software modules on MSI systems;
+refer to our [module help page](https://www.msi.umn.edu/support/faq/what-module)
+to see how to load modules and our
+[software page](https://www.msi.umn.edu/software) to see a full listing of the
+software we have available.
+
+<details markdown="1">
+<summary>View software list</summary>
 
 - **Next-Generation Sequence Data Processing**
     - FastQC - Quality control of NGS data
@@ -590,6 +604,8 @@ see a full listing of the software we have available.
 - **Metagenomics and Microbial Community Genetics**
     - Mothur - Analyze microbial diversity in a community sample
     - Qiime2 - Analyze microbial diversity in a community sample
+
+</details>
 
 </div>
 
