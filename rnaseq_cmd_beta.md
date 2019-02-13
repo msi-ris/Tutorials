@@ -216,6 +216,8 @@ the bottom of the screen is called the "prompt." This is where you will type
 commands. Before we start to issue commands, though, we will talk about the
 structure of the data on MSI servers.
 
+![Prompt]({{ "/graphics/rnaseq_cmd/prompt.png" | prepend: site.baseurl }})
+
 ### <a name="1.2"></a> 1.3: Directories and Files
 Understanding files and directories is one of the key pieces of using a
 UNIX-like system (which includes MSI systems). One of the defining
