@@ -280,6 +280,20 @@ path of `Users/tomkono/data.txt` means something very different from the path
 </div>
 
 ### <a name="1.3"></a> 1.4: Basic Commands and Exercises
+The first command we will run is one that will change directories. This is how
+we navigate the filesystem. The command is called `cd` for "change directory."
+Type `cd` then a space, then the path to where you would like to go. We will
+go to the `/home/riss/public` directory. Press `Enter` when you have finished
+typing the command:
+
+![cd]({{ "/graphics/rnaseq_cmd/cd.png" | prepend: site.baseurl }})
+
+Notice how your prompt updates to let you know that you are now in a different
+directory than when you started. This is a quick way to check where you are
+currently working. You can verify this with the `pwd` command. Type `pwd` then
+`Enter` to print the *working directory*:
+
+![pwd]({{ "/graphics/rnaseq_cmd/pwd.png" | prepend: site.baseurl }})
 
 
 ### <a name="1.4"></a> 1.5: Other Useful Commands
