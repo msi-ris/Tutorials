@@ -552,7 +552,7 @@ to see how to load modules and our
 software we have available.
 
 <details markdown="1">
-<summary>View software list</summary>
+<summary>View representative software list</summary>
 
 - **Next-Generation Sequence Data Processing**
     - FastQC - Quality control of NGS data
