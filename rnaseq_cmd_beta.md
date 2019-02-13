@@ -194,7 +194,7 @@ For the other methods, follow these instructions:
 
 2. Enter your password at the prompt. Note that you will not see your password
    as you type it (not even stars). Press `Enter` when you have finished
-   entering your password. If you have successfully entered it, you will see a
+   typing your password. If you have successfully entered it, you will see a
    window that looks like the one below. If you did not enter the password
    properly, it will just ask you to try again.
 
@@ -203,8 +203,10 @@ For the other methods, follow these instructions:
    <div class="warn" markdown="1">
 
    Repeated rejections of your password could indicate a problem with your UMN
-   account. Please contact the MSI help desk at <help@msi.umn.edu> if you cannot
-   get our servers to accept your user name and password.
+   account. Please contact the UMN Office of Information Technology at
+   <help@umn.edu> for assistance. If your account is fully activiated and you
+   still cannot log in to MSI systems, please contact the MSI help desk at
+   <help@msi.umn.edu>.
 
    </div>
 
@@ -233,7 +235,7 @@ called "folders," so you can think of these as interchangeable terms.
 
 ![Directories]({{ "/graphics/rnaseq_cmd/Directories.png" | prepend: site.baseurl }})
 
-In the tree above, boxes represent directories or files, and indentation
+In the tree cartoon above, boxes represent directories or files, and indentation
 represents nesting. The text inside the boxes represents the names. The red
 box (around `/`) represents the *root* of the filesystem, and the blue box
 (around `/Users/tomkono/data.txt`) represents a *file*. The boxes in black
@@ -244,21 +246,25 @@ are *directories*.
 Just like in evolutionary biology, a tree structure does not really capture
 the relatedness of directories and files. Some special types of files are
 actually links to paths in the filesystem that are very divergent from where the
-location of the link files is, like reticulations in a phylogenetic tree. We
+locations of the link files are, like reticulations in a phylogenetic tree. We
 will talk about how to make links in later sections of this tutorial. These are
 very useful for making a dataset easy to find without having to actually copy
 the raw data.
 
 </div>
 
-Notice the slashes (`/`) between parts of the names - these give the full path
-to the file. In the case of `/Users/tomkono/data.txt`, you can read this name
-and know that the file called `data.txt` is located under the root (`/`), then
-the `Users` directory, then the `tomkono` directory. In UNIX terminology, this
-is known as the *path* to the file. More specifically, it is known as the
-*absolute path* because it starts at the root of the filesystem. This is the
-way I prefer to specify paths to files because there is no ambiguity as to where
-the file is located.
+Notice the slashes (`/`) between parts of the names - these delimit the actual
+directories that make up the full path to the file. In the case of
+`/Users/tomkono/data.txt`, you can read the name and know that the file called
+`data.txt` is located under the root (`/`), then the `Users` directory, then
+the `tomkono` directory. In UNIX terminology, this is known as the *path* to
+the file. More specifically, it is known as the *absolute path* because it
+starts at the root of the filesystem. This is the way I prefer to specify paths
+to files because there is no ambiguity as to where the file is located.
+
+A path that does not start at the root is known as a *relative path*. To really
+show the difference between absolute paths and relative paths, we will have to
+run a few commands, so we will start to do that now.
 
 <div class="warn" markdown="1">
 
@@ -269,6 +275,7 @@ path of `Users/tomkono/data.txt` means something very different from the path
 </div>
 
 ### <a name="1.3"></a> 1.4: Basic Commands and Exercises
+
 
 ### <a name="1.4"></a> 1.5: Other Useful Commands
 
