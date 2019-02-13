@@ -215,6 +215,28 @@ commands. Before we start to issue commands, though, we will talk about the
 structure of the data on MSI servers.
 
 ### <a name="1.2"></a> 1.3: Directories and Files
+Understanding files and directories is one of the key pieces of using a
+UNIX-like system (which includes MSI systems). One of the defining
+characteristics of UNIX-like systems is "everything is a file." This means that
+everything that the computer can interact with, including input and output
+devices, is represented as a file on the filesystem. Keyboards, mice, monitors,
+hard disks, executable programs, data - these are all represented as files. You
+generally will not have to interact with the files that represent the computer
+hardware, but you will have to navigate the filesystem to find the programs that
+you want to use to analyze your data and point these programs at your data set.
+
+The image that is often used to illustrate the concept of the directory and file
+structure is a tree. In this metaphor, a directory is a branch and a file is a
+leaf. Branches can contain multiple other branches and leaves.
+
+<div class="info" markdown="1">
+
+Just like in evolutionary biology, a tree structure does not really capture
+the relatedness of directories and files. Some special types of files are
+actually links to distantly related directories, like reticulations in a
+species tree.
+
+</div>
 
 ### <a name="1.3"></a> 1.4: Basic Commands and Exercises
 
