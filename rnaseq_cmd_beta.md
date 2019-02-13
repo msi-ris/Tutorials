@@ -295,6 +295,49 @@ currently working. You can verify this with the `pwd` command. Type `pwd` then
 
 ![pwd]({{ "/graphics/rnaseq_cmd/pwd.png" | prepend: site.baseurl }})
 
+Next, we will list the contents of the current working directory. We use the
+`ls` command to do this. Type `ls` then `Enter`:
+
+![ls]({{ "/graphics/rnaseq_cmd/ls.png" | prepend: site.baseurl }})
+
+There are three items under `/home/riss/public`. The blue coloring indicates
+that they are *directories*. Let's `cd` into the `CHURP` directory now:
+
+![cd]({{ "/graphics/rnaseq_cmd/cd_relpath.png" | prepend: site.baseurl }})
+
+Notice that we did not specify the leading `/` for an absolute path. This is
+because relative to `/home/riss/public`, `/home/riss/public/CHURP` can be called
+just `CHURP`. The prompt has updated to reflect this. Let's list the contents
+of this directory, too:
+
+![ls]({{ "/graphics/rnaseq_cmd/ls_churp.png" | prepend: site.baseurl }})
+
+It has just one directory, `0.0.1`. Let's `cd` into there and list the contents
+again with `ls`:
+
+![ls]({{ "/graphics/rnaseq_cmd/ls_churp_0.0.1.png" | prepend: site.baseurl }})
+
+There are a lot more files and directories inside here. The blue names are
+other directories, the white names are regular files, and the green name
+is an *executable* file. We will cover what this means later.
+
+Next, we will navigate to *global scratch*. This is a special part of the MSI
+filesystem where you can write temporary data. We will use it to hold the
+working data that we need for the RNAseq analysis later in this tutorial. The
+global scratch directory is called `/scratch.global`:
+
+![cd]({{ "/graphics/rnaseq_cmd/cd_scratch.png" | prepend: site.baseurl }})
+
+Next, we will *make a new directory* with the `mkdir` command. Because global
+scratch is a public area, it can be difficult to keep track of which data are
+yours. To help organize it, we will make a directory that has your name on it
+so you can always find your files. Type `mkdir`, then a space, then your
+X500 ID, then `Enter`:
+
+![mkdir]({{ "/graphics/rnaseq_cmd/mkdir.png" | prepend: site.baseurl }})
+
+Again, we do not have to specify the full path to the new directory because we
+are making it *relative* to the working directory, which is `/scratch.global`.
 
 ### <a name="1.4"></a> 1.5: Other Useful Commands
 
