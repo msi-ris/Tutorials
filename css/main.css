@@ -67,24 +67,17 @@ li, ul, ol {
 }
 
 /* Style the <details> tags */
-summary::-webkit-details-marker {
-  display: none
+details {
+    border: 1px dashed #999;
+    border-radius: 3px;
+    padding: 10px 10px 10px 10px;
 }
-summary:after {
-  background: red; 
-  border-radius: 5px; 
-  content: "+"; 
-  color: #fff; 
-  float: left; 
-  font-size: 1.5em; 
-  font-weight: bold; 
-  margin: -5px 10px 0 0; 
-  padding: 0; 
-  text-align: center; 
-  width: 20px;
-}
-details[open] summary:after {
-  content: "-";
+
+summary {
+    font-weight: bold;
+    margin: 0px 0px 0px 0px;
+    padding: 10px;
+    font-style: italic;
 }
 
 
