@@ -221,7 +221,7 @@ appear behind (to the left of) the cursor.
 Before we start to issue commands, though, we will talk about the structure of
 the data on MSI servers.
 
-### <a name="1.2"></a> 1.3: Directories and Files
+### <a name="1.3"></a> 1.3: Directories and Files
 Understanding files and directories is one of the key pieces of using a
 UNIX-like system (which includes MSI systems). One of the defining
 characteristics of UNIX-like systems is that "everything is a file." This means
@@ -251,10 +251,10 @@ are *directories*.
 Just like in evolutionary biology, a tree structure does not really capture
 the relatedness of directories and files. Some special types of files are
 actually links to paths in the filesystem that are very divergent from where the
-locations of the link files are, like reticulations in a phylogenetic tree. We
-will talk about how to make links in later sections of this tutorial. These are
-very useful for making a dataset easy to find without having to actually copy
-the raw data.
+locations of the link files are, like reticulations in a phylogenetic tree.
+There is optional material later in this tutorial that will show you how to make
+links. These are very useful for making a dataset easy to find without having to
+actually copy the raw data.
 
 </div>
 
@@ -279,7 +279,31 @@ path of `Users/tomkono/data.txt` means something very different from the path
 
 </div>
 
-### <a name="1.3"></a> 1.4: Basic Commands and Exercises
+### <a name="1.4"></a> 1.4: Basic Commands and Exercises
+#### <a name="1.4.1"></a> 1.4.1: The Structure of a Command
+A UNIX or Linux command consists of a *program*, *options*, and *arguments*. The
+*program* is what actually does something to a file. The *options* modify the
+behavior of the program. The *arguments* are the files on which the program
+operates. The parts of a command are separated by *spaces*, so be sure to
+include those as you follow along with the examples in the next section. A
+command is completed with the `Enter` key.
+
+Sometimes, as you will see in the next section, the arguments are not required.
+In cases where the argument is not required, a default value will be substituted
+in to the command. You should double-check that the program will work as
+intended with the default values before you run them.
+
+<div class="warn" markdown="1">
+
+Note that mouse support is very limited in most terminal programs. You can
+highlight and copy text with the mouse, but you must use the arrow keys to
+move the cursor around. The `left` and `right` arrow keys will move you
+backward and forward within the current command, and the `up` and `down` arrow
+keys will move you earlier and later in the *command history*.
+
+</div>
+
+#### <a name="1.4.2"></a> 1.4.2: Running Commands
 The first command we will run is one that will change directories. This is how
 we navigate the filesystem. The command is called `cd` for "change directory."
 Type `cd` then a space, then the path to where you would like to go. We will
@@ -355,9 +379,26 @@ the file:
 
 ![ls]({{ "/graphics/rnaseq_cmd/ls_verify_cp.png" | prepend: site.baseurl }})
 
+The name `data.txt` is not very informative. You will be working with a lot of
+data files, so giving them unique names that let you easily know what the data
+are is very helpful. We can *move* (or *rename*) a file with the `mv` command.
+Like `cp`, `mv` takes two arguments, a *source* and a *destination*. The
+*source* will be `data.txt` and the *destination* will be
+`command_line_example_data.txt`:
 
+![mv]({{ "/graphics/rnaseq_cmd/mv.png" | prepend: site.baseurl }})
+
+You can list the directory contents again to verify that the rename was
+successful:
+
+![ls]({{ "/graphics/rnaseq_cmd/ls_verify_mv.png" | prepend: site.baseurl }})
+
+These are mostly the commands you need to know to follow along with the RNAseq
+tutorial. There are additional resources below, but they are not required for
+you to use our pipeline for RNAseq analysis.
 
 ### <a name="1.4"></a> 1.5: Other Useful Commands
+
 
 ### <a name="1.5"></a> 1.6: Common Command Line Utilities in Bioinformatics
 
