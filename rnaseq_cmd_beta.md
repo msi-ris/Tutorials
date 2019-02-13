@@ -424,6 +424,14 @@ To recap:
 - `cp`: copy file
 - `mv`: move or rename file
 
+<dif class="warn" markdown="1">
+
+I generally regard `cp` as safer than `mv` because `mv` replaces data on the
+disk while `cp` just makes a copy. For large files in stable locations (like
+the UMGC data delivery directory), `ln` is the best option. See below.
+
+</dif>
+
 <div class="info" markdown="1">
 
 ### <a name="1.4"></a> 1.5: Other Useful Commands
