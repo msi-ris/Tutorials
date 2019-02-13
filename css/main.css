@@ -68,7 +68,7 @@ li, ul, ol {
 
 /* Style the <details> tags */
 details {
-    border: 1px dashed #999;
+    border: 1px solid #999;
     border-radius: 3px;
     padding: 10px 10px 10px 10px;
 }
