@@ -417,7 +417,7 @@ you to use our pipeline for RNAseq analysis.
 
 To recap:
 
-<details>
+<details markdown="1">
 
 - `cd`: change directory
 - `pwd`: print working directory
