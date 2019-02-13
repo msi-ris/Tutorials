@@ -361,7 +361,7 @@ again with `ls`:
 
 There are a lot more files and directories inside here. The blue names are
 other directories, the white names are regular files, and the green name
-is an *executable* file. We will cover what this means later.
+is an *executable* file. This means that the file can be run as a program.
 
 Next, we will navigate to *global scratch*. This is a special part of the MSI
 filesystem where you can write temporary data. We will use it to hold the
@@ -527,7 +527,7 @@ see a full listing of the software we have available.
     - RSEM - Gene-level or transcript-level quantification via alignment
 - **Metagenomics and Microbial Community Genetics**
     - Mothur - Analyze microbial diversity in a community sample
-    - Qiime - Analyze microbial diversity in a community sample
+    - Qiime2 - Analyze microbial diversity in a community sample
 
 </div>
 
