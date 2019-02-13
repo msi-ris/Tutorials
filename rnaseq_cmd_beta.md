@@ -212,11 +212,14 @@ For the other methods, follow these instructions:
 
 The message that prints to the screen is called the "message of the day" (MOTD)
 and confirms that you have successfully connected to MSI systems. The line at
-the bottom of the screen is called the "prompt." This is where you will type
-commands. Before we start to issue commands, though, we will talk about the
-structure of the data on MSI servers.
+the bottom of the screen is called the "prompt." The block immediately after
+the prompt is the "cursor." When you type text into the terminal, it will
+appear behind (to the left of) the cursor.
 
-![Prompt]({{ "/graphics/rnaseq_cmd/Prompt.png" | prepend: site.baseurl }})
+![Prompt]({{ "/graphics/rnaseq_cmd/prompt.png" | prepend: site.baseurl }})
+
+Before we start to issue commands, though, we will talk about the structure of
+the data on MSI servers.
 
 ### <a name="1.2"></a> 1.3: Directories and Files
 Understanding files and directories is one of the key pieces of using a
