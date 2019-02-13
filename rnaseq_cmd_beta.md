@@ -464,8 +464,12 @@ how to load modules and our [software page](https://www.msi.umn.edu/software) to
 see a full listing of the software we have available.
 
 - **Next-Generation Sequence Data Processing**
-    - Bowtie2 - read mapping
-    - HISAT2 - splice-aware read mapping
+    - FastQC - Quality control of NGS data
+    - Trimmomatic - Clean contaminants and low-quality bases from NGS data
+    - BWA - Read mapping
+    - Minimap2 - Read mapping
+    - Bowtie2 - Read mapping
+    - HISAT2 - Splice-aware read mapping
     - SAMTools - NGS alignment filtering
     - Picard Tools - NGS alignment filtering
 - **Sequence Assembly and Annotation**
