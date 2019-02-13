@@ -233,6 +233,12 @@ called "folders," so you can think of these as interchangeable terms.
 
 ![Directories]({{ "/graphics/rnaseq_cmd/Directories.png" | prepend: site.baseurl }})
 
+In the tree above, boxes represent directories or files, and indentation
+represents nesting. The text inside the boxes represents the names. The red
+box (around `/`) represents the *root* of the filesystem, and the blue box
+(around `/Users/tomkono/data.txt`) represents a *file*. The boxes in black
+are *directories*.
+
 <div class="info" markdown="1">
 
 Just like in evolutionary biology, a tree structure does not really capture
@@ -245,7 +251,22 @@ the raw data.
 
 </div>
 
+Notice the slashes (`/`) between parts of the names - these give the full path
+to the file. In the case of `/Users/tomkono/data.txt`, you can read this name
+and know that the file called `data.txt` is located under the root (`/`), then
+the `Users` directory, then the `tomkono` directory. In UNIX terminology, this
+is known as the *path* to the file. More specifically, it is known as the
+*absolute path* because it starts at the root of the filesystem. This is the
+way I prefer to specify paths to files because there is no ambiguity as to where
+the file is located.
 
+<div class="warn" markdown="1">
+
+When typing file paths, be sure to include the root slash at the beginning. A
+path of `Users/tomkono/data.txt` means something very different from the path
+`/Users/tomkono/data.txt`.
+
+</div>
 
 ### <a name="1.3"></a> 1.4: Basic Commands and Exercises
 
