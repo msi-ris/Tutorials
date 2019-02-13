@@ -1067,7 +1067,8 @@ distribution of CPM values per-sample, a heatmap of gene expression for the
 500 genes with the highest variance among samples, and a multidimensional
 scaling (MDS) plot showing sample distances based on gene expression.
 
-An example of the CPM plot is shown below.
+<details markdown="1">
+<summary>Click to show the CPM plot</summary>
 
 ![CPM]({{ "/graphics/rnaseq_cmd/cpm_plot.png" | prepend: site.baseurl }})
 
@@ -1076,7 +1077,10 @@ be colored. These plots are violin plots, which show the kernel density for each
 sample. They are perhaps more informative than barplots, because it is easier to
 see the shapes of the distributions.
 
-An example of the heatmap of high variance genes is shown below.
+</details>
+
+<details markdown="1">
+<summary>Click to show the heatmap of high-variance genes</summary>
 
 ![Heatmap]({{ "/graphics/rnaseq_cmd/high_variance_heatmap.png" | prepend: site.baseurl }})
 
@@ -1090,7 +1094,10 @@ among samples are shown. From the plot it looks like there may be an issue with
 separation of the groups. `Spleen.2` and `BoneMarrow.2` look like they might
 be swapped labels.
 
-An example of the MDS plot is shown below.
+</details>
+
+<details markdown="1">
+<summary>Click to show the MDS plot</summary>
 
 ![MDS]({{ "/graphics/rnaseq_cmd/mds_plot.png" | prepend: site.baseurl }})
 
@@ -1100,6 +1107,8 @@ closer together on the plot. In this case, we can see the samples that appear to
 have swapped labels as the single blue label in a group of red, and vice-versa.
 We can also see that samples `Spleen.4` and `BoneMarrow.4` are not very tightly
 clustered with the other samples.
+
+</details>
 
 [Return to top](#top)
 ##### Differentially Expressed Gene (DEG) List
