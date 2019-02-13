@@ -475,10 +475,12 @@ see a full listing of the software we have available.
 - **Sequence Assembly and Annotation**
     - Velvet - Sequence assembly
     - CAP3 - Sequence assembly, mostly for Sanger reads
+    - AByss - Large genome assembly from short reads
+    - Falcon - Diploid assembly from Pacific Biosciences long reads
     - Trinity - Short read RNAseq assembly
     - Trinotate - Annotate Trinity transcripts
     - Funannotate - Annotate genome assemblies
-- **Sequence Alignment**
+- **Sequence Alignment and Homology Search**
     - Clustal Omega/W/X - Multiple sequence alignment for nucleotides or amino
       acids
     - BLAST+ - Align query sequences to a large database of target sequences
@@ -486,10 +488,12 @@ see a full listing of the software we have available.
     - T-coffee - Multiple sequence alignment
     - MUMmer - Align genome sequences
     - GMap - Align transcript or cDNA sequences to a genome
+    - HMMER - Find homologues or protein domains in a query sequence
+    - MEME - Motif identification in a collection of sequences
 - **Population Genetics**
     - VCFTools - Analyze variants in VCF format
     - EMBOSS - Collection of pairwise alignment, distance calculation, sequence
-      translation, and format conversions for sequence data
+      translation, and format conversion tools for sequence data
     - Analysis (molpopgen; molecular population genetics) - Population genetic
       summary statistics
     - STRUCTURE - Model-based genetic assignment
