@@ -447,8 +447,10 @@ entire file into memory.
 
 There are many versions of UNIX out there, and some of these commands have
 different default behaviors and different options, depending on which version
-you are using. If you are unsure of what a command will do, check the manual
-page!
+you are using. For example, Mac OS X is technically a UNIX, and has all the
+standard commands listed above, but they behave differently from the tools
+installed on MSI systems, which is GNU/Linux. If you are unsure of what a
+command will do, check the manual page!
 
 </div>
 
