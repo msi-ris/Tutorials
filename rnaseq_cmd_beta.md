@@ -82,7 +82,7 @@ raise in the tutorial will appear like this.
 
 <div class="warn" markdown="1">
 
-This is a warning. Common pitfalls, cautionary inforation, and important points
+This is a warning. Common pitfalls, cautionary information, and important points
 to consider will appear like this.
 
 </div>
@@ -93,7 +93,7 @@ of the tutorial
 ```
 
 <details markdown="1">
-<summary>These boxes contain Detailed information. Click on them to expand them</summary>
+<summary>These boxes contain detailed information. Click on them to expand them</summary>
 
 When you click on these boxes, you will get a detailed view into a supplemental
 topic. The information in these boxes will be useful for advanced usage outside
