@@ -417,12 +417,16 @@ you to use our pipeline for RNAseq analysis.
 
 To recap:
 
+<details>
+
 - `cd`: change directory
 - `pwd`: print working directory
 - `ls`: list directory contents
 - `mkdir`: make new directory
 - `cp`: copy file
 - `mv`: move or rename file
+
+</details>
 
 <div class="warn" markdown="1">
 
