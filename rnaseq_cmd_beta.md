@@ -456,6 +456,7 @@ entire file into memory.
 - `ln`: Make links to other files and directories
 - `find`: Find files and directories that match a certain name pattern
 - `cat`: Print one or more files directly to the terminal
+- `rm`: Delete a file. **Once it's gone, it's gone! No recycle bin or trash**
 - `wget`: Download remote files (from websites) to disk
 
 <div class="warn" markdown="1">
