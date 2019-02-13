@@ -455,10 +455,10 @@ command will do, check the manual page!
 </div>
 
 ### <a name="1.5"></a> 1.6: Common Command Line Utilities in Bioinformatics
-The commands listed above are standard UNIX commands. In addition to those,
-there are many commands that are specific to bioinformatics analysis. We cannot
-catalogue all of them here, but these are the programs that we encounter on a
-regular basis These are available as software modules on MSI systems; refer to
+Most of the commands listed in the previous section are standard UNIX commands.
+There are many commands that are specific to bioinformatics analysis. We cannot
+catalogue all of them here, but these are the programs that we regularly
+encounter. These are available as software modules on MSI systems; refer to
 our [module help page](https://www.msi.umn.edu/support/faq/what-module) to see
 how to load modules and our [software page](https://www.msi.umn.edu/software) to
 see a full listing of the software we have available.
