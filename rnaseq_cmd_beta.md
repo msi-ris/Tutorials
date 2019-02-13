@@ -338,6 +338,24 @@ X500 ID, then `Enter`:
 
 Again, we do not have to specify the full path to the new directory because we
 are making it *relative* to the working directory, which is `/scratch.global`.
+Let's `cd` into our directory.
+
+![cd]({{ "/graphics/rnaseq_cmd/cd_scratch_x500.png" | prepend: site.baseurl }})
+
+Next, we will *copy* a file into our current directory. We use the `cp` command
+to do this. `cp` takes two *arguments*, a *source* and a *destination*. For this
+exercise, the *source* will be `/home/riss/public/MPGI-MSI_Workshop/data.txt`
+and the *destination* will be the current working directory. This is
+shorthanded by a dot (`.`) in the command:
+
+![cp]({{ "/graphics/rnaseq_cmd/cp.png" | prepend: site.baseurl }})
+
+You can list the directory contents to verify that you have successfully copied
+the file:
+
+![ls]({{ "/graphics/rnaseq_cmd/ls_verify_cp.png" | prepend: site.baseurl }})
+
+
 
 ### <a name="1.4"></a> 1.5: Other Useful Commands
 
