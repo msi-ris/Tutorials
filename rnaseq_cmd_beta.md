@@ -465,8 +465,46 @@ entire file into memory.
 - `ln`: Make links to other files and directories
 - `find`: Find files and directories that match a certain name pattern
 - `cat`: Print one or more files directly to the terminal
-- `rm`: Delete a file. **Once it's gone, it's gone! No recycle bin or trash**
+- `rm`: Delete a file. **Once it's gone, it's gone! No recycle bin or trash**\*
 - `wget`: Download remote files (from websites) to disk
+
+#### A Note on `ln`
+*Linking* a file is a very useful way to make it available in other directories
+without having to copy it. A link looks like a regular file, but is actually
+a reference or *alias* to another location on disk. We recommend using
+*symbolic links* rather than *hard links*. Without getting too technical, a
+symbolic link ("symlink" for short) behaves as a separate file from the data
+to which it points. A hard link references the exact same data, so if you delete
+a hard link, the source data is also deleted.
+
+To make a symlink, use the `-s` option to `ln`. The syntax is as follows:
+
+```bash
+% ln -s /long/path/that/is/annoying/to/type/to/data.txt /easy/path/to/data.txt
+```
+
+This will make a file at `/easy/path/to/data.txt` that will reference the actual
+file at `/long/path/that/is/annoying/to/type/data.txt`. It will happen
+*very quickly* because no actual data copying is involved, and the source data
+is preserved in terms of access time and modification time. You can also link
+to *directories*:
+
+```bash
+% ln -s /long/path/to/UMGC/data_release /easy/path/to/data
+```
+
+This will make a file that *looks like a directory* at `/easy/path/to/data` that
+references `/long/path/to/UMGC/data_release`. Again, the original directory and
+file attributes are preserved.
+
+You can safely remove symlinks with `rm` while leaving the source data intact.
+
+<div class="warn" markdown="1">
+
+I make a big deal out of preserving access/modification time and filenames, but
+this becomes a real issue. It is common for researchers 
+
+</div>l
 
 <div class="warn" markdown="1">
 
