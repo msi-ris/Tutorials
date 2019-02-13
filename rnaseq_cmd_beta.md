@@ -427,8 +427,9 @@ To recap:
 <div class="warn" markdown="1">
 
 I generally regard `cp` as safer than `mv` because `mv` replaces data on the
-disk while `cp` just makes a copy. For large files in stable locations (like
-the UMGC data delivery directory), `ln` is the best option. See below.
+disk while `cp` just makes a copy. For referencing large files in stable
+locations (like the UMGC data delivery directory), `ln` is probably the best
+option for making the data visible in an easy-to-remember directory. See below.
 
 </div>
 
