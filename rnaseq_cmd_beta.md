@@ -453,6 +453,56 @@ page!
 </div>
 
 ### <a name="1.5"></a> 1.6: Common Command Line Utilities in Bioinformatics
+The commands listed above are standard UNIX commands. In addition to those,
+there are many commands that are specific to bioinformatics analysis. We cannot
+catalogue all of them here, but these are the programs that we encounter on a
+regular basis These are available as software modules on MSI systems; refer to
+our [module help page](https://www.msi.umn.edu/support/faq/what-module) to see
+how to load modules and our [software page](https://www.msi.umn.edu/software) to
+see a full listing of the software we have available.
+
+- **Next-Generation Sequence Data Processing**
+    - Bowtie2 - read mapping
+    - HISAT2 - splice-aware read mapping
+    - SAMTools - NGS alignment filtering
+    - Picard Tools - NGS alignment filtering
+- **Sequence Assembly and Annotation**
+    - Velvet - Sequence assembly
+    - CAP3 - Sequence assembly, mostly for Sanger reads
+    - Trinity - Short read RNAseq assembly
+    - Trinotate - Annotate Trinity transcripts
+    - Funannotate - Annotate genome assemblies
+- **Sequence Alignment**
+    - Clustal Omega/W/X - Multiple sequence alignment for nucleotides or amino
+      acids
+    - BLAST+ - Align query sequences to a large database of target sequences
+    - Muscle - Multiple sequence alignment
+    - T-coffee - Multiple sequence alignment
+    - MUMmer - Align genome sequences
+    - GMap - Align transcript or cDNA sequences to a genome
+- **Population Genetics**
+    - VCFTools - Analyze variants in VCF format
+    - EMBOSS - Collection of pairwise alignment, distance calculation, sequence
+      translation, and format conversions for sequence data
+    - Analysis (molpopgen; molecular population genetics) - Population genetic
+      summary statistics
+    - STRUCTURE - Model-based genetic assignment
+    - GATK - Variant detection from next-generation sequence data
+    - FreeBayes - Variant detection from next-generation sequence data
+    - PLINK - Summary statistics and family-based or population-based
+      association analyses
+- **Phylogenetics**
+    - RAxML - Phylogenetic analysis with maximum likelihood
+    - BEAST - Bayesian phylogenetic analysis
+    - PHYLIP - Phylogeny inference from sequences or trait matrices
+    - PAML - Maximum-likleihood phylogenetic analysis and hypothesis testing
+- **Gene Expression Analysis**
+    - Salmon - Isoform-level expression counts. **Very sensitive to differences between reference and sample**
+    - Kallisto - Isoform-level expression counts. **Very sensitive to differences between reference and sample**
+    - RSEM - Gene-level or transcript-level quantification via alignment
+- **Metagenomics and Microbial Community Genetics**
+    - Mothur - Analyze microbial diversity in a community sample
+    - Qiime - Analyze microbial diversity in a community sample
 
 </div>
 
