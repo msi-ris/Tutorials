@@ -201,9 +201,9 @@ to connect.
 
 For the other methods, follow these instructions:
 
-1. Type `ssh YOUR_X.500@login.msi.umn.edu` into the command prompt window, then
-   press the `Enter` key. Replace the `YOUR_X.500` placeholder text with your
-   actual UMN X.500 ID.
+1. Type `ssh YOUR_InternetID@login.msi.umn.edu` into the command prompt window,
+   then press the `Enter` key. Replace the `YOUR_InternetID` placeholder text
+   with your actual UMN InternetID ID.
 
    ![SSH]({{ "/graphics/rnaseq_cmd/ssh.png" | prepend: site.baseurl }})
 
@@ -472,6 +472,13 @@ entire file into memory.
 - `rm`: Delete a file. **Once it's gone, it's gone! No recycle bin or trash**\*
 - `wget`: Download remote files (from websites) to disk
 
+\*: MSI home directories (`/home/PI_group/`) have snapshot backups available in
+the `.snapshot` directory under the main directory. You can recover files from
+these directories so long as **the file at least one day old**. The snapshots
+go back **on month** from the from the current day. Global scratch is
+**not backed up by snapshots**, so when you delete data from there, it is gone
+for good.
+
 #### A Note on `ln`
 *Linking* a file is a very useful way to make it available in other directories
 without having to copy it. A link looks like a regular file, but is actually
@@ -506,9 +513,11 @@ You can safely remove symlinks with `rm` while leaving the source data intact.
 <div class="warn" markdown="1">
 
 I make a big deal out of preserving access/modification time and filenames, but
-this becomes a real issue. It is common for researchers 
+this becomes a real issue. It is common for researchers to collect datasets
+over a long period of time and use the time of file creation to keep track of
+when a dataset was collected or generated.
 
-</div>l
+</div>
 
 <div class="warn" markdown="1">
 
@@ -617,7 +626,7 @@ versions of our pipelines.
 ### <a name="2.1"></a> 2.1: Prepare to Run `CHURP`
 First, connect to a login node on Mesabi by typing `ssh mesabi` at the login
 prompt. If you do no have ssh keys set up, you will have to enter your password
-again. It is the same as your X.500 password. Note the `@login` part of the
+again. It is the same as your InternetID password. Note the `@login` part of the
 prompt changes to reflect that you have started a shell on the Mesabi login
 node.
 
