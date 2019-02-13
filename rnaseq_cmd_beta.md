@@ -301,6 +301,9 @@ move the cursor around. The `left` and `right` arrow keys will move you
 backward and forward within the current command, and the `up` and `down` arrow
 keys will move you earlier and later in the *command history*.
 
+Also note that all parts of a command are *case sensitive*. That means that
+capitalization matters. `A` is different from `a`.
+
 </div>
 
 #### <a name="1.4.2"></a> 1.4.2: Running Commands
@@ -397,10 +400,61 @@ These are mostly the commands you need to know to follow along with the RNAseq
 tutorial. There are additional resources below, but they are not required for
 you to use our pipeline for RNAseq analysis.
 
-### <a name="1.4"></a> 1.5: Other Useful Commands
+To recap:
 
+- `cd`: change directory
+- `pwd`: print working directory
+- `ls`: list directory contents
+- `mkdir`: make new directory
+- `cp`: copy file
+- `mv`: move or rename file
+
+<div class="info" markdown="1">
+
+### <a name="1.4"></a> 1.5: Other Useful Commands
+There are many more commands that exist on a UNIX or Linux system. There are
+several dozen that I know very well because I use them on a daily basis. One of
+the most useful commands is `man`, which brings up a manual page for a certain
+command. Manual pages list all of the available options for a given program. If
+you want to know all of the ways that the behavior of a program can be modified,
+check the manual!
+
+For instance, if you wanted to view a manual page for the `mkdir`
+command, you would type `man mkdir`:
+
+![man]({{ "/graphics/rnaseq_cmd/man.png" | prepend: site.baseurl }})
+
+Use the arrow keys to scroll up and down in the manual page. Press the `q` key
+to quit out of a manual page viewer.
+
+Now that you know the command to view the manual, you can check the manual to
+see how to use these next commands! These are commands I use on a near-daily
+basis to slice up data files to prepare them for various bioinformatic
+workflows or take a peek at the contents of a file without trying to load the
+entire file into memory.
+
+- `head`: Print the first lines of a file to the terminal
+- `tail`: Print the last lines of a file to the terminal
+- `grep`: Search for text within a file
+- `cut`: "Cut" out and return certain columns from a file
+- `less`: View the contents of a file in the same way you view a manual page
+- `ln`: Make links to other files and directories
+- `find`: Find files and directories that match a certain name pattern
+- `cat`: Print one or more files directly to the terminal
+- `wget`: Download remote files (from websites) to disk
+
+<div class="warn" markdown="1">
+
+There are many versions of UNIX out there, and some of these commands have
+different default behaviors and different options, depending on which version
+you are using. If you are unsure of what a command will do, check the manual
+page!
+
+</div>
 
 ### <a name="1.5"></a> 1.6: Common Command Line Utilities in Bioinformatics
+
+</div>
 
 ## <a name="2"></a> Part 2: RNASeq Analysis on the Command Line
 ### <a name="2.1"></a> 1.3: Overall Workflow
