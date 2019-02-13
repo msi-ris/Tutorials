@@ -142,6 +142,9 @@ than through the graphical shell.
 
 <div class="info" markdown="1">
 
+<details markdown="1">
+    <summary>Other graphical interfaces for MSI systems</summary>
+
 This tutorial will cover using the command line interface to interact with MSI
 systems, but we do offer several graphical routes to use the compute resources
 that we have available. One is [NX NoMachine](https://www.msi.umn.edu/support/faq/how-do-i-get-started-nx)
@@ -152,6 +155,8 @@ for running analytical workflows without the command line. Galaxy is a
 completely different paradigm than described here. We do offer a tutorial on
 [Illumina Data QC With Galaxy](https://pages.github.umn.edu/MSI-RIS/Tutorials/illumina_galaxy)
 which will acquaint you with the environment.
+
+</details>
 
 </div>
 
@@ -417,16 +422,12 @@ you to use our pipeline for RNAseq analysis.
 
 To recap:
 
-<details markdown="1">
-
 - `cd`: change directory
 - `pwd`: print working directory
 - `ls`: list directory contents
 - `mkdir`: make new directory
 - `cp`: copy file
 - `mv`: move or rename file
-
-</details>
 
 <div class="warn" markdown="1">
 
