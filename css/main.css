@@ -122,4 +122,10 @@ summary {
     #nav a {
         float: none;
     }
+    #navdiv {
+        display:none;
+    }
+    #maindiv {
+        margin-right: 10px;
+    }
 }
