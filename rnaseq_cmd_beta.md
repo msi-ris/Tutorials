@@ -217,7 +217,7 @@ For the other methods, follow these instructions:
 
 1. Type `ssh YOUR_InternetID@login.msi.umn.edu` into the command prompt window,
    then press the `Enter` key. Replace the `YOUR_InternetID` placeholder text
-   with your actual UMN InternetID ID.
+   with your actual UMN Internet ID.
 
    ![SSH]({{ "/graphics/rnaseq_cmd/ssh.png" | prepend: site.baseurl }})
 
@@ -652,7 +652,7 @@ versions of our pipelines.
 ### <a name="2.1"></a> 2.1: Prepare to Run `CHURP`
 First, connect to a login node on Mesabi by typing `ssh mesabi` at the login
 prompt. If you do no have ssh keys set up, you will have to enter your password
-again. It is the same as your InternetID password. Note the `@login` part of the
+again. It is the same as your Internet ID password. Note the `@login` part of the
 prompt changes to reflect that you have started a shell on the Mesabi login
 node.
 
