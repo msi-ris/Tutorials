@@ -342,7 +342,7 @@ Type `cd` then a space, then the path to where you would like to go. We will
 go to the `/home/riss/public` directory. Press `Enter` when you have finished
 typing the command:
 
-![cd]({{ "/graphics/rnaseq_cmd/cd.png" | prepend: site.baseurl }})
+<img src="{{ "/graphics/rnaseq_cmd/cd.png" | prepend: site.baseurl}}", style="float:right;">
 
 Notice how your prompt updates to let you know that you are now in a different
 directory than when you started. This is a quick way to check where you are
