@@ -4,7 +4,7 @@ body {
     font-size:100%;
     margin:0;
     padding:0;
-    min-width:1000px;
+    min-width:600px;
     background-color:#eee;
 }
 
@@ -113,7 +113,7 @@ summary {
     color:#fff;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 800px) {
     #nav {
         position:relative;
         top:0px;
@@ -126,6 +126,6 @@ summary {
         display:none;
     }
     #maindiv {
-        margin-right: 10px;
+        padding-right: 10px;
     }
 }
