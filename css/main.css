@@ -105,6 +105,13 @@ ul#nav li {
     font-weight:bold;
 }
 
+@media screen and (max-width: 600px) {
+  ul#nav li {
+    float: none;
+    width: 100%;
+  }
+}
+
 ul#nav li:last-child {
     border-right: none;
 }
