@@ -37,6 +37,7 @@ div.info {
     padding:10px;
     border-radius:3px;
     margin:10px;
+    page-break-inside:avoid;
 }
 
 div.warn {
@@ -45,6 +46,7 @@ div.warn {
     padding:10px;
     margin:10px;
     border-radius:3px;
+    page-break-inside:avoid;
 }
 
 .warn p {
