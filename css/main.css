@@ -36,6 +36,10 @@ body {
     background-color:#fff;
 }
 
+div.printonly {
+    display:none;
+}
+
 div.info {
     border:1px dashed #000;
     background-color:#ffffcc;

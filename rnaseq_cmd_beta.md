@@ -9,6 +9,10 @@ delivered: 2018-12-04
 
 <div id="navdiv" markdown="1">
 
+# <a name="top"></a> {{page.title}}
+*Last Updated: {{page.updated}}*  
+*Last Delivered: {{page.delivered}}*
+
 ## Table of Contents
 - [Introduction](#0)
     - [Formatting in This Document](#0.1)
@@ -58,9 +62,12 @@ delivered: 2018-12-04
 
 </div>
 
-# <a name="top"></a> {{page.title}}
-*Last Updated: {{page.updated}}*  
-*Last Delivered: {{page.delivered}}*
+<div class="printonly" markdown="1">
+
+Please see <http://z.umn.edu/ris-rnaseq/> for the latest version of this
+tutorial document!
+
+</div>
 
 ## <a name="0"></a>Part 0: Introduction
 This is a two-part tutorial. The first part will take approximately 50 minutes
