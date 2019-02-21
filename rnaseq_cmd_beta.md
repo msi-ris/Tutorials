@@ -388,7 +388,7 @@ Next, we will *make a new directory* with the `mkdir` command. Because global
 scratch is a public area, it can be difficult to keep track of which data are
 yours. To help organize it, we will make a directory that has your name on it
 so you can always find your files. Type `mkdir`, then a space, then your
-X500 ID, then `Enter`:
+UMN internet ID, then `Enter`:
 
 ![mkdir]({{ "/graphics/rnaseq_cmd/mkdir.png" | prepend: site.baseurl }})
 
