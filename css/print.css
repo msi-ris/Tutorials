@@ -20,18 +20,18 @@ body {
 }
 
 div.info {
-    border:1px dashed #000;
-    background-color:#ffffcc;
+    border:2px dashed #000;
+    background-color:#fff;
     padding:6px 10px;
     border-radius:3px;
     margin-top:10px;
     margin-bottom:10px;
+    font-style:italic;
 }
 
 div.warn {
-    border:2px solid #900;
-    background-color:#ffcccc;
-    background-image:url('/MSI-RIS/Tutorials/graphics/Warn.png');
+    border:3px solid #000;
+    background-color:#ccc;
     background-repeat:no-repeat;
     background-position:right top;
     padding:6px 100px 6px 6px;
@@ -42,6 +42,10 @@ div.warn {
 
 .warn p {
     font-weight:bold;
+}
+
+a {
+    text-decoration:underline;
 }
 
 li, ul, ol {
