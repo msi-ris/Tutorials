@@ -4,7 +4,6 @@ body {
     font-size:100%;
     margin:0;
     padding:0;
-    min-width:1000px;
     background-color:#fff;
 }
 
@@ -79,6 +78,7 @@ summary {
 
 /* This is the CSS for the navbar style navigation that we are going to use */
 ul#nav {
+    display:none;
     list-style-type:none;
     margin:0;
     padding:0;
@@ -91,17 +91,19 @@ ul#nav {
 }
 
 ul#nav li {
+    display:none;
     float:left;
     border-right:1px solid #fff;
     font-weight:bold;
 }
 
 ul#nav li:last-child {
+    display:none;
     border-right: none;
 }
 
 ul#nav li a {
-    display:block;
+    display:none;
     color:#000;
     text-align:center;
     padding:5px 5px;
