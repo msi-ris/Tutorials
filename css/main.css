@@ -87,11 +87,10 @@ summary {
 
 
 /* This is the CSS for the navbar style navigation that we are going to use */
-ul#nav {
-    list-style-type:none;
+#nav {
+    overflow:hidden;
     margin:0;
     padding:0;
-    overflow:hidden;
     background-color:#eee;
     position:-webkit-sticky;
     position:sticky;
@@ -99,10 +98,19 @@ ul#nav {
     top:0;
 }
 
-ul#nav li {
+#nav a {
     float:left;
-    border-right:1px solid #fff;
+    display:block;
+    color:#000;
+    text-align:center;
+    padding:5px 55px;
+    text-decoration:none;
     font-weight:bold;
+}
+
+#nav a:hover {
+    background-color:#7a0019;
+    color:#fff;
 }
 
 @media screen and (max-width: 1000px) {
@@ -118,22 +126,5 @@ ul#nav li {
 
     ul#nav li {
         float: left;
-}
-}
-
-ul#nav li:last-child {
-    border-right: none;
-}
-
-ul#nav li a {
-    display:block;
-    color:#000;
-    text-align:center;
-    padding:5px 5px;
-    text-decoration:none;
-}
-
-ul#nav li a:hover {
-    background-color:#7a0019;
-    color:#fff;
+    }
 }

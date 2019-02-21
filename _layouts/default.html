@@ -11,16 +11,16 @@
     </head>
     <body>
         <div id="maindiv">
-            <ul id="nav">
+            <div id="nav">
                 <!-- <li><a href="{{ "/chip" | prepend: site.baseurl }}">ChIP</a></li> -->
-                <li><a href="{{ "/mpgi_msi" | prepend: site.baseurl }}">MPGI-MSI Workshop</a></li>
-                <li><a href="{{ "/illumina_galaxy" | prepend: site.baseurl }}">Illumina QC (Galaxy)</a></li>
-                <li><a href="{{ "/rnaseq_lec" | prepend: site.baseurl }}">RNAseq (Lecture)</a></li>
-                <li><a href="{{ "/rnaseq_cmd" | prepend: site.baseurl }}">RNAseq (Workshop)</a></li>
-                <li><a href="{{ "/proteomics" | prepend: site.baseurl }}">Proteomics</a></li>
+                <a href="{{ "/mpgi_msi" | prepend: site.baseurl }}">MPGI-MSI Workshop</a>
+                <a href="{{ "/illumina_galaxy" | prepend: site.baseurl }}">Illumina QC (Galaxy)</a>
+                <a href="{{ "/rnaseq_lec" | prepend: site.baseurl }}">RNAseq (Lecture)</a>
+                <a href="{{ "/rnaseq_cmd" | prepend: site.baseurl }}">RNAseq (Workshop)</a>
+                <a href="{{ "/proteomics" | prepend: site.baseurl }}">Proteomics</a>
                 <!-- <li><a href="{{ "/variant" | prepend: site.baseurl }}">Variant Detection</a></li> -->
-                <li style="float:right"><a href="{{ "/" | prepend: site.baseurl }}">Home</a></li>
-            </ul>
+                <a href="{{ "/" | prepend: site.baseurl }}">Home</a>
+            </div>
             {{ content }}
         </div>
     </body>
