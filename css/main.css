@@ -105,10 +105,12 @@ ul#nav li {
     font-weight:bold;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1000px) {
   ul#nav li {
     float: none;
     width: 100%;
+    position:relative;
+    top:0;
   }
 }
 
