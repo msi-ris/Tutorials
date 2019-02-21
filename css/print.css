@@ -1,0 +1,114 @@
+/* Set the main layout */
+body {
+    font-family:serif;
+    font-size:100%;
+    margin:0;
+    padding:0;
+    min-width:1000px;
+    background-color:#fff;
+}
+
+#maindiv {
+    position:absolute;
+    display:block;
+    padding:10px;
+    border:1px solid #000;
+    background-color:#fff;
+}
+
+#navdiv {
+    display:none;
+    position:-webkit-sticky;
+    position:sticky;
+    top:0px;
+    height:600px;
+    float:right;
+    padding:10px;
+    width:300px;
+    margin-right:-330px;
+    overflow:scroll;
+    border:1px solid #999;
+    background-color:#fff;
+}
+
+div.info {
+    border:1px dashed #000;
+    background-color:#ffffcc;
+    padding:6px 10px;
+    border-radius:3px;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+div.warn {
+    border:2px solid #900;
+    background-color:#ffcccc;
+    background-image:url('/MSI-RIS/Tutorials/graphics/Warn.png');
+    background-repeat:no-repeat;
+    background-position:right top;
+    padding:6px 100px 6px 6px;
+    margin-top:10px;
+    margin-bottom:10px;
+    border-radius:3px;
+}
+
+.warn p {
+    font-weight:bold;
+}
+
+li, ul, ol {
+    line-hieght:1;
+    margin:0;
+}
+
+/* Style the <details> tags */
+details {
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 10px 10px 10px 10px;
+}
+
+summary {
+    font-weight: bold;
+    margin: 0px 0px 0px 0px;
+    padding: 3px;
+    font-style: italic;
+}
+
+
+
+/* This is the CSS for the navbar style navigation that we are going to use */
+ul#nav {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    background-color:#eee;
+    position:-webkit-sticky;
+    position:sticky;
+    z-index:999;
+    top:0;
+}
+
+ul#nav li {
+    float:left;
+    border-right:1px solid #fff;
+    font-weight:bold;
+}
+
+ul#nav li:last-child {
+    border-right: none;
+}
+
+ul#nav li a {
+    display:block;
+    color:#000;
+    text-align:center;
+    padding:5px 5px;
+    text-decoration:none;
+}
+
+ul#nav li a:hover {
+    background-color:#7a0019;
+    color:#fff;
+}
