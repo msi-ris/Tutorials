@@ -17,6 +17,8 @@ body {
 
 #navdiv {
     display:block;
+    font-size:80%;
+    border:none;
 }
 
 div.info {
