@@ -49,6 +49,10 @@ li, ul, ol {
     margin:0;
 }
 
+img {
+    width: 400px;
+}
+
 /* Style the <details> tags */
 details {
     border: 1px solid #999;
