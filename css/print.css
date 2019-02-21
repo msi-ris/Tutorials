@@ -16,7 +16,7 @@ body {
 }
 
 #navdiv {
-    display:none;
+    display:block;
 }
 
 div.info {
