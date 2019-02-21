@@ -19,6 +19,9 @@ body {
     display:block;
     font-size:80%;
     border:none;
+    -webkit-columns:2;
+    -moz-columns:2;
+    columns:2;
 }
 
 div.printonly {
