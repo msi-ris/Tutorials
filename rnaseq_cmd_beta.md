@@ -7,11 +7,11 @@ updated: 2019-02-11
 delivered: 2018-12-04
 ---
 
-<div id="navdiv" markdown="1">
-
 # <a name="top"></a> {{page.title}}
 *Last Updated: {{page.updated}}*  
 *Last Delivered: {{page.delivered}}*
+
+<div id="navdiv" markdown="1">
 
 ## Table of Contents
 - [Introduction](#0)
