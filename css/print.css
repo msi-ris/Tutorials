@@ -42,11 +42,11 @@ div.warn {
 
 .warn p {
     font-weight:bold;
-    color:#00f;
 }
 
 a {
     text-decoration:underline;
+    color:#00f;
 }
 
 li, ul, ol {
