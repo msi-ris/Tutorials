@@ -106,12 +106,19 @@ ul#nav li {
 }
 
 @media screen and (max-width: 1000px) {
-  ul#nav li {
-    float: none;
-    width: 100%;
-    position:relative;
-    top:0;
-  }
+        ul#nav {
+        list-style-type:none;
+        margin:0;
+        padding:0;
+        overflow:hidden;
+        background-color:#eee;
+        z-index:999;
+        top:0;
+    }
+
+    ul#nav li {
+        float: left;
+}
 }
 
 ul#nav li:last-child {
