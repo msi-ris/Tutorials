@@ -22,7 +22,7 @@ body {
 }
 
 div.printonly {
-    align:center;
+    padding:10px;
     font-weight:bold;
     font-size:110%;
     border: 1px solid #000;
