@@ -89,7 +89,7 @@ summary {
 /* This is the CSS for the navbar style navigation that we are going to use */
 #nav {
     overflow:hidden;
-    margin-bottom:35px;
+    margin:0;
     padding:0;
     background-color:#eee;
     position:-webkit-sticky;
@@ -114,16 +114,7 @@ summary {
 }
 
 @media screen and (max-width: 1000px) {
-    #nav {
-        list-style-type:none;
-        margin:0;
-        padding:0;
-        overflow:hidden;
-        background-color:#eee;
-        top:0;
-    }
-
     #nav a {
-        float: left;
+        float: none;
     }
 }
