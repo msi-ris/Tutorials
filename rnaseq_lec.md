@@ -149,6 +149,29 @@ This design allows the researcher to isolate both the effects of heat stress
 and salt stress on gene expression, and includes a group for testing the
 interaction between heat and salt.
 
+<div class="warn" markdown="1">
+
+In these simple illustrations, we are assuming that the variation between
+replicates in the same treatment is small relative to the variation among
+conditions. This is generally regarded to be true for experimentally convenient
+organisms, such as clones of culturable microbes, genetic stocks of research
+animals, and inbred lines or doubled haploid plants. For wild-caught samples
+or human subjects/patients, this is not true, and variation among individuals
+must be taken into effect. The individual used in the study would then be
+treated as a *random effect*\*.
+
+In the examples above, we are interested in the effects of the specific
+experimental conditions that are being tested, and we have sampled all of the
+levels of interest, so we treat them as *fixed effects*.
+
+\*: The exact definition of what is a *fixed effect* and what is a
+*random effect* varies by discipline. We cannot include a rigorous discussion of
+all definitions that are in common use, but one aspect that is common to each
+is that random effects are assumed to be *uncorrelated* with the treatments and
+fixed effects are assumed to be *correlated* with the treatments.
+
+</div>
+
 ### <a name="1.2"></a> 1.2: Common Genomics File Formats
 RNASeq, being a genomics technique, uses standard file formats for genomics
 analysis. This is not an exhaustive list, but should introduce the file types
