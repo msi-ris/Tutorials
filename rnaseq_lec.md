@@ -73,7 +73,7 @@ considerations, both in terms of analysis and wet-bench molecular techniques,
 and we will not cover it in high detail here.
 
 "Typical" RNAseq protocols involve extraction of RNA from groups of cells that
-are homogenized, or bulked. It is broadly labeled as "bulk RNAseq" to
+are homogenized, or bulked. It is broadly labeled as *bulk RNAseq* to
 distinguish it from scRNAseq. Most of the material we will cover in this
 tutorial will cover either general experimental design or bulk RNAseq handling.
 
@@ -104,6 +104,29 @@ noise and can suffer from low repeatability. However, like scientific research
 in general, careful experimental design can mitigate the repeatability problems.
 
 [Return to top](#top)
+
+## <a name="2"></a> Part 2: RNASeq Experimental Considerations
+Designing an RNAseq experiment draws upon the same principals of general
+experimental design. In principle, the expression values of the genes that
+are assayed by RNAseq technologies are phenotypes that are being measured by the
+researcher. Randomization, replication, and blocking are all important
+components of an RNAseq experiment, and should be included where logistically
+(and financially) possible.
+
+### <a name="2.1"></a> 2.1: Types of RNASeq Experiments
+The exact design of an RNAseq experiment will depend on the researcher's goals.
+For example, for transcriptome assembly, a researcher may want to sample
+several replicates each from multiple tissues of an organism and sequence them
+to high depth. For differential gene expression analysis, a design that samples
+a single tissue from multiple biological replicates within each treatment is
+more appropriate.
+
+#### Pairwise Two-Group Comparison
+This is a very simple design that is used to test the effect of a single factor,
+such as a drug compound or a single stress condition.
+
+![Pairwise Experiment]({{ "/graphics/rnaseq_lec/pairwise_exp.png" | prepend: site.baseurl }})
+
 ### <a name="1.2"></a> 1.2: Common Genomics File Formats
 RNASeq, being a genomics technique, uses standard file formats for genomics
 analysis. This is not an exhaustive list, but should introduce the file types
