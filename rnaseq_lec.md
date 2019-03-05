@@ -46,25 +46,62 @@ to illustrate file formats.
 
 [Return to top](#top)
 ### <a name="0.3"></a> 0.3: Scope of the Tutorial
+This tutorial has a lecture format and will cover the principles and concepts
+that underlie RNAseq experimental design and data analysis. This tutorial will
+not cover the mechanistic details of how to analyze RNAseq data - that will
+be covered in the companion hands-on tutorial.
 
 [Return to top](#top)
 
 ## <a name="1"></a> Part 1: RNASeq Overview
-### <a name="1.1"></a> 1.1: Why RNASeq
-RNAseq is name for a high-throughout sequencing technique that targets the
-transcribed portions of the genome. For this tutorial, we will be focusing on
-the analysis of **bulk RNAseq** data. This type of data involves extraction of
-messenger RNA (mRNA) from whole tissue, organ, or organism samples. This
-technique is often applied for studies of gene expression, but can also be
-used to assemble transcript sequences or identify genetic variants (see
-[**Part 8**](#8) at the end of this document for more information).
+### <a name="1.1"></a> 1.1: What is RNASeq?
+RNAseq is a technique that uses high-throughput sequencing technologies to
+assay the *transcriptome*, or the transcribed portions of a genome. Which parts
+of the genome are transcribed depends on many factors, including biotic or
+abiotic stressors, organ or tissue type, developmental stage, and genotype of
+the samples. RNAseq data can be used to assemble transcript sequences, detect
+alternative splicing events, or test for differential expression across a set
+of conditions. Because RNAseq data is sequence-based, it can even be used to
+identify genetic polymorphisms, with the caveat that they will only be found
+in highly-expressed regions of the genome.
 
-Bulk RNAseq is a useful tool to identify the transcriptomic response to a
-disease or stress condition, changes in expression during development of an
-organism, or differences in expression among tissue types. The transcribed
-gene regions are often the most interpretable regions of the genome, because
-changes in mRNA content are correlated with changes in protein content (though,
-not always).
+Relatively new sample handling library preparation protocols allow researchers
+to tag sequencing reads as originating from the RNA of a single cell
+(single-cell RNAseq, scRNAseq). This allows researchers to study expression at
+very fine-grained resolution. Single-cell RNAseq requires special
+considerations, both in terms of analysis and wet-bench molecular techniques,
+and we will not cover it in high detail here.
+
+"Typical" RNAseq protocols involve extraction of RNA from groups of cells that
+are homogenized, or bulked. It is broadly labeled as "bulk RNAseq" to
+distinguish it from scRNAseq. Most of the material we will cover in this
+tutorial will cover either general experimental design or bulk RNAseq handling.
+
+### <a name="1.2"></a> 1.2: RNAseq vs. Other Genomics Technologies
+Because RNAseq targets transcribed, or expressed, parts of the genome, its
+most direct comparisons are to other expression-focused genomics technologies.
+
+In comparison to expression microarrays, RNAseq has higher dynamic range and
+does not depend on a designed assay, which means that it potentially has higher
+sensitivity and is easier to apply to systems which are not genomics model
+systems. However, the analytical framework in place for analyzing microarray
+data is more mature and standardized, meaning that RNAseq studies may have lower
+repeatability than those based on microarrays. RNAseq analysis is becoming more
+standardized, however, and a strong grounding in experimental design can allow
+researchers to account for bias and experimental error in their analysis. RNAseq
+also allows single-nucleotide resolution, which means that the data can be used
+to discover variants as well as expression differences.
+
+In comparison to EST (expressed sequence tag) sequencing, RNAseq is much faster
+and cheaper per nucleotide of data. EST sequencing does not rely on a reference
+genome sequence, but is much lower throughput. EST sequencing also does not
+yield any information about the *relative* expression levels of various
+transcripts, so it precludes differential expression analysis.
+
+RNAseq is relatively affordable, has high sensitivity to detect expression
+differences, can be used to detect isoforms and genetic variants, but has high
+noise and can suffer from low repeatability. However, like scientific research
+in general, careful experimental design can mitigate the repeatability problems.
 
 [Return to top](#top)
 ### <a name="1.2"></a> 1.2: Common Genomics File Formats
