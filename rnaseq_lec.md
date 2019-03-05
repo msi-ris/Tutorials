@@ -127,6 +127,28 @@ such as a drug compound or a single stress condition.
 
 ![Pairwise Experiment]({{ "/graphics/rnaseq_lec/pairwise_exp.png" | prepend: site.baseurl }})
 
+In this example, the black samples represent the control condition and the
+red samples represent the treatment condition. There are several *biological*
+replicates per condition, which usually means different individuals of the same
+strain or genotype that were subjected to the same treatment.
+
+#### Factorial Design
+This design is slightly more complicated and is used to test for the effect of
+interaction between two experimental variables. For example, the effects of
+both heat stress and salt stress on plant gene expression.
+
+![Factorial Experiment]({{ "/graphics/rnaseq_lec/factorial_exp.png" | prepend: site.baseurl }})
+
+In this example, the black circles are the control group, having received
+neither heat nor salt treatment. The blue circles have been subjected to the
+salt treatment, but not the heat treatment. The red circles were treated with
+heat, but not salt. The violet circles are samples that were treated with both
+heat and salt.
+
+This design allows the researcher to isolate both the effects of heat stress
+and salt stress on gene expression, and includes a group for testing the
+interaction between heat and salt.
+
 ### <a name="1.2"></a> 1.2: Common Genomics File Formats
 RNASeq, being a genomics technique, uses standard file formats for genomics
 analysis. This is not an exhaustive list, but should introduce the file types
