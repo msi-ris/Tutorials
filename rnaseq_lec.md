@@ -163,8 +163,10 @@ of experimental variables and nests them in a hierarchy. However, unlike a
 factorial design, some combinations of factors cannot be tested. For example,
 a researcher may be interested in the effects of heat stress in three different
 populations of a plant sampled from across its range. This is a nested and not
-a factorial design because the population of origin cannot be replicated within
-the treatments.
+a factorial design because there cannot be replication of the individuals in the
+experiment, i.e., exactly one individual can get exactly one treatment. In the
+factorial design, it is assumed that the individuals are similar enough such
+that they can be replicated in different experimental conditions.
 
 ![Nested Experiment]({{ "/graphics/rnaseq_lec/nested_exp.png" | prepend: site.baseurl }})
 
