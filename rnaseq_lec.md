@@ -151,6 +151,37 @@ interaction between heat and salt.
 
 <div class="warn" markdown="1">
 
+Also note that the physical arrangement of these samples in the experimental
+area (lab/field/greenhouse/growth chamber/cage/tank/etc) should be randomized,
+if possible.
+
+</div>
+
+#### Nested Design
+This design is related to the factorial design in that it stratifies the effects
+of experimental variables and nests them in a hierarchy. However, unlike a
+factorial design, some combinations of factors cannot be tested. For example,
+a researcher may be interested in the effects of heat stress in three different
+populations of a plant sampled from across its range. This is a nested and not
+a factorial design because the population of origin cannot be replicated within
+the treatments.
+
+![Nested Experiment]({{ "/graphics/rnaseq_lec/nested_exp.png" | prepend: site.baseurl }})
+
+This type of design is common in ecological experiments, where the samples
+simply cannot be replicated across treatments.
+
+#### Matched Pair Design
+This design is only applicable when there are exactly two treatments that are to
+be compared and the individuals in the experiment can be grouped into pairs. For
+example, a researcher may be interested in the effect of a drug compound and
+takes a sample before treatment and a sample after treatment.
+
+![Matched Pair Experiment]({{ "/graphics/rnaseq_lec/paired_exp.png" | prepend: site.baseurl }})
+
+
+<div class="warn" markdown="1">
+
 In these simple illustrations, we are assuming that the variation between
 replicates in the same treatment is small relative to the variation among
 conditions. This is generally regarded to be true for experimentally convenient
