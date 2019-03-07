@@ -285,13 +285,69 @@ derived.
 
 ![Insert size and fragment size]({{ "/graphics/rnaseq_lec/insert_fragment.png" | prepend: site.baseurl }})
 
-
+Strand-specific libraries increase the accuracy of assaying the expression
+level of any given gene. A strand-specific library ensures that reads are
+derived from only one of the *sense* or *antisense* strand. That is, reads map
+either to the *same* or *opposite* strand of the gene sequence on the genome,
+not both. The directionality of the read is taken into account during expression
+counting, reducing the error and uncertainty of how many reads are derived from
+intact transcripts. It also allows resolution of genes that share base positions
+in the genome, but are on different strands. This happens more frequently in
+prokaryotes and microbial eukaryotes with compact genomes than in organisms
+with very large and/or polyploid genomes.
 
 The default protocol that the University of Minnesota Genomics Center (UMGC)
 uses for short-read RNAseq applications is the Illumina TruSeq stranded mRNA
 kit. This produces a reversely-stranded paired-end library.
 
 ### <a name="2.3"></a> 2.3: Metadata (KEEP NOTES!)
+Keeping notes on your experiments, both at the organism collection or rearing
+stage, and at the molecular genetics lab bench stage, is critical. Experimental
+factors, such as cages/plots/plates in which the experimental organisms are
+reared can be large sources of variation that reduce power in your experiment
+if they are not properly accounted for. Similarly, the storage and handling
+conditions of the material, the day of RNA extraction, the day of library
+preparation, lane or flowcell of sequencing instrument, and the technician who
+performed the protocols can all introduce bias to your results. You should
+randomize across these experimental factors whenever possible, and keep detailed
+notes on them.
+
+<div class="warn" markdown="1">
+
+For example, collaborative work between UMGC and MSI analysts has demonstrated
+that sample storage conditions (RNAlater storage and liquid nitrogen
+flash-freezing and storage at -80C) have differential effects on observed gene
+expression in fish ([Passow et al. 2018](https://onlinelibrary.wiley.com/doi/full/10.1111/1755-0998.12965)).
+The way samples were processed is an important piece of metadata that should be
+recorded and maintained with the actual data whenever possible. Unfortunately,
+this sort of information is not frequently deposited into public repositories,
+such as NCBI SRA, so exercise caution when using publicly-available datasets.
+
+</div>
+
+An example (but not necessarily complete!) list of metadata items to keep for
+your samples is
+
+- RIN score
+- RNA concentration
+- Extraction protocol
+- Extraction time/date
+- Who performed the extractions
+- Sample storage conditions
+- Tissue type or treatment
+- Developmental time of sample
+- Bench/flat/cage/plate/tank/region/population/etc. of sample rearing or collection
+- Library preparation protocol
+- Sequencing instrument ID
+- Flowcell ID
+- Lane number\*
+- Sample barcode \*
+
+\*: The UMGC generally pools barcodes (samples) and splits them across all lanes
+on a flowcell to reduce lane-specific effects from being perfectly confounded
+with sample ID. However, if you have your material sequenced at a different
+facility, this may not be the case. Keep track of this information!
+
 
 ### <a name="1.2"></a> 1.2: Common Genomics File Formats
 RNASeq, being a genomics technique, uses standard file formats for genomics
