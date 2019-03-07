@@ -868,9 +868,9 @@ described later in the document.
 
 <div class="warn" markdown="1">
 
-We are using the `--unstranded` option here because the source of the data is
-from a lab that used an unstranded library prep protocol (NEBNext Ultra RNA
-kit). The default option is for reverse-stranded libraries, which is the
+We are using the `--strand U` option here because the source of the data is
+from a lab that used a non-strand-specific library prep protocol (NEBNext Ultra
+RNA kit). The default option is for reverse-stranded libraries, which is the
 standard kit used by the UMGC (TruSeq Stranded RNA).
 
 </div>
@@ -886,7 +886,7 @@ size of the resource request.
     -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz \
     -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out \
     -d /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Work \
-    --unstranded \
+    --strand U \
     --ppn 4 --mem 12000 -w 2 --submit
 ----------
 Thank you for using CHURP. This software was developed by the Research
@@ -1206,7 +1206,7 @@ option. This tells the pipeline to regenerate alignments.
     -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz \
     -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out \
     -d /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Work \
-    --unstranded \
+    --strand U \
     --ppn 4 --mem 12000 -w 2 --submit --purge
 ```
 
@@ -1419,7 +1419,7 @@ counted as originating from that gene. If the library is single-end, then
 individual reads represent sequenced fragments, and reads are counted if they
 map to annotated genes.
 
-We also support two types of strandedness for the libraries, unstranded, and
+We also support two types of strandedness for the libraries, strand U, and
 reverse-stranded. By default, the UMGC prepares RNAseq libraries using a
 reverse-stranded protocol. Thus, the default option for our `featureCounts` call
 is to count reverse-stranded alignments. Additionally, we also set a minimum
