@@ -742,10 +742,10 @@ at the [GitHub Wiki page](https://github.umn.edu/MSI-RIS/CHURP/wiki/bulk_rnaseq)
 ```bash
 % python churp.py bulk_rnaseq
 ----------
-Thank you for using the refactor of gopher-pipelines. This software was
-developed by the Research Informatics Solutions (RIS) group at MSI with funding
-from the University of Minnesota Informatics Institute (UMII). For help, please
-contact help@msi.umn.edu.
+Thank you for using CHURP. This software was developed by the Research
+Informatics Solutions (RIS) group at MSI with funding from the University of
+Minnesota Informatics Institute (UMII). For help, please contact
+help@msi.umn.edu.
 
 https://www.msi.umn.edu/
 https://research.umn.edu/units/umii
@@ -786,10 +786,10 @@ reproduce the structure, though.*
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
 ----------
-Thank you for using the refactor of gopher-pipelines. This software was
-developed by the Research Informatics Solutions (RIS) group at MSI with funding
-from the University of Minnesota Informatics Institute (UMII). For help, please
-contact help@msi.umn.edu.
+Thank you for using CHURP. This software was developed by the Research
+Informatics Solutions (RIS) group at MSI with funding from the University of
+Minnesota Informatics Institute (UMII). For help, please contact
+help@msi.umn.edu.
 
 https://www.msi.umn.edu/
 https://research.umn.edu/units/umii
@@ -889,10 +889,10 @@ size of the resource request.
     --unstranded \
     --ppn 4 --mem 12000 -w 2 --submit
 ----------
-Thank you for using the refactor of gopher-pipelines. This software was
-developed by the Research Informatics Solutions (RIS) group at MSI with funding
-from the University of Minnesota Informatics Institute (UMII). For help, please
-contact help@msi.umn.edu.
+Thank you for using CHURP. This software was developed by the Research
+Informatics Solutions (RIS) group at MSI with funding from the University of
+Minnesota Informatics Institute (UMII). For help, please contact
+help@msi.umn.edu.
 
 https://www.msi.umn.edu/
 https://research.umn.edu/units/umii
@@ -974,41 +974,43 @@ Navigate to the output directory and list the contents:
 ```bash
 % cd /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out
 % ls -lF
-total 5.1M
--rw-rw---- 1 konox006 msistaff 1.5K Nov  6 10:01 2018-11-06.konox006.bulk_rnaseq.pipeline.sh
--rw-rw---- 1 konox006 msistaff 4.9K Nov  6 10:01 2018-11-06.konox006.bulk_rnaseq.samplesheet.txt
-lrwxrwxrwx 1 konox006 msistaff   56 Nov  6 10:07 allsamples_work_directory
--> /scratch.global/konox006/RNAseq_Tutorial_Work/allsamples/
--r--r----- 1 konox006 msistaff 732K Nov  6 10:07 Annotations.gtf.gz
--rw-rw---- 1 konox006 msistaff 2.5M Nov  6 10:07 Bulk_RNAseq_Report.html
--rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-1
--rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:05 bulk_rnaseq_single_sample.pbs.e8840519-2
--rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-3
--rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-4
--rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:05 bulk_rnaseq_single_sample.pbs.e8840519-5
--rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-6
--rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-7
--rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-8
--rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-1
--rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-2
--rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-3
--rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-4
--rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-5
--rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-6
--rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-7
--rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-8
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:05 Coordinate_Sorted_BAMs/
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:07 Counts/
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:07 DEGs/
--rw-rw---- 1 konox006 msistaff  29K Nov  6 10:07 gene_id_gene_name_map.txt
--rw-rw---- 1 konox006 msistaff  177 Nov  6 10:01 Groups.csv
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:05 InsertSizeMetrics/
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:06 Logs/
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:07 Plots/
--rw-rw---- 1 konox006 msistaff  14K Nov  6 10:07 run_summary_stats.pbs.e8840520
--rw-rw---- 1 konox006 msistaff 9.0K Nov  6 10:07 run_summary_stats.pbs.o8840520
-lrwxrwxrwx 1 konox006 msistaff   59 Nov  6 10:07 singlesamples_work_directory
--> /scratch.global/konox006/RNAseq_Tutorial_Work/singlesamples/
+total 6.9M
+-rw-rw---- 1 konox006 msistaff 1.5K Mar  7 11:46 2019-03-07.konox006.bulk_rnaseq.pipeline.sh
+-rw-rw---- 1 konox006 msistaff 4.9K Mar  7 11:46 2019-03-07.konox006.bulk_rnaseq.samplesheet.txt
+lrwxrwxrwx 1 konox006 msistaff   56 Mar  7 12:01 allsamples_work_directory
+-> /scratch.global/konox006/RNASeq_Tutorial_work/allsamples/
+-r--r----- 1 konox006 msistaff 732K Mar  7 12:01 Annotations.gtf.gz
+-rw-rw---- 1 konox006 msistaff 3.8M Mar  7 12:02 Bulk_RNAseq_Report.html
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-1
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-2
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:52 bulk_rnaseq_single_sample.pbs.e11813619-3
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:52 bulk_rnaseq_single_sample.pbs.e11813619-4
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-5
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:52 bulk_rnaseq_single_sample.pbs.e11813619-6
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-7
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:56 bulk_rnaseq_single_sample.pbs.e11813619-8
+-rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-1
+-rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-2
+-rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-3
+-rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-4
+-rw-rw---- 1 konox006 msistaff  453 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-5
+-rw-rw---- 1 konox006 msistaff  453 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-6
+-rw-rw---- 1 konox006 msistaff  453 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-7
+-rw-rw---- 1 konox006 msistaff  453 Mar  7 11:52 bulk_rnaseq_single_sample.pbs.o11813619-8
+drwxrwx--- 2 konox006 msistaff 8.0K Mar  7 11:56 Coordinate_Sorted_BAMs/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 Counts/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 DEGs/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 11:51 Dup_Stats/
+-rw-rw---- 1 konox006 msistaff  29K Mar  7 12:01 gene_id_gene_name_map.txt
+-rw-rw---- 1 konox006 msistaff  177 Mar  7 11:44 Groups.csv
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 11:56 InsertSizeMetrics/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 Logs/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 Plots/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 11:56 RNASeqMetrics/
+-rw-rw---- 1 konox006 msistaff  23K Mar  7 12:02 run_summary_stats.pbs.e11813620
+-rw-rw---- 1 konox006 msistaff  20K Mar  7 12:02 run_summary_stats.pbs.o11813620
+lrwxrwxrwx 1 konox006 msistaff   59 Mar  7 12:01 singlesamples_work_directory
+-> /scratch.global/konox006/RNASeq_Tutorial_work/singlesamples/
 ```
 
 The `-l` option to `ls` gives "long format" which includes permissions, owner,
@@ -1018,21 +1020,30 @@ of directories.
 
 There are multiple levels types of output that get generated:
 
-- PBS output files
-- Insert size metrics (if data are paired-end)
-- Expression counts
-- Summary plots
-- Differentially expressed genes (if groups were specified)
-- Per-sample log files
-- HTML report
+1. HTML report
+2. Log files, including PBS output files
+3. RNASeq metrics
+4. Duplication metrics
+5. Insert size metrics
+6. Coordinate-sorted BAM files
+7. Expression counts
+8. Summary plots
+9. Differentially expressed genes
 
 There are also links to the working directories that get placed in the output
 directory. Additionally, a copy of the GTF that was used for expression counts
 is placed in the output directory.
 
 [Return to top](#top)
-##### PBS Output Files
-These files are the `bulk_rnaseq_single_sample.pbs.o...`,
+##### Log Files
+The `Logs/` directory contains human-readable log files. The "analysis log"
+files describe the analysis steps in plain English and contain the console
+messages from the programs that we run. The "trace log" fiels contain copies of
+the exact commands and variable values that were used for each script. This is
+mostly useful for debugging purposes, if you detect a problem with your
+analysis.
+
+The PBS log files are the `bulk_rnaseq_single_sample.pbs.o...`,
 `bulk_rnaseq_single_sample.pbs.e...`, `run_summary_stats.pbs.o...`, and the
 `run_summary_stats.pbs.e...` files. They are generated by the scheduler and
 contain the text sent to the standard output and standard error channels of the
@@ -1040,7 +1051,19 @@ programs called by the programs of the pipeline. The situation in which you
 would most want to view the contents of these files is if your pipeline jobs
 are throwing error messages. For now, we do not have to examine them.
 
-[Return to top](#top)
+#### RNASeq Metrics
+The `RNASeqMetrics/` directory contains summary metrics collected by the Picard
+`CollectRnaSeqMetrics` tool. This is useful for diagnosing rRNA, gDNA, and
+coverage bias issues in your RNAseq dataset. This information is summarized in
+the HTML report, but the raw output files are saved for record keeping purposes.
+
+#### Duplication Metrics
+The `Dup_Stats/` directory contains duplication summaries extracted from the
+FastQC report. These are summarized on a per-sample per-read basis, and have
+the total duplication level and a duplication histogram for each read. These
+are summarized graphically in the HTML report, but we also provide the raw
+files for your records. The source information is kept in the working directory.
+
 ##### Insert Size Metrics
 These files are located in the `InsertSizeMetics/` directory, and contain
 per-sample insert size summaries. It is only generated if the data are
@@ -1048,7 +1071,13 @@ paired-end. We will not examine these files for the tutorial, but they will
 be useful if you plan to submit your data to a database that requires summaries
 of the insert sizes, such as NCBI GEO.
 
-[Return to top](#top)
+#### Coordinate-sorted BAM Files
+BAM files that are sorted on alignment coordinate are linked into the
+`Coordinate_Sorted_BAMs/` directory. These files are also indexed, and can be
+visualized in IGV or a similar alignment viewing program. Both the "raw"
+alignment from HISAT2 and the "filtered" alignment used as input for expression
+counts are included in this directory.
+
 ##### Expression Counts
 This is one of the main outputs of the `bulk_rnaseq` pipeline. There are two
 types of counts that get produced by the pipeline, raw counts, and counts per

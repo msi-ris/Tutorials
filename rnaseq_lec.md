@@ -105,21 +105,60 @@ in general, careful experimental design can mitigate the repeatability problems.
 
 [Return to top](#top)
 
+### <a name="1.3"></a> 1.3: Typical RNAseq Workflow
+The typical RNAseq workflow follows the diagram shown below. The number of
+samples and the setup of the actual experimental treatments will depend on the
+goals of the project.
+
+![General workflow]({{ "/graphics/rnaseq_lec/general_workflow.png" | prepend: site.baseurl }})
+
 ## <a name="2"></a> Part 2: RNASeq Experimental Considerations
-Designing an RNAseq experiment draws upon the same principals of general
+Designing an RNAseq experiment draws upon the same principles of general
 experimental design. In principle, the expression values of the genes that
 are assayed by RNAseq technologies are phenotypes that are being measured by the
 researcher. Randomization, replication, and blocking are all important
 components of an RNAseq experiment, and should be included where logistically
 (and financially) possible.
 
-### <a name="2.1"></a> 2.1: Types of RNASeq Experiments
+It is important to distinguish between a *biological* replicate and a
+*technical* replicate. A biological replicate is used to assay variation in the
+*biological material* that is being studied. For example, a study that is
+designed to test the effects of a drug on gene expression in a mouse model may
+treat six mice each with saline and a dose of the drug. The experiment would
+have six biological replicates per treatment. If each mouse in this experiment
+then had two separate RNA extractions, library preparations, and sequencing
+runs, then there would be two *technical replicates* for each mouse. The total
+size of the experiment would be 24 sequencing runs, or 2 treatments \* 6
+biological replicates per treatment \* 2 technical replicates per biological
+replicate.
+
+Technical replicates are not always nested within biological replicates, but
+are collected to assay the degree of variation in the technique or data
+collection aspect of the experiment. Technical variation is generally much
+lower than biological variation, but this is not universally true, and it is
+good practice to include both biological and technical replicates in your
+experimental designs, when possible.
+
+Your experiment should also include *randomization* to remove biases between
+the blocking factors of your experiment. For example, it is possible to only
+perform a certain number of extractions in a single day. The samples that are
+extracted on each day should be randomized with respect to the experimental
+condition, such that the "extraction day" effect is not perfectly confounded
+with the experimental treatment effect.
+
+### <a name="2.1"></a> 2.1: Experimental Design
 The exact design of an RNAseq experiment will depend on the researcher's goals.
 For example, for transcriptome assembly, a researcher may want to sample
 several replicates each from multiple tissues of an organism and sequence them
 to high depth. For differential gene expression analysis, a design that samples
 a single tissue from multiple biological replicates within each treatment is
 more appropriate.
+
+The sections that follow will have brief overviews of common experimental
+designs in RNAseq projects. More complicated designs are possible, with high
+degrees of replication across hierarchical categorical variables, such as with
+agricultural experiments, but most budgets do not allow for such intense data
+collection via RNAseq.
 
 #### Pairwise Two-Group Comparison
 This is a very simple design that is used to test the effect of a single factor,
@@ -204,6 +243,55 @@ is that random effects are assumed to be *uncorrelated* with the treatments and
 fixed effects are assumed to be *correlated* with the treatments.
 
 </div>
+
+### <a name="2.2"></a> 2.2: Molecular Biology Techniques
+The experimental design principles mentioned in the previous section will help
+to decide the number of biological samples that will be used in your projects.
+There are, however, additional concerns that relate to the handling of the
+material once it has been harvested from your experiment. These relate to the
+type of library preparation protocol and sequencing technology that you choose
+for your data collection.
+
+#### Short-Read Library Preparation
+Library preparation is the step at which the extracted RNA is prepared for
+sequencing. We will focus on short-read protocols in this document, but later
+sections will touch on long-read sequencing.
+
+The library preparation step is where you determine several important parameters
+about your data set:
+
+- Paired-end or single-read sequencing
+- Insert size (if paired end)
+- Strand specificity
+
+Paired-end reads are more expensive to collect, but yield much more information
+than single-read sequencing. The technology is such that the reads have a
+pre-determined relative orientation and are derived from a physical molecule of
+a certain size, so they more easily map to unique regions of the genome.
+
+![Paired-end vs. single-read]({{ "/graphics/rnaseq_lec/paired_single.png" | prepend: site.baseurl }})
+
+(The green and purple pieces are the sequencing adapters.)
+
+The insert size consideration is only applicable for paired-end data. Library
+preparation involves shearing or fragmenting the isolated RNA into fragments
+that are approximately the same size before ligating the sequencing adapters.
+The diagram above, the known physical distance between the reads is directly
+related to the insert size. If the organism you are studying tends to have
+short genes, then a shorter insert size will yield higher coverage of the
+transcripts. If the organism tends to have longer genes, then a long insert
+size will give more information about the exons from which the reads were
+derived.
+
+![Insert size and fragment size]({{ "/graphics/rnaseq_lec/insert_fragment.png" | prepend: site.baseurl }})
+
+
+
+The default protocol that the University of Minnesota Genomics Center (UMGC)
+uses for short-read RNAseq applications is the Illumina TruSeq stranded mRNA
+kit. This produces a reversely-stranded paired-end library.
+
+### <a name="2.3"></a> 2.3: Metadata (KEEP NOTES!)
 
 ### <a name="1.2"></a> 1.2: Common Genomics File Formats
 RNASeq, being a genomics technique, uses standard file formats for genomics
@@ -358,7 +446,7 @@ analyses, so use your best judgment.
 The UMGC recommends 50bp paired-end sequencing technology for differential
 gene expression analysis. For isoform-level expression or alternative splicing
 analysis, they recommend at least 125bp paired-end technology. It is possible
-to use single-end reads for differential gene expression, but it is not a widely
+to use single reads for differential gene expression, but it is not a widely
 requested technology, and it may take longer to move through the queue.
 
 The ENCODE project maintains [guidelines for RNAseq experiments](https://www.encodeproject.org/documents/cede0cbe-d324-4ce7-ace4-f0c3eddf5972/@@download/attachment/ENCODE%20Best%20Practices%20for%20RNA_v2.pdf) that may be helpful.
