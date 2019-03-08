@@ -378,6 +378,86 @@ in expression level in response to some condition or treatment. It generally
 requires *at least* three biological replicates per condition. This includes
 combinations of conditions if you are testing in a factorial experiment.
 
+![DGE workflow]({{ "/graphics/rnaseq_lec/deg_workflow.png" | prepend: site.baseurl }})
+
+The steps shown in grey dashed boxes are optional, but generally recommended.
+
+In this analysis, you are testing that the expression level of a gene is
+significantly different between treatments or conditions, using read counts as
+a proxy for expression level. The variation in read counts among biological
+replicates serves as the sample variance against which you test the differences
+in expression. The list of genes that are differentially expressed may then
+be used to generate more focused hypotheses. For example, the list of
+differentially expressed genes may be used as a candidate list for validation
+in a follow-up experiment with a more targeted assay of gene expression like
+qRT-PCR, or knock-out and phenotypic assays.
+
+#### Transcriptome Assembly
+The goal of this type of project is to generate a set of reference transcript
+sequences for the organism or tissue of interest. Inclusion of biological
+variation (i.e., sampling of multiple tissues, developmental time points, or
+stress conditions) increases the usefulness of the assembly by "capturing" more
+expressed sequences. Not all transcripts are expressed at all times or under
+all conditions.
+
+![Asm workflow]({{ "/graphics/rnaseq_lec/tx_asm_workflow.png" | prepend: site.baseurl }})
+
+Note that in this workflow, the read trimming is required. Contamination with
+sequencing adapters will cause non-biological sequence to be incorporated into
+your reference assembly, and my cause erroneous chimeric transcripts to be
+assembled (by linking disparate transcripts with identical non-biological
+sequence). This is not as much of an issue with differential gene expression
+analyses because read mapping tools can mask sequence that does not match the
+reference genome. Further, the transcriptome assembly should be filtered to
+remove biological contaminant sequences. There is often contamination from
+non-target organisms in samples, such as soil bacteria in plant samples.
+
+Final products of a transcriptome assembly workflow are often a reference
+assembly and some degree of functional annotation or homologous locus
+information.
+
+#### Variant Discovery
+RNAseq data can also be used to discover genetic variants such as single
+nucleotide polymorphisms (SNPs) or short insertions and deletions (indels). This
+is mostly useful in systems that have a reference transcriptome but not a
+reference genome. It may also be of interest if you would like to enrich the
+variants for those that occur in transcribed sequences, or if you would like
+to identify genetic variants alongside testing for differential expression.
+
+In systems with very high genetic diversity, iteratively identifying variants
+and re-mapping reads to a "corrected" reference may improve the ability to
+resolve expression differences by reducing mapping uncertainty and increasing
+the number of reads that can be matched by accounting for genetic diversity. In
+most model systems, however, this is not necessary.
+
+![Variant workflow]({{ "/graphics/rnaseq_lec/var_disco.png" | prepend: site.baseurl }})
+
+This workflow looks very similar to the differential expression workflow.
+However, instead of counting reads that map to gene features, you instead use
+sequence differences between the reads and the reference to identify genetic
+variants in your sample. Once variants have been identified, it is a standard
+practice to apply filtering on the variants based on read depth, allele
+frequency, heterozygosity, and call rate.
+
+<div class="warn" markdown="1">
+
+It should be noted that if you call variants from RNAseq data, they will be
+unrepresentative of genetic diversity on a whole-genome scale. RNAseq data is
+highly biased by expression level (rare transcripts have very low coverage),
+so you will not discover variants in rare transcripts. Due to the strong
+dependence of read depth on expression level, RNAseq data is also not
+appropriate to discover gene deletion or duplication events.
+
+Additionally, RNAseq enriches for functional regions of the genome, which may
+be under purifying selection, so genetic diversity in RNAseq data may
+underestimate the genetic diversity genome-wide.
+
+However, it is still useful for identifying genetic variants in experimental
+systems where there are very few genomic resources available.
+
+</div>
+
+
 - FASTA
 
     Holds sequence information, without any associated quality information. The
