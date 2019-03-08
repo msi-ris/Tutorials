@@ -19,6 +19,11 @@ delivered: NA
 *Last Delivered: {{page.delivered}}*
 
 ## <a name="0"></a>Part 0: Introduction
+### Slide Deck
+View the [slide deck](#) for this tutorial. The webpage will contain more
+detailed information than the slide deck, and is written to have more references
+to related information.
+
 ### <a name="0.1"></a>0.1 Formatting in This Document
 Throughout this tutorial, there will be formatting cues to highlight various
 pieces of information.
