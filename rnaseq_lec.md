@@ -49,8 +49,6 @@ that underlie RNAseq experimental design and data analysis. This tutorial will
 not cover the mechanistic details of how to analyze RNAseq data - that will
 be covered in the companion hands-on tutorial.
 
-[Return to top](#top)
-
 ## <a name="1"></a> Part 1: RNASeq Overview
 ### <a name="1.1"></a> 1.1: What is RNASeq?
 RNAseq is a technique that uses high-throughput sequencing technologies to
@@ -77,6 +75,7 @@ are homogenized, or bulked. It is broadly labeled as *bulk RNAseq* to
 distinguish it from scRNAseq. Most of the material we will cover in this
 tutorial will cover either general experimental design or bulk RNAseq handling.
 
+[Return to top](#top)
 ### <a name="1.2"></a> 1.2: RNAseq vs. Other Genomics Technologies
 Because RNAseq targets transcribed, or expressed, parts of the genome, its
 most direct comparisons are to other expression-focused genomics technologies.
@@ -104,7 +103,6 @@ noise and can suffer from low repeatability. However, like scientific research
 in general, careful experimental design can mitigate the repeatability problems.
 
 [Return to top](#top)
-
 ### <a name="1.3"></a> 1.3: Typical RNAseq Workflow
 The typical RNAseq workflow follows the diagram shown below. The number of
 samples and the setup of the actual experimental treatments will depend on the
@@ -112,6 +110,7 @@ goals of the project.
 
 ![General workflow]({{ "/graphics/rnaseq_lec/general_workflow.png" | prepend: site.baseurl }})
 
+[Return to top](#top)
 ## <a name="2"></a> Part 2: RNASeq Experimental Considerations
 Designing an RNAseq experiment draws upon the same principles of general
 experimental design. In principle, the expression values of the genes that
@@ -146,6 +145,7 @@ extracted on each day should be randomized with respect to the experimental
 condition, such that the "extraction day" effect is not perfectly confounded
 with the experimental treatment effect.
 
+[Return to top](#top)
 ### <a name="2.1"></a> 2.1: Experimental Design
 The exact design of an RNAseq experiment will depend on the researcher's goals.
 For example, for transcriptome assembly, a researcher may want to sample
@@ -245,6 +245,7 @@ fixed effects are assumed to be *correlated* with the treatments.
 
 </div>
 
+[Return to top](#top)
 ### <a name="2.2"></a> 2.2: Molecular Biology Techniques
 The experimental design principles mentioned in the previous section will help
 to decide the number of biological samples that will be used in your projects.
@@ -306,7 +307,28 @@ The default protocol that the University of Minnesota Genomics Center (UMGC)
 uses for short-read RNAseq applications is the Illumina TruSeq stranded mRNA
 kit. This produces a reversely-stranded paired-end library.
 
-### <a name="2.3"></a> 2.3: Metadata (KEEP NOTES!)
+[Return to top](#top)
+### <a name="2.3"></a> 2.3: How Much Sequence Data to Collect
+For differential gene expression analyses in most animals or plants, we
+recommend a minimum of 20 million reads per sample. For simpler eukaryotes
+(e.g., nematodes or yeast), 10 million reads per sample may suffice. You should
+have at least three biological replicates (i.e., samples from three different
+individuals or clonal pools) per experimental condition, if possible. There are
+cases where three replicates is excessive, such as high-resolution time series
+analyses, so use your best judgment.
+
+The UMGC recommends 50bp paired-end sequencing technology for differential
+gene expression analysis. For isoform-level expression or alternative splicing
+analysis, they recommend at least 125bp paired-end technology. It is possible
+to use single reads for differential gene expression, but it is not a widely
+requested technology, and it may take longer to move through the queue.
+
+The ENCODE project maintains [guidelines for RNAseq experiments](https://www.encodeproject.org/documents/cede0cbe-d324-4ce7-ace4-f0c3eddf5972/@@download/attachment/ENCODE%20Best%20Practices%20for%20RNA_v2.pdf) that may be helpful.
+You may also refer to [this page from Genohub](https://genohub.com/recommended-sequencing-coverage-by-application/)
+that lists recommendations for coverage for a variety of applications.
+
+[Return to top](#top)
+### <a name="2.4"></a> 2.4: Metadata (KEEP NOTES!)
 Keeping notes on your experiments, both at the organism collection or rearing
 stage, and at the molecular genetics lab bench stage, is critical. Experimental
 factors, such as cages/plots/plates in which the experimental organisms are
@@ -358,12 +380,14 @@ Ideally, you would also make this metadata available when you publish your
 dataset. This greatly improves reproducibility and aids in analyzing datasets
 from multiple sources.
 
+[Return to top](#top)
 ## <a name="3"></a> Part 3: Analytical Workflow and File Formats
 This section will deal more specifically with what the analytical side of RNAseq
 projects look like. We will not be covering *how* to do the analyses in detail
 in this section, but we will cover what the overall analysis strategy is and
 what file formats are involved.
 
+[Return to top](#top)
 ### <a name="3.1"></a> 3.1: Overall Workflows
 The overall workflow of RNAseq analysis will depend on your goals: a workflow
 for transcriptome assembly will look slightly different from a workflow for
@@ -457,6 +481,12 @@ systems where there are very few genomic resources available.
 
 </div>
 
+#### Others
+There are many other analyses that can be done with RNAseq data. Section 7 will
+contain brief descriptions and links to common analysis tools for the workflows
+described above and other, more specialized analyses.
+
+[Return to top](#top)
 ### <a name="3.2"></a> File Formats
 RNAseq is a genomics analysis, meaning it uses a suite of (mostly) standardized
 genomics file formats. There are some important considerations with some of the
@@ -560,6 +590,7 @@ used in an analysis. Always check for agreement!
 
 [Return to top](#top)
 
+[Return to top](#top)
 ## <a name="4"></a> Part 4: Long Reads
 The previous sections mostly dealt with short-read technologies, however, there
 are several long-read protocols that work with transcript sequences. Long reads
@@ -590,6 +621,45 @@ analysis.
 
 </div>
 
+[Return to top](#top)
+## <a name="5"></a> Part 5: Single-cell RNAseq
+Single-cell RNAseq (scRNAseq) is a technique that uses a special sample handling
+protocol that tags each cell in a sample with a unique barcode, and each
+individual transcript molecule with a unique molecular identifier (UMI). The
+UMI serves to uniquely identify a transcript to reduce amplification bias in
+library preparation. Instead of using read counts as in bulk RNAseq differential
+expression, UMI counts are used to measure relative expression.
+
+scRNAseq is a useful technique for identifying cellular types in a heterogeneous
+mixture of cells in a tissue sample. It can be used to identify rare cell types
+in a sample, precisely query relationships between genes and their regulatory
+elements, and track the development of cell lineages.
+
+Similar to long-read sequencing technologies, the sample handling and library
+preparation protocols are expensive and specialized.
+
+[Return to top](#top)
+## <a name="7"></a> Part 7: Helpful Links
+This section will contain a list of common software tools, manuals, and guides
+for performing various RNAseq analyses.
+
+### <a name="7.1"></a> 7.1: Differential Gene Expression
+### <a name="7.2"></a> 7.2: Transcriptome Assembly
+#### Long-read Transcriptome Assembly
+### <a name="7.3"></a> 7.3: Variant Detection
+### <a name="7.4"></a> 7.4: Coexpression Network
+### <a name="7.5"></a> 7.5: Pathway Analysis
+
+### <a name="7.1"></a> 7.1: Primary Literature References
+
+[Return to top](#top)
+## <a name="8"></a> Part 8: Feedback
+This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
+Please send feedback and comments to konox006 [at] umn.edu. You may also send
+tutorial delivery feedback to that address.
+
+[Return to top](#top)
+
 ### <a name="6.2"></a> 6.2 Links to Analysis Guides
 Various packages exist to analyze expression data. We have chosen to use `edgeR`
 in our pipeline, but the counts matrix and group CSV are compatible with many
@@ -612,57 +682,6 @@ identify modules of genes with similar expression profiles over time.
 
 [Return to top](#top)
 ## <a name="7"></a> Part 7: Recommendations
-### <a name="7.1"></a> 7.1: General Considerations for Experimental Design
-In reference to the warnings given above, it is important to design powerful
-experiments and keep detailed notes on your samples. Your experiments should
-have a clear control for each experimental treatment. Your null hypothesis
-should be clearly defined, and you should have an expectation for the difference
-between your experimental conditions. Your samples should be randomized across
-technical variables (like extraction batch) whenever possible. Strong
-informatics skills and a clever analytical workflow cannot make meaningful
-results from an underpowered experiment. However, empirical scientific research
-is about balancing insight and practical limitations. A good analytical workflow
-can help make sure that you get the most value out of your data.
-
-[Return to top](#top)
-### <a name="7.2"></a> 7.2: How Much Sequence Data to Collect
-For differential gene expression analyses in most animals or plants, we
-recommend a minimum of 20 million reads per sample. For simpler eukaryotes
-(e.g., nematodes or yeast), 10 million reads per sample may suffice. You should
-have at least three biological replicates (i.e., samples from three different
-individuals or clonal pools) per experimental condition, if possible. There are
-cases where three replicates is excessive, such as high-resolution time series
-analyses, so use your best judgment.
-
-The UMGC recommends 50bp paired-end sequencing technology for differential
-gene expression analysis. For isoform-level expression or alternative splicing
-analysis, they recommend at least 125bp paired-end technology. It is possible
-to use single reads for differential gene expression, but it is not a widely
-requested technology, and it may take longer to move through the queue.
-
-The ENCODE project maintains [guidelines for RNAseq experiments](https://www.encodeproject.org/documents/cede0cbe-d324-4ce7-ace4-f0c3eddf5972/@@download/attachment/ENCODE%20Best%20Practices%20for%20RNA_v2.pdf) that may be helpful.
-You may also refer to [this page from Genohub](https://genohub.com/recommended-sequencing-coverage-by-application/)
-that lists recommendations for coverage for a variety of applications.
-
-If you are assembling a transcriptome, you should plan to collect at least 40
-to 50 million reads per sample. Collecting reads from multiple tissues,
-developmental time points, or experimental treatments is beneficial because
-many more transcripts are potentially represented than in any individual
-library.
-
-You may view information about the HiSeq2500, NextSeq, and NovaSeq that the UMGC
-operates at the following links:
-
-- [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php)
-- [NextSeq](http://genomics.umn.edu/nextgen-nextseq.php)
-- [NovaSeq](http://genomics.umn.edu/nextgen-novaseq.php)
-
-[Return to top](#top)
-#### <a name="7.2.1"></a> 7.2.1: UMGC Pricing
-Pricing depends on the instrument that you are requesting, the output mode
-that is being used, and whether your appointment is internal or external to the
-University of Minnesota. The pricing guides for the HiSeq2500, NextSeq, and
-NovaSeq at the UMGC are linked below:
 
 - [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php), click the "Pricing" tab.
 - [NextSeq and NovaSeq Internal](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_Internal_Pricing_032118_update.pdf)
@@ -687,49 +706,7 @@ or the instruments. For faster turnaround, you may request to use the NextSeq,
 which is a single lane, rather than a shared cell like with the other
 instruments.
 
-[Return to top](#top)
-### <a name="7.3"></a> 7.3: Analytical Workflow Considerations
-There are a few additional concerns for RNAseq experiments:
-
-1. Be careful with data from public sources
-2. Use "best in class" software
-  - HISAT2, STAR
-  - Kallisto (but only for specialized applications)
-  - EdgeR or DESeq2 for differential expression analysis
-3. Be careful with tools built for microarrays
-
-In relation to point **1** above, the technical variables for the data set used
-in this tutorial were not available. The strain, age at sacrifice, and the
-experimental conditions are available in the SRA, but RNA quality summaries and
-sample handling information is not available. Collaborative work between some
-members of the RIS group and UMGC Funded Services group has shown that technical
-variables such as sample storage can drive major patterns of differentiation
-of gene expression profiles. Such metadata are not often deposited with public
-data, so be cautious when analyzing data from the SRA with no technical
-metadata.
-
-In regard to point **2**, most RNAseq alignment should be done with HISAT2 or
-STAR. STAR requires that you build a special index for each read length that
-you wish to align, so we cannot provide general instructions here. Kallisto can
-be used for transcript quantification, but is not a general purpose alignment
-tool for expression analysis - you should only use Kallisto if your reads and
-reference genome have **very few** expected sequence differences. Most studies
-fall outside of this case, so we do not recommend it for general RNAseq
-analyses. Several packages and statistical models exist for identifying
-differentially expressed genes, but we recommend EdgeR or DESeq2 because they
-implement robust models and have well-documented features.
-
-For point **3**, the nature of the data from microarrays is fundamentally
-different from that of RNAseq. Microarrays use hybridization, which is a
-fluorescence-based signal, rather than a counts-based signal. Be sure that the
-package you are using can handle RNAseq data before applying it.
-
-[Return to top](#top)
-## <a name="8"></a> Part 8: Other RNASeq Applications
-Finally, differential expression analysis is only a small set of what is
-possible with RNAseq data. Other types of analysis include co-expression
-analysis, transcriptome assembly and isoform discovery, and variant discovery
-in the absence of a reference genome.
+[Return to top](#top
 
 [Return to top](#top)
 ### <a name="8.1"></a> 8.1 Coexpression
@@ -784,11 +761,5 @@ span intron-exon boundaries.
 
 The Broad Institute maintains a guide on the best practices for variant
 discovery in RNAseq [here](https://gatkforums.broadinstitute.org/gatk/discussion/4067/best-practices-for-variant-discovery-in-rnaseq).
-
-[Return to top](#top)
-## Part 9: Feedback
-This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
-Please send feedback and comments to konox006 [at] umn.edu. You may also send
-tutorial delivery feedback to that address.
 
 [Return to top](#top)
