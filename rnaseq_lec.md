@@ -272,7 +272,8 @@ a certain size, so they more easily map to unique regions of the genome.
 
 ![Paired-end vs. single-read]({{ "/graphics/rnaseq_lec/paired_single.png" | prepend: site.baseurl }})
 
-(The green and purple pieces are the sequencing adapters.)
+In the above cartoon, the green and purple pieces are the sequencing
+adapters.
 
 The insert size consideration is only applicable for paired-end data. Library
 preparation involves shearing or fragmenting the isolated RNA into fragments
@@ -283,6 +284,10 @@ short genes, then a shorter insert size will yield higher coverage of the
 transcripts. If the organism tends to have longer genes, then a long insert
 size will give more information about the exons from which the reads were
 derived.
+
+Various genomics tools and protocols may require you to know the mean and
+variance in one of the lengths shown below. It is important to know the
+difference because the terms have names that are easily confused.
 
 ![Insert size and fragment size]({{ "/graphics/rnaseq_lec/insert_fragment.png" | prepend: site.baseurl }})
 
