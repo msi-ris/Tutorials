@@ -421,6 +421,8 @@ differentially expressed genes may be used as a candidate list for validation
 in a follow-up experiment with a more targeted assay of gene expression like
 qRT-PCR, or knock-out and phenotypic assays.
 
+**We will be covering this workflow in the hands-on portion of the tutorial.**
+
 #### Transcriptome Assembly
 The goal of this type of project is to generate a set of reference transcript
 sequences for the organism or tissue of interest. Inclusion of biological
