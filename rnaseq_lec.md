@@ -3,7 +3,7 @@ layout: default
 title: Intro to RNASeq (Lecture)
 permalink: /rnaseq_lec/
 exclude: false
-updated: NA
+updated: 2019-03-08
 delivered: NA
 ---
 
