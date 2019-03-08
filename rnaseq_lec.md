@@ -637,6 +637,9 @@ Similar to long-read sequencing technologies, the sample handling and library
 preparation protocols are expensive and specialized.
 
 [Return to top](#top)
+
+## <a name="6"></a> Part 6: University of Minnesota Genomics Center
+
 ## <a name="7"></a> Part 7: Helpful Links
 This section will contain a list of common software tools, manuals, and guides
 for performing various RNAseq analyses.
@@ -645,32 +648,60 @@ for performing various RNAseq analyses.
 - [HTseq](https://htseq.readthedocs.io/en/release_0.11.1/) - generate an expression counts matrix
     - [Manual](https://media.readthedocs.org/pdf/htseq/master/htseq.pdf)
     - [Tutorial](https://htseq.readthedocs.io/en/release_0.11.1/count.html)
+    - [Publication](https://academic.oup.com/bioinformatics/article/31/2/166/2366196)
 - [featureCounts](http://bioinf.wehi.edu.au/featureCounts/) - generate an expression counts matrix
     - [Manual](http://bioinf.wehi.edu.au/subread-package/SubreadUsersGuide.pdf) - See section 6.2
+    - [Publication](https://academic.oup.com/bioinformatics/article/30/7/923/232889)
 - [EdgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html) - differential expression testing
     - [Manual](https://bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf)
+    - [Publication](https://academic.oup.com/bioinformatics/article/26/1/139/182458)
 - [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) - differential expression testing
     - [Tutorial](https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html)
     - [Manual](https://bioconductor.org/packages/release/bioc/manuals/DESeq2/man/DESeq2.pdf)
+    - [Publication](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8)
+- [CHURP](https://github.umn.edu/MSI-RIS/CHURP) - UMN Pipeline, developed by RIS at MSI
+    - Covered in RNAseq hands-on tutorial!
+    - [Wiki](https://github.umn.edu/MSI-RIS/CHURP/wiki)
+    - [Tutorial](https://pages.github.umn.edu/MSI-RIS/Tutorials/rnaseq_cmd/)
 
 ### <a name="7.2"></a> 7.2: Transcriptome Assembly
 - [Trinity](https://github.com/trinityrnaseq/trinityrnaseq)
     - [Wiki](https://github.com/trinityrnaseq/trinityrnaseq/wiki)
     - [Short example](https://github.com/trinityrnaseq/trinityrnaseq/wiki/Running-Trinity)
-- [rnaSPAdes](http://cab.spbu.ru/software/spades/)
+    - [Publication](https://www.nature.com/articles/nbt.1883)
+- [rnaSPAdes](http://cab.spbu.ru/software/rnaspades/)
     - [Manual](http://cab.spbu.ru/files/release3.13.0/rnaspades_manual.html)
+    - [Preprint](https://www.biorxiv.org/content/10.1101/420208v1)
 
 For assembly evaluation for completeness/quality:
 
 - [BUSCO](https://busco.ezlab.org/)
+    - [Publication](https://academic.oup.com/mbe/article/35/3/543/4705839)
 - [DETONATE](http://deweylab.biostat.wisc.edu/detonate/)
+    - [Publication](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0553-5)
 
 #### Long-read Transcriptome Assembly
-- [IsoSeq 3](https://github.com/PacificBiosciences/IsoSeq_SA3nUP/wiki)
-
+- [IsoSeq 3](https://github.com/PacificBiosciences/IsoSeq_SA3nUP/wiki) - Pacific Biosciences
 
 ### <a name="7.3"></a> 7.3: Variant Detection
+- [GATK](https://github.com/gatk-workflows/gatk3-4-rnaseq-germline-snps-indels) - Mostly for human data
+    - [Publication 1](https://genome.cshlp.org/content/20/9/1297)
+    - [Publication 2](https://www.nature.com/articles/ng.806)
+- [FreeBayes](https://github.com/ekg/freebayes)
+    - [Preprint](https://arxiv.org/abs/1207.3907)
+
 ### <a name="7.4"></a> 7.4: Coexpression Network
+- [WGCNA](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/)
+    - [Tutorials](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html)
+    - [Reference manual](https://cran.r-project.org/web/packages/WGCNA/WGCNA.pdf)
+    - [Publication](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-559)
+- [petal](https://github.com/julipetal/petalNet)
+    - [Reference manual](https://github.com/julipetal/petalNet/blob/master/doc/petal.pdf)
+    - [Publication](https://bmcsystbiol.biomedcentral.com/articles/10.1186/s12918-016-0298-8)
+- [Camoco](https://github.com/LinkageIO/Camoco)
+    - [Manual](https://camoco.readthedocs.io/en/latest/)
+    - [Publication](http://www.plantcell.org/content/30/12/2922)
+
 ### <a name="7.5"></a> 7.5: Pathway Analysis
 
 ### <a name="7.1"></a> 7.1: Primary Literature References
