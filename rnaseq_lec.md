@@ -336,18 +336,17 @@ your samples is
 - Sample storage conditions
 - Tissue type or treatment
 - Developmental time of sample
-- Bench/flat/cage/plate/tank/region/population/etc. of sample rearing or collection
+- Bench/cage/plate/tank/region/population/etc. of sample rearing or collection
 - Library preparation protocol
 - Sequencing instrument ID
 - Flowcell ID
 - Lane number\*
-- Sample barcode \*
+- Sample barcode\*
 
 \*: The UMGC generally pools barcodes (samples) and splits them across all lanes
 on a flowcell to reduce lane-specific effects from being perfectly confounded
 with sample ID. However, if you have your material sequenced at a different
 facility, this may not be the case. Keep track of this information!
-
 
 ### <a name="1.2"></a> 1.2: Common Genomics File Formats
 RNASeq, being a genomics technique, uses standard file formats for genomics
