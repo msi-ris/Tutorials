@@ -639,6 +639,35 @@ preparation protocols are expensive and specialized.
 [Return to top](#top)
 
 ## <a name="6"></a> Part 6: University of Minnesota Genomics Center
+The University of Minnesota Genomics Center offers extraction, library
+preparation, and sequencing services. They also offer services for long-read
+technologies. Their systems are connected to MSI servers to support direct
+data deposit into your MSI directory.
+
+### <a name="6.1"></a> 6.1: Pricing and Instruments
+
+- [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php), click the "Pricing" tab.
+- [NextSeq and NovaSeq Internal](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_Internal_Pricing_032118_update.pdf)
+- [NextSeq and NovaSeq External](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_External_Pricing_032118_update.pdf)
+
+For a quote, you can contact the next-gen sequencing team UMGC by emailing
+<next-gen@umn.edu> with your desired read quantity, read length, and
+single/paired technology. They will prepare a quote that will be good for three
+months from the preparation date.
+
+For a full description of UMGC services and pricing, please see their
+[catalogue]({{"/materials/rnaseq_cmd/UMGC_2015-16_Catalog_Internal.pdf" | prepend: site.baseurl }}).
+Note that despite what the first page says, the prices are still current,
+as of November 2018. **The UMGC is updating their pricing schedule, however,
+so prices are subject to change in the next six months.**
+
+[Return to top](#top)
+#### <a name="6.2"></a> 6.2: Expected Turnaround Time
+The standard turnaround time for RNAseq projects at the UMGC is 6-8 weeks,
+assuming the libraries pass QC and there are no complications with the reagents
+or the instruments. For faster turnaround, you may request to use the NextSeq,
+which is a single lane, rather than a shared flowcell like with the other
+instruments.
 
 ## <a name="7"></a> Part 7: Helpful Links
 This section will contain a list of common software tools, manuals, and guides
@@ -690,21 +719,37 @@ For assembly evaluation for completeness/quality:
 - [FreeBayes](https://github.com/ekg/freebayes)
     - [Preprint](https://arxiv.org/abs/1207.3907)
 
-### <a name="7.4"></a> 7.4: Coexpression Network
-- [WGCNA](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/)
+### <a name="7.4"></a> 7.4: Coexpression Network Construction
+- [WGCNA](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/) - correlational network building from gene expression data
     - [Tutorials](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html)
     - [Reference manual](https://cran.r-project.org/web/packages/WGCNA/WGCNA.pdf)
     - [Publication](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-559)
-- [petal](https://github.com/julipetal/petalNet)
+- [petal](https://github.com/julipetal/petalNet) - gene coexpression network building with RNAseq data
     - [Reference manual](https://github.com/julipetal/petalNet/blob/master/doc/petal.pdf)
     - [Publication](https://bmcsystbiol.biomedcentral.com/articles/10.1186/s12918-016-0298-8)
-- [Camoco](https://github.com/LinkageIO/Camoco)
+- [Camoco](https://github.com/LinkageIO/Camoco) - gene coexpression network building with GWAS functionality
     - [Manual](https://camoco.readthedocs.io/en/latest/)
     - [Publication](http://www.plantcell.org/content/30/12/2922)
 
-### <a name="7.5"></a> 7.5: Pathway Analysis
+### <a name="7.5"></a> 7.5: Pathway Analysis or Functional Enrichment
+These are not RNAseq analysis tools in themselves, but they are commonly used
+to derive insights from gene lists obtained through RNAseq analyses.
 
-### <a name="7.1"></a> 7.1: Primary Literature References
+- [ReactomePA](https://bioconductor.org/packages/release/bioc/html/ReactomePA.html) - pathway analysis
+    - [Tutorial](https://bioconductor.org/packages/release/bioc/vignettes/ReactomePA/inst/doc/ReactomePA.html)
+    - [Publication](https://pubs.rsc.org/en/Content/ArticleLanding/2016/MB/C5MB00663E#!divAbstract)
+- [clusterProfiler](http://bioconductor.org/packages/release/bioc/html/clusterProfiler.html) - GO term enrichment and pathway analysis
+    - [Tutorial](http://bioconductor.org/packages/release/bioc/vignettes/clusterProfiler/inst/doc/clusterProfiler.html)
+    - [Publication](https://www.liebertpub.com/doi/10.1089/omi.2011.0118)
+- [Gene Set Enrichment Analysis](https://www.pnas.org/content/102/43/15545)
+
+### <a name="7.6"></a> 7.6: Single-cell RNAseq
+- [Seurat](https://satijalab.org/seurat/) - clustering and alignment of single cell RNAseq profiles
+    - [Tutorials](https://satijalab.org/seurat/get_started.html)
+    - [Publication](https://www.nature.com/articles/nbt.4096)
+- [Monocle](http://cole-trapnell-lab.github.io/monocle-release/) - time course and differential expression analyses with scRNAseq
+    - [Tutorials](http://cole-trapnell-lab.github.io/monocle-release/tutorials/)
+    - [Publication](https://www.nature.com/articles/nbt.2859)
 
 [Return to top](#top)
 ## <a name="8"></a> Part 8: Feedback
@@ -714,106 +759,3 @@ tutorial delivery feedback to that address.
 
 [Return to top](#top)
 
-### <a name="6.2"></a> 6.2 Links to Analysis Guides
-Various packages exist to analyze expression data. We have chosen to use `edgeR`
-in our pipeline, but the counts matrix and group CSV are compatible with many
-others. In fact, one of the main use cases for `CHURP bulk_rnaseq` is to
-automate the generation of an expression counts matrix and metadata CSV so that
-gene expression can be analyzed in complex designs with specialized packages.
-
-[DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) is
-another popular package for analyzing RNAseq data. It uses the same negative
-binomial model of read counts as `edgeR`.
-
-The [edgeR Manual](https://www.bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf)
-also contains useful information for analyzing more complex designs.
-
-For time-series analysis, [DyNB](https://research.cs.aalto.fi/csb/software/dynb/)
-uses a Gaussian process to model temporal correlations among gene expression
-profiles in combination with the negative binomial model for expression counts.
-Additionally, [GPClust](https://github.com/SheffieldML/GPclust) can be used to
-identify modules of genes with similar expression profiles over time.
-
-[Return to top](#top)
-## <a name="7"></a> Part 7: Recommendations
-
-- [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php), click the "Pricing" tab.
-- [NextSeq and NovaSeq Internal](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_Internal_Pricing_032118_update.pdf)
-- [NextSeq and NovaSeq External](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_External_Pricing_032118_update.pdf)
-
-For a quote, you can contact the next-gen sequencing team UMGC by emailing
-<next-gen@umn.edu> with your desired read quantity, read length, and
-single/paired technology. They will prepare a quote that will be good for three
-months from the preparation date.
-
-For a full description of UMGC services and pricing, please see their
-[catalogue]({{"/materials/rnaseq_cmd/UMGC_2015-16_Catalog_Internal.pdf" | prepend: site.baseurl }}).
-Note that despite what the first page says, the prices are still current,
-as of November 2018. **The UMGC is updating their pricing schedule, however,
-so prices are subject to change in the next six months.**
-
-[Return to top](#top)
-#### <a name="7.2.2"></a> 7.2.2: Expected Turnaround Time
-The standard turnaround time for RNAseq projects at the UMGC is 6-8 weeks,
-assuming the libraries pass QC and there are no complications with the reagents
-or the instruments. For faster turnaround, you may request to use the NextSeq,
-which is a single lane, rather than a shared cell like with the other
-instruments.
-
-[Return to top](#top
-
-[Return to top](#top)
-### <a name="8.1"></a> 8.1 Coexpression
-The gist of a coexpression analysis is that it identifies modules of genes that
-have similar expression profiles. That is, genes that are either expressed under
-the same conditions or are expressed in the same tissues. A popular package for
-coexpression is **W**eighted **G**ene **C**orrelation **N**etwork **A**nalysis
-(WGCNA). This package will identify groups of genes that have high correlations
-within groups, and low correlations between groups, which can identify groups
-of genes that respond to experimental conditions or developmental time points.
-
-If you choose to use WGCNA, be sure to input the normalized counts, rather
-than the raw counts.
-
-[Link to WGCNA manual](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/)
-
-[Return to top](#top)
-### <a name="8.2"></a> 8.2 Transcriptome Assembly
-You can use RNAseq to assemble putative transcript sequences from your organism
-of choice. A popular tool for assembling transcriptome sequences from short
-reads is Trinity. Trinity also has some capability of identifying isoforms of
-the same gene, but short reads inherently have little information about which
-isoform was sequenced.
-
-If you choose to use Trinity, be sure to sequence multiple libraries from the
-same organism. Combining libraries from multiple tissues, developmental
-time points, or experimental conditions is also beneficial, because you can
-capture as broad a transcriptome as possible. Trinity also has very high runtime
-and memory requirements. Filtering reads from contaminant organisms or
-ribosomal sequences may help save on computational time.
-
-[Link to Trinity manual](https://github.com/trinityrnaseq/trinityrnaseq/wiki)
-
-[Return to top](#top)
-### <a name="8.3"></a> 8.3 Variant Discovery
-Despite the increasing accessibility of genomics technologies, the practical
-cost of genome sequencing and assembly is still very high. In the cases where
-a reference genome assembly is not available for an organism, a reference
-transcriptome may suffice. The "gene space" of many eukaryotic organisms does
-not vary on the same orders of magnitude as the whole genome. In many cases,
-transcribed regions of the genome are the regions of interest and direct
-interpretability because variants discovered in transcripts have higher
-potential to have direct effects on peptide sequences, and thus organismal
-development, physiology, and behavior. Alternately, RNAseq may be a more
-affordable way to sequence a broad sample of an organism, if sequence capture
-is not feasible.
-
-If you are discovering variants with only a reference transcriptome, then you
-can follow very similar approaches to variant discovery in DNAseq techniques.
-If you are using a reference genome, then you must account for alignments that
-span intron-exon boundaries. 
-
-The Broad Institute maintains a guide on the best practices for variant
-discovery in RNAseq [here](https://gatkforums.broadinstitute.org/gatk/discussion/4067/best-practices-for-variant-discovery-in-rnaseq).
-
-[Return to top](#top)
