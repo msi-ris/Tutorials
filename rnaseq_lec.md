@@ -589,8 +589,6 @@ used in an analysis. Always check for agreement!
 </div>
 
 [Return to top](#top)
-
-[Return to top](#top)
 ## <a name="4"></a> Part 4: Long Reads
 The previous sections mostly dealt with short-read technologies, however, there
 are several long-read protocols that work with transcript sequences. Long reads
@@ -644,8 +642,33 @@ This section will contain a list of common software tools, manuals, and guides
 for performing various RNAseq analyses.
 
 ### <a name="7.1"></a> 7.1: Differential Gene Expression
+- [HTseq](https://htseq.readthedocs.io/en/release_0.11.1/) - generate an expression counts matrix
+    - [Manual](https://media.readthedocs.org/pdf/htseq/master/htseq.pdf)
+    - [Tutorial](https://htseq.readthedocs.io/en/release_0.11.1/count.html)
+- [featureCounts](http://bioinf.wehi.edu.au/featureCounts/) - generate an expression counts matrix
+    - [Manual](http://bioinf.wehi.edu.au/subread-package/SubreadUsersGuide.pdf) - See section 6.2
+- [EdgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html) - differential expression testing
+    - [Manual](https://bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf)
+- [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) - differential expression testing
+    - [Tutorial](https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html)
+    - [Manual](https://bioconductor.org/packages/release/bioc/manuals/DESeq2/man/DESeq2.pdf)
+
 ### <a name="7.2"></a> 7.2: Transcriptome Assembly
+- [Trinity](https://github.com/trinityrnaseq/trinityrnaseq)
+    - [Wiki](https://github.com/trinityrnaseq/trinityrnaseq/wiki)
+    - [Short example](https://github.com/trinityrnaseq/trinityrnaseq/wiki/Running-Trinity)
+- [rnaSPAdes](http://cab.spbu.ru/software/spades/)
+    - [Manual](http://cab.spbu.ru/files/release3.13.0/rnaspades_manual.html)
+
+For assembly evaluation for completeness/quality:
+
+- [BUSCO](https://busco.ezlab.org/)
+- [DETONATE](http://deweylab.biostat.wisc.edu/detonate/)
+
 #### Long-read Transcriptome Assembly
+- [IsoSeq 3](https://github.com/PacificBiosciences/IsoSeq_SA3nUP/wiki)
+
+
 ### <a name="7.3"></a> 7.3: Variant Detection
 ### <a name="7.4"></a> 7.4: Coexpression Network
 ### <a name="7.5"></a> 7.5: Pathway Analysis
