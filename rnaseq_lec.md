@@ -14,8 +14,6 @@ delivered: NA
 
 </div>
 
-# This Tutorial Is Under Construction!
-
 # <a name="top"></a> {{page.title}}
 *Last Updated: {{page.updated}}*  
 *Last Delivered: {{page.delivered}}*
@@ -59,7 +57,9 @@ RNAseq is a technique that uses high-throughput sequencing technologies to
 assay the *transcriptome*, or the transcribed portions of a genome. Which parts
 of the genome are transcribed depends on many factors, including biotic or
 abiotic stressors, organ or tissue type, developmental stage, and genotype of
-the samples. RNAseq data can be used to assemble transcript sequences, detect
+the samples. However, the transcriptome size is much smaller than the genome
+size, which allows researchers to sample many more individuals with a limited
+budget. RNAseq data can be used to assemble transcript sequences, detect
 alternative splicing events, or test for differential expression across a set
 of conditions. Because RNAseq data is sequence-based, it can even be used to
 identify genetic polymorphisms, with the caveat that they will only be found
@@ -457,107 +457,138 @@ systems where there are very few genomic resources available.
 
 </div>
 
+### <a name="3.2"></a> File Formats
+RNAseq is a genomics analysis, meaning it uses a suite of (mostly) standardized
+genomics file formats. There are some important considerations with some of the
+file formats, however, because they tend to have variable formats. This is a
+known issue in genomics, and the field is still settling on a standard way to
+represent some data, like gene annotation data for example.
 
-- FASTA
+#### FASTA
+Holds sequence information, without any associated quality information. The
+FASTA format has a sequence name, denoted with `>` followed by the name of the
+sequence. The next line(s) have the sequences. The file may have one or more
+sequence records.
 
-    Holds sequence information, without any associated quality information. The
-    FASTA format has a sequence name, denoted with `>` followed by the name of
-    the sequence. The next line(s) have the sequences. The file may have one or
-    more sequence records.
+```
+>Sequence 1
+ATCGA...
+>Sequence 2
+GGTAC...
+```
 
-    ```
-    >Sequence 1
-    ATCGA...
-    >Sequence 2
-    GGTAC...
-    ```
+Reference sequences are generally stored in the FASTA format.
 
-    Reference sequences are generally stored in the FASTA format.
-- FASTQ
+#### FASTQ
+Holds sequence information with associated quality scores. Each FASTQ record has
+four lines: a name, a nucleotide sequence, a comment, and a quality string. The
+name starts with `@` and the comment starts with `+`. The quality scores are
+stored as ASCII characters, treating each character's decimal value as the
+quality score (with a +33 offset\*). You will not have to read a FASTQ
+directly; the alignment programs will understand them. Quality is defined as
+-log10(P that the base is called incorrectly), which is the Phred scale used in
+Sanger sequencing traces.
 
-    Holds sequence information with associated quality scores. Each FASTQ record
-    has four lines: a name, a nucleotide sequence, a comment, and a quality
-    string. The name starts with `@` and the comment starts with `+`. The
-    quality scores are stored as ASCII characters, treating each character's
-    decimal value as the quality score (with a +33 offset\*). You will not have
-    to read a FASTQ directly - the alignment programs will understand them.
-    Quality is defined as -log10(P that the base is called incorrectly), which
-    is the Phred scale used in Sanger sequencing traces.
+\*: Note that older FASTQ files may have a +64 offset. The most common quality
+control programs will auto-detect the ASCII offset and report it to you so that
+you will know how to tune your workflows in subsequent steps.
 
-    \*: Note that older FASTQ files may have a +64 offset. The quality control
-    program we will use in this tutorial will make an educated guess as to the
-    proper offset.
+```
+@D00635:256:CB8P5ANXX:1:1108:2215:2225 1:N:0:ATTACTCG+TATAGCCT
+GCGCTAAAGCAGTGATTAGAGGGAAATTTATAGCACCAAATGCCCACAGAA
++
+@B=BBGGGGCBDDC@GGEGGGGGGGGGGGGGFGGGEGGGGGGGGGGGGG>D
+@D00635:256:CB8P5ANXX:1:1108:2547:2188 1:N:0:ATTACTCG+TATAGCCT
+CCGCACATCACAAACGTGATTCTGCGAATGCTTCTGACTAGTTTTTGTCGG
++
+BBBCCEGGGCGGGGGGGGGGGGCGGGGGGGGGGGGGGGGG>F>F>GGGGGG
+```
 
-    ```
-    @D00635:256:CB8P5ANXX:1:1108:2215:2225 1:N:0:ATTACTCG+TATAGCCT
-    GCGCTAAAGCAGTGATTAGAGGGAAATTTATAGCACCAAATGCCCACAGAA
-    +
-    @B=BBGGGGCBDDC@GGEGGGGGGGGGGGGGFGGGEGGGGGGGGGGGGG>D
-    @D00635:256:CB8P5ANXX:1:1108:2547:2188 1:N:0:ATTACTCG+TATAGCCT
-    CCGCACATCACAAACGTGATTCTGCGAATGCTTCTGACTAGTTTTTGTCGG
-    +
-    BBBCCEGGGCGGGGGGGGGGGGCGGGGGGGGGGGGGGGGG>F>F>GGGGGG
-    ```
+Reads from the sequencing instrument are generally stored in the FASTQ format.
 
-    Reads from the sequencing instrument are generally stored in the FASTQ
-    format.
-- SAM/BAM
+#### SAM/BAM
 
-    Holds alignment information. While sequence alignments can technically be
-    stored in FASTA format, it is very inefficient for genomics datasets.
-    Additionally, genomics alignments tend to be a series of pairwise alignments
-    to a reference sequence, and not a multiple sequence alignment.
+Holds alignment information. While sequence alignments can technically be stored
+in FASTA format, it is very inefficient for genomics datasets. Additionally,
+genomics alignments tend to be a series of pairwise alignments to a reference
+sequence, and not a multiple sequence alignment.
 
-    A SAM (**S**equence **A**lignment/**M**ap) file stores position, read
-    sequence, mismatch information, and alignment confidence scores, among other
-    information. A BAM file is a binary representation of a SAM file, which is
-    machine-readable and much smaller on disk. You generally will not have to
-    parse a SAM/BAM file on your own; most of the tools you will encounter will
-    know how to perform operations on them.
+A SAM (**S**equence **A**lignment/**M**ap) file stores position, read sequence,
+mismatch information, and alignment confidence scores, among other information.
+A BAM file is a binary representation of a SAM file, which is machine-readable
+and much smaller on disk. You generally will not have to parse a SAM/BAM file on
+your own; most of the tools you will encounter will know how to perform
+operations on them.
 
-    ```
-    @HD VN:1.6 SO:coordinate
-    @SQ SN:ref LN:45
-    r001 99   ref 7  30 8M2I4M1D3M = 37 39  TTAGATAAAGGATACTG *
-    r002 0    ref 9  30 3S6M1P1I4M * 0  0   AAAAGATAAGGATA    *
-    r003 0    ref 9  30 5S6M       * 0  0   GCCTAAGCTAA       * SA:Z:ref,29,-,6H5M,17,0;
-    r004 0    ref 16 30 6M14N5M    * 0  0   ATAGCTTCAGC       *
-    r003 2064 ref 29 17 6H5M       * 0  0   TAGGC             * SA:Z:ref,9,+,5S6M,30,1;
-    r001 147  ref 37 30 9M         = 7  -39 CAGCGGCAT         * NM:i:1
-    ```
+```
+@HD VN:1.6 SO:coordinate
+@SQ SN:ref LN:45
+r001 99   ref 7  30 8M2I4M1D3M = 37 39  TTAGATAAAGGATACTG *
+r002 0    ref 9  30 3S6M1P1I4M * 0  0   AAAAGATAAGGATA    *
+r003 0    ref 9  30 5S6M       * 0  0   GCCTAAGCTAA       * SA:Z:ref,29,-,6H5M,17,0;
+r004 0    ref 16 30 6M14N5M    * 0  0   ATAGCTTCAGC       *
+r003 2064 ref 29 17 6H5M       * 0  0   TAGGC             * SA:Z:ref,9,+,5S6M,30,1;
+r001 147  ref 37 30 9M         = 7  -39 CAGCGGCAT         * NM:i:1
+```
 
-    A link to the SAM/BAM specification is [here](https://samtools.github.io/hts-specs/SAMv1.pdf).
-- GTF/GFF (GFF3)
+A link to the SAM/BAM specification is [here](https://samtools.github.io/hts-specs/SAMv1.pdf).
 
-    Holds genomic feature annotations, like gene models. These formats are
-    somewhat loosely defined, but files from databases such as NCBI or
-    Ensembl should be handled well by genomics analysis programs. The
-    information stored in a GTF or GFF includes each feature's boundaries,
-    type (gene, CDS, TF binding site, etc), strand, name, and any parent/child
-    relationships. For example, a `mRNA` feature may be the child of a `gene`
-    feature, and may have several `CDS` and `exon` children features.
+#### GTF/GFF (GFF3)
 
-    The GFF and GTF specifications can be found [here](https://useast.ensembl.org/info/website/upload/gff.html).
+Holds genomic feature annotations, like gene models. These formats are somewhat
+loosely defined, but files from databases such as NCBI or Ensembl should be
+handled well by genomics analysis programs. The information stored in a GTF or
+GFF includes each feature's boundaries, type (gene, CDS, TF binding site, etc),
+strand, name, and any parent/child relationships. For example, a `mRNA` feature
+may be the child of a `gene` feature, and may have several `CDS` and `exon`
+children features.
+
+The GFF and GTF specifications can be found [here](https://useast.ensembl.org/info/website/upload/gff.html).
+
+<div class="warn" markdown="1">
+
+GFF and GTF files are the formats that I parse "by hand" the most often. GTF or
+GFF files from different sources will often contain different information in
+them, so it is important to record the source and date of your annotation file.
+Additionally, different sources encode the genomic coordinates in different
+ways, for example, one source may call chromosome 1 `chr1` and another may just
+call it `1`. Chromosome ordering may also differ between sources. These
+mismatches must be addressed before a given reference FASTA and GTF/GFF can be
+used in an analysis. Always check for agreement!
+
+</div>
 
 [Return to top](#top)
 
-### <a name="1.3"></a> 1.3: Overall Workflow
-Here is a schematic of the workflow that we will follow for this tutorial. The
-pieces of data are shown in rectangles, and the software are shown in rounded
-bubbles with dashed borders. The final output is shown in red.
+## <a name="4"></a> Part 4: Long Reads
+The previous sections mostly dealt with short-read technologies, however, there
+are several long-read protocols that work with transcript sequences. Long reads
+have the advantage that they can query an entire transcript at once, which
+allows researchers to resolve isoforms of a single gene. Further, the
+technologies are able to assay single molecules, which reduces the need to
+amplify a library (which adds bias). For transcriptome assembly, long reads
+greatly reduce the effort required to generate a reference transcriptome,
+because many reads will be complete reads of a transcript. However, the RNA
+extraction protocols and library preparation protocols for long-read sequencing
+are much more expensive and specialized.
 
-![Workflow]({{ "/graphics/rnaseq_cmd/workflow.png" | prepend: site.baseurl }})
+The analytical workflows for long-read RNAseq are quite different from the ones
+sketched in the previous sections. To analyze these data, you will need to
+develop a custom workflow for your data. Pacific Biosciences maintains a
+[landing page](https://github.com/PacificBiosciences/IsoSeq3) for their isoform
+sequencing protocol ("IsoSeq") with information about the nature of the data
+and how to analyze it. They also maintain a [wiki](https://github.com/PacificBiosciences/IsoSeq_SA3nUP/wiki)
+that gives a detailed workflow, including an example analysis.
 
-The steps of the workflow are as follows:
+<div class="warn" markdown="1">
 
-1. Summarize read quality
-2. Clean reads for low-quality bases and adapter contaminants
-3. Map reads to genome
-4. Count reads within genes
-5. Filter counts for genes with low expression
-6. Test for differential expression
+Pacific Biosciences tools are not fully functional on MSI systems just yet. The
+graphical analysis portal is not compatible with our scheduler, and requires
+a lot of hacking to get it to work. The command line utilities mostly work.
+Contact <help@msi.umn.edu> if you need assistance with Pacific Biosciences data
+analysis.
 
-[Return to top](#top)
+</div>
 
 ### <a name="6.2"></a> 6.2 Links to Analysis Guides
 Various packages exist to analyze expression data. We have chosen to use `edgeR`
