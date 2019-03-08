@@ -1719,106 +1719,11 @@ factors, because they may end up explaining a large portion of the variance in
 observed gene expression.
 
 [Return to top](#top)
-### <a name="6.2"></a> 6.2 Links to Analysis Guides
-Various packages exist to analyze expression data. We have chosen to use `edgeR`
-in our pipeline, but the counts matrix and group CSV are compatible with many
-others. In fact, one of the main use cases for `CHURP bulk_rnaseq` is to
-automate the generation of an expression counts matrix and metadata CSV so that
-gene expression can be analyzed in complex designs with specialized packages.
-
-[DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) is
-another popular package for analyzing RNAseq data. It uses the same negative
-binomial model of read counts as `edgeR`.
-
-The [edgeR Manual](https://www.bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf)
-also contains useful information for analyzing more complex designs.
-
-For time-series analysis, [DyNB](https://research.cs.aalto.fi/csb/software/dynb/)
-uses a Gaussian process to model temporal correlations among gene expression
-profiles in combination with the negative binomial model for expression counts.
-Additionally, [GPClust](https://github.com/SheffieldML/GPclust) can be used to
-identify modules of genes with similar expression profiles over time.
-
-[Return to top](#top)
-## <a name="7"></a> Part 7: Recommendations
-### <a name="7.1"></a> 7.1: General Considerations for Experimental Design
-In reference to the warnings given above, it is important to design powerful
-experiments and keep detailed notes on your samples. Your experiments should
-have a clear control for each experimental treatment. Your null hypothesis
-should be clearly defined, and you should have an expectation for the difference
-between your experimental conditions. Your samples should be randomized across
-technical variables (like extraction batch) whenever possible. Strong
-informatics skills and a clever analytical workflow cannot make meaningful
-results from an underpowered experiment. However, empirical scientific research
-is about balancing insight and practical limitations. A good analytical workflow
-can help make sure that you get the most value out of your data.
-
-[Return to top](#top)
-### <a name="7.2"></a> 7.2: How Much Sequence Data to Collect
-For differential gene expression analyses in most animals or plants, we
-recommend a minimum of 20 million reads per sample. For simpler eukaryotes
-(e.g., nematodes or yeast), 10 million reads per sample may suffice. You should
-have at least three biological replicates (i.e., samples from three different
-individuals or clonal pools) per experimental condition, if possible. There are
-cases where three replicates is excessive, such as high-resolution time series
-analyses, so use your best judgment.
-
-The UMGC recommends 50bp paired-end sequencing technology for differential
-gene expression analysis. For isoform-level expression or alternative splicing
-analysis, they recommend at least 125bp paired-end technology. It is possible
-to use single-end reads for differential gene expression, but it is not a widely
-requested technology, and it may take longer to move through the queue.
-
-The ENCODE project maintains [guidelines for RNAseq experiments](https://www.encodeproject.org/documents/cede0cbe-d324-4ce7-ace4-f0c3eddf5972/@@download/attachment/ENCODE%20Best%20Practices%20for%20RNA_v2.pdf) that may be helpful.
-You may also refer to [this page from Genohub](https://genohub.com/recommended-sequencing-coverage-by-application/)
-that lists recommendations for coverage for a variety of applications.
-
-If you are assembling a transcriptome, you should plan to collect at least 40
-to 50 million reads per sample. Collecting reads from multiple tissues,
-developmental time points, or experimental treatments is beneficial because
-many more transcripts are potentially represented than in any individual
-library.
-
-You may view information about the HiSeq2500, NextSeq, and NovaSeq that the UMGC
-operates at the following links:
-
-- [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php)
-- [NextSeq](http://genomics.umn.edu/nextgen-nextseq.php)
-- [NovaSeq](http://genomics.umn.edu/nextgen-novaseq.php)
-
-[Return to top](#top)
-#### <a name="7.2.1"></a> 7.2.1: UMGC Pricing
-Pricing depends on the instrument that you are requesting, the output mode
-that is being used, and whether your appointment is internal or external to the
-University of Minnesota. The pricing guides for the HiSeq2500, NextSeq, and
-NovaSeq at the UMGC are linked below:
-
-- [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php), click the "Pricing" tab.
-- [NextSeq and NovaSeq Internal](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_Internal_Pricing_032118_update.pdf)
-- [NextSeq and NovaSeq External](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_External_Pricing_032118_update.pdf)
-
-For a quote, you can contact the next-gen sequencing team UMGC by emailing
-<next-gen@umn.edu> with your desired read quantity, read length, and
-single/paired technology. They will prepare a quote that will be good for three
-months from the preparation date.
-
-For a full description of UMGC services and pricing, please see their
-[catalogue]({{"/materials/rnaseq_cmd/UMGC_2015-16_Catalog_Internal.pdf" | prepend: site.baseurl }}).
-Note that despite what the first page says, the prices are still current,
-as of November 2018. **The UMGC is updating their pricing schedule, however,
-so prices are subject to change in the next six months.**
-
-[Return to top](#top)
-#### <a name="7.2.2"></a> 7.2.2: Expected Turnaround Time
-The standard turnaround time for RNAseq projects at the UMGC is 6-8 weeks,
-assuming the libraries pass QC and there are no complications with the reagents
-or the instruments. For faster turnaround, you may request to use the NextSeq,
-which is a single lane, rather than a shared cell like with the other
-instruments.
-
-[Return to top](#top)
-### <a name="7.3"></a> 7.3: Analytical Workflow Considerations
-There are a few additional concerns for RNAseq experiments:
+## <a name="7"></a> Part 7: Developing Your own Workflow
+We provide our in-house bulk RNAseq analysis pipeline as a convenience for
+researchers who are processing many bulk RNAseq datasets. However, you may be
+interested in developing your workflow. If you do, there are some concerns that
+you must keep in mind:
 
 1. Be careful with data from public sources
 2. Use "best in class" software
@@ -1854,70 +1759,7 @@ fluorescence-based signal, rather than a counts-based signal. Be sure that the
 package you are using can handle RNAseq data before applying it.
 
 [Return to top](#top)
-## <a name="8"></a> Part 8: Other RNASeq Applications
-Finally, differential expression analysis is only a small set of what is
-possible with RNAseq data. Other types of analysis include co-expression
-analysis, transcriptome assembly and isoform discovery, and variant discovery
-in the absence of a reference genome.
-
-[Return to top](#top)
-### <a name="8.1"></a> 8.1 Coexpression
-The gist of a coexpression analysis is that it identifies modules of genes that
-have similar expression profiles. That is, genes that are either expressed under
-the same conditions or are expressed in the same tissues. A popular package for
-coexpression is **W**eighted **G**ene **C**orrelation **N**etwork **A**nalysis
-(WGCNA). This package will identify groups of genes that have high correlations
-within groups, and low correlations between groups, which can identify groups
-of genes that respond to experimental conditions or developmental time points.
-
-If you choose to use WGCNA, be sure to input the normalized counts, rather
-than the raw counts.
-
-[Link to WGCNA manual](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/)
-
-[Return to top](#top)
-### <a name="8.2"></a> 8.2 Transcriptome Assembly
-You can use RNAseq to assemble putative transcript sequences from your organism
-of choice. A popular tool for assembling transcriptome sequences from short
-reads is Trinity. Trinity also has some capability of identifying isoforms of
-the same gene, but short reads inherently have little information about which
-isoform was sequenced.
-
-If you choose to use Trinity, be sure to sequence multiple libraries from the
-same organism. Combining libraries from multiple tissues, developmental
-time points, or experimental conditions is also beneficial, because you can
-capture as broad a transcriptome as possible. Trinity also has very high runtime
-and memory requirements. Filtering reads from contaminant organisms or
-ribosomal sequences may help save on computational time.
-
-[Link to Trinity manual](https://github.com/trinityrnaseq/trinityrnaseq/wiki)
-
-[Return to top](#top)
-### <a name="8.3"></a> 8.3 Variant Discovery
-Despite the increasing accessibility of genomics technologies, the practical
-cost of genome sequencing and assembly is still very high. In the cases where
-a reference genome assembly is not available for an organism, a reference
-transcriptome may suffice. The "gene space" of many eukaryotic organisms does
-not vary on the same orders of magnitude as the whole genome. In many cases,
-transcribed regions of the genome are the regions of interest and direct
-interpretability because variants discovered in transcripts have higher
-potential to have direct effects on peptide sequences, and thus organismal
-development, physiology, and behavior. Alternately, RNAseq may be a more
-affordable way to sequence a broad sample of an organism, if sequence capture
-is not feasible.
-
-If you are discovering variants with only a reference transcriptome, then you
-can follow very similar approaches to variant discovery in DNAseq techniques.
-If you are using a reference genome, then you must account for alignments that
-span intron-exon boundaries. 
-
-The Broad Institute maintains a guide on the best practices for variant
-discovery in RNAseq [here](https://gatkforums.broadinstitute.org/gatk/discussion/4067/best-practices-for-variant-discovery-in-rnaseq).
-
-</div>
-
-[Return to top](#top)
-## Part 9: Feedback
+## Part 8: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
 tutorial delivery feedback to that address.
