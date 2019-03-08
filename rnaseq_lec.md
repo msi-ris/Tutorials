@@ -27,7 +27,7 @@ pieces of information.
 
 <div class="warn" markdown="1">
 
-This is a warning. Common pitfalls, cautionary inforation, and important points
+This is a warning. Common pitfalls, cautionary information, and important points
 to consider will appear like this.
 
 </div>
@@ -215,8 +215,9 @@ simply cannot be replicated across treatments.
 #### Matched Pair Design
 This design is only applicable when there are exactly two treatments that are to
 be compared and the individuals in the experiment can be grouped into pairs. For
-example, a researcher may be interested in the effect of a drug compound and
-takes a sample before treatment and a sample after treatment.
+example, a researcher may be interested in the effect of a compound on two
+different tissues from the same patient, or the effect of a drug on cancerous
+and non-cancerous tissue from the same person.
 
 ![Matched Pair Experiment]({{ "/graphics/rnaseq_lec/paired_exp.png" | prepend: site.baseurl }})
 
@@ -348,10 +349,29 @@ on a flowcell to reduce lane-specific effects from being perfectly confounded
 with sample ID. However, if you have your material sequenced at a different
 facility, this may not be the case. Keep track of this information!
 
-### <a name="1.2"></a> 1.2: Common Genomics File Formats
-RNASeq, being a genomics technique, uses standard file formats for genomics
-analysis. This is not an exhaustive list, but should introduce the file types
-that we will use in this tutorial.
+Ideally, you would also make this metadata available when you publish your
+dataset. This greatly improves reproducibility and aids in analyzing datasets
+from multiple sources.
+
+## <a name="3"></a> Part 3: Analytical Workflow and File Formats
+This section will deal more specifically with what the analytical side of RNAseq
+projects look like. We will not be covering *how* to do the analyses in detail
+in this section, but we will cover what the overall analysis strategy is and
+what file formats are involved.
+
+### <a name="3.1"></a> 3.1: Overall Workflows
+The overall workflow of RNAseq analysis will depend on your goals: a workflow
+for transcriptome assembly will look slightly different from a workflow for
+differential gene expression analysis. We will sketch workflows for common
+types of RNAseq analysis below. Depending on the idiosyncrasies of your data
+and research system, your workflow may deviate slightly from the sketches we
+show below.
+
+#### Differential Gene Expression (DGE) Analysis
+The goal of this type of analysis is to identify genes that significantly change
+in expression level in response to some condition or treatment. It generally
+requires *at least* three biological replicates per condition. This includes
+combinations of conditions if you are testing in a factorial experiment.
 
 - FASTA
 
