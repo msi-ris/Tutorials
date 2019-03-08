@@ -1759,6 +1759,9 @@ fluorescence-based signal, rather than a counts-based signal. Be sure that the
 package you are using can handle RNAseq data before applying it.
 
 [Return to top](#top)
+
+</div>
+
 ## Part 8: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
