@@ -1,7 +1,7 @@
 ---
 layout: default
 title: RNASeq Analysis With the Command Line
-permalink: /rnaseq_cmd_beta/
+permalink: /rnaseq_cmd/
 exclude: false
 updated: 2019-03-14
 delivered: 2018-12-04
