@@ -43,9 +43,8 @@ to illustrate file formats.
 [Return to top](#top)
 ### <a name="0.2"></a> 0.2: Goals
 - Learn how RNAseq techniques can be applied to your research program
+- Learn several basic experimental designs for RNAseq projects
 - Become familiar with several core file formats of genomics
-- Learn the basic steps of RNASeq data analysis, including read mapping,
-  expression counts, and testing for differential expression
 
 [Return to top](#top)
 ### <a name="0.3"></a> 0.3: Scope of the Tutorial

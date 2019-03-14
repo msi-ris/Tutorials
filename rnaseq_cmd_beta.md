@@ -376,10 +376,10 @@ of this directory, too:
 
 ![ls]({{ "/graphics/rnaseq_cmd/ls_churp.png" | prepend: site.baseurl }})
 
-It has just one directory, `0.0.1`. Let's `cd` into there and list the contents
-again with `ls`:
+It has two directories, `0.0.1` and `0.1.0`. Let's `cd` into `0.1.0` and list
+contents again with `ls`:
 
-![ls]({{ "/graphics/rnaseq_cmd/ls_churp_0.0.1.png" | prepend: site.baseurl }})
+![ls]({{ "/graphics/rnaseq_cmd/ls_churp_0.1.0.png" | prepend: site.baseurl }})
 
 There are a lot more files and directories inside here. The blue names are
 other directories, the white names are regular files, and the green name
