@@ -1,9 +1,9 @@
 ---
 layout: default
 title: RNASeq Analysis With the Command Line
-permalink: /rnaseq_cmd/
+permalink: /rnaseq_cmd_beta/
 exclude: false
-updated: 2018-12-06
+updated: 2019-03-14
 delivered: 2018-12-04
 ---
 
@@ -58,11 +58,24 @@ delivered: 2018-12-04
 
 </div>
 
+<div class="printonly" markdown="1">
+
+Please see <http://z.umn.edu/ris-rnaseq/> for the latest version of this
+tutorial document!
+
+</div>
+
+
 # <a name="top"></a> {{page.title}}
 *Last Updated: {{page.updated}}*  
 *Last Delivered: {{page.delivered}}*
 
 ## <a name="0"></a>Part 0: Introduction
+This is a two-part tutorial. The first part will take approximately 50 minutes
+and will cover an introduction to using the command line on MSI systems. The
+second part will take approximately one hour and will cover how to use CHURP
+to analyze bulk RNAseq data.
+
 ### <a name="0.1"></a>0.1 Formatting in This Document
 Throughout this tutorial, there will be formatting cues to highlight various
 pieces of information.
@@ -77,7 +90,7 @@ raise in the tutorial will appear like this.
 
 <div class="warn" markdown="1">
 
-This is a warning. Common pitfalls, cautionary inforation, and important points
+This is a warning. Common pitfalls, cautionary information, and important points
 to consider will appear like this.
 
 </div>
@@ -86,6 +99,15 @@ to consider will appear like this.
 This is code, or a literal value that you must enter or select to run a part
 of the tutorial
 ```
+
+<details markdown="1">
+<summary>These boxes contain detailed information. Click on them to expand them</summary>
+
+When you click on these boxes, you will get a detailed view into a supplemental
+topic. The information in these boxes will be useful for advanced usage outside
+of the tutorial. We encourage you to read these!
+
+</details>
 
 Commands that are to be entered on the command-line will begin with `%`. Do not
 re-enter the `%` character when you type the commands into your prompt.
@@ -102,6 +124,12 @@ re-enter the `%` character when you type the commands into your prompt.
 
 [Return to top](#top)
 ### <a name="0.3"></a> 0.3: Scope of the Tutorial
+This tutorial includes a primer for the Linux command line (Bash shell). We will
+cover the structure of a command, basic directory and file organization, and
+cover examples of how to run common commands. There is a supplementary section
+that contains links to various other command line utilities for bioinformatics
+analysis and some less common but still useful Linux commands.
+
 This tutorial will only cover differential gene expression analysis of
 **bulk RNAseq** of mRNA. We will not cover single cell RNAseq analysis or small
 RNA sequencing analysis. We will also not cover coexpression analysis or
@@ -115,320 +143,491 @@ tutorial for details on how to create workflows with Galaxy that will let you
 run similar analyses that we will cover here.
 
 [Return to top](#top)
-### <a name="0.4"></a> 0.4: Required Software
-You will need the following pieces of software to be installed on your local
-computer to follow along with the tutorial.
 
-- Terminal emulator
-    - For Windows, use PuTTY (<https://www.putty.org/>).
-        - Setup instructions [here](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
-    - For Mac, use Terminal, which is built-in.
-        - Go to Applications>Utilities>Terminal.app
-    - For Linux workstations in the MSI computer lab, go to
-      Applications>System Tools>Terminal. The Applications menu is in the
-      top-left of the desktop screen.
-        - For personal Linux workstations, please refer to your distribution/desktop notes
-- File transfer client
-    - We recommend FileZilla (<https://filezilla-project.org/>) because it is
-      reasonably powerful and easy to use.
-    - Be sure to download the **client** program, and not the server program.
-    - Setup instructions [here](https://www.msi.umn.edu/support/faq/how-do-i-use-filezilla-transfer-data).
+## <a name="1"></a> Part 1: Introduction to the Command Line
+### <a name="1.1"></a> 1.1: What is a Shell?
+Generally speaking, a "shell" is a user interface that allows someone to
+interact with an operating system. Shells can either be *graphical* or *textual*
+in nature. The Microsoft Windows interface or the GNOME desktops that are
+running on the workstations in the SDVL are examples of a graphical shell
+interface. The main way we will be interacting through MSI systems is through a
+command line shell interface.
 
-The software required for the actual RNASeq analysis is already installed on MSI
-systems. We will show you how to access the analysis programs in later sections.
+Learning how to use the command line interface for MSI takes some practice, but
+you will find that it can be much more powerful and fast to manipulate files
+than through the graphical shell.
 
 <div class="info" markdown="1">
 
-The software that we use for the bulk RNAseq analysis are as follows:
+<details markdown="1">
+<summary>Other graphical interfaces for MSI systems</summary>
 
-- FastQC for quality control of reads
-- Trimmomatic for quality and adapter trimming
-- HISAT2 for read mapping
-- SAMTools for sorting and filtering
-- Picard Tools for insert size metric calculation
-- featureCounts (from subread) for generating expression counts
-- edgeR (in R) for differential expression testing
-- Rmarkdown (in R) for report generation
+This tutorial will cover using the command line interface to interact with MSI
+systems, but we do offer several graphical routes to use the compute resources
+that we have available. One is [NX NoMachine](https://www.msi.umn.edu/support/faq/how-do-i-get-started-nx)
+which will give you a "remote desktop" on the server.
+
+We also offer the [Galaxy](https://www.msi.umn.edu/content/galaxy) environment
+for running analytical workflows without the command line. Galaxy is a
+completely different paradigm than described here. We do offer a tutorial on
+[Illumina Data QC With Galaxy](https://pages.github.umn.edu/MSI-RIS/Tutorials/illumina_galaxy)
+which will acquaint you with the environment.
+
+</details>
 
 </div>
 
-You will not be required to call any of these programs directly for the
-tutorial, but if you would like to implement the same pipeline outside of MSI,
-you will need those tools available.
+### <a name="1.2"></a> 1.2: Accessing a Command Line on MSI
+The computer you are using at the moment will determine how you connect to MSI
+systems. Here are the common ways users access a command line interface on our
+servers:
 
-[Return to top](#top)
+- **Linux Workstations in SDVL:**
 
-### <a name="0.5"></a> 0.5: Accessing MSI
-We will now log in to MSI systems. The first host we will access is called the
-`login` node.
+   Click the menu icon on the top left of the screen, then hover over
+   "Applications," then "System Tools," and then click on "Terminal."
+
+- **Personal Linux Laptop:**
+
+   Run your preferred terminal emulator application. Unfortunately, the name and
+   location of the application varies by distribution and version. The most
+   common distributions of Linux will have a similar layout to the SDVL
+   workstations.
+
+- **Mac OS X Laptop:**
+
+   Hold the `command` and `shift` keys and press the `a` key to open the
+   Applications folder. Open the "Utilities" folder, and double-click 
+   on "Terminal." You must first click on a Finder window or the desktop window
+   before the keyboard shortcut will work.
+
+- **Windows Laptop:**
+
+   You will need to install additional software to use a command line interface.
+   The software that MSI recommends is called PuTTY, and is available for
+   download [here](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+   MSI maintains a [setup guide for PuTTY](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
+
+   <div class="info" markdown="1">
+
+   For Windows 10 machines, the [Bash subsystem](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+   should allow you to run a terminal emulator and connect to MSI systems
+   without the PuTTY application. Similar to the Linux laptop case, the way to
+   launch a terminal emulator application will depend on which distribution you
+   choose to install.
+
+For PuTTY users, the process for connecting to MSI servers is somewhat different
+than for the other methods. Please follow the instructions in the
+[MSI PuTTY guide](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems)
+to connect.
+
+For the other methods, follow these instructions:
+
+1. Type `ssh YOUR_InternetID@login.msi.umn.edu` into the command prompt window,
+   then press the `Enter` key. Replace the `YOUR_InternetID` placeholder text
+   with your actual UMN Internet ID.
+
+   ![SSH]({{ "/graphics/rnaseq_cmd/ssh.png" | prepend: site.baseurl }})
+
+2. Enter your password at the prompt. Note that you will not see your password
+   as you type it (not even stars). Press `Enter` when you have finished
+   typing your password. If you have successfully entered it, you will see a
+   window that looks like the one below. If you did not enter the password
+   properly, it will just ask you to try again.
+
+   ![Login]({{ "/graphics/rnaseq_cmd/login.png" | prepend: site.baseurl }})
+
+   <div class="warn" markdown="1">
+
+   Repeated rejections of your password could indicate a problem with your UMN
+   account. Please contact the UMN Office of Information Technology at
+   <help@umn.edu> for assistance. If your account is fully activiated and you
+   still cannot log in to MSI systems, please contact the MSI help desk at
+   <help@msi.umn.edu>.
+
+   </div>
+
+The message that prints to the screen is called the "message of the day" (MOTD)
+and confirms that you have successfully connected to MSI systems. The line at
+the bottom of the screen is called the "prompt." The block immediately after
+the prompt is the "cursor." When you type text into the terminal, it will
+appear behind (to the left of) the cursor.
+
+![Prompt]({{ "/graphics/rnaseq_cmd/prompt.png" | prepend: site.baseurl }})
+
+Before we start to issue commands, though, we will talk about the structure of
+the data on MSI servers.
+
+### <a name="1.3"></a> 1.3: Directories and Files
+Understanding files and directories is one of the key pieces of using a
+UNIX-like system (which includes MSI systems). One of the defining
+characteristics of UNIX-like systems is that "everything is a file." This means
+that everything that the computer can interact with, including input and output
+devices, is represented as a file on the filesystem. Keyboards, mice, monitors,
+hard disks, executable programs, data - these are all represented as files. You
+generally will not have to interact with the files that represent the computer
+hardware, but you will have to navigate the filesystem to find the programs that
+you want to use to analyze your data and point these programs at your data set.
+
+The image that is often used to illustrate the concept of the directory and file
+structure is a tree. In this metaphor, a directory is a branch and a file is a
+leaf. Branches can contain multiple other branches and leaves. On Windows and
+Mac OS (and other common desktop operating systems), directories are often
+called "folders," so you can think of these as interchangeable terms.
+
+![Directories]({{ "/graphics/rnaseq_cmd/Directories.png" | prepend: site.baseurl }})
+
+In the tree cartoon above, boxes represent directories or files, and indentation
+represents nesting. The text inside the boxes represents the names. The red
+box (around `/`) represents the *root* of the filesystem, and the blue box
+(around `/Users/tomkono/data.txt`) represents a *file*. The boxes in black
+are *directories*.
+
+<div class="info" markdown="1">
+
+Just like in evolutionary biology, a tree structure does not really capture
+the relatedness of directories and files. Some special types of files are
+actually links to paths in the filesystem that are very divergent from where the
+locations of the link files are, like reticulations in a phylogenetic tree.
+There is optional material later in this tutorial that will show you how to make
+links. These are very useful for making a dataset easy to find without having to
+actually copy the raw data.
+
+</div>
+
+Notice the slashes (`/`) between parts of the names - these delimit the actual
+directories that make up the full path to the file. In the case of
+`/Users/tomkono/data.txt`, you can read the name and know that the file called
+`data.txt` is located under the root (`/`), then the `Users` directory, then
+the `tomkono` directory. In UNIX terminology, this is known as the *path* to
+the file. More specifically, it is known as the *absolute path* because it
+starts at the root of the filesystem. This is the way I prefer to specify paths
+to files because there is no ambiguity as to where the file is located.
+
+A path that does not start at the root is known as a *relative path*. To really
+show the difference between absolute paths and relative paths, we will have to
+run a few commands, so we will start to do that now.
 
 <div class="warn" markdown="1">
 
-Don't run computationally intense tasks on this node. Other users will not be
-able to access the systems because the login nodes will become unresponsive.
-Doing this will result in disciplinary action, and repeats will result in
-account restrictions.
+When typing file paths, be sure to include the root slash at the beginning. A
+path of `Users/tomkono/data.txt` means something very different from the path
+`/Users/tomkono/data.txt`.
 
 </div>
 
-On Windows, open PuTTY, and follow the instructions at the PuTTY setup link
-given in the previous section. You can skip step 5, because we will just connect
-to the login node.
+### <a name="1.4"></a> 1.4: Basic Commands and Exercises
+#### <a name="1.4.1"></a> 1.4.1: The Structure of a Command
+A UNIX or Linux command consists of a *program*, *options*, and *arguments*. The
+*program* is what actually does something to a file. The *options* modify the
+behavior of the program. The *arguments* are the files on which the program
+operates. The parts of a command are separated by *spaces*, so be sure to
+include those as you follow along with the examples in the next section. A
+command is completed with the `Enter` key.
 
-For Mac or Linux users, type `ssh X.500@login.msi.umn.edu` and press enter.
-Replace the `X.500` with your UMN X.500 ID. It will most likely ask you for a
-password. Enter your UMN Internet ID password, and press enter. You won't be
-able to see the password as it's entered. If it goes well, the server will
-give you a message-of-the-day, confirming that you have successfully logged in
-to the system.
+Sometimes, as you will see in the next section, the arguments are not required.
+In cases where the argument is not required, a default value will be substituted
+in to the command. You should double-check that the program will work as
+intended with the default values before you run them.
 
-![SSH]({{ "/graphics/rnaseq_cmd/ssh.png" | prepend: site.baseurl }})
-![Login]({{ "/graphics/rnaseq_cmd/login.png" | prepend: site.baseurl }})
+<div class="warn" markdown="1">
 
-[Return to top](#top)
+Note that mouse support is very limited in most terminal programs. You can
+highlight and copy text with the mouse, but you must use the arrow keys to
+move the cursor around. The `left` and `right` arrow keys will move you
+backward and forward within the current command, and the `up` and `down` arrow
+keys will move you earlier and later in the *command history*.
 
-#### 0.5.1: Common Commands
-Throughout this tutorial, we will be using the command line to run programs that
-analyze sequencing data. You will need to be familiar with navigating the MSI
-directory structure and doing simple operations on files. Here are some of the
-common commands that we will be using:
+Also note that all parts of a command are *case sensitive*. That means that
+capitalization matters. `A` is different from `a`.
 
-- `cd`: change directory. This command will move you around the directory
-  structure on the cluster.
-- `ls`: list files. This command will show you files and sub-directories that
-  are contained within a specified location.
-- `pwd`: print working directory. This command will show you the directory that
-  you are currently working in.
-- `cp`: copy. This command will copy files from one location to another.
-- `mv`: move. This command will *move* files from one location to another.
-- `rm`: remove. This command will delete files. Be careful, once they're gone,
-  they're gone for good.
-- `head`: show the "head" of a file. This command will show you the first few
-  lines of a file.
-- `ssh`: secure shell. This will let you log in to another machine to execute
-  commands. We will use this command to connect to a high-performance computing
-  login node from the main login nodes.
+</div>
 
-## <a name="0.5.2"></a> 0.5.2: Practice Commands
-To get familiar with the commands that we will be using in this tutorial, we
-will walk through a few commands that will help us set up the directories to run
-the pipeline we are teaching in this tutorial.
+#### <a name="1.4.2"></a> 1.4.2: Running Commands
+The first command we will run is one that will change directories. This is how
+we navigate the filesystem. The command is called `cd` for "change directory."
+Type `cd` then a space, then the path to where you would like to go. We will
+go to the `/home/riss/public` directory. Press `Enter` when you have finished
+typing the command:
 
-1. Make a directory in global scratch for your files. We recommend organizing
-   your files in scratch in such a way that you can easily find your files and
-   do not clash with other users. Global scratch is a public space, so it is
-   helpful to be organized there. Use your X.500 ID instead of `YOUR_USER_NAME`
-   in the following command:
+![cd]({{ "/graphics/rnaseq_cmd/cd.png" | prepend: site.baseurl }})
 
-   ```bash
-   % mkdir /scratch.global/YOUR_USER_NAME
-   ```
+Notice how your prompt updates to let you know that you are now in a different
+directory than when you started. This is a quick way to check where you are
+currently working. You can verify this with the `pwd` command. Type `pwd` then
+`Enter` to print the *working directory*:
 
-   If you have already made this directory, then you will get an error saying
-   that it already exists. You can use the `-p` option to `mkdir` to disable
-   that behavior:
+![pwd]({{ "/graphics/rnaseq_cmd/pwd.png" | prepend: site.baseurl }})
 
-   ```bash
-   % mkdir -p /scratch.global/YOUR_USER_NAME
-   ```
+Next, we will list the contents of the current working directory. We use the
+`ls` command to do this. Type `ls` then `Enter`:
 
-2. Navigate to the directory you just made with the `cd` command:
+![ls]({{ "/graphics/rnaseq_cmd/ls.png" | prepend: site.baseurl }})
 
-   ```bash
-   % cd /scratch.global/YOUR_USER_NAME
-   ```
+There are three items under `/home/riss/public`. The blue coloring indicates
+that they are *directories*. Let's `cd` into the `CHURP` directory now:
 
-3. Verify that you got to the correct directory with the `pwd` command. `pwd`
-   will print your current working directory to the terminal.
+![cd]({{ "/graphics/rnaseq_cmd/cd_relpath.png" | prepend: site.baseurl }})
 
-   ```bash
-   % pwd
-   /scratch.global/konox006
-   ```
+Notice that we did not specify the leading `/` for an absolute path. This is
+because relative to `/home/riss/public`, `/home/riss/public/CHURP` can be called
+just `CHURP`. The prompt has updated to reflect this. Let's list the contents
+of this directory, too:
 
-   You should see your username instead of `konox006`.
+![ls]({{ "/graphics/rnaseq_cmd/ls_churp.png" | prepend: site.baseurl }})
 
-4. Make output and working directories in your scratch directory. The output
-   directory will hold the final results of the pipeline and the working
-   directory will hold the intermediate files.
+It has two directories, `0.0.1` and `0.1.0`. Let's `cd` into `0.1.0` and list
+contents again with `ls`:
 
-   ```bash
-   % mkdir RNAseq_Tutorial_Out
-   % mkdir RNAseq_Tutorial_Work
-   ```
+![ls]({{ "/graphics/rnaseq_cmd/ls_churp_0.1.0.png" | prepend: site.baseurl }})
 
-   Like the previous `mkdir` command, you can also supply the `-p` option if
-   they already exist:
+There are a lot more files and directories inside here. The blue names are
+other directories, the white names are regular files, and the green name
+is an *executable* file. This means that the file can be run as a program.
 
-   ```bash
-   % mkdir -p RNAseq_Tutorial_Out
-   % mkdir -p RNAseq_Tutorial_Work
-   ```
+Next, we will navigate to *global scratch*. This is a special part of the MSI
+filesystem where you can write temporary data. We will use it to hold the
+working data that we need for the RNAseq analysis later in this tutorial. The
+global scratch directory is called `/scratch.global`:
 
-5. Verify that the directories were made with the `ls` command. `ls` lists files
-   and directories that are contained in a specified location. If you run `ls`
-   without any arguments, then your current working directory is used:
+![cd]({{ "/graphics/rnaseq_cmd/cd_scratch.png" | prepend: site.baseurl }})
 
-   ```bash
-   % ls
-   RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
-   ```
+Next, we will *make a new directory* with the `mkdir` command. Because global
+scratch is a public area, it can be difficult to keep track of which data are
+yours. To help organize it, we will make a directory that has your name on it
+so you can always find your files. Type `mkdir`, then a space, then your
+UMN internet ID, then `Enter`:
 
-   If you have been using your scratch directory, then you may see additional
-   files there.
+![mkdir]({{ "/graphics/rnaseq_cmd/mkdir.png" | prepend: site.baseurl }})
 
-6. Just for illustrative purposes, let's copy the gene annotations file from the
-   tutorial directory into the scratch directory. Verify that it has been
-   copied, too, using `ls`. Be sure to put the dot (`.`) as the final argument
-   to the `cp` command.
+Again, we do not have to specify the full path to the new directory because we
+are making it *relative* to the working directory, which is `/scratch.global`.
+Let's `cd` into our directory.
 
-   ```bash
-   % cp /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz .
-   % ls
-   Annotations.gtf.gz  RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
-   ```
+![cd]({{ "/graphics/rnaseq_cmd/cd_scratch_x500.png" | prepend: site.baseurl }})
 
-   <div class="info" markdown="1">
-    The dot (`.`) is a bash shorthand for the current working directory when
-    used as an argument to a command.
-    </div>
+Next, we will *copy* a file into our current directory. We use the `cp` command
+to do this. `cp` takes two *arguments*, a *source* and a *destination*. For this
+exercise, the *source* will be `/home/riss/public/MPGI-MSI_Workshop/data.txt`
+and the *destination* will be the current working directory. This is
+shorthanded by a dot (`.`) in the command:
 
-7. Then, you can delete it with the `rm` command.
+![cp]({{ "/graphics/rnaseq_cmd/cp.png" | prepend: site.baseurl }})
 
-   ```bash
-   % rm Annotations.gtf.gz
-   % ls
-   RNASeq_Tutorial_Out  RNAseq_Tutorial_Work
-   ```
+You can list the directory contents to verify that you have successfully copied
+the file:
 
-[Return to top](#top)
+![ls]({{ "/graphics/rnaseq_cmd/ls_verify_cp.png" | prepend: site.baseurl }})
+
+The name `data.txt` is not very informative. You will be working with a lot of
+data files, so giving them unique names that let you easily know what the data
+are is very helpful. We can *move* (or *rename*) a file with the `mv` command.
+Like `cp`, `mv` takes two arguments, a *source* and a *destination*. The
+*source* will be `data.txt` and the *destination* will be
+`command_line_example_data.txt`:
+
+![mv]({{ "/graphics/rnaseq_cmd/mv.png" | prepend: site.baseurl }})
+
+You can list the directory contents again to verify that the rename was
+successful:
+
+![ls]({{ "/graphics/rnaseq_cmd/ls_verify_mv.png" | prepend: site.baseurl }})
+
+These are mostly the commands you need to know to follow along with the RNAseq
+tutorial. There are additional resources below, but they are not required for
+you to use our pipeline for RNAseq analysis.
+
+To recap:
+
+- `cd`: change directory
+- `pwd`: print working directory
+- `ls`: list directory contents
+- `mkdir`: make new directory
+- `cp`: copy file
+- `mv`: move or rename file
+
+<div class="warn" markdown="1">
+
+I generally regard `cp` as safer than `mv` because `mv` replaces data on the
+disk while `cp` just makes a copy. For referencing large files in stable
+locations (like the UMGC data delivery directory), `ln` is probably the best
+option for making the data visible in an easy-to-remember directory. See below.
+
+</div>
 
 <div class="info" markdown="1">
 
-#### 0.6.1: Other Resources
-There are plenty of resources available for learning how to interact with the
-computer through the command line. For technical reference, the default
-command line program on MSI, or shell, is called `bash`. Here are a few other
-links for `bash` resources:
+### <a name="1.4"></a> 1.5: Other Useful Commands
+There are many more commands that exist on a UNIX or Linux system. There are
+several dozen that I know very well because I use them on a daily basis. One of
+the most useful commands is `man`, which brings up a manual page for a certain
+command. Manual pages list all of the available options for a given program. If
+you want to know all of the ways that the behavior of a program can be modified,
+check the manual!
 
-- [UCR Linux Basics](http://hpcc.ucr.edu/manuals_linux-basics_intro)
-- [Advanced Bash Scripting Guide from The Linux Documentation Project](https://www.tldp.org/LDP/abs/html/)
+<details markdown="1">
+<summary>View screenshot of manual page and other UNIX commands</summary>
 
-</div>
+For instance, if you wanted to view a manual page for the `mkdir`
+command, you would type `man mkdir`:
 
-[Return to top](#top)
+![man]({{ "/graphics/rnaseq_cmd/man.png" | prepend: site.baseurl }})
 
-## <a name="1"></a> Part 1: RNASeq Overview
+Use the arrow keys to scroll up and down in the manual page. Press the `q` key
+to quit out of a manual page viewer.
 
-<div class="info" markdown="1">
+Now that you know the command to view the manual, you can check the manual to
+see how to use these next commands! These are commands I use on a near-daily
+basis to slice up data files to prepare them for various bioinformatic
+workflows or take a peek at the contents of a file without trying to load the
+entire file into memory.
 
-### <a name="1.1"></a> 1.1: Why RNASeq
-RNAseq is name for a high-throughout sequencing technique that targets the
-transcribed portions of the genome. For this tutorial, we will be focusing on
-the analysis of **bulk RNAseq** data. This type of data involves extraction of
-messenger RNA (mRNA) from whole tissue, organ, or organism samples. This
-technique is often applied for studies of gene expression, but can also be
-used to assemble transcript sequences or identify genetic variants (see
-[**Part 8**](#8) at the end of this document for more information).
+- `head`: Print the first lines of a file to the terminal
+- `tail`: Print the last lines of a file to the terminal
+- `grep`: Search for text within a file
+- `cut`: "Cut" out and return certain columns from a file
+- `less`: View the contents of a file in the same way you view a manual page
+- `ln`: Make links to other files and directories
+- `find`: Find files and directories that match a certain name pattern
+- `cat`: Print one or more files directly to the terminal
+- `rm`: Delete a file. **Once it's gone, it's gone! No recycle bin or trash**\*
+- `wget`: Download remote files (from websites) to disk
 
-Bulk RNAseq is a useful tool to identify the transcriptomic response to a
-disease or stress condition, changes in expression during development of an
-organism, or differences in expression among tissue types. The transcribed
-gene regions are often the most interpretable regions of the genome, because
-changes in mRNA content are correlated with changes in protein content (though,
-not always).
+\*: MSI home directories (`/home/PI_group/`) have snapshot backups available in
+the `.snapshot` directory under the main directory. You can recover files from
+these directories so long as **the file at least one day old**. The snapshots
+go back **on month** from the from the current day. Global scratch is
+**not backed up by snapshots**, so when you delete data from there, it is gone
+for good.
 
-[Return to top](#top)
-### <a name="1.2"></a> 1.2: Common Genomics File Formats
-RNASeq, being a genomics technique, uses standard file formats for genomics
-analysis. This is not an exhaustive list, but should introduce the file types
-that we will use in this tutorial.
+</details>
 
-- FASTA
+#### A Note on `ln`
+*Linking* a file is a very useful way to make it available in other directories
+without having to copy it. A link looks like a regular file, but is actually
+a reference or *alias* to another location on disk. We recommend using
+*symbolic links* rather than *hard links*. Without getting too technical, a
+symbolic link ("symlink" for short) behaves as a separate file from the data
+to which it points. A hard link references the exact same data, so if you delete
+a hard link, the source data is also deleted.
 
-    Holds sequence information, without any associated quality information. The
-    FASTA format has a sequence name, denoted with `>` followed by the name of
-    the sequence. The next line(s) have the sequences. The file may have one or
-    more sequence records.
+<details markdown="1">
+<summary>View symbolic link information</summary>
 
-    ```
-    >Sequence 1
-    ATCGA...
-    >Sequence 2
-    GGTAC...
-    ```
+To make a symlink, use the `-s` option to `ln`. The syntax is as follows:
 
-    Reference sequences are generally stored in the FASTA format.
-- FASTQ
+```bash
+% ln -s /long/path/that/is/annoying/to/type/to/data.txt /easy/path/to/data.txt
+```
 
-    Holds sequence information with associated quality scores. Each FASTQ record
-    has four lines: a name, a nucleotide sequence, a comment, and a quality
-    string. The name starts with `@` and the comment starts with `+`. The
-    quality scores are stored as ASCII characters, treating each character's
-    decimal value as the quality score (with a +33 offset\*). You will not have
-    to read a FASTQ directly - the alignment programs will understand them.
-    Quality is defined as -log10(P that the base is called incorrectly), which
-    is the Phred scale used in Sanger sequencing traces.
+This will make a file at `/easy/path/to/data.txt` that will reference the actual
+file at `/long/path/that/is/annoying/to/type/data.txt`. It will happen
+*very quickly* because no actual data copying is involved, and the source data
+is preserved in terms of access time and modification time. You can also link
+to *directories*:
 
-    \*: Note that older FASTQ files may have a +64 offset. The quality control
-    program we will use in this tutorial will make an educated guess as to the
-    proper offset.
+```bash
+% ln -s /long/path/to/UMGC/data_release /easy/path/to/data
+```
 
-    ```
-    @D00635:256:CB8P5ANXX:1:1108:2215:2225 1:N:0:ATTACTCG+TATAGCCT
-    GCGCTAAAGCAGTGATTAGAGGGAAATTTATAGCACCAAATGCCCACAGAA
-    +
-    @B=BBGGGGCBDDC@GGEGGGGGGGGGGGGGFGGGEGGGGGGGGGGGGG>D
-    @D00635:256:CB8P5ANXX:1:1108:2547:2188 1:N:0:ATTACTCG+TATAGCCT
-    CCGCACATCACAAACGTGATTCTGCGAATGCTTCTGACTAGTTTTTGTCGG
-    +
-    BBBCCEGGGCGGGGGGGGGGGGCGGGGGGGGGGGGGGGGG>F>F>GGGGGG
-    ```
+This will make a file that *looks like a directory* at `/easy/path/to/data` that
+references `/long/path/to/UMGC/data_release`. Again, the original directory and
+file attributes are preserved.
 
-    Reads from the sequencing instrument are generally stored in the FASTQ
-    format.
-- SAM/BAM
+You can safely remove symlinks with `rm` while leaving the source data intact.
 
-    Holds alignment information. While sequence alignments can technically be
-    stored in FASTA format, it is very inefficient for genomics datasets.
-    Additionally, genomics alignments tend to be a series of pairwise alignments
-    to a reference sequence, and not a multiple sequence alignment.
+<div class="warn" markdown="1">
 
-    A SAM (**S**equence **A**lignment/**M**ap) file stores position, read
-    sequence, mismatch information, and alignment confidence scores, among other
-    information. A BAM file is a binary representation of a SAM file, which is
-    machine-readable and much smaller on disk. You generally will not have to
-    parse a SAM/BAM file on your own; most of the tools you will encounter will
-    know how to perform operations on them.
-
-    ```
-    @HD VN:1.6 SO:coordinate
-    @SQ SN:ref LN:45
-    r001 99   ref 7  30 8M2I4M1D3M = 37 39  TTAGATAAAGGATACTG *
-    r002 0    ref 9  30 3S6M1P1I4M * 0  0   AAAAGATAAGGATA    *
-    r003 0    ref 9  30 5S6M       * 0  0   GCCTAAGCTAA       * SA:Z:ref,29,-,6H5M,17,0;
-    r004 0    ref 16 30 6M14N5M    * 0  0   ATAGCTTCAGC       *
-    r003 2064 ref 29 17 6H5M       * 0  0   TAGGC             * SA:Z:ref,9,+,5S6M,30,1;
-    r001 147  ref 37 30 9M         = 7  -39 CAGCGGCAT         * NM:i:1
-    ```
-
-    A link to the SAM/BAM specification is [here](https://samtools.github.io/hts-specs/SAMv1.pdf).
-- GTF/GFF (GFF3)
-
-    Holds genomic feature annotations, like gene models. These formats are
-    somewhat loosely defined, but files from databases such as NCBI or
-    Ensembl should be handled well by genomics analysis programs. The
-    information stored in a GTF or GFF includes each feature's boundaries,
-    type (gene, CDS, TF binding site, etc), strand, name, and any parent/child
-    relationships. For example, a `mRNA` feature may be the child of a `gene`
-    feature, and may have several `CDS` and `exon` children features.
-
-    The GFF and GTF specifications can be found [here](https://useast.ensembl.org/info/website/upload/gff.html).
+I make a big deal out of preserving access/modification time and filenames, but
+this becomes a real issue. It is common for researchers to collect datasets
+over a long period of time and use the time of file creation to keep track of
+when a dataset was collected or generated.
 
 </div>
 
-[Return to top](#top)
-### <a name="1.3"></a> 1.3: Overall Workflow
+</details>
+
+<div class="warn" markdown="1">
+
+There are many versions of UNIX out there, and some of these commands have
+different default behaviors and different options, depending on which version
+you are using. For example, Mac OS X is technically a UNIX, and has all the
+standard commands listed above, but they behave differently from the tools
+installed on MSI systems, which is GNU/Linux. If you are unsure of what a
+command will do, check the manual page!
+
+</div>
+
+### <a name="1.5"></a> 1.6: Common Command Line Utilities in Bioinformatics
+Most of the commands listed in the previous section are standard UNIX commands.
+There are many other commands and programs that are specific to bioinformatics
+analysis. We cannot catalogue all of them here, but these are the programs that
+we regularly encounter. These are available as software modules on MSI systems;
+refer to our [module help page](https://www.msi.umn.edu/support/faq/what-module)
+to see how to load modules and our
+[software page](https://www.msi.umn.edu/software) to see a full listing of the
+software we have available.
+
+<details markdown="1">
+<summary>View representative software list</summary>
+
+- **Next-Generation Sequence Data Processing**
+    - FastQC - Quality control of NGS data
+    - Trimmomatic - Clean contaminants and low-quality bases from NGS data
+    - BWA - Short read mapping
+    - Minimap2 - Short and long read mapping
+    - Bowtie2 - Short read mapping
+    - HISAT2 - Splice-aware short read mapping
+    - SAMTools - NGS alignment filtering
+    - Picard Tools - NGS alignment filtering
+- **Sequence Assembly and Annotation**
+    - Velvet - Sequence assembly
+    - CAP3 - Sequence assembly, mostly for Sanger reads
+    - AByss - Large genome assembly from short reads
+    - Falcon - Diploid assembly from Pacific Biosciences long reads
+    - Trinity - Short read RNAseq assembly
+    - Trinotate - Annotate Trinity transcripts
+    - Funannotate - Annotate genome assemblies
+- **Sequence Alignment and Homology Search**
+    - Clustal Omega/W/X - Multiple sequence alignment for nucleotides or amino
+      acids
+    - BLAST+ - Align query sequences to a large database of target sequences
+    - Muscle - Multiple sequence alignment
+    - T-coffee - Multiple sequence alignment
+    - MUMmer - Align genome sequences
+    - GMap - Align transcript or cDNA sequences to a genome
+    - HMMER - Find homologues or protein domains in a query sequence
+    - MEME - Motif identification in a collection of sequences
+- **Population Genetics**
+    - VCFTools - Analyze variants in VCF format
+    - EMBOSS - Collection of pairwise alignment, distance calculation, sequence
+      translation, and format conversion tools for sequence data
+    - Analysis (molpopgen; molecular population genetics) - Population genetic
+      summary statistics
+    - STRUCTURE - Model-based genetic assignment
+    - GATK - Variant detection from next-generation sequence data
+    - FreeBayes - Variant detection from next-generation sequence data
+    - PLINK - Summary statistics and family-based or population-based
+      association analyses
+- **Phylogenetics**
+    - RAxML - Phylogenetic analysis with maximum likelihood
+    - BEAST - Bayesian phylogenetic analysis
+    - PHYLIP - Phylogeny inference from sequences or trait matrices
+    - PAML - Maximum-likleihood phylogenetic analysis and hypothesis testing
+- **Gene Expression Analysis**
+    - Salmon - Isoform-level expression counts. **Very sensitive to differences between reference and sample**
+    - Kallisto - Isoform-level expression counts. **Very sensitive to differences between reference and sample**
+    - RSEM - Gene-level or transcript-level quantification via alignment
+- **Metagenomics and Microbial Community Genetics**
+    - Mothur - Analyze microbial diversity in a community sample
+    - Qiime2 - Analyze microbial diversity in a community sample
+
+</details>
+
+</div>
+
+## <a name="2"></a> Part 2: RNASeq Analysis on the Command Line
+### <a name="2.1"></a> 1.3: Overall Workflow
 Here is a schematic of the workflow that we will follow for this tutorial. The
 pieces of data are shown in rectangles, and the software are shown in rounded
 bubbles with dashed borders. The final output is shown in red.
@@ -461,7 +660,7 @@ versions of our pipelines.
 ### <a name="2.1"></a> 2.1: Prepare to Run `CHURP`
 First, connect to a login node on Mesabi by typing `ssh mesabi` at the login
 prompt. If you do no have ssh keys set up, you will have to enter your password
-again. It is the same as your X.500 password. Note the `@login` part of the
+again. It is the same as your Internet ID password. Note the `@login` part of the
 prompt changes to reflect that you have started a shell on the Mesabi login
 node.
 
@@ -483,12 +682,12 @@ From here on, the commands and their output will be shown in text, rather than
 in screenshots of terminal emulators.
 
 Next, load the `python3` module. This is required to run `CHURP`. Navigate to
-the `/home/msistaff/public/RNAseq_Tutorial/CHURP` directory with `cd`. Run the
+the `/home/riss/public/CHURP/0.1.0/` directory with `cd`. Run the
 main control script, `churp.py`.
 
 ```bash
 % module load python3
-% cd /home/msistaff/public/RNAseq_Tutorial/CHURP
+% cd /home/riss/public/CHURP/0.1.0/
 % python churp.py
 Usage: churp.py <subcommand> <options>
 
@@ -503,8 +702,8 @@ Currently, the following subcommands are supported:
     - bulk_rnaseq
 
 For issues, contact help@msi.umn.edu.
-Version: 0.0.1
-2018-11-04
+Version: 0.1.0
+2019-03-13
 ```
 
 If you get a message similar to the one above, then you are ready to run the
@@ -543,10 +742,10 @@ at the [GitHub Wiki page](https://github.umn.edu/MSI-RIS/CHURP/wiki/bulk_rnaseq)
 ```bash
 % python churp.py bulk_rnaseq
 ----------
-Thank you for using the refactor of gopher-pipelines. This software was
-developed by the Research Informatics Solutions (RIS) group at MSI with funding
-from the University of Minnesota Informatics Institute (UMII). For help, please
-contact help@msi.umn.edu.
+Thank you for using CHURP. This software was developed by the Research
+Informatics Solutions (RIS) group at MSI with funding from the University of
+Minnesota Informatics Institute (UMII). For help, please contact
+help@msi.umn.edu.
 
 https://www.msi.umn.edu/
 https://research.umn.edu/units/umii
@@ -587,10 +786,10 @@ reproduce the structure, though.*
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
 ----------
-Thank you for using the refactor of gopher-pipelines. This software was
-developed by the Research Informatics Solutions (RIS) group at MSI with funding
-from the University of Minnesota Informatics Institute (UMII). For help, please
-contact help@msi.umn.edu.
+Thank you for using CHURP. This software was developed by the Research
+Informatics Solutions (RIS) group at MSI with funding from the University of
+Minnesota Informatics Institute (UMII). For help, please contact
+help@msi.umn.edu.
 
 https://www.msi.umn.edu/
 https://research.umn.edu/units/umii
@@ -669,9 +868,9 @@ described later in the document.
 
 <div class="warn" markdown="1">
 
-We are using the `--unstranded` option here because the source of the data is
-from a lab that used an unstranded library prep protocol (NEBNext Ultra RNA
-kit). The default option is for reverse-stranded libraries, which is the
+We are using the `--strand U` option here because the source of the data is
+from a lab that used a non-strand-specific library prep protocol (NEBNext Ultra
+RNA kit). The default option is for reverse-stranded libraries, which is the
 standard kit used by the UMGC (TruSeq Stranded RNA).
 
 </div>
@@ -687,13 +886,13 @@ size of the resource request.
     -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz \
     -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out \
     -d /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Work \
-    --unstranded \
+    --strand U \
     --ppn 4 --mem 12000 -w 2 --submit
 ----------
-Thank you for using the refactor of gopher-pipelines. This software was
-developed by the Research Informatics Solutions (RIS) group at MSI with funding
-from the University of Minnesota Informatics Institute (UMII). For help, please
-contact help@msi.umn.edu.
+Thank you for using CHURP. This software was developed by the Research
+Informatics Solutions (RIS) group at MSI with funding from the University of
+Minnesota Informatics Institute (UMII). For help, please contact
+help@msi.umn.edu.
 
 https://www.msi.umn.edu/
 https://research.umn.edu/units/umii
@@ -775,41 +974,43 @@ Navigate to the output directory and list the contents:
 ```bash
 % cd /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out
 % ls -lF
-total 5.1M
--rw-rw---- 1 konox006 msistaff 1.5K Nov  6 10:01 2018-11-06.konox006.bulk_rnaseq.pipeline.sh
--rw-rw---- 1 konox006 msistaff 4.9K Nov  6 10:01 2018-11-06.konox006.bulk_rnaseq.samplesheet.txt
-lrwxrwxrwx 1 konox006 msistaff   56 Nov  6 10:07 allsamples_work_directory
--> /scratch.global/konox006/RNAseq_Tutorial_Work/allsamples/
--r--r----- 1 konox006 msistaff 732K Nov  6 10:07 Annotations.gtf.gz
--rw-rw---- 1 konox006 msistaff 2.5M Nov  6 10:07 Bulk_RNAseq_Report.html
--rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-1
--rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:05 bulk_rnaseq_single_sample.pbs.e8840519-2
--rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-3
--rw-rw---- 1 konox006 msistaff 6.6K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-4
--rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:05 bulk_rnaseq_single_sample.pbs.e8840519-5
--rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-6
--rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-7
--rw-rw---- 1 konox006 msistaff 6.3K Nov  6 10:04 bulk_rnaseq_single_sample.pbs.e8840519-8
--rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-1
--rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-2
--rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-3
--rw-rw---- 1 konox006 msistaff  493 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-4
--rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-5
--rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-6
--rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-7
--rw-rw---- 1 konox006 msistaff  453 Nov  6 10:03 bulk_rnaseq_single_sample.pbs.o8840519-8
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:05 Coordinate_Sorted_BAMs/
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:07 Counts/
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:07 DEGs/
--rw-rw---- 1 konox006 msistaff  29K Nov  6 10:07 gene_id_gene_name_map.txt
--rw-rw---- 1 konox006 msistaff  177 Nov  6 10:01 Groups.csv
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:05 InsertSizeMetrics/
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:06 Logs/
-drwxrwx--- 2 konox006 msistaff 4.0K Nov  6 10:07 Plots/
--rw-rw---- 1 konox006 msistaff  14K Nov  6 10:07 run_summary_stats.pbs.e8840520
--rw-rw---- 1 konox006 msistaff 9.0K Nov  6 10:07 run_summary_stats.pbs.o8840520
-lrwxrwxrwx 1 konox006 msistaff   59 Nov  6 10:07 singlesamples_work_directory
--> /scratch.global/konox006/RNAseq_Tutorial_Work/singlesamples/
+total 6.9M
+-rw-rw---- 1 konox006 msistaff 1.5K Mar  7 11:46 2019-03-07.konox006.bulk_rnaseq.pipeline.sh
+-rw-rw---- 1 konox006 msistaff 4.9K Mar  7 11:46 2019-03-07.konox006.bulk_rnaseq.samplesheet.txt
+lrwxrwxrwx 1 konox006 msistaff   56 Mar  7 12:01 allsamples_work_directory
+-> /scratch.global/konox006/RNASeq_Tutorial_work/allsamples/
+-r--r----- 1 konox006 msistaff 732K Mar  7 12:01 Annotations.gtf.gz
+-rw-rw---- 1 konox006 msistaff 3.8M Mar  7 12:02 Bulk_RNAseq_Report.html
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-1
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-2
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:52 bulk_rnaseq_single_sample.pbs.e11813619-3
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:52 bulk_rnaseq_single_sample.pbs.e11813619-4
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-5
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:52 bulk_rnaseq_single_sample.pbs.e11813619-6
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-7
+-rw-rw---- 1 konox006 msistaff  21K Mar  7 11:56 bulk_rnaseq_single_sample.pbs.e11813619-8
+-rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-1
+-rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-2
+-rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-3
+-rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-4
+-rw-rw---- 1 konox006 msistaff  453 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-5
+-rw-rw---- 1 konox006 msistaff  453 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-6
+-rw-rw---- 1 konox006 msistaff  453 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-7
+-rw-rw---- 1 konox006 msistaff  453 Mar  7 11:52 bulk_rnaseq_single_sample.pbs.o11813619-8
+drwxrwx--- 2 konox006 msistaff 8.0K Mar  7 11:56 Coordinate_Sorted_BAMs/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 Counts/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 DEGs/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 11:51 Dup_Stats/
+-rw-rw---- 1 konox006 msistaff  29K Mar  7 12:01 gene_id_gene_name_map.txt
+-rw-rw---- 1 konox006 msistaff  177 Mar  7 11:44 Groups.csv
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 11:56 InsertSizeMetrics/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 Logs/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 Plots/
+drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 11:56 RNASeqMetrics/
+-rw-rw---- 1 konox006 msistaff  23K Mar  7 12:02 run_summary_stats.pbs.e11813620
+-rw-rw---- 1 konox006 msistaff  20K Mar  7 12:02 run_summary_stats.pbs.o11813620
+lrwxrwxrwx 1 konox006 msistaff   59 Mar  7 12:01 singlesamples_work_directory
+-> /scratch.global/konox006/RNASeq_Tutorial_work/singlesamples/
 ```
 
 The `-l` option to `ls` gives "long format" which includes permissions, owner,
@@ -819,21 +1020,30 @@ of directories.
 
 There are multiple levels types of output that get generated:
 
-- PBS output files
-- Insert size metrics (if data are paired-end)
-- Expression counts
-- Summary plots
-- Differentially expressed genes (if groups were specified)
-- Per-sample log files
-- HTML report
+1. HTML report
+2. Log files, including PBS output files
+3. RNASeq metrics
+4. Duplication metrics
+5. Insert size metrics
+6. Coordinate-sorted BAM files
+7. Expression counts
+8. Summary plots
+9. Differentially expressed genes
 
 There are also links to the working directories that get placed in the output
 directory. Additionally, a copy of the GTF that was used for expression counts
 is placed in the output directory.
 
 [Return to top](#top)
-##### PBS Output Files
-These files are the `bulk_rnaseq_single_sample.pbs.o...`,
+##### Log Files
+The `Logs/` directory contains human-readable log files. The "analysis log"
+files describe the analysis steps in plain English and contain the console
+messages from the programs that we run. The "trace log" fiels contain copies of
+the exact commands and variable values that were used for each script. This is
+mostly useful for debugging purposes, if you detect a problem with your
+analysis.
+
+The PBS log files are the `bulk_rnaseq_single_sample.pbs.o...`,
 `bulk_rnaseq_single_sample.pbs.e...`, `run_summary_stats.pbs.o...`, and the
 `run_summary_stats.pbs.e...` files. They are generated by the scheduler and
 contain the text sent to the standard output and standard error channels of the
@@ -841,7 +1051,19 @@ programs called by the programs of the pipeline. The situation in which you
 would most want to view the contents of these files is if your pipeline jobs
 are throwing error messages. For now, we do not have to examine them.
 
-[Return to top](#top)
+#### RNASeq Metrics
+The `RNASeqMetrics/` directory contains summary metrics collected by the Picard
+`CollectRnaSeqMetrics` tool. This is useful for diagnosing rRNA, gDNA, and
+coverage bias issues in your RNAseq dataset. This information is summarized in
+the HTML report, but the raw output files are saved for record keeping purposes.
+
+#### Duplication Metrics
+The `Dup_Stats/` directory contains duplication summaries extracted from the
+FastQC report. These are summarized on a per-sample per-read basis, and have
+the total duplication level and a duplication histogram for each read. These
+are summarized graphically in the HTML report, but we also provide the raw
+files for your records. The source information is kept in the working directory.
+
 ##### Insert Size Metrics
 These files are located in the `InsertSizeMetics/` directory, and contain
 per-sample insert size summaries. It is only generated if the data are
@@ -849,7 +1071,13 @@ paired-end. We will not examine these files for the tutorial, but they will
 be useful if you plan to submit your data to a database that requires summaries
 of the insert sizes, such as NCBI GEO.
 
-[Return to top](#top)
+#### Coordinate-sorted BAM Files
+BAM files that are sorted on alignment coordinate are linked into the
+`Coordinate_Sorted_BAMs/` directory. These files are also indexed, and can be
+visualized in IGV or a similar alignment viewing program. Both the "raw"
+alignment from HISAT2 and the "filtered" alignment used as input for expression
+counts are included in this directory.
+
 ##### Expression Counts
 This is one of the main outputs of the `bulk_rnaseq` pipeline. There are two
 types of counts that get produced by the pipeline, raw counts, and counts per
@@ -876,7 +1104,8 @@ distribution of CPM values per-sample, a heatmap of gene expression for the
 500 genes with the highest variance among samples, and a multidimensional
 scaling (MDS) plot showing sample distances based on gene expression.
 
-An example of the CPM plot is shown below.
+<details markdown="1">
+<summary>Click to show the CPM plot</summary>
 
 ![CPM]({{ "/graphics/rnaseq_cmd/cpm_plot.png" | prepend: site.baseurl }})
 
@@ -885,7 +1114,10 @@ be colored. These plots are violin plots, which show the kernel density for each
 sample. They are perhaps more informative than barplots, because it is easier to
 see the shapes of the distributions.
 
-An example of the heatmap of high variance genes is shown below.
+</details>
+
+<details markdown="1">
+<summary>Click to show the heatmap of high-variance genes</summary>
 
 ![Heatmap]({{ "/graphics/rnaseq_cmd/high_variance_heatmap.png" | prepend: site.baseurl }})
 
@@ -899,7 +1131,10 @@ among samples are shown. From the plot it looks like there may be an issue with
 separation of the groups. `Spleen.2` and `BoneMarrow.2` look like they might
 be swapped labels.
 
-An example of the MDS plot is shown below.
+</details>
+
+<details markdown="1">
+<summary>Click to show the MDS plot</summary>
 
 ![MDS]({{ "/graphics/rnaseq_cmd/mds_plot.png" | prepend: site.baseurl }})
 
@@ -909,6 +1144,8 @@ closer together on the plot. In this case, we can see the samples that appear to
 have swapped labels as the single blue label in a group of red, and vice-versa.
 We can also see that samples `Spleen.4` and `BoneMarrow.4` are not very tightly
 clustered with the other samples.
+
+</details>
 
 [Return to top](#top)
 ##### Differentially Expressed Gene (DEG) List
@@ -961,7 +1198,7 @@ Re-run the pipeline with the same command, but be sure to add the `--purge`
 option. This tells the pipeline to regenerate alignments.
 
 ```bash
-% cd /home/msistaff/public/RNAseq_Tutorial/CHURP
+% cd /home/riss/public/CHURP/0.1.0/
 % python churp.py bulk_rnaseq \
     -e /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
@@ -969,7 +1206,7 @@ option. This tells the pipeline to regenerate alignments.
     -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz \
     -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out \
     -d /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Work \
-    --unstranded \
+    --strand U \
     --ppn 4 --mem 12000 -w 2 --submit --purge
 ```
 
@@ -1062,6 +1299,10 @@ from each single-sample task.
 
 [Return to top](#top)
 ### <a name="3.1"></a> 3.1: Summarizing Read Quality
+
+<details markdown="1">
+<summary>Show the read quality summarization details</summary>
+
 The first part of the pipeline uses `fastqc` to generate summaries of read
 length, base quality, base composition, and non-biological sequence
 contamination. These reports are written to the working directory for each
@@ -1073,8 +1314,13 @@ reports generated by FastQC, please refer to our other tutorial that treats
 This step is always run. You should view the FastQC reports to see if there are
 technical explanations for patterns you observe in your results.
 
-[Return to top](#top)
+</details>
+
 ### <a name="3.2"></a> 3.2: Cleaning Reads
+
+<details markdown="1">
+<summary>Show read cleaning details</summary>
+
 The second part of the pipeline uses Trimmomatic to clean low quality bases,
 adapter contamination, and reads that fail length filters from your input
 datasets. This step is optional - there are arguments in favor of and against
@@ -1123,8 +1369,13 @@ After Trimmomatic cleaning, FastQC is run on the cleaned reads. You can then
 compare the raw and the processed reads to determine if you need to adjust any
 of the parameters for cleaning.
 
-[Return to top](#top)
+</details>
+
 ### <a name="3.3"></a> 3.3: Mapping Reads
+
+<details markdown="1">
+<summary>Show read mapping details</summary>
+
 Read mapping is performed with the splice-aware aligner, HISAT2. Note that we
 have moved away from TopHat2, which has been deprecated by its authors. It is
 possible to supply many options to modify how HISAT2 aligns reads against the
@@ -1153,8 +1404,13 @@ for alignment.
 After alignment, the resulting SAM file is sorted by read name (for
 fragment-based counting) and converted to BAM.
 
-[Return to top](#top)
+</details>
+
 ### <a name="3.4"></a> 3.4: Counting Reads in Genes
+
+<details markdown="1">
+<summary>Show expression counting details</summary>
+
 Once the alignments are generated and sorted by read name, they are used as
 input for the `featureCounts` program, part of the `subread` package. We count
 *fragments* that map to genes to generate expression counts. That is, if the
@@ -1163,7 +1419,7 @@ counted as originating from that gene. If the library is single-end, then
 individual reads represent sequenced fragments, and reads are counted if they
 map to annotated genes.
 
-We also support two types of strandedness for the libraries, unstranded, and
+We also support two types of strandedness for the libraries, strand U, and
 reverse-stranded. By default, the UMGC prepares RNAseq libraries using a
 reverse-stranded protocol. Thus, the default option for our `featureCounts` call
 is to count reverse-stranded alignments. Additionally, we also set a minimum
@@ -1171,8 +1427,13 @@ mapping quality of 10 to reads that are considered as valid alignments for
 counts. If reads are not confidently mapped to a single location, then they are
 not used for counts.
 
-[Return to top](#top)
+</details>
+
 ### <a name="3.5"></a> 3.5: Filtering and Differential Expression Testing
+
+<details markdown="1">
+<summary>Show differential expression testing details</summary>
+
 The raw counts matrix generated by `featureCounts` is then processed with a
 R script that filters the counts matrix, generates summary plots, calculates a
 normalized value for gene expression, and tests for differentially expressed
@@ -1205,7 +1466,8 @@ raw counts matrix. You may contact the University of Minnesota Informatics
 Institute or the Research Informatics Solutions group at MSI for assistance
 with data analysis that falls outside of the `CHURP`.
 
-[Return to top](#top)
+</details>
+
 ## <a name="4"></a> Part 4: Getting Your Own Reference Genome Index Files
 ### <a name="4.1"></a> 4.1: HISAT2 Pre-Built Indices
 The developers of HISAT2 maintain a collection of genome indices that are usable
@@ -1287,6 +1549,10 @@ the internal files of `CHURP`.
 
 [Return to top](#top)
 ### <a name="5.1"></a> 5.1: Experimental Groups Template
+
+<details markdown="1">
+<summary>Show experimental group CSV details</summary>
+
 This is a comma-separated values (CSV) file that contains placeholders for the
 experimental for the samples in question. By default, it contains only two
 fields, `SampleName` and `Group`. The `SampleName` field contains the inferred
@@ -1294,29 +1560,36 @@ name of the sample, derived from the filename of the FASTQ file. The `Group`
 column is auto-populated with a `NULL` value. We do not make any attempt to
 automatically assign samples to groups based on patterns in the filenames.
 
-[Return to top](#top)
+</details>
+
 ### <a name="5.2"></a> 5.2: Pipeline.sh Script
 This is a standard bash script that contains paths to the samplesheet and the
-PBS job scripts. The template for it is shown below:
+PBS job scripts.
+<details markdown="1">
+<summary>Show pipeline.sh details</summary>
+
+Shown below is an example of a pipeline script:
 
 ```bash
 #!/bin/bash
-# Generated by CHURP version 0.0.1
-# Generated at 2018-12-04 15:31:08
+# Generated by CHURP version 0.1.0
+# Generated at 2019-03-14 16:58:43
 set -e
 set -u
 set -o pipefail
 user_name="$(id -u -n)"
 user_email="${user_name}@umn.edu"
-OUTDIR="/scratch.global/konox006/RNAseq_Tutorial_Out/"
-WORKDIR="/scratch.global/konox006/RNAseq_Tutorial_Work/"
-DE_SCRIPT="/panfs/roc/groups/14/msistaff/public/RNAseq_Tutorial/CHURP/R_Scripts/summarize_bulk_rnaseq.R"
-REPORT_SCRIPT="/panfs/roc/groups/14/msistaff/public/RNAseq_Tutorial/CHURP/R_Scripts/bulk_rnaseq_report.Rmd"
-SAMPLESHEET="/scratch.global/konox006/RNAseq_Tutorial_Out/2018-12-04.konox006.bulk_rnaseq.samplesheet.txt"
+QSUB_ARRAY="1-8"
+OUTDIR="/panfs/roc/scratch/konox006/2019-03-14T165843.bulk_rnaseq"
+WORKDIR="/panfs/roc/scratch/konox006/2019-03-14T165843.bulk_rnaseq.work"
+DE_SCRIPT="/panfs/roc/groups/2/riss/public/CHURP/0.1.0/R_Scripts/summarize_bulk_rnaseq.R"
+REPORT_SCRIPT="/panfs/roc/groups/2/riss/public/CHURP/0.1.0/R_Scripts/bulk_rnaseq_report.Rmd"
+SAMPLESHEET="/panfs/roc/scratch/konox006/2019-03-14T165843.bulk_rnaseq/2019-03-14.konox006.bulk_rnaseq.samplesheet.txt"
 PURGE="true"
+SUBSAMP="10000"
 PIPE_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/$(basename $0)"
-single_id=$(qsub -q mesabi <options> [...]bulk_rnaseq_single_sample.pbs || exit 1)
-summary_id=$(qsub -q mesabi <options> [...]run_summary_stats.pbs || exit 1)
+single_id=$(qsub -q mesabi -m abe -M "${user_email}"  -o "${OUTDIR}" -e "${OUTDIR}" -l "mem=12000mb,nodes=1:ppn=4,walltime=7200" -t "${QSUB_ARRAY}" -v "SampleSheet=${SAMPLESHEET},PURGE=${PURGE},SUBSAMP=${SUBSAMP}" /panfs/roc/groups/2/riss/public/CHURP/0.1.0/PBS/bulk_rnaseq_single_sample.pbs || exit 1)
+summary_id=$(qsub -q mesabi -m abe -M "${user_email}"  -o "${OUTDIR}" -e "${OUTDIR}" -W "depend=afterokarray:${single_id}" -v "SampleSheet=${SAMPLESHEET},MINLEN=200,MINCPM=1.0,RSUMMARY=${DE_SCRIPT},PIPE_SCRIPT=${PIPE_SCRIPT},BULK_RNASEQ_REPORT=${REPORT_SCRIPT}" /panfs/roc/groups/2/riss/public/CHURP/0.1.0/PBS/run_summary_stats.pbs || exit 1)
 echo "Output and logs will be written to ${OUTDIR}"
 echo "Emails will be sent to ${user_email}"
 echo "Single samples job array ID: ${single_id}"
@@ -1329,12 +1602,17 @@ Running this script will submit the entire pipeline to the scheduler. The only
 path that you will have to check is the `SAMPLESHEET=` declaration. This should
 be the location of the samplesheet that was generated by `churp.py`.
 
-[Return to top](#top)
-### <a name="5.3"></a> 5.3 Samplesheet 
+</details>
+
+### <a name="5.3"></a> 5.3 Samplesheet
+
 The samplesheet contains the information necessary to process each sample, such
 as the paths to the reads, the reference genome for alignment, and trimming
 options that you have specified. The file is very "wide" (has long lines), so
 we will not reproduce it verbatim.
+
+<details markdown="1">
+<summary>Show samplesheet details</summary>
 
 The format is a series of pipe-delimited (`|`) fields. For version `0.0.1` of
 the `CHURP`, the fields are in the following order:
@@ -1363,7 +1641,8 @@ block of sample data and the comment lines. The PBS worker scripts parse the
 sample data block and the final line in the file, so they must remain intact
 for the scripts to work.
 
-[Return to top](#top)
+</details>
+
 ## <a name="6"></a> Part 6: More Complex Analyses
 This section will cover how to prepare for more complicated analyses than we
 support in `CHURP`. Examples of these types of analyses are
@@ -1442,106 +1721,11 @@ factors, because they may end up explaining a large portion of the variance in
 observed gene expression.
 
 [Return to top](#top)
-### <a name="6.2"></a> 6.2 Links to Analysis Guides
-Various packages exist to analyze expression data. We have chosen to use `edgeR`
-in our pipeline, but the counts matrix and group CSV are compatible with many
-others. In fact, one of the main use cases for `CHURP bulk_rnaseq` is to
-automate the generation of an expression counts matrix and metadata CSV so that
-gene expression can be analyzed in complex designs with specialized packages.
-
-[DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) is
-another popular package for analyzing RNAseq data. It uses the same negative
-binomial model of read counts as `edgeR`.
-
-The [edgeR Manual](https://www.bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf)
-also contains useful information for analyzing more complex designs.
-
-For time-series analysis, [DyNB](https://research.cs.aalto.fi/csb/software/dynb/)
-uses a Gaussian process to model temporal correlations among gene expression
-profiles in combination with the negative binomial model for expression counts.
-Additionally, [GPClust](https://github.com/SheffieldML/GPclust) can be used to
-identify modules of genes with similar expression profiles over time.
-
-[Return to top](#top)
-## <a name="7"></a> Part 7: Recommendations
-### <a name="7.1"></a> 7.1: General Considerations for Experimental Design
-In reference to the warnings given above, it is important to design powerful
-experiments and keep detailed notes on your samples. Your experiments should
-have a clear control for each experimental treatment. Your null hypothesis
-should be clearly defined, and you should have an expectation for the difference
-between your experimental conditions. Your samples should be randomized across
-technical variables (like extraction batch) whenever possible. Strong
-informatics skills and a clever analytical workflow cannot make meaningful
-results from an underpowered experiment. However, empirical scientific research
-is about balancing insight and practical limitations. A good analytical workflow
-can help make sure that you get the most value out of your data.
-
-[Return to top](#top)
-### <a name="7.2"></a> 7.2: How Much Sequence Data to Collect
-For differential gene expression analyses in most animals or plants, we
-recommend a minimum of 20 million reads per sample. For simpler eukaryotes
-(e.g., nematodes or yeast), 10 million reads per sample may suffice. You should
-have at least three biological replicates (i.e., samples from three different
-individuals or clonal pools) per experimental condition, if possible. There are
-cases where three replicates is excessive, such as high-resolution time series
-analyses, so use your best judgment.
-
-The UMGC recommends 50bp paired-end sequencing technology for differential
-gene expression analysis. For isoform-level expression or alternative splicing
-analysis, they recommend at least 125bp paired-end technology. It is possible
-to use single-end reads for differential gene expression, but it is not a widely
-requested technology, and it may take longer to move through the queue.
-
-The ENCODE project maintains [guidelines for RNAseq experiments](https://www.encodeproject.org/documents/cede0cbe-d324-4ce7-ace4-f0c3eddf5972/@@download/attachment/ENCODE%20Best%20Practices%20for%20RNA_v2.pdf) that may be helpful.
-You may also refer to [this page from Genohub](https://genohub.com/recommended-sequencing-coverage-by-application/)
-that lists recommendations for coverage for a variety of applications.
-
-If you are assembling a transcriptome, you should plan to collect at least 40
-to 50 million reads per sample. Collecting reads from multiple tissues,
-developmental time points, or experimental treatments is beneficial because
-many more transcripts are potentially represented than in any individual
-library.
-
-You may view information about the HiSeq2500, NextSeq, and NovaSeq that the UMGC
-operates at the following links:
-
-- [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php)
-- [NextSeq](http://genomics.umn.edu/nextgen-nextseq.php)
-- [NovaSeq](http://genomics.umn.edu/nextgen-novaseq.php)
-
-[Return to top](#top)
-#### <a name="7.2.1"></a> 7.2.1: UMGC Pricing
-Pricing depends on the instrument that you are requesting, the output mode
-that is being used, and whether your appointment is internal or external to the
-University of Minnesota. The pricing guides for the HiSeq2500, NextSeq, and
-NovaSeq at the UMGC are linked below:
-
-- [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php), click the "Pricing" tab.
-- [NextSeq and NovaSeq Internal](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_Internal_Pricing_032118_update.pdf)
-- [NextSeq and NovaSeq External](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_External_Pricing_032118_update.pdf)
-
-For a quote, you can contact the next-gen sequencing team UMGC by emailing
-<next-gen@umn.edu> with your desired read quantity, read length, and
-single/paired technology. They will prepare a quote that will be good for three
-months from the preparation date.
-
-For a full description of UMGC services and pricing, please see their
-[catalogue]({{"/materials/rnaseq_cmd/UMGC_2015-16_Catalog_Internal.pdf" | prepend: site.baseurl }}).
-Note that despite what the first page says, the prices are still current,
-as of November 2018. **The UMGC is updating their pricing schedule, however,
-so prices are subject to change in the next six months.**
-
-[Return to top](#top)
-#### <a name="7.2.2"></a> 7.2.2: Expected Turnaround Time
-The standard turnaround time for RNAseq projects at the UMGC is 6-8 weeks,
-assuming the libraries pass QC and there are no complications with the reagents
-or the instruments. For faster turnaround, you may request to use the NextSeq,
-which is a single lane, rather than a shared cell like with the other
-instruments.
-
-[Return to top](#top)
-### <a name="7.3"></a> 7.3: Analytical Workflow Considerations
-There are a few additional concerns for RNAseq experiments:
+## <a name="7"></a> Part 7: Developing Your own Workflow
+We provide our in-house bulk RNAseq analysis pipeline as a convenience for
+researchers who are processing many bulk RNAseq datasets. However, you may be
+interested in developing your workflow. If you do, there are some concerns that
+you must keep in mind:
 
 1. Be careful with data from public sources
 2. Use "best in class" software
@@ -1577,70 +1761,10 @@ fluorescence-based signal, rather than a counts-based signal. Be sure that the
 package you are using can handle RNAseq data before applying it.
 
 [Return to top](#top)
-## <a name="8"></a> Part 8: Other RNASeq Applications
-Finally, differential expression analysis is only a small set of what is
-possible with RNAseq data. Other types of analysis include co-expression
-analysis, transcriptome assembly and isoform discovery, and variant discovery
-in the absence of a reference genome.
-
-[Return to top](#top)
-### <a name="8.1"></a> 8.1 Coexpression
-The gist of a coexpression analysis is that it identifies modules of genes that
-have similar expression profiles. That is, genes that are either expressed under
-the same conditions or are expressed in the same tissues. A popular package for
-coexpression is **W**eighted **G**ene **C**orrelation **N**etwork **A**nalysis
-(WGCNA). This package will identify groups of genes that have high correlations
-within groups, and low correlations between groups, which can identify groups
-of genes that respond to experimental conditions or developmental time points.
-
-If you choose to use WGCNA, be sure to input the normalized counts, rather
-than the raw counts.
-
-[Link to WGCNA manual](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/)
-
-[Return to top](#top)
-### <a name="8.2"></a> 8.2 Transcriptome Assembly
-You can use RNAseq to assemble putative transcript sequences from your organism
-of choice. A popular tool for assembling transcriptome sequences from short
-reads is Trinity. Trinity also has some capability of identifying isoforms of
-the same gene, but short reads inherently have little information about which
-isoform was sequenced.
-
-If you choose to use Trinity, be sure to sequence multiple libraries from the
-same organism. Combining libraries from multiple tissues, developmental
-time points, or experimental conditions is also beneficial, because you can
-capture as broad a transcriptome as possible. Trinity also has very high runtime
-and memory requirements. Filtering reads from contaminant organisms or
-ribosomal sequences may help save on computational time.
-
-[Link to Trinity manual](https://github.com/trinityrnaseq/trinityrnaseq/wiki)
-
-[Return to top](#top)
-### <a name="8.3"></a> 8.3 Variant Discovery
-Despite the increasing accessibility of genomics technologies, the practical
-cost of genome sequencing and assembly is still very high. In the cases where
-a reference genome assembly is not available for an organism, a reference
-transcriptome may suffice. The "gene space" of many eukaryotic organisms does
-not vary on the same orders of magnitude as the whole genome. In many cases,
-transcribed regions of the genome are the regions of interest and direct
-interpretability because variants discovered in transcripts have higher
-potential to have direct effects on peptide sequences, and thus organismal
-development, physiology, and behavior. Alternately, RNAseq may be a more
-affordable way to sequence a broad sample of an organism, if sequence capture
-is not feasible.
-
-If you are discovering variants with only a reference transcriptome, then you
-can follow very similar approaches to variant discovery in DNAseq techniques.
-If you are using a reference genome, then you must account for alignments that
-span intron-exon boundaries. 
-
-The Broad Institute maintains a guide on the best practices for variant
-discovery in RNAseq [here](https://gatkforums.broadinstitute.org/gatk/discussion/4067/best-practices-for-variant-discovery-in-rnaseq).
 
 </div>
 
-[Return to top](#top)
-## Part 9: Feedback
+## Part 8: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
 tutorial delivery feedback to that address.
