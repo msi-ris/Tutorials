@@ -1213,11 +1213,26 @@ option. This tells the pipeline to regenerate alignments.
 Now, take a look at the plots and the top of the DEG list file. They should
 look much more reasonable.
 
+<details markdown="1">
+<summary>Click to show the new CPM plot.</summary>
+
 ![Swapped CPM]({{ "/graphics/rnaseq_cmd/cpm_plot_swap.png" | prepend: site.baseurl }})
+
+</details>
+
+<details markdown="1">
+<summary>Click to show the new heatmap plot.</summary>
 
 ![Swapped Heatmap]({{ "/graphics/rnaseq_cmd/high_variance_heatmap_swap.png" | prepend: site.baseurl }})
 
+</details>
+
+<details markdown="1">
+<summary>Click to show the new MDS plot.</summary>
+
 ![Swapped MDS]({{ "/graphics/rnaseq_cmd/mds_plot_swap.png" | prepend: site.baseurl }})
+
+</details>
 
 And when we look at the top of the DEGs list file, we get output:
 
