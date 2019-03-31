@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Intro to RNASeq (Lecture)
-permalink: /RNASeq_lec/
+permalink: /rnaseq_lec/
 exclude: false
 updated: 2019-03-08
 delivered: NA
