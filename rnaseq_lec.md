@@ -43,8 +43,8 @@ to illustrate file formats.
 [Return to top](#top)
 ### <a name="0.2"></a> 0.2: Goals
 - Learn how RNASeq techniques can be applied to your research program
-- Learn several basic experimental designs for RNASeq projects
-- Become familiar with several core file formats of genomics
+- Learn basic experimental designs for RNASeq projects
+- Become familiar with core file formats of genomics
 
 [Return to top](#top)
 ### <a name="0.3"></a> 0.3: Scope of the Tutorial
