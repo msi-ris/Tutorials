@@ -74,7 +74,7 @@ tutorial document!
 This is a two-part tutorial. The first part will take approximately 50 minutes
 and will cover an introduction to using the command line on MSI systems. The
 second part will take approximately one hour and will cover how to use CHURP
-to analyze bulk RNAseq data.
+to analyze bulk RNASeq data.
 
 ### <a name="0.1"></a>0.1 Formatting in This Document
 Throughout this tutorial, there will be formatting cues to highlight various
@@ -120,7 +120,7 @@ re-enter the `%` character when you type the commands into your prompt.
 - Learn the basics of RNASeq data analysis, including read mapping, expression
   counts, and testing for differential expression
 - Learn how to use the UMII-RIS pipelines to perform a differential expression
-  analysis with RNAseq
+  analysis with RNASeq
 
 [Return to top](#top)
 ### <a name="0.3"></a> 0.3: Scope of the Tutorial
@@ -131,7 +131,7 @@ that contains links to various other command line utilities for bioinformatics
 analysis and some less common but still useful Linux commands.
 
 This tutorial will only cover differential gene expression analysis of
-**bulk RNAseq** of mRNA. We will not cover single cell RNAseq analysis or small
+**bulk RNASeq** of mRNA. We will not cover single cell RNASeq analysis or small
 RNA sequencing analysis. We will also not cover coexpression analysis or
 transcriptome assembly in detail. There are links to guides at the bottom of the
 tutorial document for coexpression analysis and transcriptome assembly.
@@ -387,7 +387,7 @@ is an *executable* file. This means that the file can be run as a program.
 
 Next, we will navigate to *global scratch*. This is a special part of the MSI
 filesystem where you can write temporary data. We will use it to hold the
-working data that we need for the RNAseq analysis later in this tutorial. The
+working data that we need for the RNASeq analysis later in this tutorial. The
 global scratch directory is called `/scratch.global`:
 
 ![cd]({{ "/graphics/rnaseq_cmd/cd_scratch.png" | prepend: site.baseurl }})
@@ -433,9 +433,9 @@ successful:
 
 ![ls]({{ "/graphics/rnaseq_cmd/ls_verify_mv.png" | prepend: site.baseurl }})
 
-These are mostly the commands you need to know to follow along with the RNAseq
+These are mostly the commands you need to know to follow along with the RNASeq
 tutorial. There are additional resources below, but they are not required for
-you to use our pipeline for RNAseq analysis.
+you to use our pipeline for RNASeq analysis.
 
 To recap:
 
@@ -585,7 +585,7 @@ software we have available.
     - CAP3 - Sequence assembly, mostly for Sanger reads
     - AByss - Large genome assembly from short reads
     - Falcon - Diploid assembly from Pacific Biosciences long reads
-    - Trinity - Short read RNAseq assembly
+    - Trinity - Short read RNASeq assembly
     - Trinotate - Annotate Trinity transcripts
     - Funannotate - Annotate genome assemblies
 - **Sequence Alignment and Homology Search**
@@ -718,11 +718,11 @@ The pipelines requires that the following pieces of data be available:
 - Gene annotations in GTF format
 
 For this tutorial, we have provided these data. The FASTQ files are located at
-`/home/msistaff/public/RNAseq_Tutorial/Reads`. The
+`/home/msistaff/public/RNASeq_Tutorial/Reads`. The
 indexed reference genome is located at
-`/home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19`. The accompanying
+`/home/msistaff/public/RNASeq_Tutorial/Reference/GRCm38_19`. The accompanying
 GTF gene annotations are located at
-`/home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz`.
+`/home/msistaff/public/RNASeq_Tutorial/Reference/Annotations.gtf.gz`.
 
 When you run your own analysis, you may need to generate your own HISAT2 index
 for your reference genome. We will provide some brief instructions in a later
@@ -783,8 +783,8 @@ reproduce the structure, though.*
 
 ```bash
 % python churp.py group_template bulk_rnaseq \
-    -f /home/msistaff/public/RNAseq_Tutorial/Reads \
-    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
+    -f /home/msistaff/public/RNASeq_Tutorial/Reads \
+    -o /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out/Groups.csv
 ----------
 Thank you for using CHURP. This software was developed by the Research
 Informatics Solutions (RIS) group at MSI with funding from the University of
@@ -797,7 +797,7 @@ https://research.umn.edu/units/umii
 ----------
 SUCCESS
 
-Template file: /scratch.global/konox006/RNAseq_Tutorial_Out/Groups.csv
+Template file: /scratch.global/konox006/RNASeq_Tutorial_Out/Groups.csv
 
 All sample groups and any additional columns have specified have been filled
 with NULL. Please edit the file and write in the correct values for your
@@ -830,7 +830,7 @@ the samples to their groups. In this case, the first four samples are part of
 group `BoneMarrow` and the final four samples are part of group `Spleen`.
 
 ```bash
-% nano /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
+% nano /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out/Groups.csv
 ```
 
 The window will display the contents of the CSV file. Use the arrow keys to
@@ -880,12 +880,12 @@ size of the resource request.
 
 ```bash
 % python churp.py bulk_rnaseq \
-    -e /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv \
-    -f /home/msistaff/public/RNAseq_Tutorial/Reads \
-    -x /home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19 \
-    -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz \
-    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out \
-    -d /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Work \
+    -e /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out/Groups.csv \
+    -f /home/msistaff/public/RNASeq_Tutorial/Reads \
+    -x /home/msistaff/public/RNASeq_Tutorial/Reference/GRCm38_19 \
+    -g /home/msistaff/public/RNASeq_Tutorial/Reference/Annotations.gtf.gz \
+    -o /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out \
+    -d /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Work \
     --strand U \
     --ppn 4 --mem 12000 -w 2 --submit
 ----------
@@ -908,7 +908,7 @@ Samplesheet: /scratch.global/konox006/[...]bulk_rnaseq.samplesheet.txt
 
 Below is the output from qsub.
 Qsub stdout:
-Output and logs will be written to /scratch.global/konox006/RNAseq_Tutorial_Out
+Output and logs will be written to /scratch.global/konox006/RNASeq_Tutorial_Out
 Emails will be sent to konox006@umn.edu
 Single samples job array ID: 8701303[].mesabim3.msi.umn.edu
 Summary job ID: 8701304.mesabim3.msi.umn.edu
@@ -967,12 +967,12 @@ Once all of the jobs have finished (all are listed with `C` status, or are
 no longer in the output of `qstat -t`), you will be able to view the results.
 The output is in the directory that was given as the output directory in the
 pipeline output message. For our example, this is
-`/scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out`.
+`/scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out`.
 
 Navigate to the output directory and list the contents:
 
 ```bash
-% cd /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out
+% cd /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out
 % ls -lF
 total 6.9M
 -rw-rw---- 1 konox006 msistaff 1.5K Mar  7 11:46 2019-03-07.konox006.bulk_rnaseq.pipeline.sh
@@ -980,7 +980,7 @@ total 6.9M
 lrwxrwxrwx 1 konox006 msistaff   56 Mar  7 12:01 allsamples_work_directory
 -> /scratch.global/konox006/RNASeq_Tutorial_work/allsamples/
 -r--r----- 1 konox006 msistaff 732K Mar  7 12:01 Annotations.gtf.gz
--rw-rw---- 1 konox006 msistaff 3.8M Mar  7 12:02 Bulk_RNAseq_Report.html
+-rw-rw---- 1 konox006 msistaff 3.8M Mar  7 12:02 Bulk_RNASeq_Report.html
 -rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-1
 -rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-2
 -rw-rw---- 1 konox006 msistaff  21K Mar  7 11:52 bulk_rnaseq_single_sample.pbs.e11813619-3
@@ -1054,7 +1054,7 @@ are throwing error messages. For now, we do not have to examine them.
 #### RNASeq Metrics
 The `RNASeqMetrics/` directory contains summary metrics collected by the Picard
 `CollectRnaSeqMetrics` tool. This is useful for diagnosing rRNA, gDNA, and
-coverage bias issues in your RNAseq dataset. This information is summarized in
+coverage bias issues in your RNASeq dataset. This information is summarized in
 the HTML report, but the raw output files are saved for record keeping purposes.
 
 #### Duplication Metrics
@@ -1165,10 +1165,10 @@ Finally, there is a summary report generated for the entire run. This is a large
 HTML file with embedded graphics and PDF objects. Much of the information in
 the HTML report is compiled from the summaries that we just went through above.
 Use FileZilla (or your favorite SFTP client) to copy the 
-`Bulk_RNAseq_Report.html` file from the specified output directory to your
+`Bulk_RNASeq_Report.html` file from the specified output directory to your
 desktop. Open it in the browser and take a few minutes to scroll through it.
 
-You can view an example of the HTML report [here]({{"/materials/rnaseq_cmd/Bulk_RNAseq_Report.html" | prepend: site.baseurl }}).
+You can view an example of the HTML report [here]({{"/materials/rnaseq_cmd/Bulk_RNASeq_Report.html" | prepend: site.baseurl }}).
 Warning: it is large (approximately 3MB)!
 
 [Return to top](#top)
@@ -1200,12 +1200,12 @@ option. This tells the pipeline to regenerate alignments.
 ```bash
 % cd /home/riss/public/CHURP/0.1.0/
 % python churp.py bulk_rnaseq \
-    -e /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv \
-    -f /home/msistaff/public/RNAseq_Tutorial/Reads \
-    -x /home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19 \
-    -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz \
-    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out \
-    -d /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Work \
+    -e /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out/Groups.csv \
+    -f /home/msistaff/public/RNASeq_Tutorial/Reads \
+    -x /home/msistaff/public/RNASeq_Tutorial/Reference/GRCm38_19 \
+    -g /home/msistaff/public/RNASeq_Tutorial/Reference/Annotations.gtf.gz \
+    -o /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out \
+    -d /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Work \
     --strand U \
     --ppn 4 --mem 12000 -w 2 --submit --purge
 ```
@@ -1435,7 +1435,7 @@ individual reads represent sequenced fragments, and reads are counted if they
 map to annotated genes.
 
 We also support two types of strandedness for the libraries, strand U, and
-reverse-stranded. By default, the UMGC prepares RNAseq libraries using a
+reverse-stranded. By default, the UMGC prepares RNASeq libraries using a
 reverse-stranded protocol. Thus, the default option for our `featureCounts` call
 is to count reverse-stranded alignments. Additionally, we also set a minimum
 mapping quality of 10 to reads that are considered as valid alignments for
@@ -1462,7 +1462,7 @@ less than the minimum gene length (tunable with the `--min-gene-length` option,
 default of 200bp), then it is removed from the matrix.
 
 The resulting expression counts matrix is then processed with the EdgeR package
-for RNAseq analysis. The raw counts are transformed to counts-per-million (CPM),
+for RNASeq analysis. The raw counts are transformed to counts-per-million (CPM),
 and written to disk. Distributions of CPM for each gene and each sample are
 plotted in violin plots. The 500 genes with the highest variance among the
 samples are plotted in a clustered heatmap. Finally, a multidimensional
@@ -1698,11 +1698,11 @@ additional columns by modifying our original call:
 
 ```bash
 % python churp.py group_template bulk_rnaseq \
-    -f /home/msistaff/public/RNAseq_Tutorial/Reads \
+    -f /home/msistaff/public/RNASeq_Tutorial/Reads \
     -e Genotype \
     -e Tissue \
     -e Time \
-    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
+    -o /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out/Groups.csv
 ```
 
 The resulting CSV file will look like this:
@@ -1737,8 +1737,8 @@ observed gene expression.
 
 [Return to top](#top)
 ## <a name="7"></a> Part 7: Developing Your own Workflow
-We provide our in-house bulk RNAseq analysis pipeline as a convenience for
-researchers who are processing many bulk RNAseq datasets. However, you may be
+We provide our in-house bulk RNASeq analysis pipeline as a convenience for
+researchers who are processing many bulk RNASeq datasets. However, you may be
 interested in developing your workflow. If you do, there are some concerns that
 you must keep in mind:
 
@@ -1759,21 +1759,21 @@ of gene expression profiles. Such metadata are not often deposited with public
 data, so be cautious when analyzing data from the SRA with no technical
 metadata.
 
-In regard to point **2**, most RNAseq alignment should be done with HISAT2 or
+In regard to point **2**, most RNASeq alignment should be done with HISAT2 or
 STAR. STAR requires that you build a special index for each read length that
 you wish to align, so we cannot provide general instructions here. Kallisto can
 be used for transcript quantification, but is not a general purpose alignment
 tool for expression analysis - you should only use Kallisto if your reads and
 reference genome have **very few** expected sequence differences. Most studies
-fall outside of this case, so we do not recommend it for general RNAseq
+fall outside of this case, so we do not recommend it for general RNASeq
 analyses. Several packages and statistical models exist for identifying
 differentially expressed genes, but we recommend EdgeR or DESeq2 because they
 implement robust models and have well-documented features.
 
 For point **3**, the nature of the data from microarrays is fundamentally
-different from that of RNAseq. Microarrays use hybridization, which is a
+different from that of RNASeq. Microarrays use hybridization, which is a
 fluorescence-based signal, rather than a counts-based signal. Be sure that the
-package you are using can handle RNAseq data before applying it.
+package you are using can handle RNASeq data before applying it.
 
 [Return to top](#top)
 

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Intro to RNASeq (Lecture)
-permalink: /rnaseq_lec/
+permalink: /RNASeq_lec/
 exclude: false
 updated: 2019-03-08
 delivered: NA
@@ -42,85 +42,85 @@ to illustrate file formats.
 
 [Return to top](#top)
 ### <a name="0.2"></a> 0.2: Goals
-- Learn how RNAseq techniques can be applied to your research program
-- Learn several basic experimental designs for RNAseq projects
+- Learn how RNASeq techniques can be applied to your research program
+- Learn several basic experimental designs for RNASeq projects
 - Become familiar with several core file formats of genomics
 
 [Return to top](#top)
 ### <a name="0.3"></a> 0.3: Scope of the Tutorial
 This tutorial has a lecture format and will cover the principles and concepts
-that underlie RNAseq experimental design and data analysis. This tutorial will
-not cover the mechanistic details of how to analyze RNAseq data - that will
+that underlie RNASeq experimental design and data analysis. This tutorial will
+not cover the mechanistic details of how to analyze RNASeq data - that will
 be covered in the companion hands-on tutorial.
 
 ## <a name="1"></a> Part 1: RNASeq Overview
 ### <a name="1.1"></a> 1.1: What is RNASeq?
-RNAseq is a technique that uses high-throughput sequencing technologies to
+RNASeq is a technique that uses high-throughput sequencing technologies to
 assay the *transcriptome*, or the transcribed portions of a genome. Which parts
 of the genome are transcribed depends on many factors, including biotic or
 abiotic stressors, organ or tissue type, developmental stage, and genotype of
 the samples. However, the transcriptome size is much smaller than the genome
 size, which allows researchers to sample many more individuals with a limited
-budget. RNAseq data can be used to assemble transcript sequences, detect
+budget. RNASeq data can be used to assemble transcript sequences, detect
 alternative splicing events, or test for differential expression across a set
-of conditions. Because RNAseq data is sequence-based, it can even be used to
+of conditions. Because RNASeq data is sequence-based, it can even be used to
 identify genetic polymorphisms, with the caveat that they will only be found
 in highly-expressed regions of the genome.
 
 Relatively new sample handling library preparation protocols allow researchers
 to tag sequencing reads as originating from the RNA of a single cell
-(single-cell RNAseq, scRNAseq). This allows researchers to study expression at
-very fine-grained resolution. Single-cell RNAseq requires special
+(single-cell RNASeq, scRNASeq). This allows researchers to study expression at
+very fine-grained resolution. Single-cell RNASeq requires special
 considerations, both in terms of analysis and wet-bench molecular techniques,
 and we will not cover it in high detail here.
 
-"Typical" RNAseq protocols involve extraction of RNA from groups of cells that
-are homogenized, or bulked. It is broadly labeled as *bulk RNAseq* to
-distinguish it from scRNAseq. Most of the material we will cover in this
-tutorial will cover either general experimental design or bulk RNAseq handling.
+"Typical" RNASeq protocols involve extraction of RNA from groups of cells that
+are homogenized, or bulked. It is broadly labeled as *bulk RNASeq* to
+distinguish it from scRNASeq. Most of the material we will cover in this
+tutorial will cover either general experimental design or bulk RNASeq handling.
 
 [Return to top](#top)
-### <a name="1.2"></a> 1.2: RNAseq vs. Other Genomics Technologies
-Because RNAseq targets transcribed, or expressed, parts of the genome, its
+### <a name="1.2"></a> 1.2: RNASeq vs. Other Genomics Technologies
+Because RNASeq targets transcribed, or expressed, parts of the genome, its
 most direct comparisons are to other expression-focused genomics technologies.
 
-In comparison to expression microarrays, RNAseq has higher dynamic range and
+In comparison to expression microarrays, RNASeq has higher dynamic range and
 does not depend on a designed assay, which means that it potentially has higher
 sensitivity and is easier to apply to systems which are not genomics model
 systems. However, the analytical framework in place for analyzing microarray
-data is more mature and standardized, meaning that RNAseq studies may have lower
-repeatability than those based on microarrays. RNAseq analysis is becoming more
+data is more mature and standardized, meaning that RNASeq studies may have lower
+repeatability than those based on microarrays. RNASeq analysis is becoming more
 standardized, however, and a strong grounding in experimental design can allow
-researchers to account for bias and experimental error in their analysis. RNAseq
+researchers to account for bias and experimental error in their analysis. RNASeq
 also allows single-nucleotide resolution, which means that the data can be used
 to discover variants as well as expression differences.
 
-In comparison to EST (expressed sequence tag) sequencing, RNAseq is much faster
+In comparison to EST (expressed sequence tag) sequencing, RNASeq is much faster
 and cheaper per nucleotide of data. EST sequencing does not rely on a reference
 genome sequence, but is much lower throughput. EST sequencing also does not
 yield any information about the *relative* expression levels of various
 transcripts, so it precludes differential expression analysis.
 
-RNAseq is relatively affordable, has high sensitivity to detect expression
+RNASeq is relatively affordable, has high sensitivity to detect expression
 differences, can be used to detect isoforms and genetic variants, but has high
 noise and can suffer from low repeatability. However, like scientific research
 in general, careful experimental design can mitigate the repeatability problems.
 
 [Return to top](#top)
-### <a name="1.3"></a> 1.3: Typical RNAseq Workflow
-The typical RNAseq workflow follows the diagram shown below. The number of
+### <a name="1.3"></a> 1.3: Typical RNASeq Workflow
+The typical RNASeq workflow follows the diagram shown below. The number of
 samples and the setup of the actual experimental treatments will depend on the
 goals of the project.
 
-![General workflow]({{ "/graphics/rnaseq_lec/general_workflow.png" | prepend: site.baseurl }})
+![General workflow]({{ "/graphics/RNASeq_lec/general_workflow.png" | prepend: site.baseurl }})
 
 [Return to top](#top)
 ## <a name="2"></a> Part 2: RNASeq Experimental Considerations
-Designing an RNAseq experiment draws upon the same principles of general
+Designing an RNASeq experiment draws upon the same principles of general
 experimental design. In principle, the expression values of the genes that
-are assayed by RNAseq technologies are phenotypes that are being measured by the
+are assayed by RNASeq technologies are phenotypes that are being measured by the
 researcher. Randomization, replication, and blocking are all important
-components of an RNAseq experiment, and should be included where logistically
+components of an RNASeq experiment, and should be included where logistically
 (and financially) possible.
 
 It is important to distinguish between a *biological* replicate and a
@@ -151,7 +151,7 @@ with the experimental treatment effect.
 
 [Return to top](#top)
 ### <a name="2.1"></a> 2.1: Experimental Design
-The exact design of an RNAseq experiment will depend on the researcher's goals.
+The exact design of an RNASeq experiment will depend on the researcher's goals.
 For example, for transcriptome assembly, a researcher may want to sample
 several replicates each from multiple tissues of an organism and sequence them
 to high depth. For differential gene expression analysis, a design that samples
@@ -159,16 +159,16 @@ a single tissue from multiple biological replicates within each treatment is
 more appropriate.
 
 The sections that follow will have brief overviews of common experimental
-designs in RNAseq projects. More complicated designs are possible, with high
+designs in RNASeq projects. More complicated designs are possible, with high
 degrees of replication across hierarchical categorical variables, such as with
 agricultural experiments, but most budgets do not allow for such intense data
-collection via RNAseq.
+collection via RNASeq.
 
 #### Pairwise Two-Group Comparison
 This is a very simple design that is used to test the effect of a single factor,
 such as a drug compound or a single stress condition.
 
-![Pairwise Experiment]({{ "/graphics/rnaseq_lec/pairwise_exp.png" | prepend: site.baseurl }})
+![Pairwise Experiment]({{ "/graphics/RNASeq_lec/pairwise_exp.png" | prepend: site.baseurl }})
 
 In this example, the black samples represent the control condition and the
 red samples represent the treatment condition. There are several *biological*
@@ -180,7 +180,7 @@ This design is slightly more complicated and is used to test for the effect of
 interaction between two experimental variables. For example, the effects of
 both heat stress and salt stress on plant gene expression.
 
-![Factorial Experiment]({{ "/graphics/rnaseq_lec/factorial_exp.png" | prepend: site.baseurl }})
+![Factorial Experiment]({{ "/graphics/RNASeq_lec/factorial_exp.png" | prepend: site.baseurl }})
 
 In this example, the black circles are the control group, having received
 neither heat nor salt treatment. The blue circles have been subjected to the
@@ -211,7 +211,7 @@ experiment, i.e., exactly one individual can get exactly one treatment. In the
 factorial design, it is assumed that the individuals are similar enough such
 that they can be replicated in different experimental conditions.
 
-![Nested Experiment]({{ "/graphics/rnaseq_lec/nested_exp.png" | prepend: site.baseurl }})
+![Nested Experiment]({{ "/graphics/RNASeq_lec/nested_exp.png" | prepend: site.baseurl }})
 
 This type of design is common in ecological experiments, where the samples
 simply cannot be replicated across treatments.
@@ -223,7 +223,7 @@ example, a researcher may be interested in the effect of a compound on two
 different tissues from the same patient, or the effect of a drug on cancerous
 and non-cancerous tissue from the same person.
 
-![Matched Pair Experiment]({{ "/graphics/rnaseq_lec/paired_exp.png" | prepend: site.baseurl }})
+![Matched Pair Experiment]({{ "/graphics/RNASeq_lec/paired_exp.png" | prepend: site.baseurl }})
 
 
 <div class="warn" markdown="1">
@@ -275,7 +275,7 @@ than single-read sequencing. The technology is such that the reads have a
 pre-determined relative orientation and are derived from a physical molecule of
 a certain size, so they more easily map to unique regions of the genome.
 
-![Paired-end vs. single-read]({{ "/graphics/rnaseq_lec/paired_single.png" | prepend: site.baseurl }})
+![Paired-end vs. single-read]({{ "/graphics/RNASeq_lec/paired_single.png" | prepend: site.baseurl }})
 
 In the above cartoon, the green and purple pieces are the sequencing
 adapters.
@@ -294,7 +294,7 @@ Various genomics tools and protocols may require you to know the mean and
 variance in one of the lengths shown below. It is important to know the
 difference because the terms have names that are easily confused.
 
-![Insert size and fragment size]({{ "/graphics/rnaseq_lec/insert_fragment.png" | prepend: site.baseurl }})
+![Insert size and fragment size]({{ "/graphics/RNASeq_lec/insert_fragment.png" | prepend: site.baseurl }})
 
 Strand-specific libraries increase the accuracy of assaying the expression
 level of any given gene. A strand-specific library ensures that reads are
@@ -308,7 +308,7 @@ prokaryotes and microbial eukaryotes with compact genomes than in organisms
 with very large and/or polyploid genomes.
 
 The default protocol that the University of Minnesota Genomics Center (UMGC)
-uses for short-read RNAseq applications is the Illumina TruSeq stranded mRNA
+uses for short-read RNASeq applications is the Illumina TruSeq stranded mRNA
 kit. This produces a reversely-stranded paired-end library.
 
 [Return to top](#top)
@@ -327,7 +327,7 @@ analysis, they recommend at least 125bp paired-end technology. It is possible
 to use single reads for differential gene expression, but it is not a widely
 requested technology, and it may take longer to move through the queue.
 
-The ENCODE project maintains [guidelines for RNAseq experiments](https://www.encodeproject.org/documents/cede0cbe-d324-4ce7-ace4-f0c3eddf5972/@@download/attachment/ENCODE%20Best%20Practices%20for%20RNA_v2.pdf) that may be helpful.
+The ENCODE project maintains [guidelines for RNASeq experiments](https://www.encodeproject.org/documents/cede0cbe-d324-4ce7-ace4-f0c3eddf5972/@@download/attachment/ENCODE%20Best%20Practices%20for%20RNA_v2.pdf) that may be helpful.
 You may also refer to [this page from Genohub](https://genohub.com/recommended-sequencing-coverage-by-application/)
 that lists recommendations for coverage for a variety of applications.
 
@@ -386,17 +386,17 @@ from multiple sources.
 
 [Return to top](#top)
 ## <a name="3"></a> Part 3: Analytical Workflow and File Formats
-This section will deal more specifically with what the analytical side of RNAseq
+This section will deal more specifically with what the analytical side of RNASeq
 projects look like. We will not be covering *how* to do the analyses in detail
 in this section, but we will cover what the overall analysis strategy is and
 what file formats are involved.
 
 [Return to top](#top)
 ### <a name="3.1"></a> 3.1: Overall Workflows
-The overall workflow of RNAseq analysis will depend on your goals: a workflow
+The overall workflow of RNASeq analysis will depend on your goals: a workflow
 for transcriptome assembly will look slightly different from a workflow for
 differential gene expression analysis. We will sketch workflows for common
-types of RNAseq analysis below. Depending on the idiosyncrasies of your data
+types of RNASeq analysis below. Depending on the idiosyncrasies of your data
 and research system, your workflow may deviate slightly from the sketches we
 show below.
 
@@ -406,7 +406,7 @@ in expression level in response to some condition or treatment. It generally
 requires *at least* three biological replicates per condition. This includes
 combinations of conditions if you are testing in a factorial experiment.
 
-![DGE workflow]({{ "/graphics/rnaseq_lec/deg_workflow.png" | prepend: site.baseurl }})
+![DGE workflow]({{ "/graphics/RNASeq_lec/deg_workflow.png" | prepend: site.baseurl }})
 
 The steps shown in grey dashed boxes are optional, but generally recommended.
 
@@ -430,7 +430,7 @@ stress conditions) increases the usefulness of the assembly by "capturing" more
 expressed sequences. Not all transcripts are expressed at all times or under
 all conditions.
 
-![Asm workflow]({{ "/graphics/rnaseq_lec/tx_asm_workflow.png" | prepend: site.baseurl }})
+![Asm workflow]({{ "/graphics/RNASeq_lec/tx_asm_workflow.png" | prepend: site.baseurl }})
 
 Note that in this workflow, the read trimming is required. Contamination with
 sequencing adapters will cause non-biological sequence to be incorporated into
@@ -447,7 +447,7 @@ assembly and some degree of functional annotation or homologous locus
 information.
 
 #### Variant Discovery
-RNAseq data can also be used to discover genetic variants such as single
+RNASeq data can also be used to discover genetic variants such as single
 nucleotide polymorphisms (SNPs) or short insertions and deletions (indels). This
 is mostly useful in systems that have a reference transcriptome but not a
 reference genome. It may also be of interest if you would like to enrich the
@@ -460,7 +460,7 @@ resolve expression differences by reducing mapping uncertainty and increasing
 the number of reads that can be matched by accounting for genetic diversity. In
 most model systems, however, this is not necessary.
 
-![Variant workflow]({{ "/graphics/rnaseq_lec/var_disco.png" | prepend: site.baseurl }})
+![Variant workflow]({{ "/graphics/RNASeq_lec/var_disco.png" | prepend: site.baseurl }})
 
 This workflow looks very similar to the differential expression workflow.
 However, instead of counting reads that map to gene features, you instead use
@@ -471,15 +471,15 @@ frequency, heterozygosity, and call rate.
 
 <div class="warn" markdown="1">
 
-It should be noted that if you call variants from RNAseq data, they will be
-unrepresentative of genetic diversity on a whole-genome scale. RNAseq data is
+It should be noted that if you call variants from RNASeq data, they will be
+unrepresentative of genetic diversity on a whole-genome scale. RNASeq data is
 highly biased by expression level (rare transcripts have very low coverage),
 so you will not discover variants in rare transcripts. Due to the strong
-dependence of read depth on expression level, RNAseq data is also not
+dependence of read depth on expression level, RNASeq data is also not
 appropriate to discover gene deletion or duplication events.
 
-Additionally, RNAseq enriches for functional regions of the genome, which may
-be under purifying selection, so genetic diversity in RNAseq data may
+Additionally, RNASeq enriches for functional regions of the genome, which may
+be under purifying selection, so genetic diversity in RNASeq data may
 underestimate the genetic diversity genome-wide.
 
 However, it is still useful for identifying genetic variants in experimental
@@ -488,13 +488,13 @@ systems where there are very few genomic resources available.
 </div>
 
 #### Others
-There are many other analyses that can be done with RNAseq data. Section 7 will
+There are many other analyses that can be done with RNASeq data. Section 7 will
 contain brief descriptions and links to common analysis tools for the workflows
 described above and other, more specialized analyses.
 
 [Return to top](#top)
 ### <a name="3.2"></a> File Formats
-RNAseq is a genomics analysis, meaning it uses a suite of (mostly) standardized
+RNASeq is a genomics analysis, meaning it uses a suite of (mostly) standardized
 genomics file formats. There are some important considerations with some of the
 file formats, however, because they tend to have variable formats. This is a
 known issue in genomics, and the field is still settling on a standard way to
@@ -607,7 +607,7 @@ because many reads will be complete reads of a transcript. However, the RNA
 extraction protocols and library preparation protocols for long-read sequencing
 are much more expensive and specialized.
 
-The analytical workflows for long-read RNAseq are quite different from the ones
+The analytical workflows for long-read RNASeq are quite different from the ones
 sketched in the previous sections. To analyze these data, you will need to
 develop a custom workflow for your data. Pacific Biosciences maintains a
 [landing page](https://github.com/PacificBiosciences/IsoSeq3) for their isoform
@@ -626,15 +626,15 @@ analysis.
 </div>
 
 [Return to top](#top)
-## <a name="5"></a> Part 5: Single-cell RNAseq
-Single-cell RNAseq (scRNAseq) is a technique that uses a special sample handling
+## <a name="5"></a> Part 5: Single-cell RNASeq
+Single-cell RNASeq (scRNASeq) is a technique that uses a special sample handling
 protocol that tags each cell in a sample with a unique barcode, and each
 individual transcript molecule with a unique molecular identifier (UMI). The
 UMI serves to uniquely identify a transcript to reduce amplification bias in
-library preparation. Instead of using read counts as in bulk RNAseq differential
+library preparation. Instead of using read counts as in bulk RNASeq differential
 expression, UMI counts are used to measure relative expression.
 
-scRNAseq is a useful technique for identifying cellular types in a heterogeneous
+scRNASeq is a useful technique for identifying cellular types in a heterogeneous
 mixture of cells in a tissue sample. It can be used to identify rare cell types
 in a sample, precisely query relationships between genes and their regulatory
 elements, and track the development of cell lineages.
@@ -662,14 +662,14 @@ single/paired technology. They will prepare a quote that will be good for three
 months from the preparation date.
 
 For a full description of UMGC services and pricing, please see their
-[catalogue]({{"/materials/rnaseq_cmd/UMGC_2015-16_Catalog_Internal.pdf" | prepend: site.baseurl }}).
+[catalogue]({{"/materials/RNASeq_cmd/UMGC_2015-16_Catalog_Internal.pdf" | prepend: site.baseurl }}).
 Note that despite what the first page says, the prices are still current,
 as of November 2018. **The UMGC is updating their pricing schedule, however,
 so prices are subject to change in the next six months.**
 
 [Return to top](#top)
 #### <a name="6.2"></a> 6.2: Expected Turnaround Time
-The standard turnaround time for RNAseq projects at the UMGC is 6-8 weeks,
+The standard turnaround time for RNASeq projects at the UMGC is 6-8 weeks,
 assuming the libraries pass QC and there are no complications with the reagents
 or the instruments. For faster turnaround, you may request to use the NextSeq,
 which is a single lane, rather than a shared flowcell like with the other
@@ -677,7 +677,7 @@ instruments.
 
 ## <a name="7"></a> Part 7: Helpful Links
 This section will contain a list of common software tools, manuals, and guides
-for performing various RNAseq analyses.
+for performing various RNASeq analyses.
 
 ### <a name="7.1"></a> 7.1: Differential Gene Expression
 - [HTseq](https://htseq.readthedocs.io/en/release_0.11.1/) - generate an expression counts matrix
@@ -695,14 +695,14 @@ for performing various RNAseq analyses.
     - [Manual](https://bioconductor.org/packages/release/bioc/manuals/DESeq2/man/DESeq2.pdf)
     - [Publication](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-014-0550-8)
 - [CHURP](https://github.umn.edu/MSI-RIS/CHURP) - UMN Pipeline, developed by RIS at MSI
-    - Covered in RNAseq hands-on tutorial!
+    - Covered in RNASeq hands-on tutorial!
     - [Wiki](https://github.umn.edu/MSI-RIS/CHURP/wiki)
-    - [Tutorial](https://pages.github.umn.edu/MSI-RIS/Tutorials/rnaseq_cmd/)
+    - [Tutorial](https://pages.github.umn.edu/MSI-RIS/Tutorials/RNASeq_cmd/)
 
 ### <a name="7.2"></a> 7.2: Transcriptome Assembly
-- [Trinity](https://github.com/trinityrnaseq/trinityrnaseq)
-    - [Wiki](https://github.com/trinityrnaseq/trinityrnaseq/wiki)
-    - [Short example](https://github.com/trinityrnaseq/trinityrnaseq/wiki/Running-Trinity)
+- [Trinity](https://github.com/trinityRNASeq/trinityRNASeq)
+    - [Wiki](https://github.com/trinityRNASeq/trinityRNASeq/wiki)
+    - [Short example](https://github.com/trinityRNASeq/trinityRNASeq/wiki/Running-Trinity)
     - [Publication](https://www.nature.com/articles/nbt.1883)
 - [rnaSPAdes](http://cab.spbu.ru/software/rnaspades/)
     - [Manual](http://cab.spbu.ru/files/release3.13.0/rnaspades_manual.html)
@@ -719,7 +719,7 @@ For assembly evaluation for completeness/quality:
 - [IsoSeq 3](https://github.com/PacificBiosciences/IsoSeq_SA3nUP/wiki) - Pacific Biosciences
 
 ### <a name="7.3"></a> 7.3: Variant Detection
-- [GATK](https://github.com/gatk-workflows/gatk3-4-rnaseq-germline-snps-indels) - Mostly for human data
+- [GATK](https://github.com/gatk-workflows/gatk3-4-RNASeq-germline-snps-indels) - Mostly for human data
     - [Publication 1](https://genome.cshlp.org/content/20/9/1297)
     - [Publication 2](https://www.nature.com/articles/ng.806)
 - [FreeBayes](https://github.com/ekg/freebayes)
@@ -730,7 +730,7 @@ For assembly evaluation for completeness/quality:
     - [Tutorials](https://horvath.genetics.ucla.edu/html/CoexpressionNetwork/Rpackages/WGCNA/Tutorials/index.html)
     - [Reference manual](https://cran.r-project.org/web/packages/WGCNA/WGCNA.pdf)
     - [Publication](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-9-559)
-- [petal](https://github.com/julipetal/petalNet) - gene coexpression network building with RNAseq data
+- [petal](https://github.com/julipetal/petalNet) - gene coexpression network building with RNASeq data
     - [Reference manual](https://github.com/julipetal/petalNet/blob/master/doc/petal.pdf)
     - [Publication](https://bmcsystbiol.biomedcentral.com/articles/10.1186/s12918-016-0298-8)
 - [Camoco](https://github.com/LinkageIO/Camoco) - gene coexpression network building with GWAS functionality
@@ -738,8 +738,8 @@ For assembly evaluation for completeness/quality:
     - [Publication](http://www.plantcell.org/content/30/12/2922)
 
 ### <a name="7.5"></a> 7.5: Pathway Analysis or Functional Enrichment
-These are not RNAseq analysis tools in themselves, but they are commonly used
-to derive insights from gene lists obtained through RNAseq analyses.
+These are not RNASeq analysis tools in themselves, but they are commonly used
+to derive insights from gene lists obtained through RNASeq analyses.
 
 - [ReactomePA](https://bioconductor.org/packages/release/bioc/html/ReactomePA.html) - pathway analysis
     - [Tutorial](https://bioconductor.org/packages/release/bioc/vignettes/ReactomePA/inst/doc/ReactomePA.html)
@@ -749,11 +749,11 @@ to derive insights from gene lists obtained through RNAseq analyses.
     - [Publication](https://www.liebertpub.com/doi/10.1089/omi.2011.0118)
 - [Gene Set Enrichment Analysis](https://www.pnas.org/content/102/43/15545)
 
-### <a name="7.6"></a> 7.6: Single-cell RNAseq
-- [Seurat](https://satijalab.org/seurat/) - clustering and alignment of single cell RNAseq profiles
+### <a name="7.6"></a> 7.6: Single-cell RNASeq
+- [Seurat](https://satijalab.org/seurat/) - clustering and alignment of single cell RNASeq profiles
     - [Tutorials](https://satijalab.org/seurat/get_started.html)
     - [Publication](https://www.nature.com/articles/nbt.4096)
-- [Monocle](http://cole-trapnell-lab.github.io/monocle-release/) - time course and differential expression analyses with scRNAseq
+- [Monocle](http://cole-trapnell-lab.github.io/monocle-release/) - time course and differential expression analyses with scRNASeq
     - [Tutorials](http://cole-trapnell-lab.github.io/monocle-release/tutorials/)
     - [Publication](https://www.nature.com/articles/nbt.2859)
 
