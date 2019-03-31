@@ -112,7 +112,7 @@ The typical RNASeq workflow follows the diagram shown below. The number of
 samples and the setup of the actual experimental treatments will depend on the
 goals of the project.
 
-![General workflow]({{ "/graphics/RNASeq_lec/general_workflow.png" | prepend: site.baseurl }})
+![General workflow]({{ "/graphics/rnaseq_lec/general_workflow.png" | prepend: site.baseurl }})
 
 [Return to top](#top)
 ## <a name="2"></a> Part 2: RNASeq Experimental Considerations
@@ -168,7 +168,7 @@ collection via RNASeq.
 This is a very simple design that is used to test the effect of a single factor,
 such as a drug compound or a single stress condition.
 
-![Pairwise Experiment]({{ "/graphics/RNASeq_lec/pairwise_exp.png" | prepend: site.baseurl }})
+![Pairwise Experiment]({{ "/graphics/rnaseq_lec/pairwise_exp.png" | prepend: site.baseurl }})
 
 In this example, the black samples represent the control condition and the
 red samples represent the treatment condition. There are several *biological*
@@ -180,7 +180,7 @@ This design is slightly more complicated and is used to test for the effect of
 interaction between two experimental variables. For example, the effects of
 both heat stress and salt stress on plant gene expression.
 
-![Factorial Experiment]({{ "/graphics/RNASeq_lec/factorial_exp.png" | prepend: site.baseurl }})
+![Factorial Experiment]({{ "/graphics/rnaseq_lec/factorial_exp.png" | prepend: site.baseurl }})
 
 In this example, the black circles are the control group, having received
 neither heat nor salt treatment. The blue circles have been subjected to the
@@ -211,7 +211,7 @@ experiment, i.e., exactly one individual can get exactly one treatment. In the
 factorial design, it is assumed that the individuals are similar enough such
 that they can be replicated in different experimental conditions.
 
-![Nested Experiment]({{ "/graphics/RNASeq_lec/nested_exp.png" | prepend: site.baseurl }})
+![Nested Experiment]({{ "/graphics/rnaseq_lec/nested_exp.png" | prepend: site.baseurl }})
 
 This type of design is common in ecological experiments, where the samples
 simply cannot be replicated across treatments.
@@ -223,7 +223,7 @@ example, a researcher may be interested in the effect of a compound on two
 different tissues from the same patient, or the effect of a drug on cancerous
 and non-cancerous tissue from the same person.
 
-![Matched Pair Experiment]({{ "/graphics/RNASeq_lec/paired_exp.png" | prepend: site.baseurl }})
+![Matched Pair Experiment]({{ "/graphics/rnaseq_lec/paired_exp.png" | prepend: site.baseurl }})
 
 
 <div class="warn" markdown="1">
@@ -275,7 +275,7 @@ than single-read sequencing. The technology is such that the reads have a
 pre-determined relative orientation and are derived from a physical molecule of
 a certain size, so they more easily map to unique regions of the genome.
 
-![Paired-end vs. single-read]({{ "/graphics/RNASeq_lec/paired_single.png" | prepend: site.baseurl }})
+![Paired-end vs. single-read]({{ "/graphics/rnaseq_lec/paired_single.png" | prepend: site.baseurl }})
 
 In the above cartoon, the green and purple pieces are the sequencing
 adapters.
@@ -294,7 +294,7 @@ Various genomics tools and protocols may require you to know the mean and
 variance in one of the lengths shown below. It is important to know the
 difference because the terms have names that are easily confused.
 
-![Insert size and fragment size]({{ "/graphics/RNASeq_lec/insert_fragment.png" | prepend: site.baseurl }})
+![Insert size and fragment size]({{ "/graphics/rnaseq_lec/insert_fragment.png" | prepend: site.baseurl }})
 
 Strand-specific libraries increase the accuracy of assaying the expression
 level of any given gene. A strand-specific library ensures that reads are
@@ -406,7 +406,7 @@ in expression level in response to some condition or treatment. It generally
 requires *at least* three biological replicates per condition. This includes
 combinations of conditions if you are testing in a factorial experiment.
 
-![DGE workflow]({{ "/graphics/RNASeq_lec/deg_workflow.png" | prepend: site.baseurl }})
+![DGE workflow]({{ "/graphics/rnaseq_lec/deg_workflow.png" | prepend: site.baseurl }})
 
 The steps shown in grey dashed boxes are optional, but generally recommended.
 
@@ -430,7 +430,7 @@ stress conditions) increases the usefulness of the assembly by "capturing" more
 expressed sequences. Not all transcripts are expressed at all times or under
 all conditions.
 
-![Asm workflow]({{ "/graphics/RNASeq_lec/tx_asm_workflow.png" | prepend: site.baseurl }})
+![Asm workflow]({{ "/graphics/rnaseq_lec/tx_asm_workflow.png" | prepend: site.baseurl }})
 
 Note that in this workflow, the read trimming is required. Contamination with
 sequencing adapters will cause non-biological sequence to be incorporated into
@@ -460,7 +460,7 @@ resolve expression differences by reducing mapping uncertainty and increasing
 the number of reads that can be matched by accounting for genetic diversity. In
 most model systems, however, this is not necessary.
 
-![Variant workflow]({{ "/graphics/RNASeq_lec/var_disco.png" | prepend: site.baseurl }})
+![Variant workflow]({{ "/graphics/rnaseq_lec/var_disco.png" | prepend: site.baseurl }})
 
 This workflow looks very similar to the differential expression workflow.
 However, instead of counting reads that map to gene features, you instead use
