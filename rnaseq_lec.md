@@ -3,7 +3,7 @@ layout: default
 title: Intro to RNASeq (Lecture)
 permalink: /rnaseq_lec/
 exclude: false
-updated: 2019-03-08
+updated: 2019-04-01
 delivered: NA
 ---
 
@@ -11,12 +11,40 @@ delivered: NA
 
 ## Table of Contents
 - [Introduction](#0)
+- [RNASeq Overview](#1)
+    - [What is RNASeq?](#1.1)
+    - [RNASeq vs. Other Technologies](#1.2)
+    - [Typical RNASeq Workflow](#1.3)
+- [RNASeq Experimental Considerations](#2)
+    - [Experimental Design](#2.1)
+    - [Molecular Biology Techniques](#2.2)
+    - [How Much Sequence Data to Collect](#2.3)
+    - [Metadata](#2.4)
+- [Analytical Workflow and File Formats](#3)
+    - [Overall Workflows](#3.1)
+    - [File Formats](#3.2)
+- [Long Reads](#4)
+- [Single-cell RNASeq](#5)
+- [UMGC](#6)
+    - [Pricing and Instruments](#6.1)
+    - [Expected Turnaround Time](#6.2)
+- [Helpful Links](#7)
+    - [Differential Gene Expression](#7.1)
+    - [Transcriptome Assembly](#7.2)
+    - [Variant Detection](#7.3)
+    - [Coexpression Network Construction](#7.4)
+    - [Pathway Analysis or Enrichment](#7.5)
+    - [Single-cell RNASeq](#7.6)
 
 </div>
 
 # <a name="top"></a> {{page.title}}
 *Last Updated: {{page.updated}}*  
 *Last Delivered: {{page.delivered}}*
+
+## Google Slide Deck
+You can view the latest version of the Google Slides deck at this
+[link](https://docs.google.com/presentation/d/1SVPuI-MAPDjZTUhe43io1hNj4LEp5cRMpdypbqjI1cQ/edit?usp=sharing).
 
 ## <a name="0"></a>Part 0: Introduction
 ### Slide Deck
@@ -493,7 +521,7 @@ contain brief descriptions and links to common analysis tools for the workflows
 described above and other, more specialized analyses.
 
 [Return to top](#top)
-### <a name="3.2"></a> File Formats
+### <a name="3.2"></a> 3.2: File Formats
 RNASeq is a genomics analysis, meaning it uses a suite of (mostly) standardized
 genomics file formats. There are some important considerations with some of the
 file formats, however, because they tend to have variable formats. This is a
