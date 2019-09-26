@@ -3,9 +3,33 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2019-09-04
+updated: 2019-09-26
 delivered: 2018-12-04
 ---
+
+<!-- Some daft javascript to open all <details> on print. -->
+<script type="text/javascript">
+function open_det(e) {
+  e.open = true;
+}
+function close_det(e) {
+  e.open= false;
+}
+function openall() {
+  var det_elems = document.getElementsByTagName('details');
+  var arr_det_elems = Array.prototype.slice.call(det_elems);
+  arr_det_elems.forEach(open_det);
+}
+function closeall() {
+  var det_elems = document.getElementsByTagName('details');
+  var arr_det_elems = Array.prototype.slice.call(det_elems);
+  arr_det_elems.forEach(close_det);
+}
+</script>
+
+<a onclick="javascript:openall()" href="#">Expand all details</a>
+
+<a onclick="javascript:closeall()" href="#">Collapse all details</a>
 
 <div id="navdiv" markdown="1">
 
@@ -45,16 +69,10 @@ delivered: 2018-12-04
 - [More Complex Analyses](#6)
     - [`group_template` Columns](#6.1)
     - [Links to Analysis Guides](#6.2)
-- [Recommendations](#7)
-    - [General Considerations for Experimental Design](#7.1)
-    - [How Much Sequence Data to Collect](#7.2)
-        - [UMGC Pricing](#7.2.1)
-        - [Expected Turnaround Time](#7.2.2)
-    - [Analytical Workflow Considerations](#7.3)
-- [Other RNASeq Applications](#8)
-    - [Coexpression](#8.1)
-    - [Transcriptome Assembly](#8.2)
-    - [Variant Discovery](#8.3)
+- [Developing Your Own Workflow](#7)
+- [UMGC](#8)
+    - [Pricing and Instruments](#8.1)
+    - [Expected Turnaround Time](#8.2)
 
 </div>
 
@@ -1168,7 +1186,7 @@ Use FileZilla (or your favorite SFTP client) to copy the
 `Bulk_RNASeq_Report.html` file from the specified output directory to your
 desktop. Open it in the browser and take a few minutes to scroll through it.
 
-You can view an example of the HTML report [here]({{"/materials/rnaseq_cmd/Bulk_RNASeq_Report.html" | prepend: site.baseurl }}).
+You can view an example of the HTML report [here]({{"/materials/rnaseq_cmd/Bulk_RNAseq_Report.html" | prepend: site.baseurl }}).
 Warning: it is large (approximately 3MB)!
 
 [Return to top](#top)
@@ -1595,16 +1613,16 @@ set -o pipefail
 user_name="$(id -u -n)"
 user_email="${user_name}@umn.edu"
 QSUB_ARRAY="1-8"
-OUTDIR="/panfs/roc/scratch/konox006/2019-03-14T165843.bulk_rnaseq"
-WORKDIR="/panfs/roc/scratch/konox006/2019-03-14T165843.bulk_rnaseq.work"
-DE_SCRIPT="/panfs/roc/groups/2/riss/public/CHURP/0.1.0/R_Scripts/summarize_bulk_rnaseq.R"
-REPORT_SCRIPT="/panfs/roc/groups/2/riss/public/CHURP/0.1.0/R_Scripts/bulk_rnaseq_report.Rmd"
-SAMPLESHEET="/panfs/roc/scratch/konox006/2019-03-14T165843.bulk_rnaseq/2019-03-14.konox006.bulk_rnaseq.samplesheet.txt"
+OUTDIR="/panfs/roc/scratch . . . [truncated for readability]"
+WORKDIR="/panfs/roc/scratch . . . [truncated for readability]"
+DE_SCRIPT="/panfs/roc/groups . . . [truncated for readability]"
+REPORT_SCRIPT="/panfs/roc/groups . . . [truncated for readability]"
+SAMPLESHEET="/panfs/roc/scratch/ . . . [truncated for readability]"
 PURGE="true"
 SUBSAMP="10000"
 PIPE_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/$(basename $0)"
-single_id=$(qsub -q mesabi -m abe -M "${user_email}"  -o "${OUTDIR}" -e "${OUTDIR}" -l "mem=12000mb,nodes=1:ppn=4,walltime=7200" -t "${QSUB_ARRAY}" -v "SampleSheet=${SAMPLESHEET},PURGE=${PURGE},SUBSAMP=${SUBSAMP}" /panfs/roc/groups/2/riss/public/CHURP/0.1.0/PBS/bulk_rnaseq_single_sample.pbs || exit 1)
-summary_id=$(qsub -q mesabi -m abe -M "${user_email}"  -o "${OUTDIR}" -e "${OUTDIR}" -W "depend=afterokarray:${single_id}" -v "SampleSheet=${SAMPLESHEET},MINLEN=200,MINCPM=1.0,RSUMMARY=${DE_SCRIPT},PIPE_SCRIPT=${PIPE_SCRIPT},BULK_RNASEQ_REPORT=${REPORT_SCRIPT}" /panfs/roc/groups/2/riss/public/CHURP/0.1.0/PBS/run_summary_stats.pbs || exit 1)
+single_id=$(qsub -q mesabi -m abe -M "${user_email}" . . . [truncated for readability])
+summary_id=$(qsub -q mesabi -m abe -M "${user_email}" . . . [truncated for readability])
 echo "Output and logs will be written to ${OUTDIR}"
 echo "Emails will be sent to ${user_email}"
 echo "Single samples job array ID: ${single_id}"
@@ -1777,9 +1795,41 @@ package you are using can handle RNASeq data before applying it.
 
 [Return to top](#top)
 
+## <a name="8"></a> Part 8: University of Minnesota Genomics Center
+The University of Minnesota Genomics Center offers extraction, library
+preparation, and sequencing services. They also offer services for long-read
+technologies. Their systems are connected to MSI servers to support direct
+data deposit into your MSI directory.
+
+### <a name="8.1"></a> 8.1: Pricing and Instruments
+
+- [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php), click the "Pricing" tab. **Note**: The HiSeq 2500 is retiring in September 2019. Use the NextSeq or NovaSeq instead.
+- [NextSeq and NovaSeq Internal](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_Internal_Pricing_032118_update.pdf)
+- [NextSeq and NovaSeq External](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_External_Pricing_032118_update.pdf)
+- [PacBio Sequel](http://genomics.umn.edu/long-read-pacbio.php): Long read (isoform) sequencing for RNA.
+
+For a quote, you can contact the next-gen sequencing team UMGC by emailing
+<next-gen@umn.edu> with your desired read quantity, read length, and
+single/paired technology. They will prepare a quote that will be good for three
+months from the preparation date.
+
+For a full description of UMGC services and pricing, please see their
+[catalogue]({{"/materials/RNASeq_cmd/UMGC_2015-16_Catalog_Internal.pdf" | prepend: site.baseurl }}).
+Note that despite what the first page says, the prices are still current,
+as of November 2018. **The UMGC is updating their pricing schedule, however,
+so prices are subject to change in the next six months.**
+
+[Return to top](#top)
+#### <a name="8.2"></a> 8.2: Expected Turnaround Time
+The standard turnaround time for RNASeq projects at the UMGC is 6-8 weeks,
+assuming the libraries pass QC and there are no complications with the reagents
+or the instruments. For faster turnaround, you may request to use the NextSeq,
+which is a single lane, rather than a shared flowcell like with the other
+instruments.
+
 </div>
 
-## Part 8: Feedback
+## Part 9: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
 tutorial delivery feedback to that address.
