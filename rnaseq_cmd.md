@@ -27,10 +27,6 @@ function closeall() {
 }
 </script>
 
-<a onclick="javascript:openall()" href="#">Expand all details</a>
-
-<a onclick="javascript:closeall()" href="#">Collapse all details</a>
-
 <div id="navdiv" markdown="1">
 
 ## Table of Contents
@@ -87,6 +83,9 @@ tutorial document!
 # <a name="top"></a> {{page.title}}
 *Last Updated: {{page.updated}}*  
 *Last Delivered: {{page.delivered}}*
+
+<a onclick="javascript:openall()" href="#">Expand all details</a>  
+<a onclick="javascript:closeall()" href="#">Collapse all details</a>
 
 ## <a name="0"></a>Part 0: Introduction
 This is a two-part tutorial. The first part will take approximately 50 minutes
