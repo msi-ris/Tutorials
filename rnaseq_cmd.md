@@ -3,7 +3,7 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2019-09-26
+updated: 2019-10-10
 delivered: 2018-12-04
 ---
 
@@ -90,8 +90,7 @@ tutorial document!
 ## <a name="0"></a>Part 0: Introduction
 This is a two-part tutorial. The first part will take approximately 50 minutes
 and will cover an introduction to using the command line on MSI systems. The
-second part will take approximately one hour and will cover how to use CHURP
-to analyze bulk RNASeq data.
+second part will take approximately 90 minutes and will cover how to use a workflow developed by RIS to analyze bulk RNASeq data. The second section also includes a discussion of important RNASeq quality control guidelines and links to the University of Minnesota Genomics Center information pages.
 
 ### <a name="0.1"></a>0.1 Formatting in This Document
 Throughout this tutorial, there will be formatting cues to highlight various
@@ -393,10 +392,10 @@ of this directory, too:
 
 ![ls]({{ "/graphics/rnaseq_cmd/ls_churp.png" | prepend: site.baseurl }})
 
-It has two directories, `0.0.1` and `0.1.0`. Let's `cd` into `0.1.0` and list
+It has three directories, `0.0.1`, `0.1.0`, and `0.2.0`. Let's `cd` into `0.2.0` and list
 contents again with `ls`:
 
-![ls]({{ "/graphics/rnaseq_cmd/ls_churp_0.1.0.png" | prepend: site.baseurl }})
+![ls]({{ "/graphics/rnaseq_cmd/ls_churp_0.2.0.png" | prepend: site.baseurl }})
 
 There are a lot more files and directories inside here. The blue names are
 other directories, the white names are regular files, and the green name
@@ -647,7 +646,7 @@ software we have available.
 ### <a name="2.1"></a> 1.3: Overall Workflow
 Here is a schematic of the workflow that we will follow for this tutorial. The
 pieces of data are shown in rectangles, and the software are shown in rounded
-bubbles with dashed borders. The final output is shown in red.
+bubbles with dashed borders. The final output is shown in red. This is a simplified representation - the real workflow includes several other QC steps. Please see the [CHURP GitHub repository](https://github.umn.edu/MSI-RIS/CHURP) for a full listing of everything that PURR includes. Note that this link requires an active UMN internet ID to view.
 
 ![Workflow]({{ "/graphics/rnaseq_cmd/workflow.png" | prepend: site.baseurl }})
 
@@ -699,12 +698,12 @@ From here on, the commands and their output will be shown in text, rather than
 in screenshots of terminal emulators.
 
 Next, load the `python3` module. This is required to run `CHURP`. Navigate to
-the `/home/riss/public/CHURP/0.1.0/` directory with `cd`. Run the
+the `/home/riss/public/CHURP/0.2.0/` directory with `cd`. Run the
 main control script, `churp.py`.
 
 ```bash
 % module load python3
-% cd /home/riss/public/CHURP/0.1.0/
+% cd /home/riss/public/CHURP/0.2.0/
 % python churp.py
 Usage: churp.py <subcommand> <options>
 
@@ -719,8 +718,8 @@ Currently, the following subcommands are supported:
     - bulk_rnaseq
 
 For issues, contact help@msi.umn.edu.
-Version: 0.1.0
-2019-03-13
+Version: 0.2.0
+2019-04-24
 ```
 
 If you get a message similar to the one above, then you are ready to run the
@@ -877,11 +876,7 @@ expression testing.
 #### <a name="2.3.2"></a> 2.3.2: Submitting the Pipeline Jobs
 Now that we have assigned the samples to groups, we will run the `bulk_rnaseq`
 pipeline, supplying the file that contains the group assignments. This is done
-by supplying the `-e` option in addition to the `-f`, `-x`, and `-g` options. We
-also supply the `--submit` option to automatically send the jobs to the queue.
-If you omit the `--submit` option, then you will have a chance to edit the
-pipeline script and the samplesheet. The formats for these files will be
-described later in the document.
+by supplying the `-e` option in addition to the `-f`, `-x`, and `-g` options.
 
 <div class="warn" markdown="1">
 
@@ -890,6 +885,7 @@ from a lab that used a non-strand-specific library prep protocol (NEBNext Ultra
 RNA kit). The default option is for reverse-stranded libraries, which is the
 standard kit used by the UMGC (TruSeq Stranded RNA).
 
+Please also note that the genome index and GTF file provided as part of this tutorial are subsets of the full mm10 (*Mus musculus*) reference genome. Please do not use these for your real analyses.
 </div>
 
 For the sake of getting the jobs completed more quickly, we will decrease the
@@ -904,7 +900,7 @@ size of the resource request.
     -o /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out \
     -d /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Work \
     --strand U \
-    --ppn 4 --mem 12000 -w 2 --submit
+    --ppn 4 --mem 12000 -w 2
 ----------
 Thank you for using CHURP. This software was developed by the Research
 Informatics Solutions (RIS) group at MSI with funding from the University of
@@ -920,15 +916,17 @@ SUCCESS
 Your pipeline has been submitted. For reference, the pipeline script and the
 samplesheet are given at the paths below:
 
-Pipeline script: /scratch.global/konox006/[...]bulk_rnaseq.pipeline.sh
-Samplesheet: /scratch.global/konox006/[...]bulk_rnaseq.samplesheet.txt
+Pipeline script: /scratch.global/[. . .].pipeline.sh
+Samplesheet: /scratch.global/[. . .].samplesheet.txt
+Qsub array key: /scratch.global/[. . .]qsub_array.txt
 
 Below is the output from qsub.
 Qsub stdout:
 Output and logs will be written to /scratch.global/konox006/RNASeq_Tutorial_Out
 Emails will be sent to konox006@umn.edu
-Single samples job array ID: 8701303[].mesabim3.msi.umn.edu
-Summary job ID: 8701304.mesabim3.msi.umn.edu
+Qsub array to samplename key: /scratch.global/[. . .]qsub_array.txt
+Single samples job array ID: 17700274[].mesabim1.msi.umn.edu
+Summary job ID: 17700275.mesabim1.msi.umn.edu
 
 Qsub stderr:
 
@@ -961,15 +959,15 @@ The `-t` expands the job array that we use to process samples in batches.
 % qstat -t
 Job ID                    Name             User            Time Use S Queue
 ------------------------- ---------------- --------------- -------- - -----
-8840519[1].mesabim3.msi.umn.e ..._sample.pbs-1 konox006               0 Q small
-8840519[2].mesabim3.msi.umn.e ..._sample.pbs-2 konox006               0 Q small
-8840519[3].mesabim3.msi.umn.e ..._sample.pbs-3 konox006               0 Q small
-8840519[4].mesabim3.msi.umn.e ..._sample.pbs-4 konox006               0 Q small
-8840519[5].mesabim3.msi.umn.e ..._sample.pbs-5 konox006               0 Q small
-8840519[6].mesabim3.msi.umn.e ..._sample.pbs-6 konox006               0 Q small
-8840519[7].mesabim3.msi.umn.e ..._sample.pbs-7 konox006               0 Q small
-8840519[8].mesabim3.msi.umn.e ..._sample.pbs-8 konox006               0 Q small
-8840520.mesabim3.msi.umn.edu ...ary_stats.pbs konox006               0 H small
+17700274[1].mesabim3.msi.umn.e ..._sample.pbs-1 konox006               0 Q small
+17700274[2].mesabim3.msi.umn.e ..._sample.pbs-2 konox006               0 Q small
+17700274[3].mesabim3.msi.umn.e ..._sample.pbs-3 konox006               0 Q small
+17700274[4].mesabim3.msi.umn.e ..._sample.pbs-4 konox006               0 Q small
+17700274[5].mesabim3.msi.umn.e ..._sample.pbs-5 konox006               0 Q small
+17700274[6].mesabim3.msi.umn.e ..._sample.pbs-6 konox006               0 Q small
+17700274[7].mesabim3.msi.umn.e ..._sample.pbs-7 konox006               0 Q small
+17700274[8].mesabim3.msi.umn.e ..._sample.pbs-8 konox006               0 Q small
+17700275.mesabim3.msi.umn.edu ...ary_stats.pbs konox006               0 H small
 ```
 
 The `Q` means that the job is queued. When the jobs begins to run, it will turn
@@ -1039,23 +1037,33 @@ There are multiple levels types of output that get generated:
 
 1. HTML report
 2. Log files, including PBS output files
-3. RNASeq metrics
-4. Duplication metrics
-5. Insert size metrics
-6. Coordinate-sorted BAM files
-7. Expression counts
-8. Summary plots
-9. Differentially expressed genes
+3. Insert size metrics
+4. Coordinate-sorted BAM files
+5. Expression counts
+6. Summary plots
+7. Differentially expressed genes
 
 There are also links to the working directories that get placed in the output
 directory. Additionally, a copy of the GTF that was used for expression counts
 is placed in the output directory.
 
 [Return to top](#top)
+##### HTML Report
+The final output of the PURR workflow is a summary report generated for the entire run. This is a large
+HTML file with embedded graphics and PDF objects. Much of the information in
+the HTML report is compiled from the summaries that we will highlight below.
+Use FileZilla (or your favorite SFTP client) to copy the 
+`Bulk_RNASeq_Report.html` file from the specified output directory to your
+desktop. Open it in the browser and take a few minutes to scroll through it.
+
+You can view an example of the HTML report [here]({{"/materials/rnaseq_cmd/Bulk_RNAseq_Report.html" | prepend: site.baseurl }}).
+Warning: it is large (approximately 3MB)!
+
+[Return to top](#top)
 ##### Log Files
 The `Logs/` directory contains human-readable log files. The "analysis log"
 files describe the analysis steps in plain English and contain the console
-messages from the programs that we run. The "trace log" fiels contain copies of
+messages from the programs that we run. The "trace log" files contain copies of
 the exact commands and variable values that were used for each script. This is
 mostly useful for debugging purposes, if you detect a problem with your
 analysis.
@@ -1067,19 +1075,6 @@ contain the text sent to the standard output and standard error channels of the
 programs called by the programs of the pipeline. The situation in which you
 would most want to view the contents of these files is if your pipeline jobs
 are throwing error messages. For now, we do not have to examine them.
-
-#### RNASeq Metrics
-The `RNASeqMetrics/` directory contains summary metrics collected by the Picard
-`CollectRnaSeqMetrics` tool. This is useful for diagnosing rRNA, gDNA, and
-coverage bias issues in your RNASeq dataset. This information is summarized in
-the HTML report, but the raw output files are saved for record keeping purposes.
-
-#### Duplication Metrics
-The `Dup_Stats/` directory contains duplication summaries extracted from the
-FastQC report. These are summarized on a per-sample per-read basis, and have
-the total duplication level and a duplication histogram for each read. These
-are summarized graphically in the HTML report, but we also provide the raw
-files for your records. The source information is kept in the working directory.
 
 ##### Insert Size Metrics
 These files are located in the `InsertSizeMetics/` directory, and contain
@@ -1177,18 +1172,6 @@ genes   logFC   logCPM  F   PValue  FDR
 There are no differentially expressed genes!
 
 [Return to top](#top)
-##### HTML Report
-Finally, there is a summary report generated for the entire run. This is a large
-HTML file with embedded graphics and PDF objects. Much of the information in
-the HTML report is compiled from the summaries that we just went through above.
-Use FileZilla (or your favorite SFTP client) to copy the 
-`Bulk_RNASeq_Report.html` file from the specified output directory to your
-desktop. Open it in the browser and take a few minutes to scroll through it.
-
-You can view an example of the HTML report [here]({{"/materials/rnaseq_cmd/Bulk_RNAseq_Report.html" | prepend: site.baseurl }}).
-Warning: it is large (approximately 3MB)!
-
-[Return to top](#top)
 #### <a name="2.3.4"></a> 2.3.4: Fixing Sample Labels
 One thing that could be contributing to the fact that we don't have any
 differentially expressed genes is that it appears as though there was a mix-up
@@ -1224,7 +1207,7 @@ option. This tells the pipeline to regenerate alignments.
     -o /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out \
     -d /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Work \
     --strand U \
-    --ppn 4 --mem 12000 -w 2 --submit --purge
+    --ppn 4 --mem 12000 -w 2 --purge
 ```
 
 Now, take a look at the plots and the top of the DEG list file. They should
@@ -1522,7 +1505,6 @@ for human, house mouse, Norway rat, common fruit fly, *C. elegans*, and baker's
 yeast. If you are analyzing data from a species that does not have a pre-built
 index, then you will have to produce your own.
 
-
 First, download a reference genome assembly and a gene annotation. A good source
 of reference genome assemblies is [Ensembl](https://ensembl.org). Make sure that
 you get a FASTA file for the genome assembly and a GTF file for the gene
@@ -1604,26 +1586,29 @@ Shown below is an example of a pipeline script:
 
 ```bash
 #!/bin/bash
-# Generated by CHURP version 0.1.0
-# Generated at 2019-03-14 16:58:43
+# Generated by CHURP version 0.2.0
+# Generated at 2019-10-10 15:10:39
 set -e
 set -u
 set -o pipefail
 user_name="$(id -u -n)"
 user_email="${user_name}@umn.edu"
+KEYFILE="/scratch.global/[. . .]qsub_array.txt"
 QSUB_ARRAY="1-8"
-OUTDIR="/panfs/roc/scratch . . . [truncated for readability]"
-WORKDIR="/panfs/roc/scratch . . . [truncated for readability]"
-DE_SCRIPT="/panfs/roc/groups . . . [truncated for readability]"
-REPORT_SCRIPT="/panfs/roc/groups . . . [truncated for readability]"
-SAMPLESHEET="/panfs/roc/scratch/ . . . [truncated for readability]"
-PURGE="true"
-SUBSAMP="10000"
-PIPE_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/$(basename $0)"
-single_id=$(qsub -q mesabi -m abe -M "${user_email}" . . . [truncated for readability])
-summary_id=$(qsub -q mesabi -m abe -M "${user_email}" . . . [truncated for readability])
+OUTDIR="/scratch.global/konox006/RNASeq_Tutorial_Out"
+WORKDIR="/scratch.global/konox006/RNASeq_Tutorial_Work"
+DE_SCRIPT="/[. . .]/summarize_bulk_rnaseq.R"
+REPORT_SCRIPT="/[. . .]/bulk_rnaseq_report.Rmd"
+SAMPLESHEET="/[. . .]samplesheet.txt"
+PURGE="false"
+RRNA_SCREEN="10000"
+SUBSAMPLE="0"
+PIPE_SCRIPT="$(cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/$(basename $0)"
+single_id=$(qsub -q mesabi [. . .]bulk_rnaseq_single_sample.pbs || exit 1)
+summary_id=$(qsub -q mesabi [. . .]run_summary_stats.pbs || exit 1)
 echo "Output and logs will be written to ${OUTDIR}"
 echo "Emails will be sent to ${user_email}"
+echo "Qsub array to samplename key: ${KEYFILE}"
 echo "Single samples job array ID: ${single_id}"
 echo "Summary job ID: ${summary_id}"
 ```
@@ -1632,7 +1617,7 @@ The files that you generate will have full paths and options lists in them.
 
 Running this script will submit the entire pipeline to the scheduler. The only
 path that you will have to check is the `SAMPLESHEET=` declaration. This should
-be the location of the samplesheet that was generated by `churp.py`.
+be the location of the samplesheet that was generated by `churp.py`. This `pipeline.sh` script and the `samplesheet.txt` is sufficient to completely reproduce all analyses, provided that the reference genome and raw data locations have not changed.
 
 </details>
 
@@ -1812,11 +1797,7 @@ For a quote, you can contact the next-gen sequencing team UMGC by emailing
 single/paired technology. They will prepare a quote that will be good for three
 months from the preparation date.
 
-For a full description of UMGC services and pricing, please see their
-[catalogue]({{"/materials/RNASeq_cmd/UMGC_2015-16_Catalog_Internal.pdf" | prepend: site.baseurl }}).
-Note that despite what the first page says, the prices are still current,
-as of November 2018. **The UMGC is updating their pricing schedule, however,
-so prices are subject to change in the next six months.**
+For a full description of the UMGC service catalogue, including the latest pricing, please see the "Services" menu of the [UMGC homepage](http://genomics.umn.edu/).
 
 [Return to top](#top)
 #### <a name="8.2"></a> 8.2: Expected Turnaround Time
