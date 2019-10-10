@@ -885,7 +885,8 @@ from a lab that used a non-strand-specific library prep protocol (NEBNext Ultra
 RNA kit). The default option is for reverse-stranded libraries, which is the
 standard kit used by the UMGC (TruSeq Stranded RNA).
 
-Please also note that the genome index and GTF file provided as part of this tutorial are subsets of the full mm10 (*Mus musculus*) reference genome. Please do not use these for your real analyses.
+Please also note that the genome index and GTF file provided as part of this tutorial are subsets of the full mm10 (*Mus musculus*) reference genome. Please do not use these for your real analyses. Instead, you should use a reference genome from `risdb` and a GTF from [Ensembl](https://ensembl.org).
+
 </div>
 
 For the sake of getting the jobs completed more quickly, we will decrease the
