@@ -3,8 +3,8 @@ layout: default
 title: Intro to RNASeq (Lecture)
 permalink: /rnaseq_lec/
 exclude: false
-updated: 2019-04-01
-delivered: NA
+updated: 2019-11-05
+delivered: 2019-11-05
 ---
 
 <div id="navdiv" markdown="1">
@@ -44,7 +44,7 @@ delivered: NA
 
 ## Google Slide Deck
 You can view the latest version of the Google Slides deck at this
-[link](https://docs.google.com/presentation/d/1SVPuI-MAPDjZTUhe43io1hNj4LEp5cRMpdypbqjI1cQ/edit?usp=sharing).
+[link](https://docs.google.com/presentation/d/1EKZfEMyXXwm6sA6ZVlOlxERypjVf_1rB9kaApodr8pQ/edit?usp=sharing).
 
 ## <a name="0"></a>Part 0: Introduction
 ### Slide Deck
