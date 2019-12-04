@@ -3,8 +3,8 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2019-10-10
-delivered: 2018-12-04
+updated: 2019-12-04
+delivered: 2019-11-07
 ---
 
 <!-- Some daft javascript to open all <details> on print. -->
@@ -734,11 +734,11 @@ The pipelines requires that the following pieces of data be available:
 - Gene annotations in GTF format
 
 For this tutorial, we have provided these data. The FASTQ files are located at
-`/home/msistaff/public/RNASeq_Tutorial/Reads`. The
+`/home/msistaff/public/RNAseq_Tutorial/Reads`. The
 indexed reference genome is located at
-`/home/msistaff/public/RNASeq_Tutorial/Reference/GRCm38_19`. The accompanying
+`/home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19`. The accompanying
 GTF gene annotations are located at
-`/home/msistaff/public/RNASeq_Tutorial/Reference/Annotations.gtf.gz`.
+`/home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz`.
 
 When you run your own analysis, you may need to generate your own HISAT2 index
 for your reference genome. We will provide some brief instructions in a later
@@ -799,8 +799,8 @@ reproduce the structure, though.*
 
 ```bash
 % python churp.py group_template bulk_rnaseq \
-    -f /home/msistaff/public/RNASeq_Tutorial/Reads \
-    -o /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out/Groups.csv
+    -f /home/msistaff/public/RNAseq_Tutorial/Reads \
+    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
 ----------
 Thank you for using CHURP. This software was developed by the Research
 Informatics Solutions (RIS) group at MSI with funding from the University of
@@ -813,7 +813,7 @@ https://research.umn.edu/units/umii
 ----------
 SUCCESS
 
-Template file: /scratch.global/konox006/RNASeq_Tutorial_Out/Groups.csv
+Template file: /scratch.global/konox006/RNAseq_Tutorial_Out/Groups.csv
 
 All sample groups and any additional columns have specified have been filled
 with NULL. Please edit the file and write in the correct values for your
@@ -846,7 +846,7 @@ the samples to their groups. In this case, the first four samples are part of
 group `BoneMarrow` and the final four samples are part of group `Spleen`.
 
 ```bash
-% nano /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out/Groups.csv
+% nano /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
 ```
 
 The window will display the contents of the CSV file. Use the arrow keys to
@@ -894,12 +894,12 @@ size of the resource request.
 
 ```bash
 % python churp.py bulk_rnaseq \
-    -e /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out/Groups.csv \
-    -f /home/msistaff/public/RNASeq_Tutorial/Reads \
-    -x /home/msistaff/public/RNASeq_Tutorial/Reference/GRCm38_19 \
-    -g /home/msistaff/public/RNASeq_Tutorial/Reference/Annotations.gtf.gz \
-    -o /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out \
-    -d /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Work \
+    -e /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv \
+    -f /home/msistaff/public/RNAseq_Tutorial/Reads \
+    -x /home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19 \
+    -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz \
+    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out \
+    -d /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Work \
     --strand U \
     --ppn 4 --mem 12000 -w 2
 ----------
@@ -923,7 +923,7 @@ Qsub array key: /scratch.global/[. . .]qsub_array.txt
 
 Below is the output from qsub.
 Qsub stdout:
-Output and logs will be written to /scratch.global/konox006/RNASeq_Tutorial_Out
+Output and logs will be written to /scratch.global/konox006/RNAseq_Tutorial_Out
 Emails will be sent to konox006@umn.edu
 Qsub array to samplename key: /scratch.global/[. . .]qsub_array.txt
 Single samples job array ID: 17700274[].mesabim1.msi.umn.edu
@@ -983,18 +983,18 @@ Once all of the jobs have finished (all are listed with `C` status, or are
 no longer in the output of `qstat -t`), you will be able to view the results.
 The output is in the directory that was given as the output directory in the
 pipeline output message. For our example, this is
-`/scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out`.
+`/scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out`.
 
 Navigate to the output directory and list the contents:
 
 ```bash
-% cd /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out
+% cd /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out
 % ls -lF
 total 6.9M
 -rw-rw---- 1 konox006 msistaff 1.5K Mar  7 11:46 2019-03-07.konox006.bulk_rnaseq.pipeline.sh
 -rw-rw---- 1 konox006 msistaff 4.9K Mar  7 11:46 2019-03-07.konox006.bulk_rnaseq.samplesheet.txt
 lrwxrwxrwx 1 konox006 msistaff   56 Mar  7 12:01 allsamples_work_directory
--> /scratch.global/konox006/RNASeq_Tutorial_work/allsamples/
+-> /scratch.global/konox006/RNAseq_Tutorial_work/allsamples/
 -r--r----- 1 konox006 msistaff 732K Mar  7 12:01 Annotations.gtf.gz
 -rw-rw---- 1 konox006 msistaff 3.8M Mar  7 12:02 Bulk_RNASeq_Report.html
 -rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-1
@@ -1026,7 +1026,7 @@ drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 11:56 RNASeqMetrics/
 -rw-rw---- 1 konox006 msistaff  23K Mar  7 12:02 run_summary_stats.pbs.e11813620
 -rw-rw---- 1 konox006 msistaff  20K Mar  7 12:02 run_summary_stats.pbs.o11813620
 lrwxrwxrwx 1 konox006 msistaff   59 Mar  7 12:01 singlesamples_work_directory
--> /scratch.global/konox006/RNASeq_Tutorial_work/singlesamples/
+-> /scratch.global/konox006/RNAseq_Tutorial_work/singlesamples/
 ```
 
 The `-l` option to `ls` gives "long format" which includes permissions, owner,
@@ -1201,12 +1201,12 @@ option. This tells the pipeline to regenerate alignments.
 ```bash
 % cd /home/riss/public/CHURP/0.1.0/
 % python churp.py bulk_rnaseq \
-    -e /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out/Groups.csv \
-    -f /home/msistaff/public/RNASeq_Tutorial/Reads \
-    -x /home/msistaff/public/RNASeq_Tutorial/Reference/GRCm38_19 \
-    -g /home/msistaff/public/RNASeq_Tutorial/Reference/Annotations.gtf.gz \
-    -o /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out \
-    -d /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Work \
+    -e /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv \
+    -f /home/msistaff/public/RNAseq_Tutorial/Reads \
+    -x /home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19 \
+    -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz \
+    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out \
+    -d /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Work \
     --strand U \
     --ppn 4 --mem 12000 -w 2 --purge
 ```
@@ -1596,8 +1596,8 @@ user_name="$(id -u -n)"
 user_email="${user_name}@umn.edu"
 KEYFILE="/scratch.global/[. . .]qsub_array.txt"
 QSUB_ARRAY="1-8"
-OUTDIR="/scratch.global/konox006/RNASeq_Tutorial_Out"
-WORKDIR="/scratch.global/konox006/RNASeq_Tutorial_Work"
+OUTDIR="/scratch.global/konox006/RNAseq_Tutorial_Out"
+WORKDIR="/scratch.global/konox006/RNAseq_Tutorial_Work"
 DE_SCRIPT="/[. . .]/summarize_bulk_rnaseq.R"
 REPORT_SCRIPT="/[. . .]/bulk_rnaseq_report.Rmd"
 SAMPLESHEET="/[. . .]samplesheet.txt"
@@ -1701,11 +1701,11 @@ additional columns by modifying our original call:
 
 ```bash
 % python churp.py group_template bulk_rnaseq \
-    -f /home/msistaff/public/RNASeq_Tutorial/Reads \
+    -f /home/msistaff/public/RNAseq_Tutorial/Reads \
     -e Genotype \
     -e Tissue \
     -e Time \
-    -o /scratch.global/YOUR_USER_NAME/RNASeq_Tutorial_Out/Groups.csv
+    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
 ```
 
 The resulting CSV file will look like this:
