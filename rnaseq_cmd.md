@@ -3,111 +3,107 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2019-12-04
+updated: 2021-03-23
 delivered: 2019-11-07
 ---
 
 <!-- Some daft javascript to open all <details> on print. -->
 <script type="text/javascript">
 function open_det(e) {
-  e.open = true;
+    e.open = true;
 }
 function close_det(e) {
-  e.open= false;
+    e.open= false;
 }
 function openall() {
-  var det_elems = document.getElementsByTagName('details');
-  var arr_det_elems = Array.prototype.slice.call(det_elems);
-  arr_det_elems.forEach(open_det);
+    var det_elems = document.getElementsByTagName('details');
+    var arr_det_elems = Array.prototype.slice.call(det_elems);
+    arr_det_elems.forEach(open_det);
 }
 function closeall() {
-  var det_elems = document.getElementsByTagName('details');
-  var arr_det_elems = Array.prototype.slice.call(det_elems);
-  arr_det_elems.forEach(close_det);
+    var det_elems = document.getElementsByTagName('details');
+    var arr_det_elems = Array.prototype.slice.call(det_elems);
+    arr_det_elems.forEach(close_det);
 }
 </script>
 
 <div id="navdiv" markdown="1">
 
 ## Table of Contents
-- [Introduction](#0)
-    - [Formatting in This Document](#0.1)
-    - [Goals](#0.2)
-    - [Scope of the Tutorial](#0.3)
-    - [Required Software](#0.4)
-    - [Accessing MSI](#0.5)
-- [RNASeq Overview](#1)
-    - [Why RNASeq](#1.1)
-    - [Common Genomics File Formats](#1.2)
-    - [Overall Workflow](#0.3)
-- [Running an Analysis with `CHURP`](#2)
-    - [Prepare to Run `CHURP`](#2.1)
-    - [Input Data for the Pipelines](#2.2)
-    - [Running the Pipeline](#2.3)
-        - [Generating Experimental Groups](#2.3.1)
-        - [Submitting the Pipeline Jobs](#2.3.2)
-        - [Viewing Results](#2.3.3)
-        - [Fixing Sample Labels](#2.3.4)
-    - [Data Sources](#2.4)
-- [Detailed Description of Pipeline Steps](#3)
-    - [Summarizing Read Quality](#3.1)
-    - [Cleaning Reads](#3.2)
-    - [Mapping Reads](#3.3)
-    - [Counting Reads in Genes](#3.4)
-    - [Filtering and Differential Expression Testing](#3.5)
-- [Getting Your Own Reference Genome Index Files](#4)
-    - [HISAT2 Pre-Built Indices](#4.1)
-    - [Building Your Own Index](#4.2)
-- [Pipeline File Formats](#5)
-    - [Experimental Groups Template](#5.1)
-    - [Pipeline.sh Script](#5.2)
-    - [Samplesheet](#5.3)
-- [More Complex Analyses](#6)
-    - [`group_template` Columns](#6.1)
-    - [Links to Analysis Guides](#6.2)
-- [Developing Your Own Workflow](#7)
-- [UMGC](#8)
-    - [Pricing and Instruments](#8.1)
-    - [Expected Turnaround Time](#8.2)
+- [0: Introduction](#0)
+    + [0.1: Formatting](#0.1)
+    + [0.2: Goals](#0.2)
+    + [0.3: Scope](#0.3)
+    + [0.4: Prerequisites](#0.4)
+- [1: MSI Workflow](#1)
+    + [1.1: Workflow Steps](#1.1)
+    + [1.2: Documentation](#1.2)
+    + [1.3: Getting Help](#1.3)
+- [2: CHURP Inputs](#2)
+    + [2.1: FASTQ](#2.1)
+    + [2.2: HISAT2 Index](#2.2)
+    + [2.3: Annotations](#2.3)
+    + [2.4: RISDB](#2.4)
+    + [2.5: Experimental Groups](#2.5)
+- [3: Accessing CHURP](#3)
+- [4: Generating Groups](#4)
+    + [4.1: CHURP Routine](#4.1)
+    + [4.2: Specifying Groups](#4.2)
+- [5: Submitting Jobs](#5)
+    + [5.1: Generating Script](#5.1)
+    + [5.2: Verifying Metadata](#5.2)
+    + [5.3: Viewing Queued Jobs](#5.3)
+- [6: Overview of Results](#6)
+- [7: CHURP Logs](#7)
+    + [7.1: Scheduler Logs](#7.1)
+    + [7.2: Analysis Logs](#7.2)
+    + [7.3: Trace Logs](#7.3)
+- [8: Insert Size Metrics](#8)
+- [9: Expression Counts Matrix](#9)
+- [10: Differentially Expressed Genes](#10)
+- [11: HTML Report](#11)
+- [12: Pathway Analysis](#12)
+    + [12.1: Dot plots](#12.1)
+    + [12.2: Enrichment Map Plots](#12.2)
+    + [12.3: Gene-Concept Network Plots](#12.3)
+    + [12.4: Pathview Plots](#12.4)
+    + [12.5: Tabular Outputs](#12.5)
+- [S1: Custom HISAT2 Index](#S1)
+- [S2: Custom Mapping and Trimming](#S2)
+- [S3: Transcript-level Analyses](#S3)
 
 </div>
 
 <div class="printonly" markdown="1">
 
-Please see <http://z.umn.edu/ris-rnaseq/> for the latest version of this
-tutorial document!
+Please see <http://z.umn.edu/ris-rnaseq/> for the latest version of this tutorial document!
 
 </div>
 
 
-# <a name="top"></a> {{page.title}}
+# <a name="top"></a>{{page.title}}
 *Last Updated: {{page.updated}}*  
 *Last Delivered: {{page.delivered}}*
 
-<a onclick="javascript:openall()" href="#">Expand all details</a>  
+<a onclick="javascript:openall()" href="#">Expand all details</a>(Useful for printing!)  
 <a onclick="javascript:closeall()" href="#">Collapse all details</a>
 
 ## <a name="0"></a>Part 0: Introduction
-This is a two-part tutorial. The first part will take approximately 50 minutes
-and will cover an introduction to using the command line on MSI systems. The
-second part will take approximately 90 minutes and will cover how to use a workflow developed by RIS to analyze bulk RNASeq data. The second section also includes a discussion of important RNASeq quality control guidelines and links to the University of Minnesota Genomics Center information pages.
+
+This tutorial will cover the basic use of the MSI workflow for bulk RNAseq data analysis. The tools are used via the Linux command line, and will cover important aspects of data QC and considerations to take when interpreting RNAseq results.
 
 ### <a name="0.1"></a>0.1 Formatting in This Document
-Throughout this tutorial, there will be formatting cues to highlight various
-pieces of information.
+Throughout this tutorial, there will be formatting cues to highlight various pieces of information.
 
 <div class="info" markdown="1">
 
-This is just background information. There are no tutorial-related tasks in
-these boxes. Links to supporting material and further explanations of points we
-raise in the tutorial will appear like this.
+This is just background information. There are no tutorial-related tasks in these boxes. Links to supporting material and further explanations of points we raise in the tutorial will appear like this.
 
 </div>
 
 <div class="warn" markdown="1">
 
-This is a warning. Common pitfalls, cautionary information, and important points
-to consider will appear like this.
+This is a warning. Common pitfalls, cautionary information, and important points to consider will appear like this.
 
 </div>
 
@@ -119,592 +115,241 @@ of the tutorial
 <details markdown="1">
 <summary>These boxes contain detailed information. Click on them to expand them</summary>
 
-When you click on these boxes, you will get a detailed view into a supplemental
-topic. The information in these boxes will be useful for advanced usage outside
-of the tutorial. We encourage you to read these!
+When you click on these boxes, you will get a detailed view into a technical topic. The information in these boxes may be useful for advanced work beyond the scope of the tutorial We encourage you to read these, but they are not essential to completing the tutorial!
 
 </details>
 
-Commands that are to be entered on the command-line will begin with `%`. Do not
-re-enter the `%` character when you type the commands into your prompt.
-
-[Return to top](#top)
-### <a name="0.2"></a> 0.2: Goals
-- Learn some fundamental bash commands for interacting with MSI systems
-- Log in to MSI systems and access a high-performance compute node
-- Become familiar with several core file formats of genomics
-- Learn the basics of RNASeq data analysis, including read mapping, expression
-  counts, and testing for differential expression
-- Learn how to use the UMII-RIS pipelines to perform a differential expression
-  analysis with RNASeq
-
-[Return to top](#top)
-### <a name="0.3"></a> 0.3: Scope of the Tutorial
-This tutorial includes a primer for the Linux command line (Bash shell). We will
-cover the structure of a command, basic directory and file organization, and
-cover examples of how to run common commands. There is a supplementary section
-that contains links to various other command line utilities for bioinformatics
-analysis and some less common but still useful Linux commands.
-
-This tutorial will only cover differential gene expression analysis of
-**bulk RNASeq** of mRNA. We will not cover single cell RNASeq analysis or small
-RNA sequencing analysis. We will also not cover coexpression analysis or
-transcriptome assembly in detail. There are links to guides at the bottom of the
-tutorial document for coexpression analysis and transcriptome assembly.
-
-While we will be teaching how to use analysis tools from the command-line, the
-names and options that we are supplying should be available in the Galaxy
-versions. See our [Illumina QC With Galaxy](https://pages.github.umn.edu/MSI-RIS/Tutorials/illumina_galaxy/)
-tutorial for details on how to create workflows with Galaxy that will let you
-run similar analyses that we will cover here.
-
-[Return to top](#top)
-
-## <a name="1"></a> Part 1: Introduction to the Command Line
-### <a name="1.1"></a> 1.1: What is a Shell?
-Generally speaking, a "shell" is a user interface that allows someone to
-interact with an operating system. Shells can either be *graphical* or *textual*
-in nature. The Microsoft Windows interface or the GNOME desktops that are
-running on the workstations in the SDVL are examples of a graphical shell
-interface. The main way we will be interacting through MSI systems is through a
-command line shell interface.
-
-Learning how to use the command line interface for MSI takes some practice, but
-you will find that it can be much more powerful and fast to manipulate files
-than through the graphical shell.
-
-<div class="info" markdown="1">
-
-<details markdown="1">
-<summary>Other graphical interfaces for MSI systems</summary>
-
-This tutorial will cover using the command line interface to interact with MSI
-systems, but we do offer several graphical routes to use the compute resources
-that we have available. One is [NX NoMachine](https://www.msi.umn.edu/support/faq/how-do-i-get-started-nx)
-which will give you a "remote desktop" on the server.
-
-We also offer the [Galaxy](https://www.msi.umn.edu/content/galaxy) environment
-for running analytical workflows without the command line. Galaxy is a
-completely different paradigm than described here. We do offer a tutorial on
-[Illumina Data QC With Galaxy](https://pages.github.umn.edu/MSI-RIS/Tutorials/illumina_galaxy)
-which will acquaint you with the environment.
-
-</details>
-
-</div>
-
-### <a name="1.2"></a> 1.2: Accessing a Command Line on MSI
-The computer you are using at the moment will determine how you connect to MSI
-systems. Here are the common ways users access a command line interface on our
-servers:
-
-- **Linux Workstations in SDVL:**
-
-   Click the menu icon on the top left of the screen, then hover over
-   "Applications," then "System Tools," and then click on "Terminal."
-
-- **Personal Linux Laptop:**
-
-   Run your preferred terminal emulator application. Unfortunately, the name and
-   location of the application varies by distribution and version. The most
-   common distributions of Linux will have a similar layout to the SDVL
-   workstations.
-
-- **Mac OS X Laptop:**
-
-   Hold the `command` and `shift` keys and press the `a` key to open the
-   Applications folder. Open the "Utilities" folder, and double-click 
-   on "Terminal." You must first click on a Finder window or the desktop window
-   before the keyboard shortcut will work.
-
-- **Windows Laptop:**
-
-   You will need to install additional software to use a command line interface.
-   The software that MSI recommends is called PuTTY, and is available for
-   download [here](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
-   MSI maintains a [setup guide for PuTTY](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems).
-
-   <div class="info" markdown="1">
-
-   For Windows 10 machines, the [Bash subsystem](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
-   should allow you to run a terminal emulator and connect to MSI systems
-   without the PuTTY application. Similar to the Linux laptop case, the way to
-   launch a terminal emulator application will depend on which distribution you
-   choose to install.
-
-For PuTTY users, the process for connecting to MSI servers is somewhat different
-than for the other methods. Please follow the instructions in the
-[MSI PuTTY guide](https://www.msi.umn.edu/support/faq/how-do-i-configure-putty-connect-msi-unix-systems)
-to connect.
-
-For the other methods, follow these instructions:
-
-1. Type `ssh YOUR_InternetID@login.msi.umn.edu` into the command prompt window,
-   then press the `Enter` key. Replace the `YOUR_InternetID` placeholder text
-   with your actual UMN Internet ID.
-
-   ![SSH]({{ "/graphics/rnaseq_cmd/ssh.png" | prepend: site.baseurl }})
-
-2. Enter your password at the prompt. Note that you will not see your password
-   as you type it (not even stars). Press `Enter` when you have finished
-   typing your password. If you have successfully entered it, you will see a
-   window that looks like the one below. If you did not enter the password
-   properly, it will just ask you to try again.
-
-   ![Login]({{ "/graphics/rnaseq_cmd/login.png" | prepend: site.baseurl }})
-
-   <div class="warn" markdown="1">
-
-   Repeated rejections of your password could indicate a problem with your UMN
-   account. Please contact the UMN Office of Information Technology at
-   <help@umn.edu> for assistance. If your account is fully activiated and you
-   still cannot log in to MSI systems, please contact the MSI help desk at
-   <help@msi.umn.edu>.
-
-   </div>
-
-The message that prints to the screen is called the "message of the day" (MOTD)
-and confirms that you have successfully connected to MSI systems. The line at
-the bottom of the screen is called the "prompt." The block immediately after
-the prompt is the "cursor." When you type text into the terminal, it will
-appear behind (to the left of) the cursor.
-
-![Prompt]({{ "/graphics/rnaseq_cmd/prompt.png" | prepend: site.baseurl }})
-
-Before we start to issue commands, though, we will talk about the structure of
-the data on MSI servers.
-
-### <a name="1.3"></a> 1.3: Directories and Files
-Understanding files and directories is one of the key pieces of using a
-UNIX-like system (which includes MSI systems). One of the defining
-characteristics of UNIX-like systems is that "everything is a file." This means
-that everything that the computer can interact with, including input and output
-devices, is represented as a file on the filesystem. Keyboards, mice, monitors,
-hard disks, executable programs, data - these are all represented as files. You
-generally will not have to interact with the files that represent the computer
-hardware, but you will have to navigate the filesystem to find the programs that
-you want to use to analyze your data and point these programs at your data set.
-
-The image that is often used to illustrate the concept of the directory and file
-structure is a tree. In this metaphor, a directory is a branch and a file is a
-leaf. Branches can contain multiple other branches and leaves. On Windows and
-Mac OS (and other common desktop operating systems), directories are often
-called "folders," so you can think of these as interchangeable terms.
-
-![Directories]({{ "/graphics/rnaseq_cmd/Directories.png" | prepend: site.baseurl }})
-
-In the tree cartoon above, boxes represent directories or files, and indentation
-represents nesting. The text inside the boxes represents the names. The red
-box (around `/`) represents the *root* of the filesystem, and the blue box
-(around `/Users/tomkono/data.txt`) represents a *file*. The boxes in black
-are *directories*.
-
-<div class="info" markdown="1">
-
-Just like in evolutionary biology, a tree structure does not really capture
-the relatedness of directories and files. Some special types of files are
-actually links to paths in the filesystem that are very divergent from where the
-locations of the link files are, like reticulations in a phylogenetic tree.
-There is optional material later in this tutorial that will show you how to make
-links. These are very useful for making a dataset easy to find without having to
-actually copy the raw data.
-
-</div>
-
-Notice the slashes (`/`) between parts of the names - these delimit the actual
-directories that make up the full path to the file. In the case of
-`/Users/tomkono/data.txt`, you can read the name and know that the file called
-`data.txt` is located under the root (`/`), then the `Users` directory, then
-the `tomkono` directory. In UNIX terminology, this is known as the *path* to
-the file. More specifically, it is known as the *absolute path* because it
-starts at the root of the filesystem. This is the way I prefer to specify paths
-to files because there is no ambiguity as to where the file is located.
-
-A path that does not start at the root is known as a *relative path*. To really
-show the difference between absolute paths and relative paths, we will have to
-run a few commands, so we will start to do that now.
-
-<div class="warn" markdown="1">
-
-When typing file paths, be sure to include the root slash at the beginning. A
-path of `Users/tomkono/data.txt` means something very different from the path
-`/Users/tomkono/data.txt`.
-
-</div>
-
-### <a name="1.4"></a> 1.4: Basic Commands and Exercises
-#### <a name="1.4.1"></a> 1.4.1: The Structure of a Command
-A UNIX or Linux command consists of a *program*, *options*, and *arguments*. The
-*program* is what actually does something to a file. The *options* modify the
-behavior of the program. The *arguments* are the files on which the program
-operates. The parts of a command are separated by *spaces*, so be sure to
-include those as you follow along with the examples in the next section. A
-command is completed with the `Enter` key.
-
-Sometimes, as you will see in the next section, the arguments are not required.
-In cases where the argument is not required, a default value will be substituted
-in to the command. You should double-check that the program will work as
-intended with the default values before you run them.
-
-<div class="warn" markdown="1">
-
-Note that mouse support is very limited in most terminal programs. You can
-highlight and copy text with the mouse, but you must use the arrow keys to
-move the cursor around. The `left` and `right` arrow keys will move you
-backward and forward within the current command, and the `up` and `down` arrow
-keys will move you earlier and later in the *command history*.
-
-Also note that all parts of a command are *case sensitive*. That means that
-capitalization matters. `A` is different from `a`.
-
-</div>
-
-#### <a name="1.4.2"></a> 1.4.2: Running Commands
-The first command we will run is one that will change directories. This is how
-we navigate the filesystem. The command is called `cd` for "change directory."
-Type `cd` then a space, then the path to where you would like to go. We will
-go to the `/home/riss/public` directory. Press `Enter` when you have finished
-typing the command:
-
-![cd]({{ "/graphics/rnaseq_cmd/cd.png" | prepend: site.baseurl }})
-
-Notice how your prompt updates to let you know that you are now in a different
-directory than when you started. This is a quick way to check where you are
-currently working. You can verify this with the `pwd` command. Type `pwd` then
-`Enter` to print the *working directory*:
-
-![pwd]({{ "/graphics/rnaseq_cmd/pwd.png" | prepend: site.baseurl }})
-
-Next, we will list the contents of the current working directory. We use the
-`ls` command to do this. Type `ls` then `Enter`:
-
-![ls]({{ "/graphics/rnaseq_cmd/ls.png" | prepend: site.baseurl }})
-
-There are three items under `/home/riss/public`. The blue coloring indicates
-that they are *directories*. Let's `cd` into the `CHURP` directory now:
-
-![cd]({{ "/graphics/rnaseq_cmd/cd_relpath.png" | prepend: site.baseurl }})
-
-Notice that we did not specify the leading `/` for an absolute path. This is
-because relative to `/home/riss/public`, `/home/riss/public/CHURP` can be called
-just `CHURP`. The prompt has updated to reflect this. Let's list the contents
-of this directory, too:
-
-![ls]({{ "/graphics/rnaseq_cmd/ls_churp.png" | prepend: site.baseurl }})
-
-It has three directories, `0.0.1`, `0.1.0`, and `0.2.0`. Let's `cd` into `0.2.0` and list
-contents again with `ls`:
-
-![ls]({{ "/graphics/rnaseq_cmd/ls_churp_0.2.0.png" | prepend: site.baseurl }})
-
-There are a lot more files and directories inside here. The blue names are
-other directories, the white names are regular files, and the green name
-is an *executable* file. This means that the file can be run as a program.
-
-Next, we will navigate to *global scratch*. This is a special part of the MSI
-filesystem where you can write temporary data. We will use it to hold the
-working data that we need for the RNASeq analysis later in this tutorial. The
-global scratch directory is called `/scratch.global`:
-
-![cd]({{ "/graphics/rnaseq_cmd/cd_scratch.png" | prepend: site.baseurl }})
-
-Next, we will *make a new directory* with the `mkdir` command. Because global
-scratch is a public area, it can be difficult to keep track of which data are
-yours. To help organize it, we will make a directory that has your name on it
-so you can always find your files. Type `mkdir`, then a space, then your
-UMN internet ID, then `Enter`:
-
-![mkdir]({{ "/graphics/rnaseq_cmd/mkdir.png" | prepend: site.baseurl }})
-
-Again, we do not have to specify the full path to the new directory because we
-are making it *relative* to the working directory, which is `/scratch.global`.
-Let's `cd` into our directory.
-
-![cd]({{ "/graphics/rnaseq_cmd/cd_scratch_x500.png" | prepend: site.baseurl }})
-
-Next, we will *copy* a file into our current directory. We use the `cp` command
-to do this. `cp` takes two *arguments*, a *source* and a *destination*. For this
-exercise, the *source* will be `/home/riss/public/MPGI-MSI_Workshop/data.txt`
-and the *destination* will be the current working directory. This is
-shorthanded by a dot (`.`) in the command:
-
-![cp]({{ "/graphics/rnaseq_cmd/cp.png" | prepend: site.baseurl }})
-
-You can list the directory contents to verify that you have successfully copied
-the file:
-
-![ls]({{ "/graphics/rnaseq_cmd/ls_verify_cp.png" | prepend: site.baseurl }})
-
-The name `data.txt` is not very informative. You will be working with a lot of
-data files, so giving them unique names that let you easily know what the data
-are is very helpful. We can *move* (or *rename*) a file with the `mv` command.
-Like `cp`, `mv` takes two arguments, a *source* and a *destination*. The
-*source* will be `data.txt` and the *destination* will be
-`command_line_example_data.txt`:
-
-![mv]({{ "/graphics/rnaseq_cmd/mv.png" | prepend: site.baseurl }})
-
-You can list the directory contents again to verify that the rename was
-successful:
-
-![ls]({{ "/graphics/rnaseq_cmd/ls_verify_mv.png" | prepend: site.baseurl }})
-
-These are mostly the commands you need to know to follow along with the RNASeq
-tutorial. There are additional resources below, but they are not required for
-you to use our pipeline for RNASeq analysis.
-
-To recap:
-
-- `cd`: change directory
-- `pwd`: print working directory
-- `ls`: list directory contents
-- `mkdir`: make new directory
-- `cp`: copy file
-- `mv`: move or rename file
-
-<div class="warn" markdown="1">
-
-I generally regard `cp` as safer than `mv` because `mv` replaces data on the
-disk while `cp` just makes a copy. For referencing large files in stable
-locations (like the UMGC data delivery directory), `ln` is probably the best
-option for making the data visible in an easy-to-remember directory. See below.
-
-</div>
-
-<div class="info" markdown="1">
-
-### <a name="1.4"></a> 1.5: Other Useful Commands
-There are many more commands that exist on a UNIX or Linux system. There are
-several dozen that I know very well because I use them on a daily basis. One of
-the most useful commands is `man`, which brings up a manual page for a certain
-command. Manual pages list all of the available options for a given program. If
-you want to know all of the ways that the behavior of a program can be modified,
-check the manual!
-
-<details markdown="1">
-<summary>View screenshot of manual page and other UNIX commands</summary>
-
-For instance, if you wanted to view a manual page for the `mkdir`
-command, you would type `man mkdir`:
-
-![man]({{ "/graphics/rnaseq_cmd/man.png" | prepend: site.baseurl }})
-
-Use the arrow keys to scroll up and down in the manual page. Press the `q` key
-to quit out of a manual page viewer.
-
-Now that you know the command to view the manual, you can check the manual to
-see how to use these next commands! These are commands I use on a near-daily
-basis to slice up data files to prepare them for various bioinformatic
-workflows or take a peek at the contents of a file without trying to load the
-entire file into memory.
-
-- `head`: Print the first lines of a file to the terminal
-- `tail`: Print the last lines of a file to the terminal
-- `grep`: Search for text within a file
-- `cut`: "Cut" out and return certain columns from a file
-- `less`: View the contents of a file in the same way you view a manual page
-- `ln`: Make links to other files and directories
-- `find`: Find files and directories that match a certain name pattern
-- `cat`: Print one or more files directly to the terminal
-- `rm`: Delete a file. **Once it's gone, it's gone! No recycle bin or trash**\*
-- `wget`: Download remote files (from websites) to disk
-
-\*: MSI home directories (`/home/PI_group/`) have snapshot backups available in
-the `.snapshot` directory under the main directory. You can recover files from
-these directories so long as **the file at least one day old**. The snapshots
-go back **on month** from the from the current day. Global scratch is
-**not backed up by snapshots**, so when you delete data from there, it is gone
-for good.
-
-</details>
-
-#### A Note on `ln`
-*Linking* a file is a very useful way to make it available in other directories
-without having to copy it. A link looks like a regular file, but is actually
-a reference or *alias* to another location on disk. We recommend using
-*symbolic links* rather than *hard links*. Without getting too technical, a
-symbolic link ("symlink" for short) behaves as a separate file from the data
-to which it points. A hard link references the exact same data, so if you delete
-a hard link, the source data is also deleted.
-
-<details markdown="1">
-<summary>View symbolic link information</summary>
-
-To make a symlink, use the `-s` option to `ln`. The syntax is as follows:
-
-```bash
-% ln -s /long/path/that/is/annoying/to/type/to/data.txt /easy/path/to/data.txt
+Commands that are to be entered on the command-line will begin with `%`. Do not re-enter the `%` character when you type the commands into your prompt. Long command line will be wrapped with a backslash (`\`); you do not need to enter these when typing in the command:
+
+```
+% short command
+% this_is_a_really_long_command_line \
+    with_many_options \
+    and_with_many_long_arguments \
+    such_that_wrapping_makes \
+    it_easier_to_read
 ```
 
-This will make a file at `/easy/path/to/data.txt` that will reference the actual
-file at `/long/path/that/is/annoying/to/type/data.txt`. It will happen
-*very quickly* because no actual data copying is involved, and the source data
-is preserved in terms of access time and modification time. You can also link
-to *directories*:
+[Return to top](#top)
+### <a name="0.2"></a>0.2: Goals
 
-```bash
-% ln -s /long/path/to/UMGC/data_release /easy/path/to/data
+[Return to top](#top)
+### <a name="0.3"></a>0.3: Scope of the Tutorial
+This tutorial will only cover differential gene expression analysis of **bulk RNASeq** of mRNA and pathway enrichment analyses of differentially expressed genes (DEGs). We will not cover single cell RNASeq analysis or small RNA sequencing analysis. We will also not cover coexpression analysis or transcriptome assembly in detail. There are links to guides at the bottom of the tutorial document for coexpression analysis and transcriptome assembly.
+
+While we will be teaching how to use analysis tools from the command-line, the names and options that we are supplying should be available in the Galaxy versions. This tutorial will not cover workflow development nor tool use in Galaxy.
+
+The sections toward the end of the document has [supplementary sections](#Supp) with brief discussions about RNAseq topics beyond "standard" differential expression analysis in bulk samples. If you are looking to perform more specialized analysis with RNAseq data, please see those sections; perhaps there are useful references or concepts for you there!
+
+There is a [glossary](#Glossary) at the very end of the document. You will find commonly-used terminology and their definitions in that section.
+
+[Return to top](#top)
+
+### <a name="0.4"></a>0.4: Prerequisites
+This tutorial requires that you be familiar with accessing MSI via command line tools. You can access MSI via terminal emulator or SSH client by following the instructions on this guide:  
+<https://www.msi.umn.edu/content/connecting-hpc-resources>
+
+You can also use MSI's Jupyter Notebook service for command line access to MSI resources. Instructions for using MSI's Jupyter Notebook service are located at this link:  
+<https://www.msi.umn.edu/support/faq/how-do-i-get-started-jupyter-notebooks>
+
+You must also have familiarity with using the command line to interact with Linux systems. The tutorial will use standard Linux utilities to navigate the file system, and our RNAseq tools are written to work from the command line. You can view MSI's tutorial for the Linux command line at this link (requires UMN Internet ID):  
+<https://pages.github.umn.edu/dunn0404/intro-to-linux/>
+
+If you do not have an active UMN Internet ID, you can also get a good introduction to the Linux command line from the "Linux Essentials" guide from UC Riverside:  
+<http://hpcc.ucr.edu/manuals_linux-basics_cmdline-basics.html>
+
+The final sections of this tutorial will require you to have a way to transfer files between your local workstation and MSI servers. I recommend tutorial attendees use Filezilla because it is cross-platform, and MSI maintains a guide for its setup:  
+<https://www.msi.umn.edu/support/faq/how-do-i-use-filezilla-transfer-data>
+
+[Return to top](#top)
+
+## <a name="1"></a>Part 1: MSI- and UMII-Developed Workflow
+Goal: By the end of this section, you should be know where to find documentation for CHURP, the MSI-UMII workflows for data analysis.
+
+MSI and the University of Minnesota Informatics Institute (UMII) maintain a workflow for bulk RNAseq analysis. The workflow is called "CHURP" (**C**ollection of **H**ierarchical **U**MII-**R**IS **P**ipelines), and it is developed as a software package that is run from the Linux command line. We will cover how to access and use the software in later sections.
+
+### <a name="1.1"></a>Part 1.1: Workflow Steps
+The diagram below shows the steps that our workflow handles.
+
+![Overview of the CHURP RNAseq workflow]({{ "/graphics/rnaseq_cmd/workflow.png" | prepend: site.baseurl }})
+
+Briefly, the steps of the workflow are as follows:
+
+1. Summarize read quality for each sample.
+2. Clean reads for low-quality bases and adapter contaminants for each sample.
+3. Map reads to genome for each sample.
+4. Count reads within genes.
+5. Filter counts for genes with low expression.
+6. Test for differential expression.
+
+The results of these steps are written to both the MSI file system and also summarized in a HTML report. We will go over how to browse the output and read the report in later sections.
+
+### <a name="1.2"></a>Part 1.2: Documentation
+While we will go over a typical use case of CHURP in this tutorial, it is helpful to know where to find additional information for CHURP. This includes advanced or specialized use cases.
+
+You can find the official documentation for CHURP at the UMN GitHub Wiki link:  
+<https://github.umn.edu/MSI-RIS/CHURP/wiki>
+
+For example command lines, a description of the command line arguments, error codes, and overview of the required input data, please see the "Quickstart":  
+<https://github.umn.edu/MSI-RIS/CHURP/wiki/PURR-Manual-Page>
+
+### <a name="1.3"></a>Part 1.3: How to Get Help
+If you experience trouble with CHURP or have questions about how to apply it to your dataset, please contact the MSI Help Desk (help [at] msi.umn.edu).
+
+[Return to top](#top)
+
+## <a name="2"></a>Part 2: CHURP Input Data
+Goal: By the end of this section, you should be able to identify the required inputs for CHURP.
+
+CHURP requires three pieces of data for a bulk RNAseq analysis. An optional fourth input file may be specified to enable differential gene expression testing. The input files are described below.
+
+### <a name="2.1"></a>Part 2.1 FASTQ Files
+The sequencing reads from the sequencing facility must be supplied in FASTQ format and placed into a single directory. The files may be gzip-compressed or uncompressed, though we recommend compressing the files to save disk space. In order for CHURP to identify the samples, the files must have standardized names in one of two formats:
+
+- "Standard" Illumina file names without lane identifiers. This is the default delivery from the UMGC:
+
+    ```
+    Sample_01_R1_001.fastq.gz
+    Sample_01_R2_002.fastq.gz
+    ```
+
+    If your samples are split across lanes, then you must combine them before running them through CHURP. Alternately, you can keep them separate but rename them to match the format above, and use them to look for "lane effects" in your expression analyses.
+
+- SRA-generated filenames. This is the default from using the SRA toolkit to write reads to disk using `fastq-dump`:
+
+    ```
+    SRR1234567_1.fastq.gz
+    SRR1234567_2.fastq.gz
+    ```
+
+<div class="warn" markdown="1">
+
+Note that if you use data from SRA, it is important to make note of the protocol used to generate the data! Technical factors like the mean and variance of the insert size, the read length, and the strand specificity affect how you process the data and interpret the results.
+
+Additionally, most tools require data from the SRA to be exported in a certain way. A common requirement is that the R1 read names end in `/1` and the R2 read names end in `/2`. To ensure that these are written into your SRA data, use the following command:
+
+```
+fastq-dump -Q 33 --defline-seq '@$sn[_$rn]/$ri' --defline-qual '+$sn[_$rn]/$ri' --split-files ACCESSION
 ```
 
-This will make a file that *looks like a directory* at `/easy/path/to/data` that
-references `/long/path/to/UMGC/data_release`. Again, the original directory and
-file attributes are preserved.
-
-You can safely remove symlinks with `rm` while leaving the source data intact.
-
-<div class="warn" markdown="1">
-
-I make a big deal out of preserving access/modification time and filenames, but
-this becomes a real issue. It is common for researchers to collect datasets
-over a long period of time and use the time of file creation to keep track of
-when a dataset was collected or generated.
+where `ACCESSION` is the SRA accession number for the dataset.
 
 </div>
-
-</details>
-
-<div class="warn" markdown="1">
-
-There are many versions of UNIX out there, and some of these commands have
-different default behaviors and different options, depending on which version
-you are using. For example, Mac OS X is technically a UNIX, and has all the
-standard commands listed above, but they behave differently from the tools
-installed on MSI systems, which is GNU/Linux. If you are unsure of what a
-command will do, check the manual page!
-
-</div>
-
-### <a name="1.5"></a> 1.6: Common Command Line Utilities in Bioinformatics
-Most of the commands listed in the previous section are standard UNIX commands.
-There are many other commands and programs that are specific to bioinformatics
-analysis. We cannot catalogue all of them here, but these are the programs that
-we regularly encounter. These are available as software modules on MSI systems;
-refer to our [module help page](https://www.msi.umn.edu/support/faq/what-module)
-to see how to load modules and our
-[software page](https://www.msi.umn.edu/software) to see a full listing of the
-software we have available.
 
 <details markdown="1">
-<summary>View representative software list</summary>
+<summary>Click to view FASTQ format details</summary>
 
-- **Next-Generation Sequence Data Processing**
-    - FastQC - Quality control of NGS data
-    - Trimmomatic - Clean contaminants and low-quality bases from NGS data
-    - BWA - Short read mapping
-    - Minimap2 - Short and long read mapping
-    - Bowtie2 - Short read mapping
-    - HISAT2 - Splice-aware short read mapping
-    - SAMTools - NGS alignment filtering
-    - Picard Tools - NGS alignment filtering
-- **Sequence Assembly and Annotation**
-    - Velvet - Sequence assembly
-    - CAP3 - Sequence assembly, mostly for Sanger reads
-    - AByss - Large genome assembly from short reads
-    - Falcon - Diploid assembly from Pacific Biosciences long reads
-    - Trinity - Short read RNASeq assembly
-    - Trinotate - Annotate Trinity transcripts
-    - Funannotate - Annotate genome assemblies
-- **Sequence Alignment and Homology Search**
-    - Clustal Omega/W/X - Multiple sequence alignment for nucleotides or amino
-      acids
-    - BLAST+ - Align query sequences to a large database of target sequences
-    - Muscle - Multiple sequence alignment
-    - T-coffee - Multiple sequence alignment
-    - MUMmer - Align genome sequences
-    - GMap - Align transcript or cDNA sequences to a genome
-    - HMMER - Find homologues or protein domains in a query sequence
-    - MEME - Motif identification in a collection of sequences
-- **Population Genetics**
-    - VCFTools - Analyze variants in VCF format
-    - EMBOSS - Collection of pairwise alignment, distance calculation, sequence
-      translation, and format conversion tools for sequence data
-    - Analysis (molpopgen; molecular population genetics) - Population genetic
-      summary statistics
-    - STRUCTURE - Model-based genetic assignment
-    - GATK - Variant detection from next-generation sequence data
-    - FreeBayes - Variant detection from next-generation sequence data
-    - PLINK - Summary statistics and family-based or population-based
-      association analyses
-- **Phylogenetics**
-    - RAxML - Phylogenetic analysis with maximum likelihood
-    - BEAST - Bayesian phylogenetic analysis
-    - PHYLIP - Phylogeny inference from sequences or trait matrices
-    - PAML - Maximum-likleihood phylogenetic analysis and hypothesis testing
-- **Gene Expression Analysis**
-    - Salmon - Isoform-level expression counts. **Very sensitive to differences between reference and sample**
-    - Kallisto - Isoform-level expression counts. **Very sensitive to differences between reference and sample**
-    - RSEM - Gene-level or transcript-level quantification via alignment
-- **Metagenomics and Microbial Community Genetics**
-    - Mothur - Analyze microbial diversity in a community sample
-    - Qiime2 - Analyze microbial diversity in a community sample
+FASTQ is a format for storing both sequence data and base quality scores. It is typically used to store sequencing reads. It is plain text with multiple sequence records stored in one file. Each sequence record is made up by four lines:
 
+1. Sequence name
+2. Nucleotide sequence (ATCGN)
+3. Comment
+4. Quality scores
+
+An example FASTQ record is shown below:
+
+```
+@read/1
+AGGTGCTCGGCTTCCATTACT
++read/1
+AAAAFJAFJFF<FJJAFAJJJ
+```
+
+Note that real reads will be much longer! The quality score string comes in many forms; Wikipedia has a nice description of the various types of quality encodings in circulation:  
+<https://en.wikipedia.org/wiki/FASTQ_format#Encoding>
 </details>
 
-</div>
+#### Paired-End and Single-Read Data
+CHURP supports both paired-end and single-read sequencing datasets. However, mixing technologies is not recommended because it complicates the expression analysis by requiring that expression quantification be performed differently for different samples. CHURP also supports interleaved paired-end sequencing data, but it requires special options be passed to the program, which is an advanced topic. Please see [Supplement X](#X) or contact the MSI help desk for assistance with this use case!
 
-## <a name="2"></a> Part 2: RNASeq Analysis on the Command Line
-### <a name="2.1"></a> 1.3: Overall Workflow
-Here is a schematic of the workflow that we will follow for this tutorial. The
-pieces of data are shown in rectangles, and the software are shown in rounded
-bubbles with dashed borders. The final output is shown in red. This is a simplified representation - the real workflow includes several other QC steps. Please see the [CHURP GitHub repository](https://github.umn.edu/MSI-RIS/CHURP) for a full listing of everything that PURR includes. Note that this link requires an active UMN internet ID to view.
+### <a name="2.2"></a>Part 2.2 HISAT2 Reference Genome Index
+The next piece of required input for CHURP is a reference genome that has been indexed for use with HISAT2. For this tutorial, we will be using a genome index that was prepared specially for the tutorial dataset. For an analysis of a real dataset, you will need to use an index prepared from a full genome assembly. A collection of pre-made indices for MSI users ("RISDB," see [Part 2.4](#2.4)) and instructions for making your own indices will not be covered directly as part of this tutorial, but will be described in [Supplement 1](#S1).
 
-![Workflow]({{ "/graphics/rnaseq_cmd/workflow.png" | prepend: site.baseurl }})
+### <a name="2.3"></a>Part 2.3 GTF Annotations
+CHURP also requires a GTF-formatted file with the gene models annotated on the reference genome. This GTF must match the reference genome that is being used for the HISAT2 index; if the chromosome names or coordinates do not match, then expression levels cannot be accurately estimated. The file can be either gzip-compressed or uncompressed, but like with the FASTQ files, we recommend compression to save disk space.
 
-The steps of the workflow are as follows:
+For this tutorial, we will be using a GTF annotation file that was specially-prepared for use with the HISAT2 index. For an analysis of a real dataset, you will need to use a GTF that comes with a reference genome assembly. RISDB contains GTF files that are compatible with the collection of HISAT2 genome indices. This is covered in [Part 2.4](#2.4).
 
-1. Summarize read quality
-2. Clean reads for low-quality bases and adapter contaminants
-3. Map reads to genome
-4. Count reads within genes
-5. Filter counts for genes with low expression
-6. Test for differential expression
+### <a name="2.4"></a>Part 2.4: RISDB Collection of Indices
+For researchers working on MSI systems, a collection of reference genome indices and annotations for most model species is available in the following directory:
+
+```
+/panfs/roc/risdb_new/ensembl
+```
+
+These are organized by Ensembl section, and we maintain the following sections:
+
+- `main`: Model organisms and vertebrates
+- `fungi`: Fungi
+- `metazoa`: Invertebrate and other animals
+- `plants`: Green plants and algae
+- `protists`: Organisms colloquially known as "protists"
+
+Under each of these, you will find sub-directories corresponding to the binomial species name of the organism. Under that, there will be sub-directories corresponding to the genome assembly/annotation version. For example, the files for the `GRCh38` version of the human genome are located here:
+
+```
+/panfs/roc/risdb_new/ensembl/main/homo_sapiens/GRCh38
+```
+
+Under the directory that corresponds to a specific genome version of a given organism, you can find index files for a variety of bioinformatics tools. Again, these are organized into sub-directories:
+
+- `annotation`: Gene model annotations in GFF and GTF formats
+- `blast`: NCBI BLAST+ index files for the genome (not peptides, not transcripts)
+- `bowtie`: Index files for read mapping with `bowtie` version 1
+- `bowtie2`: Index files for read mapping with `bowtie` version 2
+- `bwa`: Index files for read mapping with BWA
+- `hisat2`: Index files for splice-aware read mapping with HISAT2
+- `seq`: FASTA sequence files for the genome
+
+You would use the files in the `hisat2` and the `annotation` directory as inputs for CHURP. For example, to use the `GRCh38` version of the human genome for a bulk RNAseq analysis, the HISAT2 index would be:
+
+```
+/panfs/roc/risdb_new/ensembl/main/homo_sapiens/GRCh38/hisat2/genome
+```
+
+and the GTF annotation would be
+
+```
+/panfs/roc/risdb_new/ensembl/main/homo_sapiens/GRCh38/annotation/Homo_sapiens.GRCh38.100.gtf.gz
+```
+
+### <a name="2.5"></a>Part 2.4 Optional - Experimental Groups
+An optional input for CHURP is a CSV file that describes the experimental metadata for the samples in the dataset. Providing this file to CHURP enables group-based coloring of plots in the final report and differential gene expression testing. CHURP has a routine for automatically generating a template file for the CSV, and we will cover how to use this routine in [Part 4](#4).
 
 [Return to top](#top)
-## <a name="2"></a> Part 2: Running an Analysis With `CHURP`
-The workflow steps outlined in the previous section are implemented in a package
-developed and maintained by the University of Minnesota Informatics Institute
-and the Research Informatics Solutions groups. This software package is
-available on MSI systems as a software module.
 
-You may also download the latest version of the code from the UMN GitHub
-instance: <https://github.umn.edu/MSI-RIS/CHURP>. This will give you greater
-flexibility, because you will be able to modify the underlying Python and shell
-scripts. However, we offer limited support for workflows that use modified
-versions of our pipelines.
+## <a name="3"></a>Part 3: Accessing CHURP
+Goal: By the end of this section, you should be able to view the CHURP versions that are available, load the correct version of CHURP, and verify that it works.
 
-[Return to top](#top)
-### <a name="2.1"></a> 2.1: Prepare to Run `CHURP`
-First, connect to a login node on Mesabi by typing `ssh mesabi` at the login
-prompt. If you do no have ssh keys set up, you will have to enter your password
-again. It is the same as your Internet ID password. Note the `@login` part of the
-prompt changes to reflect that you have started a shell on the Mesabi login
-node.
+**Note:** this section requires that you be connected to MSI and logged in to a Mesabi or Mangi login node. Please review the instructions for connecting to MSI systems at the following link:  
+<https://www.msi.umn.edu/content/connecting-hpc-resources>
 
-![Mesabi]({{ "/graphics/rnaseq_cmd/mesabi.png" | prepend: site.baseurl }})
+CHURP is available on MSI systems as part of the software module system. Use the `module` command to access these packages. We will first check for the version(s) of CHURP that are available on MSI systems:
+
+```
+% module avail churp
+-------------------------------- /panfs/roc/soft/modulefiles.common --------------------------------
+churp/0.2.2-slurm
+```
+
+The only version of CHURP available is `0.2.2-slurm`. We will now load the module:
+
+```
+% module load churp/0.2.2-slurm
+This is CHURP version 0.2.2-slurm.
+CHURP can be called by running $CHURP.
+```
 
 <div class="warn" markdown="1">
 
-Do not run computationally-intense tasks on this node, either; this is a login
-node for the compute cluster. Running analysis tasks on the login node for the
-cluster will deplete the resources for other users to connect and get their
-work done, and will result in account restrictions.
-
-That said, running the pipelines as described in this tutorial does not count as
-a computationally-intense task; it properly submits tasks to the job scheduler.
+Note that we include the version information in the `module load` command. You should always make a note of the versions of the software packages you are using! Default module versions change on MSI, so omitting this information puts you at risk for being unable to reproduce your results!
 
 </div>
 
-From here on, the commands and their output will be shown in text, rather than
-in screenshots of terminal emulators.
+We will verify that the module works:
 
-Next, load the `python3` module. This is required to run `CHURP`. Navigate to
-the `/home/riss/public/CHURP/0.2.0/` directory with `cd`. Run the
-main control script, `churp.py`.
-
-```bash
-% module load python3
-% cd /home/riss/public/CHURP/0.2.0/
-% python churp.py
+```
+% $CHURP
 Usage: churp.py <subcommand> <options>
 
 where <subcommand> is the name of the pipeline that is to be run. The specified
@@ -718,116 +363,91 @@ Currently, the following subcommands are supported:
     - bulk_rnaseq
 
 For issues, contact help@msi.umn.edu.
-Version: 0.2.0
-2019-04-24
+Version: 0.2.2-slurm
+2020-10-19
 ```
 
-If you get a message similar to the one above, then you are ready to run the
-pipelines.
+The message above tells us that CHURP has loaded successfully and works - it is just waiting for us to tell it what to do!
+
+<div class="info" markdown="1">
+
+To view more information about accessing MSI's software modules, please see this link:  
+<https://www.msi.umn.edu/content/accessing-software-resources>
+
+To view the software catalogue maintained by MSI, see this link:  
+<https://www.msi.umn.edu/software>
+
+</div>
 
 [Return to top](#top)
-### <a name="2.2"></a> 2.2: Input Data for the Pipelines
-The pipelines requires that the following pieces of data be available:
 
-- Directory of FASTQ files from the UMGC
-- Reference genome indexed with HISAT2
-- Gene annotations in GTF format
+## <a name="4"></a>Part 4: Generate Experimental Data Sheet
+Goal: By the end of this section, you should be able to generate an experimental metadata sheet and edit it to specify the experimental groups in your study. You will also make a directory in the global scratch space to hold your analysis output.
 
-For this tutorial, we have provided these data. The FASTQ files are located at
-`/home/msistaff/public/RNAseq_Tutorial/Reads`. The
-indexed reference genome is located at
-`/home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19`. The accompanying
-GTF gene annotations are located at
-`/home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz`.
-
-When you run your own analysis, you may need to generate your own HISAT2 index
-for your reference genome. We will provide some brief instructions in a later
-section of this tutorial document, but the best source of instructions is from
-the HISAT2 manual.
-
-[Return to top](#top)
-### <a name="2.3"></a> 2.3: Running the Pipeline
-The subcommand that we will be using in this tutorial is the `bulk_rnaseq`
-subcommand. Provide it as an argument after the `churp.py` command. The default
-help message tells you the bare minimum arguments that are required to analyze
-the data. To see a full help message, add the `-h` option after the 
-`bulk_rnaseq` subcommand. For more detail on the options that are available
-for the `bulk_rnaseq` pipeline, you can access the latest version of the manual
-at the [GitHub Wiki page](https://github.umn.edu/MSI-RIS/CHURP/wiki/bulk_rnaseq).
-
-```bash
-% python churp.py bulk_rnaseq
-----------
-Thank you for using CHURP. This software was developed by the Research
-Informatics Solutions (RIS) group at MSI with funding from the University of
-Minnesota Informatics Institute (UMII). For help, please contact
-help@msi.umn.edu.
-
-https://www.msi.umn.edu/
-https://research.umn.edu/units/umii
-
-----------
-ERROR
-
-
-You did not specify sufficient options to run the bulk_rnaseq subcommand of
-CHURP. You must specify a FASTQ directory (-f). Additionally, you
-must either specify a path to a HISAT2 index (-x) and GTF (-g), or an organism
-name (-r). If you are building a group template file, you need only specify a
-FASTQ directory. Please fix your command line and re-run.
+### <a name="4.1"></a>Part 4.1 CHURP Routine for Metadata Sheet Generation
+First, we will make an output folder in MSI's global scratch space that will hold the files of our analysis:
 
 ```
+% mkdir -p /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out
+```
 
-As the help message shows, you must specify a FASTQ directory, a HISAT2 index,
-and a GTF file. We have provided these for you fur the tutorial, but before we
-actually run the analysis, through, we have to generate experimental group files
-for differential expression testing.
+where `YOUR_INTERNET_ID` is your UMN Internet ID.
 
-[Return to top](#top)
-#### <a name="2.3.1"></a> 2.3.1: Generating Experimental Groups
-For differential expression testing, we have to generate a file that describes
-which samples are part of which experimental group. We do this with the
-`group_template` subcommand. This particular subcommand takes an additional
-argument. In this case, we will supply `bulk_rnaseq` because we are generating
-a groups file for the `bulk_rnaseq` pipeline. We supply the FASTQ directory as
-the argument.
+We will then use the `group_template` routine in CHURP to generate a template for the experimental metadata CSV file. We will first check the usage message for the routine by running without any options:
 
-*Please note that the backslashes `\` and new lines in the following commands
-are only for readability purposes. You don't have to reproduce the same
-indentation structure as the tutorial document! It should still work if you do
-reproduce the structure, though.*
+```
+% $CHURP group_template
+----------
+Thank you for using CHURP. [ . . . ]
+```
 
-```bash
-% python churp.py group_template bulk_rnaseq \
+We have to specify which pipeline we want to use for generating an experimental metadata file. We will choose the `bulk_rnaseq` pipeline and ask for the help message with `--help`:
+
+```
+% $CHURP group_template bulk_rnaseq --help
+usage: churp.py group_template bulk_rnaseq --fq-folder <fastq folder> [--help]
+                                           [--verbosity <loglevel>]
+                                           [--output <output file>]
+                                           [--extra-column <extra column>]
+
+Required arguments:
+  --fq-folder <fastq folder>, -f <fastq folder>
+                        Directory that contains the FASTQ files.
+
+Optional arguments:
+[ . . . ]
+```
+
+We see from the help message that we need to specify the path to the FASTQ folder. For this tutorial, use the following path for the FASTQ folder:
+
+```
+/home/msistaff/public/RNAseq_Tutorial/Reads
+```
+
+We will also specify an output file located in the global scratch directory that we made at the start of this section. Supply these options to the `group_template` routine:
+
+```
+% $CHURP group_template bulk_rnaseq \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
-    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
+    -o /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out/Groups.csv
 ----------
-Thank you for using CHURP. This software was developed by the Research
-Informatics Solutions (RIS) group at MSI with funding from the University of
-Minnesota Informatics Institute (UMII). For help, please contact
-help@msi.umn.edu.
-
-https://www.msi.umn.edu/
-https://research.umn.edu/units/umii
-
-----------
-SUCCESS
-
-Template file: /scratch.global/konox006/RNAseq_Tutorial_Out/Groups.csv
-
-All sample groups and any additional columns have specified have been filled
-with NULL. Please edit the file and write in the correct values for your
-dataset. Samples with the same "Group" label will be treated as replicates
-in the analysis. Samples with a "Group" value of NULL will not be used in
-downstream differential expression analysis. When you have edited the file to
-your liking, supply its path to the "bulk_rnaseq" pipeline with the -e
-option to enable group testing.
-
+Thank you for using CHURP. [ . . . ]
 ```
 
-The template file must then be edited to contain the assignments to each group.
-By default, all samples are listed as being part of a group labeled `NULL`. The
-default file is shown below:
+<div class="info" markdown="1">
+
+CHURP allows you to specify additional metadata columns with the `-e` option. This option can be specified multiple times for multiple columns; for example, to add columns for `Age` and `Sex`, you can include `-e Age -e Sex` in the command. This makes it easy to build a metadata CSV that can accommodate a more complicated experimental design. Our automated testing, however, only considers the `Group` column. For analysis of more complicated experiments, please consult with a statistician or with us at RIS!
+
+</div>
+
+### <a name="4.2"></a>Part 4.2 Specifying Groups in the Metadata Sheet
+The experimental metadata file is auto-populated with `NULL` values for the assignments. We do not make assumptions as to which group a given sample belongs to - the researcher who is analyzing the data is required to make that decision. Let us make assignments by editing the CSV template file. Open the file in the `nano` text editor:
+
+```
+% nano /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out/Groups.csv
+```
+
+The CSV file will look like what is below:
 
 ```
 SampleName,Group
@@ -841,17 +461,7 @@ Spleen-3,NULL
 Spleen-4,NULL
 ```
 
-Use the `nano` text editor (or your favorite terminal editor program) to assign
-the samples to their groups. In this case, the first four samples are part of
-group `BoneMarrow` and the final four samples are part of group `Spleen`.
-
-```bash
-% nano /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
-```
-
-The window will display the contents of the CSV file. Use the arrow keys to
-move the cursor around in the window to replace text. Edit the file so that it
-looks like the file below:
+Replace the `NULL` values with the correct group assignments. Be sure to not edit the first line of this file; the column names and column order are required to stay the same for our downstream analyses. The file should look like it does below:
 
 ```
 SampleName,Group
@@ -865,954 +475,1234 @@ Spleen-3,Spleen
 Spleen-4,Spleen
 ```
 
-Once you are done editing the file, press `[Control]` and `O` (letter 'o') to
-save the file. It will ask you the file name; leave the default value to
-overwrite the CSV. Press `[Enter]` to confirm saving the file. Then press
-`[Control]` and `X` to exit. This is a manual step because the researcher must
-made a decision as to which groups should be compared for differential
-expression testing.
+**Note** that the group labels are **case-sensitive**. `BoneMarrow` is interpreted as a different group than `bonemarrow`.
 
-[Return to top](#top)
-#### <a name="2.3.2"></a> 2.3.2: Submitting the Pipeline Jobs
-Now that we have assigned the samples to groups, we will run the `bulk_rnaseq`
-pipeline, supplying the file that contains the group assignments. This is done
-by supplying the `-e` option in addition to the `-f`, `-x`, and `-g` options.
+Once you are done editing the file, press `Ctrl` + `o` (letter O, not number zero), then `Enter` to save the file. Then, press `Ctrl` + `x` to exit the editor.
 
-<div class="warn" markdown="1">
+**Note** that if you give a sample a `NULL` group assignment, then it will *not* be used for differential gene expression testing. You will still get expression counts and QC metrics, though.
 
-We are using the `--strand U` option here because the source of the data is
-from a lab that used a non-strand-specific library prep protocol (NEBNext Ultra
-RNA kit). The default option is for reverse-stranded libraries, which is the
-standard kit used by the UMGC (TruSeq Stranded RNA).
-
-Please also note that the genome index and GTF file provided as part of this tutorial are subsets of the full mm10 (*Mus musculus*) reference genome. Please do not use these for your real analyses. Instead, you should use a reference genome from `risdb` and a GTF from [Ensembl](https://ensembl.org).
-
-</div>
-
-For the sake of getting the jobs completed more quickly, we will decrease the
-size of the resource request.
-
-```bash
-% python churp.py bulk_rnaseq \
-    -e /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv \
-    -f /home/msistaff/public/RNAseq_Tutorial/Reads \
-    -x /home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19 \
-    -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz \
-    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out \
-    -d /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Work \
-    --strand U \
-    --ppn 4 --mem 12000 -w 2
-----------
-Thank you for using CHURP. This software was developed by the Research
-Informatics Solutions (RIS) group at MSI with funding from the University of
-Minnesota Informatics Institute (UMII). For help, please contact
-help@msi.umn.edu.
-
-https://www.msi.umn.edu/
-https://research.umn.edu/units/umii
-
-----------
-SUCCESS
-
-Your pipeline has been submitted. For reference, the pipeline script and the
-samplesheet are given at the paths below:
-
-Pipeline script: /scratch.global/[. . .].pipeline.sh
-Samplesheet: /scratch.global/[. . .].samplesheet.txt
-Qsub array key: /scratch.global/[. . .]qsub_array.txt
-
-Below is the output from qsub.
-Qsub stdout:
-Output and logs will be written to /scratch.global/konox006/RNAseq_Tutorial_Out
-Emails will be sent to konox006@umn.edu
-Qsub array to samplename key: /scratch.global/[. . .]qsub_array.txt
-Single samples job array ID: 17700274[].mesabim1.msi.umn.edu
-Summary job ID: 17700275.mesabim1.msi.umn.edu
-
-Qsub stderr:
-
-```
-
-<div class="warn" markdown="1">
-
-The default locations of the output and working directories is in global scratch
-space. If you want to save any of the files from your analysis, be sure to
-copy them into your group's home directory. MSI removes data from global scratch
-that is more than 30 days old. If you leave data there, then it will not be
-available for long-term reference.
-
-</div>
-
-The message that prints tells you the IDs of the submitted jobs and the
-address to which the email notifications will be sent. For your reference, the
-pipeline script and samplesheet paths are also printed. If you would like to
-reproduce the analysis, you must keep both the pipeline script and the
-samplesheet.
-
-*Note that the paths to the pipeline script and the samplesheet have been
-truncated in this webpage for readability. When you run the pipeline in the
-terminal, you will see the full path printed.*
-
-You can verify that the jobs are submitted by issuing the `qstat -t` command.
-The `-t` expands the job array that we use to process samples in batches.
-
-```bash
-% qstat -t
-Job ID                    Name             User            Time Use S Queue
-------------------------- ---------------- --------------- -------- - -----
-17700274[1].mesabim3.msi.umn.e ..._sample.pbs-1 konox006               0 Q small
-17700274[2].mesabim3.msi.umn.e ..._sample.pbs-2 konox006               0 Q small
-17700274[3].mesabim3.msi.umn.e ..._sample.pbs-3 konox006               0 Q small
-17700274[4].mesabim3.msi.umn.e ..._sample.pbs-4 konox006               0 Q small
-17700274[5].mesabim3.msi.umn.e ..._sample.pbs-5 konox006               0 Q small
-17700274[6].mesabim3.msi.umn.e ..._sample.pbs-6 konox006               0 Q small
-17700274[7].mesabim3.msi.umn.e ..._sample.pbs-7 konox006               0 Q small
-17700274[8].mesabim3.msi.umn.e ..._sample.pbs-8 konox006               0 Q small
-17700275.mesabim3.msi.umn.edu ...ary_stats.pbs konox006               0 H small
-```
-
-The `Q` means that the job is queued. When the jobs begins to run, it will turn
-to `R`. When it finishes, it will become `C`. The `H` means that the job is
-held - we set this job to wait until the previous jobs complete successfully
-before marking it as eligible to run. The `H` will eventually become `Q`, and
-then `R` and `C`. After a while, the job will be cleared from the list.
-
-[Return to top](#top)
-#### <a name="2.3.3"></a> 2.3.3: Viewing Results
-Once all of the jobs have finished (all are listed with `C` status, or are
-no longer in the output of `qstat -t`), you will be able to view the results.
-The output is in the directory that was given as the output directory in the
-pipeline output message. For our example, this is
-`/scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out`.
-
-Navigate to the output directory and list the contents:
-
-```bash
-% cd /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out
-% ls -lF
-total 6.9M
--rw-rw---- 1 konox006 msistaff 1.5K Mar  7 11:46 2019-03-07.konox006.bulk_rnaseq.pipeline.sh
--rw-rw---- 1 konox006 msistaff 4.9K Mar  7 11:46 2019-03-07.konox006.bulk_rnaseq.samplesheet.txt
-lrwxrwxrwx 1 konox006 msistaff   56 Mar  7 12:01 allsamples_work_directory
--> /scratch.global/konox006/RNAseq_Tutorial_work/allsamples/
--r--r----- 1 konox006 msistaff 732K Mar  7 12:01 Annotations.gtf.gz
--rw-rw---- 1 konox006 msistaff 3.8M Mar  7 12:02 Bulk_RNASeq_Report.html
--rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-1
--rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-2
--rw-rw---- 1 konox006 msistaff  21K Mar  7 11:52 bulk_rnaseq_single_sample.pbs.e11813619-3
--rw-rw---- 1 konox006 msistaff  21K Mar  7 11:52 bulk_rnaseq_single_sample.pbs.e11813619-4
--rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-5
--rw-rw---- 1 konox006 msistaff  21K Mar  7 11:52 bulk_rnaseq_single_sample.pbs.e11813619-6
--rw-rw---- 1 konox006 msistaff  21K Mar  7 11:53 bulk_rnaseq_single_sample.pbs.e11813619-7
--rw-rw---- 1 konox006 msistaff  21K Mar  7 11:56 bulk_rnaseq_single_sample.pbs.e11813619-8
--rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-1
--rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-2
--rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-3
--rw-rw---- 1 konox006 msistaff  493 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-4
--rw-rw---- 1 konox006 msistaff  453 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-5
--rw-rw---- 1 konox006 msistaff  453 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-6
--rw-rw---- 1 konox006 msistaff  453 Mar  7 11:49 bulk_rnaseq_single_sample.pbs.o11813619-7
--rw-rw---- 1 konox006 msistaff  453 Mar  7 11:52 bulk_rnaseq_single_sample.pbs.o11813619-8
-drwxrwx--- 2 konox006 msistaff 8.0K Mar  7 11:56 Coordinate_Sorted_BAMs/
-drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 Counts/
-drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 DEGs/
-drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 11:51 Dup_Stats/
--rw-rw---- 1 konox006 msistaff  29K Mar  7 12:01 gene_id_gene_name_map.txt
--rw-rw---- 1 konox006 msistaff  177 Mar  7 11:44 Groups.csv
-drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 11:56 InsertSizeMetrics/
-drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 Logs/
-drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 12:01 Plots/
-drwxrwx--- 2 konox006 msistaff 4.0K Mar  7 11:56 RNASeqMetrics/
--rw-rw---- 1 konox006 msistaff  23K Mar  7 12:02 run_summary_stats.pbs.e11813620
--rw-rw---- 1 konox006 msistaff  20K Mar  7 12:02 run_summary_stats.pbs.o11813620
-lrwxrwxrwx 1 konox006 msistaff   59 Mar  7 12:01 singlesamples_work_directory
--> /scratch.global/konox006/RNAseq_Tutorial_work/singlesamples/
-```
-
-The `-l` option to `ls` gives "long format" which includes permissions, owner,
-group, and modification times. The `-F` option displays  characters at the end
-of names that signify the type of object it is, like `/` at the end of the names
-of directories.
-
-There are multiple levels types of output that get generated:
-
-1. HTML report
-2. Log files, including PBS output files
-3. Insert size metrics
-4. Coordinate-sorted BAM files
-5. Expression counts
-6. Summary plots
-7. Differentially expressed genes
-
-There are also links to the working directories that get placed in the output
-directory. Additionally, a copy of the GTF that was used for expression counts
-is placed in the output directory.
-
-[Return to top](#top)
-##### HTML Report
-The final output of the PURR workflow is a summary report generated for the entire run. This is a large
-HTML file with embedded graphics and PDF objects. Much of the information in
-the HTML report is compiled from the summaries that we will highlight below.
-Use FileZilla (or your favorite SFTP client) to copy the 
-`Bulk_RNASeq_Report.html` file from the specified output directory to your
-desktop. Open it in the browser and take a few minutes to scroll through it.
-
-You can view an example of the HTML report [here]({{"/materials/rnaseq_cmd/Bulk_RNAseq_Report.html" | prepend: site.baseurl }}).
-Warning: it is large (approximately 3MB)!
-
-[Return to top](#top)
-##### Log Files
-The `Logs/` directory contains human-readable log files. The "analysis log"
-files describe the analysis steps in plain English and contain the console
-messages from the programs that we run. The "trace log" files contain copies of
-the exact commands and variable values that were used for each script. This is
-mostly useful for debugging purposes, if you detect a problem with your
-analysis.
-
-The PBS log files are the `bulk_rnaseq_single_sample.pbs.o...`,
-`bulk_rnaseq_single_sample.pbs.e...`, `run_summary_stats.pbs.o...`, and the
-`run_summary_stats.pbs.e...` files. They are generated by the scheduler and
-contain the text sent to the standard output and standard error channels of the
-programs called by the programs of the pipeline. The situation in which you
-would most want to view the contents of these files is if your pipeline jobs
-are throwing error messages. For now, we do not have to examine them.
-
-##### Insert Size Metrics
-These files are located in the `InsertSizeMetics/` directory, and contain
-per-sample insert size summaries. It is only generated if the data are
-paired-end. We will not examine these files for the tutorial, but they will
-be useful if you plan to submit your data to a database that requires summaries
-of the insert sizes, such as NCBI GEO.
-
-#### Coordinate-sorted BAM Files
-BAM files that are sorted on alignment coordinate are linked into the
-`Coordinate_Sorted_BAMs/` directory. These files are also indexed, and can be
-visualized in IGV or a similar alignment viewing program. Both the "raw"
-alignment from HISAT2 and the "filtered" alignment used as input for expression
-counts are included in this directory.
-
-##### Expression Counts
-This is one of the main outputs of the `bulk_rnaseq` pipeline. There are two
-types of counts that get produced by the pipeline, raw counts, and counts per
-million (CPM). CPM expression values are normalized counts divided by the number
-of fragments that were sequenced and multiplied by 1,000,000.
-
-The raw counts are stored in the `subread_counts.txt` file. This is the output
-from the `featureCounts` program from the `subread` package. In addition to the
-raw counts, this file also contains feature lengths. This may be useful if you
-would like to use the raw counts in a more sophisticated analysis than the
-pipelines implement. In this file, each gene is a row, and samples or gene
-descriptors (like length) are columns.
-
-The CPM values are stored in the `cpm_list.txt` file. These counts have been
-normalized for library size, then scaled to CPM values. Like the raw counts,
-this file has genes as rows and samples as columns. However, the CPM file does
-not have gene lengths.
-
-[Return to top](#top)
-##### Summary Plots
-This is another of the main outputs of the `bulk_rnaseq`. They are located in
-the `Plots/` directory. There are three plots that are produced. They are the
-distribution of CPM values per-sample, a heatmap of gene expression for the
-500 genes with the highest variance among samples, and a multidimensional
-scaling (MDS) plot showing sample distances based on gene expression.
-
-<details markdown="1">
-<summary>Click to show the CPM plot</summary>
-
-![CPM]({{ "/graphics/rnaseq_cmd/cpm_plot.png" | prepend: site.baseurl }})
-
-Note that if you did not supply experimental groups, then the plots will not
-be colored. These plots are violin plots, which show the kernel density for each
-sample. They are perhaps more informative than barplots, because it is easier to
-see the shapes of the distributions.
-
-</details>
-
-<details markdown="1">
-<summary>Click to show the heatmap of high-variance genes</summary>
-
-![Heatmap]({{ "/graphics/rnaseq_cmd/high_variance_heatmap.png" | prepend: site.baseurl }})
-
-The blue and red bars that correspond to sample groups will not be present if
-you did not supply experimental groups. This plot shows samples as columns and
-genes as rows. Samples are clustered based on similarity, with the distance
-relationships shown with the dendrogram. Gene expression (CPM) is displayed as
-rows, with red colors corresponding to low expression and yellow/white colors
-corresponding to high expression. Only the 500 genes with the highest variance
-among samples are shown. From the plot it looks like there may be an issue with
-separation of the groups. `Spleen.2` and `BoneMarrow.2` look like they might
-be swapped labels.
-
-</details>
-
-<details markdown="1">
-<summary>Click to show the MDS plot</summary>
-
-![MDS]({{ "/graphics/rnaseq_cmd/mds_plot.png" | prepend: site.baseurl }})
-
-MDS is a way to identify factors that explain similarities and dissimilarities
-among the samples. Samples that are more similar (have lower distance) appear
-closer together on the plot. In this case, we can see the samples that appear to
-have swapped labels as the single blue label in a group of red, and vice-versa.
-We can also see that samples `Spleen.4` and `BoneMarrow.4` are not very tightly
-clustered with the other samples.
-
-</details>
-
-[Return to top](#top)
-##### Differentially Expressed Gene (DEG) List
-This file is written to the `DEGs/` directory in the output folder. Use `head`
-to look at the first six lines:
-
-```
-% head DE_Spleen-BoneMarrow_list.txt
-genes   logFC   logCPM  F   PValue  FDR
-```
-
-There are no differentially expressed genes!
-
-[Return to top](#top)
-#### <a name="2.3.4"></a> 2.3.4: Fixing Sample Labels
-One thing that could be contributing to the fact that we don't have any
-differentially expressed genes is that it appears as though there was a mix-up
-between a `Spleen` sample and a `BoneMarrow` sample. `Spleen-2` and
-`BoneMarrow-2` look like they were swapped, in particular. This is apparent in
-the MDS plot and in the clustering heatmap. Let's fix this.
-
-Edit the `Groups.csv` file that you made in **2.3.1** and re-assign labels for
-the problematic samples.
-
-```
-SampleName,Group
-BoneMarrow-1,BoneMarrow
-BoneMarrow-2,Spleen
-BoneMarrow-3,BoneMarrow
-BoneMarrow-4,BoneMarrow
-Spleen-1,Spleen
-Spleen-2,BoneMarrow
-Spleen-3,Spleen
-Spleen-4,Spleen
-```
-
-Re-run the pipeline with the same command, but be sure to add the `--purge`
-option. This tells the pipeline to regenerate alignments.
-
-```bash
-% cd /home/riss/public/CHURP/0.1.0/
-% python churp.py bulk_rnaseq \
-    -e /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv \
-    -f /home/msistaff/public/RNAseq_Tutorial/Reads \
-    -x /home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19 \
-    -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz \
-    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out \
-    -d /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Work \
-    --strand U \
-    --ppn 4 --mem 12000 -w 2 --purge
-```
-
-Now, take a look at the plots and the top of the DEG list file. They should
-look much more reasonable.
-
-<details markdown="1">
-<summary>Click to show the new CPM plot.</summary>
-
-![Swapped CPM]({{ "/graphics/rnaseq_cmd/cpm_plot_swap.png" | prepend: site.baseurl }})
-
-</details>
-
-<details markdown="1">
-<summary>Click to show the new heatmap plot.</summary>
-
-![Swapped Heatmap]({{ "/graphics/rnaseq_cmd/high_variance_heatmap_swap.png" | prepend: site.baseurl }})
-
-</details>
-
-<details markdown="1">
-<summary>Click to show the new MDS plot.</summary>
-
-![Swapped MDS]({{ "/graphics/rnaseq_cmd/mds_plot_swap.png" | prepend: site.baseurl }})
-
-</details>
-
-And when we look at the top of the DEGs list file, we get output:
-
-```
-genes              logFC             logCPM           F                PValue               FDR
-ENSMUSG00000044220 6.13112504441889  8.08563573490181 338.587778351081 3.9497459543965e-09  1.48998020488011e-06
-ENSMUSG00000024810 6.2505506355037   8.7831070255066  315.810066440887 5.57001945749575e-09 1.48998020488011e-06
-ENSMUSG00000024659 -4.17943685057531 15.0648102803939 280.891282225036 9.9163938687989e-09  1.76842357326914e-06
-ENSMUSG00000024953 -2.09900592323709 13.2553761579828 244.651685142293 1.95184942030757e-08 2.61059859966137e-06
-ENSMUSG00000025215 11.7605156086712  8.89647479464905 561.246419555895 4.63615063171065e-08 4.9606811759304e-06
-ENSMUSG00000024680 -4.11471280910026 9.50245335028549 183.152399522069 7.97641443190176e-08 7.11230286844573e-06
-ENSMUSG00000037071 2.14458600353721  12.5489522373596 148.107571697157 2.21315471124349e-07 1.69148252930752e-05
-ENSMUSG00000025083 3.73161698219916  8.30730527741837 137.203730521482 3.18642778575886e-07 2.13092358172623e-05
-ENSMUSG00000025060 -1.51128832611889 12.8822670060406 132.426442306639 3.7705700500812e-07  2.24139441865938e-05
-```
-
-<div class="warn" markdown="1">
-
-If you do not get any differentially expressed genes in your actual analysis it
-does not necessarily mean that there was a sample label issue. This was an
-engineered example to illustrate how to read the plots and make inference
-about sample quality. The results of a real experiment depend on technical
-factors:
-
-- Quality of RNA extraction
-- Quality of library preparation
-- Depth of sequencing
-- Number of replicates
-
-And on biological factors:
-
-- Type of input material (single cells, tissue sample, organ sample, etc.)
-- Change in gene expression that is effected by the experimental conditions
-- Nested, multi-factorial, or time-series designs
-
-Please see [**Part 6**](#6) for information on more complex designs.
-
-</div>
-
-[Return to top](#top)
-### <a name="2.4"></a> 2.4 Data Sources
-These data were downloaded from the NCBI Sequence Read Archive (SRA) accession
-number SRP164768. Files were renamed to the same format that the UMGC will
-deliver to your MSI group. Reads were filtered to contain fragments that map to
-mouse chromosome 19, along with approximately 15% reads from other chromosomes.
-The reference and annotated gene set are subset versions of the MM10 reference
-genome and annotation to only include chromosome 19.
-
-The following perturbations to the subset reads were performed:
-
-- `Spleen-1` was subject to random reductions in base quality
-- `BoneMarrow-3` was subject to random reductions in base quality
-- `BoneMarrow-4` was subject to random sequence duplication
-- `Spleen-2` and `BoneMarrow-2` labels were swapped
-
-We have made attempts to include situations that you may encounter in actual
-experiments, such as PCR duplication and low quality reads in your dataset. If
-you need consultation on data analysis, or would like to contract the RIS group
-at MSI to analyze data for you, please contact the MSI help desk at
-<help@msi.umn.edu>.
-
-[Return to top](#top)
 <div class="info" markdown="1">
 
-## <a name="3"></a> Part 3: Detailed Description of Pipeline Steps
-This section contains a detailed description of all constituent steps of the
-`bulk_rnaseq` pipeline:
+CHURP will perform automated differential gene expression testing with up to **four** groups maximum. It will also only perform automated differential expression testing if and only if all groups have at least **three** replicates. If your experiment does not conform to these parameters, then you will have to perform differential expression testing yourself with the expression matrix produced by CHURP.
 
-1. Summarize read quality
-2. Clean reads for low-quality bases and adapter contaminants
-3. Map reads to genome
-4. Count reads within genes
-5. Filter counts for genes with low expression
-6. Test for differential expression
-
-Steps **1**, **2** and **3** occur in a task array, with one task per sample.
-Steps **4**, **5**, and **6** occur in in a single job that processes the output
-from each single-sample task.
 
 [Return to top](#top)
-### <a name="3.1"></a> 3.1: Summarizing Read Quality
-
-<details markdown="1">
-<summary>Show the read quality summarization details</summary>
-
-The first part of the pipeline uses `fastqc` to generate summaries of read
-length, base quality, base composition, and non-biological sequence
-contamination. These reports are written to the working directory for each
-sample. Both the HTML report and the text report (in the FastQC-produced ZIP
-file) are made available. For more information on how to read the quality
-reports generated by FastQC, please refer to our other tutorial that treats
-[Illumina data quality control in depth](https://pages.github.umn.edu/MSI-RIS/Tutorials/illumina_galaxy/).
-
-This step is always run. You should view the FastQC reports to see if there are
-technical explanations for patterns you observe in your results.
-
-</details>
-
-### <a name="3.2"></a> 3.2: Cleaning Reads
-
-<details markdown="1">
-<summary>Show read cleaning details</summary>
-
-The second part of the pipeline uses Trimmomatic to clean low quality bases,
-adapter contamination, and reads that fail length filters from your input
-datasets. This step is optional - there are arguments in favor of and against
-cleaning reads. To disable read cleaning, simply add the `--no-trim` option to
-the `churp.py bulk_rnaseq` command. We enable cleaning by default because it 
-s relatively fast and in most cases, will not negatively impact a differential
-expression analysis. 
-
-The default options we have set for Trimmomatic are as follows:
-
-1. `ILLUMINACLIP:[adapters]:4:15:7:2:true`
-2. `LEADING:3`
-3. `TRAILING:3`
-4. `SLIDINGWINDOW:4:15`
-5. `MINLEN:18`
-
-These correspond to the following operations:
-
-1. Trim contamination from Illumina adapter sequences. Allow up to 4 seed
-   mismatches when searching for adapter sequences. Require an alignment score
-   of 15 to trim adapters in "palindrome" mode (which corresponds to 25 bases
-   of perfect match). Require an alignment score of at least 7 for "simple"
-   mode, which corresponds to at least 12 bases of perfect adapter match at
-   the end of one read. Require at least 2 bases of adapter sequence to be
-   detected for trimming. Do keep both reads after cleaning.
-2. Remove bases with a quality score of less than 3 at the start of a read.
-3. Remove bases with a quality score of less than 3 at the end of a read.
-4. Trim bases with a windowed quality trimming model, removing parts of the read
-   until it passes a threshold. We set the window size to 4 bases and require
-   that the mean quality of those bases in the window to be at least 15.
-5. After all adapter and quality trimming, remove reads that are shorter than
-   18 bases.
-
-It is possible to override these options by supplying the
-`--trimmomatic-opts=" ... "` option to the `churp.py bulk_rnaseq` call. Pleas
-note that any options you supply will **totally override** the defaults that we
-set. If you want to only change one of our options, then you must specify
-the entire options string with your desired change inserted. Please
-also note that if you supply alternative options to Trimmomatic, then the onus
-is on you to ensure that they are valid and produce the desired output. We
-cannot guarantee that any combination of options outside of our defaults will
-work properly for any given dataset. Please consult the Trimmomatic
-manual for a full description of available options.
-
-After Trimmomatic cleaning, FastQC is run on the cleaned reads. You can then
-compare the raw and the processed reads to determine if you need to adjust any
-of the parameters for cleaning.
-
-</details>
-
-### <a name="3.3"></a> 3.3: Mapping Reads
-
-<details markdown="1">
-<summary>Show read mapping details</summary>
-
-Read mapping is performed with the splice-aware aligner, HISAT2. Note that we
-have moved away from TopHat2, which has been deprecated by its authors. It is
-possible to supply many options to modify how HISAT2 aligns reads against the
-genome. By default, we supply the following options:
-
-1. `--no-mixed`
-2. `--new-summary`
-3. `-p [ppn]`
-
-These correspond to the following operations:
-
-1. Do not separate pairs of reads when one mate can be mapped but the other
-   cannot. By default, HISAT2 separates mates when one cannot find an alignment.
-2. Output a summary format that is easier to process with scripts
-3. Set the number of threads to the number of processors (can be changed with
-   the `--ppn` option to `churp.py bulk_rnaseq`) 
-Note that these three options will always be specified, so you do not need to
-re-list them when supplying custom options with `--hisat2-opts=" ... "`. Like
-with the Trimmomatic custom options, we cannot guarantee that any combination of
-options will work appropriately for your dataset. We further cannot validate
-any options that are passed; if your option string contains a typo or an illegal
-value, it will cause HISAT2 to throw an error and the pipeline will abort.
-Please consult the HISAT2 manual for the full list of options that are available
-for alignment.
-
-After alignment, the resulting SAM file is sorted by read name (for
-fragment-based counting) and converted to BAM.
-
-</details>
-
-### <a name="3.4"></a> 3.4: Counting Reads in Genes
-
-<details markdown="1">
-<summary>Show expression counting details</summary>
-
-Once the alignments are generated and sorted by read name, they are used as
-input for the `featureCounts` program, part of the `subread` package. We count
-*fragments* that map to genes to generate expression counts. That is, if the
-library is paired-end, then both mates must map to the same gene for it to be
-counted as originating from that gene. If the library is single-end, then
-individual reads represent sequenced fragments, and reads are counted if they
-map to annotated genes.
-
-We also support two types of strandedness for the libraries, strand U, and
-reverse-stranded. By default, the UMGC prepares RNASeq libraries using a
-reverse-stranded protocol. Thus, the default option for our `featureCounts` call
-is to count reverse-stranded alignments. Additionally, we also set a minimum
-mapping quality of 10 to reads that are considered as valid alignments for
-counts. If reads are not confidently mapped to a single location, then they are
-not used for counts.
-
-</details>
-
-### <a name="3.5"></a> 3.5: Filtering and Differential Expression Testing
-
-<details markdown="1">
-<summary>Show differential expression testing details</summary>
-
-The raw counts matrix generated by `featureCounts` is then processed with a
-R script that filters the counts matrix, generates summary plots, calculates a
-normalized value for gene expression, and tests for differentially expressed
-genes. To enable the differential expression testing, you must specify
-experimental groups by following the directions in **2.3.1** above.
-
-The filters are applied on a gene-basis. Genes are filtered based on length
-and variance in expression across all samples. If the variance in raw counts
-is less than `1`, then the gene is removed from the matrix. If the gene is
-less than the minimum gene length (tunable with the `--min-gene-length` option,
-default of 200bp), then it is removed from the matrix.
-
-The resulting expression counts matrix is then processed with the EdgeR package
-for RNASeq analysis. The raw counts are transformed to counts-per-million (CPM),
-and written to disk. Distributions of CPM for each gene and each sample are
-plotted in violin plots. The 500 genes with the highest variance among the
-samples are plotted in a clustered heatmap. Finally, a multidimensional
-scaling (MDS) plot is generated for the samples.
-
-Several conditions must be met for differential expression testing to take
-place. First, experimental groups must be specified. If there are more than
-five groups or fewer than two groups, then we do not perform differential
-expression testing as part of the pipelines. This is because the experimental
-design is potentially to complex to analyze with a series of pairwise
-differential expression analyses. If there are fewer than three replicates per
-experimental group, we will also not perform differential expression testing.
-In either of these cases, if you would like to analyze your data in a different
-way, then you may perform your analyses with the normalized counts matrix or the
-raw counts matrix. You may contact the University of Minnesota Informatics
-Institute or the Research Informatics Solutions group at MSI for assistance
-with data analysis that falls outside of the `CHURP`.
-
-</details>
-
-## <a name="4"></a> Part 4: Getting Your Own Reference Genome Index Files
-### <a name="4.1"></a> 4.1: HISAT2 Pre-Built Indices
-The developers of HISAT2 maintain a collection of genome indices that are usable
-as targets for alignment (`-x` flag in our pipeline). You can find the various
-indices that are available on the right panel of the [HISAT2 homepage](https://ccb.jhu.edu/software/hisat2/index.shtml).
-Note that version of the genome assembly, version of the annotation, and the
-known SNPs and slice sites are important pieces of information to include.
-
-We generally recommend that you use index files that were built with known
-SNPs and splice sites. These are the `genome_snp_tran` files that are linked on
-the site. The inclusion of known SNPs and splice sites allows you to map reads
-accounting for the known structural differences between transcripts and the
-genome assembly and known sequence polymorphism between individuals in the
-species.
-
-[Return to top](#top)
-### <a name="4.2"></a> 4.2: Building Your Own Index
-As of this writing (November 2018), the pre-built indices are only available
-for human, house mouse, Norway rat, common fruit fly, *C. elegans*, and baker's
-yeast. If you are analyzing data from a species that does not have a pre-built
-index, then you will have to produce your own.
-
-First, download a reference genome assembly and a gene annotation. A good source
-of reference genome assemblies is [Ensembl](https://ensembl.org). Make sure that
-you get a FASTA file for the genome assembly and a GTF file for the gene
-annotations. HISAT2 does not take gzipped input files for index building, so
-they must be unzipped. Additionally, if your study species has such information
-available, download a dbSNP build that includes polymorphisms discovered in your
-species of interest. You can download them from the [UCSC Genome Browser](http://hgdownload.cse.ucsc.edu/downloads.html).
-If you do not have a dbSNP dump for your species of interest, then you can use
-a VCF.
-
-<div class="warn" markdown="1">
-
-Note that not all SNPs in public databases (or even those derived from your own
-high-throughput sequencing analysis) are "real." Many are the result of poor
-alignment in regions of the genome that are difficult to assemble, or
-alignment errors involving short insertions/deletions. This shouldn't affect
-the index building procedure, but it is important to be aware of the error-prone
-nature of any "-omics" dataset.
-
 </div>
 
-Next, use auxiliary scripts that are bundled with HISAT2 to extract the splice
-sites and SNPs into a format that the index builder will read. These become
-available once you load the `hisat2` module on MSI systems. The names of the
-files are `hisat2_extract_snps_haplotypes_UCSC.py` for dbSNP dumps,
-`hisat2_extract_snps_haplotypes_VCF.py` for VCFs, and 
-`hisat2_extract_splice_sites.py` for GTFs. They write data to standard out,
-so be sure to redirect with the `>` character on the shell. The scripts are
-reasonably light, and can be run in an interactive HPC session. Note that at the
-time of this writing (November 2018, HISAT2 version 2.1.0), the auxiliary
-scripts require `python2`, and will not work with `python3`.
+## <a name="5"></a>Part 5: Submit Analysis Jobs
+Goal: By the end of this section, you should be able to verify the information in the CHURP `samplesheet.txt` file, submit the CHURP jobs, and check their status in the job queue.
 
-Once you have SNPs and splice sites in HISAT2 input files, write the necessary
-commands for index building into a shell script following the
-[build instructions](https://ccb.jhu.edu/software/hisat2/manual.shtml#the-hisat2-build-indexer).
-This should be formatted as a PBS job script and sent to the scheduler.
+### <a name="5.1"></a>Part 5.1: Generating Pipeline Job Script
+We will now use the `bulk_rnaseq` routine in CHURP to analyze the tutorial RNAseq dataset. **Note** that this is not `group_template bulk_rnaseq`! Run the following command:
 
-<div class="warn" markdown="1">
-
-Please note that building index files for HISAT2 are memory intensive tasks, so
-you will likely need to use the `ram256g` or `ram1t` queues to run your jobs.
-For limits on these queues, please refer to the [MSI queues page](https://www.msi.umn.edu/queues).
-
-For example, a build of the mm10 house mouse genome with known splice sites
-required approximately 350GB of memory.
-
-</div>
-
-[Return to top](#top)
-## <a name="5"></a> Part 5: Pipeline File Formats
-The `bulk_rnaseq` pipeline of `CHURP` generates up to three
-pipeline-specific file formats. Technically, these files are not proprietary
-in any way, and can be used by third-party applications and custom user scripts.
-However, we cannot support the diversity of ways that people may interact with
-the internal files of `CHURP`.
-
-[Return to top](#top)
-### <a name="5.1"></a> 5.1: Experimental Groups Template
-
-<details markdown="1">
-<summary>Show experimental group CSV details</summary>
-
-This is a comma-separated values (CSV) file that contains placeholders for the
-experimental for the samples in question. By default, it contains only two
-fields, `SampleName` and `Group`. The `SampleName` field contains the inferred
-name of the sample, derived from the filename of the FASTQ file. The `Group`
-column is auto-populated with a `NULL` value. We do not make any attempt to
-automatically assign samples to groups based on patterns in the filenames.
-
-</details>
-
-### <a name="5.2"></a> 5.2: Pipeline.sh Script
-This is a standard bash script that contains paths to the samplesheet and the
-PBS job scripts.
-<details markdown="1">
-<summary>Show pipeline.sh details</summary>
-
-Shown below is an example of a pipeline script:
-
-```bash
-#!/bin/bash
-# Generated by CHURP version 0.2.0
-# Generated at 2019-10-10 15:10:39
-set -e
-set -u
-set -o pipefail
-user_name="$(id -u -n)"
-user_email="${user_name}@umn.edu"
-KEYFILE="/scratch.global/[. . .]qsub_array.txt"
-QSUB_ARRAY="1-8"
-OUTDIR="/scratch.global/konox006/RNAseq_Tutorial_Out"
-WORKDIR="/scratch.global/konox006/RNAseq_Tutorial_Work"
-DE_SCRIPT="/[. . .]/summarize_bulk_rnaseq.R"
-REPORT_SCRIPT="/[. . .]/bulk_rnaseq_report.Rmd"
-SAMPLESHEET="/[. . .]samplesheet.txt"
-PURGE="false"
-RRNA_SCREEN="10000"
-SUBSAMPLE="0"
-PIPE_SCRIPT="$(cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )/$(basename $0)"
-single_id=$(qsub -q mesabi [. . .]bulk_rnaseq_single_sample.pbs || exit 1)
-summary_id=$(qsub -q mesabi [. . .]run_summary_stats.pbs || exit 1)
-echo "Output and logs will be written to ${OUTDIR}"
-echo "Emails will be sent to ${user_email}"
-echo "Qsub array to samplename key: ${KEYFILE}"
-echo "Single samples job array ID: ${single_id}"
-echo "Summary job ID: ${summary_id}"
 ```
-Note that long paths and option strings have been truncated for readability.
-The files that you generate will have full paths and options lists in them.
-
-Running this script will submit the entire pipeline to the scheduler. The only
-path that you will have to check is the `SAMPLESHEET=` declaration. This should
-be the location of the samplesheet that was generated by `churp.py`. This `pipeline.sh` script and the `samplesheet.txt` is sufficient to completely reproduce all analyses, provided that the reference genome and raw data locations have not changed.
-
-</details>
-
-### <a name="5.3"></a> 5.3 Samplesheet
-
-The samplesheet contains the information necessary to process each sample, such
-as the paths to the reads, the reference genome for alignment, and trimming
-options that you have specified. The file is very "wide" (has long lines), so
-we will not reproduce it verbatim.
-
-<details markdown="1">
-<summary>Show samplesheet details</summary>
-
-The format is a series of pipe-delimited (`|`) fields. For version `0.0.1` of
-the `CHURP`, the fields are in the following order:
-
-1. Sample name
-2. Experimental group
-3. R1 path
-4. R2 path
-5. Output directory
-6. Working directory
-7. Trim ("yes" or "no")
-8. Remove duplicates ("yes" or "no")
-9. Trimmomatic options
-10. HISAT2 reference genome index
-11. HISAT2 options
-12. Unstranded ("yes" or "no")
-13. GTF path
-
-The final lines contain meta-information for the samplesheet. It has the date
-the sheet was generated and the version of the pipelines that generated the
-script.
-
-It is important that the samplesheet starts directly with sample information.
-There is **no header line**. You can put any free-form information between the
-block of sample data and the comment lines. The PBS worker scripts parse the
-sample data block and the final line in the file, so they must remain intact
-for the scripts to work.
-
-</details>
-
-## <a name="6"></a> Part 6: More Complex Analyses
-This section will cover how to prepare for more complicated analyses than we
-support in `CHURP`. Examples of these types of analyses are
-experiments with nested designs, multi-factorial comparisons, or time series
-analyses. The example data set used in this tutorial is actually part of a
-more complex design that we simplified for the purposes of the tutorial.
-
-We cannot provide catch-all instructions for analyzing more complicated
-designs because each experiment will need its own procedure for analysis. You
-can consult a statistician or the RIS group at MSI for assistance. We can,
-however, provide some mechanisms for helping you analyze more complex datasets
-by automating some of the more tedious parts of the setup.
-
-[Return to top](#top)
-### <a name="6.1"></a> 6.1: `group_template` Columns
-By default, the `group_template` subcommand only makes a `SampleName` and a
-`Group` column. You can specify the `-e` option to add other columns to the
-groups CSV file. The argument given to the `-e` option is the name of the
-column, and the option can be specified multiple times.
-
-For example, a more complete set of information for the tutorial samples is
-shown below. Note that this reflects the **true** data set, and not the labels
-that were swapped for instructional purposes.
-
-| Name         | Genotype | Tissue      | Time |
-|--------------|----------|-------------|------|
-| BoneMarrow-1 | Elf4-/-  | Bone marrow | 2    |
-| BoneMarrow-2 | Elf4-/-  | Bone marrow | 0    |
-| BoneMarrow-3 | WT       | Bone marrow | 2    |
-| BoneMarrow-4 | WT       | Bone marrow | 0    |
-| Spleen-1     | Elf4-/-  | Spleen      | 2    |
-| Spleen-2     | Elf4-/-  | Spleen      | 0    |
-| Spleen-3     | WT       | Spleen      | 2    |
-| Spleen-4     | WT       | Spleen      | 0    |
-
-In our example, we used the tissue type as the group, but we can specify
-additional columns by modifying our original call:
-
-```bash
-% python churp.py group_template bulk_rnaseq \
+% $CHURP bulk_rnaseq \
+    -e /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out/Groups.csv \
     -f /home/msistaff/public/RNAseq_Tutorial/Reads \
-    -e Genotype \
-    -e Tissue \
-    -e Time \
-    -o /scratch.global/YOUR_USER_NAME/RNAseq_Tutorial_Out/Groups.csv
+    -x /home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19 \
+    -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz \
+    -o /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out \
+    -d /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Work \
+    --strand U \
+    --ppn 4 --mem 12000 -w 2 --no-submit
+----------
+Thank you for using CHURP. [ . . . ]
 ```
 
-The resulting CSV file will look like this:
+where `YOUR_INTERNET_ID` is your UMN Internet ID.
 
-```
-SampleName,Group,Genotype,Tissue,Time
-BoneMarrow-1,NULL,NULL,NULL,NULL
-BoneMarrow-2,NULL,NULL,NULL,NULL
-BoneMarrow-3,NULL,NULL,NULL,NULL
-BoneMarrow-4,NULL,NULL,NULL,NULL
-Spleen-1,NULL,NULL,NULL,NULL
-Spleen-2,NULL,NULL,NULL,NULL
-Spleen-3,NULL,NULL,NULL,NULL
-Spleen-4,NULL,NULL,NULL,NULL
-```
+<div class="warn" markdown="1">
 
-Note that `SampleName` and `Group` are always present: these are required for
-the `edgeR` testing that we do. You can then fill in the appropriate values
-for the experimental variables.
-
-You can leave the `Group` column as all `NULL` values when running the
-pipelines. If you do this, then the pipeline will stop after generating raw and
-normalized counts. You may then use the counts matrix and the groups CSV file
-to run a statistical analysis in the package of your choice.
-
-With more detailed metadata, it is possible to model the effects of factors
-like the technician who extracted the RNA, the batch in which a library was
-extracted, the enclosure of the individual in the experiment, the protocol that
-was used for extraction and storage, and so on. Always keep good notes on these
-factors, because they may end up explaining a large portion of the variance in
-observed gene expression.
-
-[Return to top](#top)
-## <a name="7"></a> Part 7: Developing Your own Workflow
-We provide our in-house bulk RNASeq analysis pipeline as a convenience for
-researchers who are processing many bulk RNASeq datasets. However, you may be
-interested in developing your workflow. If you do, there are some concerns that
-you must keep in mind:
-
-1. Be careful with data from public sources
-2. Use "best in class" software
-  - HISAT2, STAR
-  - Kallisto (but only for specialized applications)
-  - EdgeR or DESeq2 for differential expression analysis
-3. Be careful with tools built for microarrays
-
-In relation to point **1** above, the technical variables for the data set used
-in this tutorial were not available. The strain, age at sacrifice, and the
-experimental conditions are available in the SRA, but RNA quality summaries and
-sample handling information is not available. Collaborative work between some
-members of the RIS group and UMGC Funded Services group has shown that technical
-variables such as sample storage can drive major patterns of differentiation
-of gene expression profiles. Such metadata are not often deposited with public
-data, so be cautious when analyzing data from the SRA with no technical
-metadata.
-
-In regard to point **2**, most RNASeq alignment should be done with HISAT2 or
-STAR. STAR requires that you build a special index for each read length that
-you wish to align, so we cannot provide general instructions here. Kallisto can
-be used for transcript quantification, but is not a general purpose alignment
-tool for expression analysis - you should only use Kallisto if your reads and
-reference genome have **very few** expected sequence differences. Most studies
-fall outside of this case, so we do not recommend it for general RNASeq
-analyses. Several packages and statistical models exist for identifying
-differentially expressed genes, but we recommend EdgeR or DESeq2 because they
-implement robust models and have well-documented features.
-
-For point **3**, the nature of the data from microarrays is fundamentally
-different from that of RNASeq. Microarrays use hybridization, which is a
-fluorescence-based signal, rather than a counts-based signal. Be sure that the
-package you are using can handle RNASeq data before applying it.
-
-[Return to top](#top)
-
-## <a name="8"></a> Part 8: University of Minnesota Genomics Center
-The University of Minnesota Genomics Center offers extraction, library
-preparation, and sequencing services. They also offer services for long-read
-technologies. Their systems are connected to MSI servers to support direct
-data deposit into your MSI directory.
-
-### <a name="8.1"></a> 8.1: Pricing and Instruments
-
-- [HiSeq2500](http://genomics.umn.edu/nextgen-hiseq-high.php), click the "Pricing" tab. **Note**: The HiSeq 2500 is retiring in September 2019. Use the NextSeq or NovaSeq instead.
-- [NextSeq and NovaSeq Internal](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_Internal_Pricing_032118_update.pdf)
-- [NextSeq and NovaSeq External](http://genomics.umn.edu/downloads/NovaSeq_NextSeq_External_Pricing_032118_update.pdf)
-- [PacBio Sequel](http://genomics.umn.edu/long-read-pacbio.php): Long read (isoform) sequencing for RNA.
-
-For a quote, you can contact the next-gen sequencing team UMGC by emailing
-<next-gen@umn.edu> with your desired read quantity, read length, and
-single/paired technology. They will prepare a quote that will be good for three
-months from the preparation date.
-
-For a full description of the UMGC service catalogue, including the latest pricing, please see the "Services" menu of the [UMGC homepage](http://genomics.umn.edu/).
-
-[Return to top](#top)
-#### <a name="8.2"></a> 8.2: Expected Turnaround Time
-The standard turnaround time for RNASeq projects at the UMGC is 6-8 weeks,
-assuming the libraries pass QC and there are no complications with the reagents
-or the instruments. For faster turnaround, you may request to use the NextSeq,
-which is a single lane, rather than a shared flowcell like with the other
-instruments.
+The parameters specified here are specific for the tutorial dataset! Do not re-use these for an analysis of a real dataset! In particular, the `--ppn 4` and `-w 2` parameters are for extremely small datasets, and the `--strand U` parameter is for a specific type of library preparation.
 
 </div>
 
-## Part 9: Feedback
+<div class="info" markdown="1">
+
+The default RNAseq library preparation kit used by the UMGC is the Illumina TruSeq Stranded mRNA kit, which uses `RF` strand specificity. This means R1 maps to the "reverse" strand and R2 maps to the "forward" strand. This is the **default** strand specificity for CHURP.
+
+For low input or marginal quality RNA, the UMGC may use the SMARTer Stranded RNAseq v2 kit from Takara Bio. This kit also has `RF` strand specificity, but **requires a "headcrop" of 3bp** (`--headcrop 3` for CHURP).
+
+If you have older data that was from the SMARTer Stranded RNAseq v1 kit, it has `FR` strand specificity, and also requires `--headcrop 3` for CHURP.
+
+Your data release email from UMGC will specify which kit was used to prepare your libraries. If you are analyzing data from other sources, you will have to consult the manual of the kit that was used to prepare your data to know the strand specificity. The libraries used in this tutorial come from the "NEBNext Ultra RNA," which is **not** strand-specific, which is why we use `--strand U` in the tutorial.
+
+Telling CHURP the strand specificity does **not** affect read mapping; it only affects the way fragments are assigned to genes during the quantification step.
+
+</div>
+
+We supply a lot of special options for the tutorial run. Descriptions of the options are given below:
+
+- `-o /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out`: specify path to output directory. Default behavior is to put it in global scratch with a name based on the system clock time.
+- `-d /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Work`: specify path to working directory. Default behavior is to put it in global scratch with a name based on the system clock time.
+- `--strand U`: count reads in a **strand non-specific** way (default is reversely-stranded)
+- `--ppn 4`: use **4** CPUs for multithreaded processes (default is 6).
+- `--mem 12000`: use 12000MB (12GB) of RAM (default is 12000MB)
+- `-w 2`: use **2** hours of time (default is 12).
+- `--no-submit`: do not automatically submit pipeline jobs.
+
+There are three lines of text output that you should note. The text that is written below has truncated paths, but you will see lines that look like this:
+
+```
+Pipeline script: /scratch.global/. . . bulk_rnaseq.pipeline.sh
+Samplesheet: /scratch.global/. . . samplesheet.txt
+Qsub array key: /scratch.global/. . . qsub_array.txt
+```
+
+<div class="info" markdown="1">
+
+CHURP submits a *job array* for the processing of the dataset, because the processing of one sample is independent of the processing of another. This allows the jobs to start sooner; each job is smaller so it can be split across partially-allocated nodes. To read more about job arrays, see this link:  
+<https://www.msi.umn.edu/support/faq/how-do-i-use-job-array>
+
+</div>
+
+The `pipeline.sh` file is a shell script that submits the pipeline jobs to the scheduler. The `samplesheet.txt` file is a specially-formatted text file that describes the parameters of the analyses. The `qsub_array.txt` file is a text file that contains a key that associates each sample with an array index.
+
+### <a name="5.2"></a>Part 5.2 Verifying Metadata
+Let us take a look at the `samplesheet.txt` file with `less -S` to make sure that the groups were assigned properly (path shortened for readability):
+
+```
+% less -S /scratch.global/. . . samplesheet.txt
+```
+
+The file is a bit complicated, and is not really intended for easy reading by humans! But we will look at the first two columns separated by the pipe character (`|`) to verify that the samples are assigned to the correct groups. The first column is the sample name and the second column is the group:
+
+```
+BoneMarrow-1|BoneMarrow|...
+BoneMarrow-2|BoneMarrow|...
+BoneMarrow-3|BoneMarrow|...
+BoneMarrow-4|BoneMarrow|...
+Spleen-1|Spleen|...
+Spleen-2|Spleen|...
+Spleen-3|Spleen|...
+Spleen-4|Spleen|...
+
+# Generated by CHURP version 0.2.2-slurm
+# Generated at 2021-02-03 15:48:07
+#0
+```
+
+These look good! Now, execute the `pipeline.sh` script with `bash` to submit the pipeline jobs (path shortened for readability):
+
+```
+% bash /scratch.global/. . . pipeline.sh
+sbatch: Setting account: msistaff
+sbatch: Setting account: msistaff
+Output and logs will be written to /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out
+Emails will be sent to YOUR_INTERNET_ID@umn.edu
+Qsub array to samplename key: /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out/. . .qsub_array.txt
+Single samples job array ID: 802738
+Summary job ID: 802739
+```
+
+The output message shows us the IDs of the jobs that were submitted and also where important files will be saved. We will revisit these directories in a later section!
+
+### <a name="5.3"></a>Part 5.3 Viewing Queued Job Status
+Let us verify that the jobs are submitted by running the `squeue` command, which prints the job queue status. We will also include the `-r` option (expand the array to show all elements), and the `--me` option, which shows only jobs that you own:
+
+```
+% squeue -r --me
+             JOBID PARTITION     NAME      USER  ST      TIME  NODES NODELIST(REASON)
+            802739     small run_summ <blanked>  PD      0:00      1 (Dependency)
+          802738_1     small bulk_rna <blanked>  R       7:46      1 cn0511
+          802738_2     small bulk_rna <blanked>  R       7:46      1 cn0517
+          802738_3     small bulk_rna <blanked>  R       7:46      1 cn0061
+          802738_4     small bulk_rna <blanked>  R       7:46      1 cn0061
+          802738_5     small bulk_rna <blanked>  R       7:46      1 cn0061
+          802738_7     small bulk_rna <blanked>  R       7:46      1 cn0062
+          802738_8     small bulk_rna <blanked>  R       7:46      1 cn0062
+```
+
+You see nine jobs total: there are eight for the individual samples and one for the summary. The eight single-sample jobs are in the "Running" state, indicated by the `R` in the `ST` column. The summary job is in the "Pending" state, indicated by the `PD` in the `ST` column. The reason that the summary job is still pending is `Dependency`: it depends on all of the single-sample jobs to finish before it can start. You will be notified by email of job state changes, like "Pending" to "Running" and then from "Running" to "Complete".
+
+<div class="warn" markdown="1">
+
+It is a good idea to set up an email filter for the messages from the job scheduler! They are sent from `msi_slurm@msi.umn.edu`, so you can use this address to send the messages to a special email folder. You can view more about the email settings for a job on MSI's job sub submission page:  
+<https://www.msi.umn.edu/content/job-submission-and-scheduling-slurm>
+
+</div>
+
+Each of the single-sample jobs is running through the left panel of the workflow depicted in the figure of [Part 2](#2).
+
+[Return to top](#top)
+
+## <a name="6"></a>Part 6: Overview of CHURP Results
+Goal: By the end of this section, you should be able to verify that your CHURP jobs have finished running and identify the major components of the CHURP output.
+
+You should have gotten several emails from the scheduling system pertaining to your CHURP run. If the title of the email has the word `FAILED` in it, then the job did not complete successfully, and you will need to dig into the log files to see what went wrong. We cover the log files and how to read them in [Part 8](#8).
+
+Recall from [Part 6](#6) that the output directory we are using is
+
+```
+/scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out
+```
+
+where `YOUR_INTERNET_ID` is your UMN Internet ID. Navigate to this directory and use `ls` to view the contents:
+
+```
+% cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out
+% ls
+2021-02-03.YOUR_INTERNET_ID.bulk_rnaseq.pipeline.sh
+2021-02-03.YOUR_INTERNET_ID.bulk_rnaseq.qsub_array.txt
+2021-02-03.YOUR_INTERNET_ID.bulk_rnaseq.samplesheet.txt
+allsamples_work_directory
+Bulk_RNAseq_Report.html
+bulk_rnaseq_single_sample-802738.1.err
+bulk_rnaseq_single_sample-802738.1.out
+bulk_rnaseq_single_sample-802738.2.err
+bulk_rnaseq_single_sample-802738.2.out
+bulk_rnaseq_single_sample-802738.3.err
+bulk_rnaseq_single_sample-802738.3.out
+bulk_rnaseq_single_sample-802738.4.err
+bulk_rnaseq_single_sample-802738.4.out
+bulk_rnaseq_single_sample-802738.5.err
+bulk_rnaseq_single_sample-802738.5.out
+bulk_rnaseq_single_sample-802738.6.err
+bulk_rnaseq_single_sample-802738.6.out
+bulk_rnaseq_single_sample-802738.7.err
+bulk_rnaseq_single_sample-802738.7.out
+bulk_rnaseq_single_sample-802738.8.err
+bulk_rnaseq_single_sample-802738.8.out
+Coordinate_Sorted_BAMs
+Counts
+DEGs
+gene_id_gene_name_map.txt
+Groups.csv
+InsertSizeMetrics
+Logs
+Mus_musculus.GRCm38.100.gtf.gz
+Plots
+run_summary_stats-802739.err
+run_summary_stats-802739.out
+singlesamples_work_directory
+```
+
+There is a lot here, so we will go through it in pieces, and each piece will be discussed in detail in its own section. If your output folder has fewer files than the listing above, then either your run is not yet complete or encountered an error.
+
+The major components of the CHURP output are as follows:
+
+- Log files
+- Insert size metrics (only for paired-end data)
+- Gene expression matrix
+- Differentially-expressed genes (only if metadata sheet with group assignments was supplied)
+- HTML summary report
+- Coordinate-sorted BAM files
+
+<div class="warn" markdown="1">
+
+These files are written to global scratch, and will be removed if they are not copied to your group's MSI directory! When you run the workflows on your actual dataset, be sure to copy the relevant parts of the output into your group's directory to save them.
+
+</div>
+
+The log files are useful for identifying problems with a CHURP run. The insert size metrics are important for submitting data to public databases, like the NCBI Gene Expression Omnibus resource. The gene expression matrix is used for expression analyses, including differential gene expression testing. THe HTML summary report includes quality control information and an overview of the workflow applied to the dataset. The coordinate-sorted BAM files are useful for visualization or other genetic analyses that you may want to perform.
+
+[Return to top](#top)
+
+## <a name="7"></a>Part 7: CHURP Log Files
+Goal: By the end of this section, you should be able to view logs of the CHURP run and know where to look if there was an error during one of the jobs.
+
+CHURP produces three types of log files during its run. Two of these types of logs are written in the `Logs/` sub-directory of the output folder that you specified. These logs are produced by the CHURP script and the tools that the script calls. The third type of log file is written to the root of the output folder, and contains scheduler and job progress information. We will start by looking at the log files in the root of the output folder.
+
+### <a name="7.1"></a>Part 7.1 Scheduler Log Files
+The log files from the scheduler have names that end with `.out` and `.err`. We have written CHURP to write the job progress information to the `.err` files; you will see one for each sample and one for the summary job. We will look at the first one with `less` (your filename will be different from the example below):
+
+```
+% less bulk_rnaseq_single_sample-802738.1.err
+```
+
+You can use the arrow keys to scroll around in the file to read the contents. The information written here is mostly interesting from a bookkeeping perspective; you can see how long each step took from the time stamps written into the file. For example, in my file:
+
+```
+# 2021-02-04 11:49:53: Entering section HISAT2
+# 2021-02-04 11:50:42: Finished section HISAT2
+```
+
+we can see that HISAT2 mapping started at 11:49:53 and ended at 11:50:42 for this sample, meaning that HISAT2 took a little less than one minute to map the reads. These time stamps can give you clues as to where a sample processing bottleneck may exist. Press `q` to quit out of the viewer.
+
+<div class="warn" markdown="1">
+
+Remember that the tutorial dataset is very small! The time required to process your full dataset will likely take at least several hours.
+
+</div>
+
+### <a name="7.2"></a>Part 7.2 Analysis Log Files
+The next log file we will examine is located in the `Logs/` sub-directory of the output folder. Navigate to this directory and list the contents:
+
+```
+% cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out
+% ls
+BoneMarrow-1_Analysis.log
+BoneMarrow-1_Trace.log
+BoneMarrow-2_Analysis.log
+BoneMarrow-2_Trace.log
+BoneMarrow-3_Analysis.log
+BoneMarrow-3_Trace.log
+BoneMarrow-4_Analysis.log
+BoneMarrow-4_Trace.log
+BulkRNASeq_Analysis.log
+BulkRNASeq_Trace.log
+Spleen-1_Analysis.log
+Spleen-1_Trace.log
+Spleen-2_Analysis.log
+Spleen-2_Trace.log
+Spleen-3_Analysis.log
+Spleen-3_Trace.log
+Spleen-4_Analysis.log
+Spleen-4_Trace.log
+```
+
+You will see two log files per sample, one ending with `Analysis.log` and one ending with `Trace.log`. Use `less` to view the `BoneMarrow-1_Analysis.log` file:
+
+```
+% less BoneMarrow-1_Analysis.log
+```
+
+You can use the arrow keys to scroll around in the log file. Every line starting with the number sign (`#`) is intended to be a human-readable message regarding the behavior of CHURP. Lines that do not start with number signs are messages from the tools that CHURP uses to process a dataset.
+
+The first lines show you the sample name and the job ID for the analysis. We also list all of the software modules and versions that were loaded to perform the analysis. You will not need to memorize nor copy this list, but do know that it is available for you to include in manuscript methods.
+
+If your job encountered an error with one of the samples, then this log file will contain messages at the very end that are relevant to the error. These can give you clues as to problems with your dataset; if you would like our help with addressing the issues, please contact the MSI Help Desk and attach the log file!
+
+### <a name="7.3"></a>Part 7.3 Trace Log Files
+The third type of log file that CHURP produces is a trace log file. View the trace log file for the `BoneMarrow-1` sample:
+
+```
+% less BoneMarrow-1_Trace.log
+```
+
+This log file is *not* intended to be as human-friendly as the analysis log file. The trace log file contains an account of every command that is executed in the course of the workflow. If you are interested in seeing the exact commands that were run, then this file will show them to you. Most researchers would not be interested in such detail, but we do provide them for interested parties.
+
+[Return to top](#top)
+
+## <a name="8"></a>Part 8: Insert Size Metrics
+Goal: By the end of this section, you should be able to extract summary statistics about the insert size distributions of your libraries.
+
+If you ran CHURP with paired-end data, then you will have a sub-directory in your output folder for per-sample summaries of the insert sizes. This information is important for checking that your reads map in the expected configuration, given your library preparation and sequencing. It is also important for submission of data to public databases: many repositories of datasets require summary statistics of insert size distributions for paired-end data.
+
+An overview and graphical summary of these data are presented in the HTML report (see [Part 11](#11)), but we will look at more detailed information in this section.
+
+Navigate to the sub-directory in your CHURP output folder:
+
+```
+% cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out/InsertSizeMetrics
+```
+
+where `YOUR_INTERNET_ID` is your UMN Internet ID. List the contents of this directory to see what files are written for each sample:
+
+```
+% ls
+BoneMarrow-1_hist.pdf
+BoneMarrow-1_metrics.txt
+BoneMarrow-2_hist.pdf
+BoneMarrow-2_metrics.txt
+BoneMarrow-3_hist.pdf
+BoneMarrow-3_metrics.txt
+BoneMarrow-4_hist.pdf
+BoneMarrow-4_metrics.txt
+Spleen-1_hist.pdf
+Spleen-1_metrics.txt
+Spleen-2_hist.pdf
+Spleen-2_metrics.txt
+Spleen-3_hist.pdf
+Spleen-3_metrics.txt
+Spleen-4_hist.pdf
+Spleen-4_metrics.txt
+```
+
+We see that there are two files for each sample, a `hist.pdf` file and a `metrics.txt` file. The `hist.pdf` file contains a histogram of insert sizes for the sample. The histogram for sample `BoneMarrow-1` is presented below:
+
+![Insert size histogram for BoneMarrow-1.]({{ "/graphics/rnaseq_cmd/IS_hist.png" | prepend: site.baseurl }})
+
+You should check that this distribution matches what was expected based on your molecular protocol QC. Unfortunately, for the tutorial dataset, we do not have access to such information.
+
+The histogram is nice, but to describe the distributions in writing, we will need textual and numerical summaries of the insert sizes. We can find these in the `metrics.txt` files. Use `less` to examine the metrics of sample BoneMarrow-1:
+
+```
+% less BoneMarrow-1_metrics.txt
+```
+
+This file has very long lines, so you will likely have to use the arrow keys to scroll side-to-side to read the information. We will not cover the meaning of every field in this file, but you can get instructions for how to read this file from the Picard Tools documentation:  
+<https://broadinstitute.github.io/picard/picard-metric-definitions.html#InsertSizeMetrics>
+
+Press `q` to quit out of the viewer when you are done.
+
+[Return to top](#top)
+
+## <a name="9"></a>Part 9: Expression Counts Matrix
+Goal: By the end of this section, you should be able to identify the raw read counts matrix output and understand what information it contains. You should also be able to identify which analyses are possible and which tools to use for those.
+
+The expression counts matrix is one of the most important output files from CHURP. This file contains the *read counts* that are used for differential expression testing, coexpression network analysis, or other clustering analyses based on gene expression. We will focus on the *raw* read counts matrix, because this is file that you should use to begin any expression analyses that you will perform.
+
+<div class="info" markdown="1">
+
+The counts matrix that CHURP produces is generated with the `featureCounts` program from the `subread` package. It produces counts in a strand-specific manner, which is why it is important to know the specificity of your library protocol when you analyze the data. To read more about `featureCounts` and `subread`, see their user guide, linked on their homepage:  
+<http://subread.sourceforge.net/>
+
+</div>
+
+Navigate to the sub-directory of the output folder for the expression counts matrix:
+
+```
+% cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out/Counts
+```
+
+where `YOUR_INTERNET_ID` is your UMN Internet ID. List the contents of this directory to see the files:
+
+```
+% ls
+cpm_list.txt
+subread_counts_gene_symbol.txt
+subread_counts.txt
+subread_counts.txt.summary
+```
+
+There are four files that describe the results of the read counting. We will focus on just the *raw read counts* matrix, which is of primary interest. These are stored in the `subread_counts.txt` file.
+
+<div class="info" markdown="1">
+
+The other files may be of interest, too, but they require careful understanding of their contents. The `cpm_list.txt` file contains filtered and normalized counts in "*log base 2 counts per-million*" values. This file is not of primary interest for data analysts because the data have been processed slightly, and results generated from this file may not be reproducible.
+
+The `subread_counts_gene_symbol.txt` file contains *raw read counts* as well, but the stable gene identifiers have been replaced with gene symbols. These may be more familiar to researchers, but gene nomenclature can be inconsistent, and even vitiates analyses done with Excel:  
+<https://genomebiology.biomedcentral.com/articles/10.1186/s13059-016-1044-7>
+
+The `subread_counts.txt.summary` file contains high-level summaries of the read assignments to gene features. This file is summarized graphically in the HTML report, so we do not need to examine it here.
+
+</div>
+
+<div class="warn" markdown="1">
+
+If you want to analyze the "log(CPM)" values from edgeR, for example, to visualize the per-sample expression levels of DEGs, do keep the following in mind. We (and edgeR) call the values "log(CPM)" but this is not an accurate name. The numerical values are actually defined by the following expression:
+
+```
+log2([raw counts + 1] / [library size in millions of fragments])
+```
+
+This means it is possible that there are *negative values* for specific genes, which would be impossible if the value were literally "log(CPM)." For example, in a library with 20 million fragments, a gene may have six fragments mapped to it. This gene's "log(CPM)" value is then:
+
+```
+  log2([6 + 1] / 20)
+= log2(7 / 20)
+= -1.514573
+```
+
+The reasoning from the edgeR developers is that adding `1` to the raw read counts before normalization has a very minor effect on the inferred expression responses, but adding `1` to the normalized log(CPM) values has a large effect, because it effectively changes the order of magnitude of the expression value.
+
+</div>
+
+Look at the `subread_counts.txt` file with `less` to see what format the raw counts are in. We will additionally use the `-S` option to disable line-wrapping:
+
+```
+% less -S subread_counts.txt
+```
+
+The first line shows the version of `featureCounts` that was used to produce the file and the command that was run. You do not need to do anything with this line, unless you are interested in running a modified command line.
+
+The second line shows the names of the columns. The first six columns contain information related to the gene models, such as gene identifier, position, and strand. The seventh column until the final column contain the counts for each sample.
+
+<div class="warn" markdown="1">
+
+These counts are generated at the *gene* level, meaning the counts are aggregated and assigned on a gene-by-gene basis. We do not support counting at the *transcript-level*, because transcript-level expression requires very specific data and analytical routines. If you are interested in transcript-level analyses (isoform expression), please contact RIS and/or the UMGC for consultation or make sure you already know how to collect transcript-level expression data!
+
+</div>
+
+<div class="info" markdown="1">
+
+We colloquially call them *raw read counts*, but they are really *raw fragment counts*. This is an important distinction - we require *both reads* of a pair to map to a gene model in order for it to be counted.
+
+</div>
+
+We will not perform any analysis with this file directly, least of all with a text file viewer. This is outside of the scope of this tutorial, but if you would like to read these values into R, you can use the following snippet:
+
+```r
+subread_cts <- read.table("subread_counts.txt", header=TRUE, sep="\t")
+raw_read_cts <- as.matrix(subread_cts[,-c(1:6)])
+rownames(raw_read_cts) <- subread_cts[, 1]
+```
+
+These can then be used as the expression data for analysis with EdgeR or DESeq2. If you are interested in performing your own differential expression analysis, then you can refer to the guides for EdgeR and DESeq2:
+
+- EdgeR: <http://bioconductor.org/packages/release/bioc/html/edgeR.html>
+- DESeq2: <https://bioconductor.org/packages/release/bioc/html/DESeq2.html>
+
+The experimental metadata CSV that you generated in [Part 4](#4) will also be helpful for running your own differential expression analyses.
+
+[Return to top](#top)
+
+## <a name="10"></a>Part 10: Differentially Expressed Genes
+Goal: By the end of this section, you should be able to identify the differentially expressed genes (DEGs) identified by CHURP and know which tests are being performed.
+
+**Note** that the differential gene expression tests are only performed if you supplied non-`NULL` experimental group assignments to the samples. There must be at least two groups and at most four groups, with at least three replicates per group.
+
+Navigate to the sub-directory in the output folder that contains the lists of differentially-expressed genes and list the contents:
+
+```
+% cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out/DEGs
+% ls
+DE_Spleen-BoneMarrow_list.txt
+```
+
+where `YOUR_INTERNET_ID` is your UMN Internet ID. There is one file here. It is not the best practice, but the filename has some interpretative meaning here. You will notice that the filename has a pair of the group names that we assigned in [Part 4.2](#4.2), in this case `Spleen` and `BoneMarrow`. These denote the groups that were compared for differential gene expression.
+
+The general form the filename takes is `DE_GROUP2-GROUP1_list.txt`, and `GROUP1` is treated as the reference group and `GROUP2` is treated as the test group. Therefore, genes that have *positive* log(fold change) values are *up-regulated* in `GROUP2` with respect to `GROUP1`, and genes with *negative* log(fold change) values are *down-regulated* in `GROUP2` with respect to `GROUP1`. In this case, `BoneMarrow` is the reference group, and `Spleen` is the test group.
+
+Use `less` to look at the file:
+
+```
+% less DE_Spleen-BoneMarrow_list.txt
+```
+
+The first row has the names of the columns. There are six pieces of information for each gene:
+
+1. Gene identifier
+2. log2(fold change)
+3. log2(CPM)
+4. F test statistic
+5. Raw P-value
+6. FDR value
+
+Only the genes that are significant at a 5% false discovery rate (FDR < 0.05) are contained in these files, so there will be substantially fewer genes in these files than are annotated on the genome assembly. Press `q` to quit out of the text viewer when you are done looking at the file.
+
+The differential expression testing is carried out between all pairwise combinations of groups that were specified. For each pair of groups being compared, the reference group is the one that is first when *sorted lexicographically*, using the English alphabet.
+
+The test that is done is the *quasi-likelihood F test* in EdgeR. You can read more about the quasi-likelihood F test in the EdgeR user manual:  
+<https://bioconductor.org/packages/release/bioc/html/edgeR.html>
+
+<div class="info" markdown="1">
+
+The expression values are filtered before being used for differential gene expression testing with CHURP. The following filters are applied:
+
+1. Genes with variance in raw counts that is less than 1 are removed.
+2. Genes that are shorter than 200bp are removed (this can be adjusted with a command line argument).
+3. Samples with `NULL` group assignments are removed.
+4. Genes with low expression\* are removed.
+
+\*: We define "low expression" as follows. Calculate *C*, the log(CPM) value that would be obtained from a raw count of 1 fragment in the smallest library. We then remove genes that have log(CPM) expression of less than *C* in *G* or more samples, where *G* is the size of the smallest group. The rationale with these filtering criteria is to restrict differential gene expression testing to only genes that are expressed in a majority of the samples.
+
+These filtering criteria are **pretty conservative**, which is why I tend to advocate for researchers performing differential expression testing with human input, rather than relying on an automated workflow. For instance, a gene that is *completely unexpressed* in one experimental condition would be filtered prior to testing. Additionally, a series of pairwise comparisons is not always the most appropriate way to analyze data; for example, data from a dosage series or a time series would not be appropriately handled as a series of pairwise comparisons.
+
+</div>
+
+[Return to top](#top)
+
+## <a name="11"></a>Part 11: HTML Report
+Goal: By the end of this section, you should be able to identify the key sections of the HTML report and identify the sections that contain information on rerunning the analysis.
+
+**Note** that for this section, you will be required to have a web browser and a way to transfer files between your workstation and MSI servers. One easy way to transfer files is with Filezilla, for which MSI maintains a guide:  
+<https://www.msi.umn.edu/support/faq/how-do-i-use-filezilla-transfer-data>
+
+The HTML report is another one of the pieces of CHURP output that is of primary interest. The report contains a description of the input data for the workflow, including the reference genome that was used for analysis, the path to the sequence reads, and the names of the samples that were included in the dataset. There are additionally several important summaries of data quality that you can view in the report. These will help you to interpret the results of your experiment or guide you on making adjustments to the analysis.
+
+Navigate to the output folder and list its contents:
+
+```
+% cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out
+% ls
+2021-02-03.YOUR_INTERNET_ID.bulk_rnaseq.pipeline.sh
+2021-02-03.YOUR_INTERNET_ID.bulk_rnaseq.qsub_array.txt
+2021-02-03.YOUR_INTERNET_ID.bulk_rnaseq.samplesheet.txt
+allsamples_work_directory
+Bulk_RNAseq_Report.html
+bulk_rnaseq_single_sample-802738.1.err
+bulk_rnaseq_single_sample-802738.1.out
+bulk_rnaseq_single_sample-802738.2.err
+bulk_rnaseq_single_sample-802738.2.out
+bulk_rnaseq_single_sample-802738.3.err
+bulk_rnaseq_single_sample-802738.3.out
+bulk_rnaseq_single_sample-802738.4.err
+bulk_rnaseq_single_sample-802738.4.out
+bulk_rnaseq_single_sample-802738.5.err
+bulk_rnaseq_single_sample-802738.5.out
+bulk_rnaseq_single_sample-802738.6.err
+bulk_rnaseq_single_sample-802738.6.out
+bulk_rnaseq_single_sample-802738.7.err
+bulk_rnaseq_single_sample-802738.7.out
+bulk_rnaseq_single_sample-802738.8.err
+bulk_rnaseq_single_sample-802738.8.out
+Coordinate_Sorted_BAMs
+Counts
+DEGs
+gene_id_gene_name_map.txt
+Groups.csv
+InsertSizeMetrics
+Logs
+Mus_musculus.GRCm38.100.gtf.gz
+Plots
+run_summary_stats-802739.err
+run_summary_stats-802739.out
+singlesamples_work_directory
+```
+
+where `YOUR_INTERNET_ID` is your UMN Internet ID. The file of interest here is the `Bulk_RNAseq_Summary.html` file. If you have a remote desktop connection to MSI, you can open this file with the `firefox` web browser to view it. Otherwise, please copy it to your local workstation then open it in your web browser.
+
+<div class="warn" markdown="1">
+
+The HTML report is large! If you have many samples, it will be even larger. While it is a useful file for keeping your data summaries in one place, do be aware of the logistical challenges its size may pose for sharing with collaborators.
+
+</div>
+
+We have put a sample of the report from the tutorial dataset analysis at this link:  
+<https://pages.github.umn.edu/MSI-RIS/Tutorials_Beta/materials/rnaseq_cmd/Bulk_RNAseq_Report.html>
+
+**This is a long file!** The organization and format of the contents are still works in progress. The tutorial will guide you through the major parts that we in RIS find useful.
+
+1. Scroll to section 2.1 in the report, "Experiment Summary." Check the following:
+    - Does the experiment contain the correct number of samples?
+    - Are the sample names correct?
+    - Is the reference genome the correct assembly and version?
+2. Scroll to section 2.2, "Fragment Counts Plot." This plot displays the read counts before trimming and after trimming. Check the following:
+    - Do any of the samples have unusually high or low fragment counts?
+    - Do any of the samples lose a lot of reads after trimming?
+3. Scroll to section 2.3, "Read Quality Plots." The plots in this section display an overview of the mean base quality scores across the read. Check the following:
+    - Are there reads with large stretches of low quality bases (yellow or red)?
+    - Are R1 and R2 properly detected for each sample?
+4. Scroll to section 2.4, "HISAT2 Plots." The plots in this section display summaries of the HISAT2 mapping of the trimmed reads against the reference genome. Check the following:
+    - Are there any samples with many more unmapped reads than the others? Or discordantly mapped reads?
+    - Of the mapped reads in each sample, do most of them map uniquely, or multiply?
+5. Scroll to section 2.5, "Expression Plots." The plots in this section display summaries of the estimated gene expression in the experiment. Check the following:
+    - Are the number of expressed features approximately the same in each sample?
+    - Do the "CPM" distributions have roughly the same shape for each sample?
+    - Do the samples cluster as you would expect in the clustering heatmap?
+    - Can you identify the major axes of differentiation among the samples in the MDS plot? Is it what you expect it to be? For example, to the samples cluster by a biological character that "makes sense?"
+6. Navigate to section 4.2, "rRNA Contamination (Based on Kmer Matching)." This section shows an estimate of the proportion of reads in each sample that come from ribosomal sequences. Check the following:
+    - Are there samples that have an unusually high or low proportion of rRNA reads?
+    - Are all of the samples below about 0.4\*?
+7. Scroll to section 4.3, "Mapping-based QC Metrics." This section contains plots that summarize how well the RNAseq data covers the protein coding portion of the genome. Check the following:
+    - Are there any samples that have especially low exon profiling efficiency? Are all of the samples above 0.4\*?
+    - Do any of the samples have especially high sequence duplication levels?
+    - Do the "strand-aware" and "unstranded metrics" barplots look very different from each other? Are there a lot of "intergenic" reads?
+8. Navigate to section 5.3, "Insert Size Metrics." This section contains a high-level summary of the insert size metrics that we examined earlier in this tutorial. Check the following:
+    - Do all of the samples have similar insert size summary statistics?
+9. Navigate to section 3.3, "Pipeline Script." This section contains a verbatim reproduction of the `pipeline.sh` file that was produced by CHURP. Click the arrow to show the pipeline script. You can copy and paste this into a **plain text editor** (Notepad, TextWrangler, Notepad++, etc) and save it for rerunning an analysis.
+10. Scroll to section 3.4, "Samplesheet." This section contains a verbatim reproduction of the `samplesheet.txt` file that was produced by CHURP. Click the arrow to show the samplesheet. You can copy and paste this into a **plain text editor** and save it for rerunning an analysis.
+
+\*: These are not magic numbers nor general recommendations! They are simply values that we have found to be worrisome from a data quality standpoint. Depending on your library type, source material quality, and sequencing target, these values may be inappropriate. Always think about your experiment when assessing data quality!
+
+<div class="info" markdown="1">
+
+To rerun the workflow to regenerate the results, you must do the following:
+
+1. Make sure the **output** and **working** directories defined in the `pipeline.sh` script exist.
+2. Make sure that FASTQ input folder is the same as when you first ran the workflow. If you are using data from the UMGC, then this path should be stable. If you are using data from the SRA, you will have to be careful with it.
+3. Make sure the reference genome index and GTF annotation are in the same location and have the same name as when you first ran the workflow.
+4. Make sure you have saved the `samplesheet.txt` file as *plain text*, and that it has the same name and path as those defined by `pipeline.sh`.
+5. Make sure you have saved the `pipeline.sh` file as *plain text*.
+
+Once you have verified that the above conditions, run the `pipeline.sh` script with `bash`:
+
+```
+% bash /path/to/pipeline.sh
+```
+
+This will resubmit the workflow jobs and recreate the output files.
+
+</div>
+
+[Return to top](#top)
+
+## <a name="12"></a>Part 12: Pathway Analyses
+Goal: By the end of this section, you should be able to identify major KEGG pathways, Reactome pathways, and gene ontology terms that are overrepresented in your DEG list.
+
+In this section, we will use a script developed by RIS to automate pathway enrichment analyses. The pathway analysis script does not directly depend on CHURP in any way. You can use the DEG lists from your own EdgeR or DESeq2 analysis as input for this script.
+
+Because the tutorial dataset for the CHURP portions of the tutorial use a very small dataset, we will not be using the DEG list from the tutorial run of CHURP. Instead, we have prepared a list of DEGs using the full datasets from which the tutorial data were sourced. Specifically, the tutorial dataset for the other sections consisted of ~1,000,000 read pairs that mapped to chromosome 19 of mouse from a publicly available dataset. The gene list for this section of the tutorial was prepared using the full dataset, so it covers many more genes.
+
+<div class="info" markdown="1">
+
+The pathway enrichment analysis script that is maintained by RIS at MSI supports only the following study species:
+
+- *Bos taurus* (Cattle)
+- *Caenorhabditis elegans* (Nematode)
+- *Canis lupus familiaris* (Dog)
+- *Danio rerio* (Zebrafish)
+- *Drosophila melanogaster* (Fruit fly)
+- *Gallus gallus* (Chicken)
+- *Homo sapiens* (Human)
+- *Mus musculus* (House mouse)
+- *Rattus norvegicus* (Brown rat)
+- *Saccharomyces cerevisiae* (Brewer's yeast)
+- *Sus scrofa* (Boar)
+
+You can access the pathway analysis script at this UMN GitHub link:  
+<https://github.umn.edu/MSI-RIS/clusterProfiler_wrapper>
+
+If you have data from a different study species, you will need to use other tools.
+
+</div>
+
+First, we must request an interactive compute session for the pathway analyses. **Note** that if you are using MSI's Jupyter Notebook service, then you do not need to do this, because you are already in an interactive compute session!
+
+```
+% srun -N 1 -n 1 -c 1 --mem=8gb --tmp=4gb -t 60 -p interactive --pty bash -l
+```
+
+Navigate to the directory where we have placed the materials for the pathway analysis tutorial:
+
+```
+% cd /home/msistaff/public/RNAseq_Tutorial/clusterProfiler_wrapper
+```
+
+<div class="warn" markdown="1">
+
+The versions of the script and annotation data for the tutorials are FROZEN for reproducibility and stability. Annotation data sources update quite frequently, so if you would like to use the latest version of your study system's annotations, you should use the standalone script (<https://github.umn.edu/MSI-RIS/clusterProfiler_wrapper>) and install the necessary packages into your MSI home directory.
+
+</div>
+
+Then load the module for `R`:
+
+```
+% module load R/3.5.0
+```
+
+Make a directory to hold the output of your pathway enrichment analysis:
+
+```
+% mkdir -p /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Pathway_Enrichment
+```
+
+where `YOUR_INTERNET_ID` is your UMN Internet ID. Now we can run the pathway enrichment script with the proper options:
+
+```
+% Rscript run_clusterProfiler.R \
+    -f /home/msistaff/public/RNAseq_Tutorial/DEGs/DE_Spleen-BoneMarrow_list.txt \
+    -d /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Pathway_Enrichment \
+    -s Mus_musculus \
+    -i ENSEMBL \
+    -n 20 \
+    -a 0.1 \
+    -c 1 \
+    -b ALL
+```
+
+where `YOUR_INTERNET_ID` is your UMN Internet ID. The script will take several minutes to run. While it is running, we can take a tour of some pre-generated results.
+
+<div class="info" markdown="1">
+
+The default behavior of the pathway analysis script is to perform the following filters to the input:
+
+1. Subset the differential expression results table to the genes that have FDR < 0.05 and log2FC \> 1.
+    - The FDR threshold can be adjusted with the `-p` command line option.
+    - The log2FC threshold can be adjusted with the `-c` command line option.
+2. Take the top 200 genes from step 1 to use for GO, KEGG, Reactome term overrepresentation analysis.
+    - The top number of genes to select can be adjusted with the `-g` command line option.
+3. Plot all significant terms for each.
+    - The number of significant terms to plot can be adjusted with the `-n` command line option.
+
+</div>
+
+Using your file transfer program (`scp`, FileZilla, WinSCP, etc), copy the contents of the following directory to your local workstation:
+
+```
+/home/msistaff/public/RNAseq_Tutorial/Pathway_Enrichment
+```
+
+The script produces a lot of outputs, many of which are in a similar form, so we will take them in pieces.
+
+[Return to top](#top)
+
+### <a name="12.1"></a>Part 12.1: Dot Plots
+The wrapper script produces a number of "dot plots" of the pathway enrichment results. These files contain plots that display several important aspects of the pathway enrichment test results. Because these plots are produced for both annotated pathways (like those in Reactome and KEGG) and genes with thematically similar annotations (like those in the same gene ontology or MSigDb section), we will refer to the annotated gene list as the "target set" and the input DEG list as the "test set." The plots show the following information:
+
+- The name of the target set
+- The adjusted P-value for the enrichment test of the test set in the target set
+- The number of genes in the test set that overlap the target set
+- The proportion of the test set that overlaps the "universe" of the target set
+
+The fourth point is a bit complicated, so we will explain it in more detail. This value is called "GeneRatio" by clusterProfiler, and it represents the overlap of the test set with the target set divided by the overlap of the test set with the "universe" of the target set. For example, if you are testing enrichment of KEGG pathways, then the GeneRatio for a given pathway would be the overlap of the test setf with that pathway divided by the overlap of the test set with all genes annotated in KEGG pathways for your study system. We will look at the KEGG dotplot, reproduced below:
+
+![Dotplot of significantly enriched KEGG pathways in the DEG list.]({{ "/graphics/rnaseq_cmd/Dotplot_KEGG.png" | prepend: site.baseurl }})
+
+In this example, the PI3K-Akt signaling pathway has the largest GeneRatio, 11/94 = 0.117. This means that of the input DEG list, 94 of them overlapped annotated KEGG pathways, and 11 of them overlapped the P13K-Akt signaling pathway. This enrichment has an adjusted P-value of 0.044, which is why it has the blue shading in the plot.
+
+[Return to top](#top)
+
+### <a name="12.2"></a>Part 12.2: Enrichment Map Plots
+The wrapper script also produces "enrichment map" plots of the enrichment test results. These plots show the relationships among the enriched terms that were identified by the tests. Terms are shown as nodes and overlaps between terms (i.e., genes that are annotated to multiple terms) are represented by edges. The degree of overlap is shown by the weight of the edge: thicker lines represent larger overlaps between enriched terms.
+
+This visualization is useful for identifying which suites of annotated terms are enriched in your DEG list. By looking at groups of terms with high overlap, you can get a more complete idea of what functions are perturbed in your experiment. The example enrichment map plot for the KEGG pathways is reproduced below:
+
+![Enrichment map plot of significantly enriched KEGG pathways in the DEG list.]({{ "/graphics/rnaseq_cmd/EMapPlot_KEGG.png" | prepend: site.baseurl }})
+
+You can see that the sizes of the points and the colors of the points are the same as in the dot plots ([Part 12.1](#12.1)). There are somewhat heavy connections between the nodes for "Dilated cardiomyopathy," "Arrhythmogenic right ventricular cardiomyopathy," and "Hypertrophic cardiomyopathy," and these three pathways are fully connected with each other. This suggests that these three pathways are highly related and are all perturbed in this dataset. I do not know the details of any of these pathways, but based on the name, I can guess that they should be highly related! The "ECM-receptor interaction" pathway is also highly-connected, but does not have any overlap with "Dilated cardiomyopathy."
+
+[Return to top](#top)
+
+### <a name="12.3"></a>Part 12.3: Gene-Concept Network Plots
+The dot plots ([Part 12.1](#12.1)) and enrichment map plots ([Part 12.2](#12.2)) show you the terms or pathways that are enriched in your DEG list, but they do not show you the individual genes that contribute to the results. The gene-concept network plot ("cnetplot") will show you both the terms/pathways that are enriched and also the genes that are part of those pathways that overlap with your DEG list. This plot is somewhat like a blend between the dot plot and the enrichment map plot in that it shows you both the enriched terms and also how many genes are shared between then.
+
+This will be easier to demonstrate with an example. The KEGG cnetplot is reproduced below:
+
+![Gene-concept network plot of significantly enriched KEGG pathways in the DEG list.]({{ "/graphics/rnaseq_cmd/Cnetplot_KEGG.png" | prepend: site.baseurl }})
+
+The significantly enriched pathways are shown in beige points of the plot. The size of the point corresponds to the number of DEG list genes that overlap with the pathway. The individual genes are shown in shaded points, with the shade of the point corresponding to the expression response of the gene in the experiment. Edges are drawn between genes and the pathways to which they are annotated. Genes can be part of multiple pathways, which is represented by multiple lines. We see here that genes Cacnb3, Ttn, Dmd, Des, Lama2, and Itga3 are all part of the same three pathways, which is what contributed to the results we discussed in [Part 12.2](#12.2).
+
+### <a name="12.4"></a>Part 12.4: Pathview Plots for KEGG Pathways
+The wrapper script additionally produces plots of the enriched KEGG pathways with the genes' log2(fold change) values painted over them. These plots will show you which genes in the pathway had which expression response, which will allow inference as to which parts of the pathway were most perturbed. For example, if the genes at the start of a pathway have strong expression responses, it could be hypothesized that disruption of those genes leads to expression dysregulation of the rest of the pathway.
+
+<div class="warn" markdown="1">
+
+Note that your inference is limited by your experimental design! If your experiment was designed to perturb the expression of a targeted list of genes, then you will have more inferential power for dysregulation of a set of pathways. If your experimental treatment instead is designed to query broad transcriptional responses, then you can interpret the perturbed pathways as candidates for further validation.
+
+</div>
+
+The PI3K-Akt signaling pathway diagram is reproduced below:
+
+![KEGG pathway view for the PI3K-Akt signaling pathway with expression responses painted over the genes.]({{ "/graphics/rnaseq_cmd/Pathview.png" | prepend: site.baseurl }})
+
+Genes that are up-regulated are shown in red; genes that are down-regulated are shown in green; and genes that have near identical expression in both conditions are shown in grey. Genes in white were not in the subset of the DEG list that was used for enrichment tests. In this example, we can see that the "GF," "ECM," "ITGA," and "RTK" genes have the strongest expression response, and that they are up-regulated. 
+
+### <a name="12.5"></a>Part 12.5: Tabular Outputs and Environment List
+The pathway enrichment results discussed so far have been graphical in nature, but the script also produces a few pieces of text output. One of these files is the list of R packages that were used to generate the enrichment results, and the others are tabular outputs from the enrichment analyses. These tabular files contain the numerical results of the pathway enrichment tests and are the best way to identify the significantly enriched pathways in your DEG list. There are separate tables written for each "database" that is used for enrichment tests - KEGG, GO, and Reactome.
+
+Open the `Table_KEGG_enrichment_results.txt` file in your text viewer or editor of choice. Note that you can use Microsoft Excel to open this file, but you must open it as a "tab-delimited text" file! This table has many columns, and some of the columns are too wide to reproduce here, but we will still describe and discuss them. The table contains the following columns:
+
+1. `ID`: Pathway or term ID
+2. `Description`: Pathway or term description
+3. `GeneRatio`\*
+4. `BgRatio`\*\*
+5. `pvalue`: Raw P-value for enrichment test
+6. `p.adjust`: Adjusted P-value for enrichment test\*\*\*
+7. `qvalue`: Q-value for the enrichment test \*\*\*
+8. `geneID`: Entrez IDs of the genes in the pathway or term, separated by slashes (`/`)
+9. `Count`: Count of overlaps between DEG list and the pathway or term
+
+\*: The "GeneRatio" is overlap of the DEG list with the pathway of interest divided by the overlap of the DEG list with the "universe" of the pathways. For example, if you are testing enrichment of KEGG pathways, then the GeneRatio for a given pathway would be the overlap of the DEG list with that pathway divided by the overlap of the DEG list with all genes annotated in KEGG pathways for your study system.
+
+\*\*: The "BgRatio" is the number of genes in the pathway of interest divided by the size of the pathway's "universe." For example, if you are testing enrichment in a KEGG pathway, the BgRatio is the number of unique genes in the pathway divided by the number of unique genes annotated in all KEGG pathways in your study system.
+
+\*\*\*: The adjusted P-value is based on control of the false discovery rate with the Benjamini-Hochberg (BH) procedure. The "q-value" is based on a slightly different definition of false discovery rate, the rate that a significant difference is actually not a real difference. For general use, we recommend that you analyze the adjusted P-value rather than the q-value, because proper estimation of the false discovery rate for q-values requires many observations.
+
+**Note** that the table is sorted by `p.adjust` (adjusted P-value) from lowest to highest, while the plot sorts the pathways based on `GeneRatio` from highest to lowest.
+
+[Return to top](#top)
+
+## <a name="13"></a>Part 13: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
 tutorial delivery feedback to that address.
 
 [Return to top](#top)
+
+# <a name="Supp"></a>Supplementary Information
+The information in the following sections is not part of the primary tutorial. We provide it only to discuss and illustrate issues and operations that are relevant to RNAseq analysis, but only come up in special circumstances.
+
+## <a name="S1"></a>Supplement 1: Custom HISAT2 Indices
+In the cases where your study organism does not have a reference genome in the sections of Ensembl that we include in RISDB, you will need to prepare your own index files for read mapping. You may also want to prepare a custom index if you want to restrict the genome to a specific set of regions (like we did for the tutorial), or if you have an experiment that involves a transgenic organism with a known construct transformed into it, and you want to map reads to the genome as well as the construct.
+
+To do this, you will need at minimum the FASTA file that contains the genome sequence for your study organism. If you have the GTF annotation file, this can aid in preparing the HISAT2 index, as well. Known single nucleotide polymorphism sites (from dbSNP or VCF) can also be used.
+
+You can find a full list of options for HISAT2 index building in their manual:  
+<http://daehwankimlab.github.io/hisat2/manual/#the-hisat2-build-indexer>
+
+To build the index, you must be logged in to an interactive compute session:
+
+```
+% srun -N 1 -n 1 -c 1 -t 60 --mem=4gb --tmp=2gb -p interactive --pty bash
+```
+
+Make sure the genome file is unzipped; the HISAT2 index builder does not take compressed FASTA input. Place this file into a directory where you would like to store the HISAT2 index files. Do the same with the GTF annotations, if you have them:
+
+```
+% mkdir -p /home/GROUP/shared/HISAT2_Genomes/Genus_species
+% cp /path/to/genome.fasta.gz /home/GROUP/shared/HISAT2_Genomes/Genus_species
+% cp /path/to/annotations.gtf.gz /home/GROUP/shared/HISAT2_Genomes/Genus_species
+% gzip -d /home/GROUP/shared/HISAT2_Genomes/Genus_species/genome.fasta.gz
+% gzip -d /home/GROUP/shared/HISAT2_Genomes/Genus_species/annotations.gtf.gz
+```
+
+where `GROUP` is your MSI group name.
+
+If you do not have a *GTF* annotation file, and instead only have a *GFF* annotation file, you can convert the GFF to a GTF using the `gffread` utility from the `cufflinks` package. This is a common scenario with reference genome assemblies from NCBI:
+
+```
+% module load cufflinks/2.2.1
+% gffread annotations.gff3 -T -o annotations.gtf
+```
+
+Load the HISAT2 module and navigate to the genome directory:
+
+```
+% module load hisat2/2.1.0
+% cd /home/GROUP/shared/HISAT2_Genomes/Genus_species
+```
+
+If you want to use known splice sites to help with spliced alignment, use the `extract_splice_sites.py` script that is bundled with HISAT2 to extract the splice sites from the GTF:
+
+```
+% extract_splice_sites.py annotations.gtf > splice_sites.txt
+```
+
+If you would like to use known polymorphic sites to help map reads across known polymorphisms in your study organism, you must have either a dbSNP database export (for humans), or a VCF with known polymorphisms. If you have a dbSNP export, make sure the chromosome names match the genome you are using (UCSC, Ensembl, and NCBI all have different naming conventions), then use the `hisat2_extract_snps_haplotypes_UCSC.py` script to extract them:
+
+```
+% hisat2_extract_snps_haplotypes_UCSC.py genome.fasta dbSNP.txt hisat2_snps
+```
+
+If you have a VCF, you can use the `hisat2_extract_snps_haplotypes_VCF.py` script to do the same thing:
+
+```
+% hisat2_extract_snps_haplotypes_VCF.py genome.fasta SNPs.vcf hisat2_snps
+```
+
+Then, you are ready to build the genome index. **This step should be done as a non-interactive batch job.** It requires a lot of time and memory. For example, to build the human genome index with known splice sites and known polymorphisms, it takes at least several hours and about 200GB of RAM. The script would look something like the following. Remove the option for `--ss` if you do not have known splice sites, and remove options for `--snp` and `--haplotype` if you do not have known polymorphic sites. Note that you may have to adjust the resource requests if you experience walltime errors or out-of-memory errors, and use your email address instead of `YOUR_INTERNET_ID`:
+
+```bash
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -n 1
+#SBATCH -c 16
+#SBATCH --mem=500gb
+#SBATCH -t 36:00:00
+#SBATCH --mail-type=BEGIN,END,FAIL
+#SBATCH --mail-user=YOUR_INTERNET_ID@umn.edu
+#SBATCH -p ram1t
+#SBATCH -e HISAT2_Build_%j.err
+#SBATCH -o HISAT2_Build_%j.out
+
+module load hisat2/2.1.0
+
+cd /home/GROUP/shared/HISAT2_Genomes/Genus_species
+hisat2-build -f \
+    -p 16 \
+    --ss splice_sites.txt \
+    --snp hisat2_snps.snp \
+    --haplotype hisat2_snps.haplotype \
+    genome.fasta \
+    hisat2_genome_idx
+```
+
+Submit the job with `sbatch` and wait for it to finish. There will eventually be eight files that make up the genome index, and they must all be present in the same directory and have the same prefix. The name of your genome index will then be `hisat2_genome_idx`, and you can use this with the `-x` option to CHURP's bulk RNAseq workflow:
+
+```
+...
+-x /home/GROUP/shared/HISAT2_Genomes/Genus_species/hisat2_genome_idx
+...
+```
+
+You can find a full list of options for HISAT2 index building in their manual:  
+<http://daehwankimlab.github.io/hisat2/manual/#the-hisat2-build-indexer>
+
+[Return to top](#top)
+
+## <a name="S2"></a>Supplement 2: Customizing CHURP Behavior
+We try to provide "sensible defaults" for CHURP's behavior, but as with any analytical workflow, there exist datasets that require adjustment to the parameters. Most of the time, these cases can be addressed by adjusting the options to the read mapping software or the trimming software. In [Supplement 3](#S3), we provide instructions for adjusting the expression quantification if you need a different type of expression analysis than the default gene-level expression.
+
+### <a name="S2.1"></a>Supplement 2.1: Custom HISAT2 Options
+CHURP provides the `--hisat2-opts` option for adjusting the HISAT2 options. This is required when handling datasets that do not match the "default" dataset that CHURP expects. For example, if your paired-end reads are "interleaved" - R1 and R2 are contained in the same file rather than in separate files. Another case might be if you are analyzing a dataset with different quality score encodings: at the time of this writing, Illumina quality scores are "PHRED+33" but older datasets are "PHRED+64."
+
+<div class="info" markdown="1">
+
+Wikipedia has a good description of the various types of quality score encodings that you may encounter in FASTQ format:  
+<https://en.wikipedia.org/wiki/FASTQ_format#Quality>
+
+Data that is generated contemporary to this writing will be in "Sanger" scale, with "PHRED+33" encoding.
+
+</div>
+
+You may additionally want to change how HISAT2 handles discordant read pairs or read pairs that fail to map to the genome. All of these options are available to adjustment! Please see the HISAT2 manual for the full range of options that you can provide:  
+<http://daehwankimlab.github.io/hisat2/manual/>
+
+The *default* options that we supply for HISAT2 are the following:
+
+- `-p 6` (use 6 cores, adjustable with the `--ppn` option to CHURP, too)
+- `--no-mixed` (do not map discordant pairs as separate single-reads)
+- `--new-summary` (print machine-friendly summary)
+
+To specify custom HISAT2 options, you **must** pass it as a quoted string. This is because CHURP unfortunately tries to treat the options meant for HISAT2 as its own, and throws errors. For example, the default options defined above would be passed as follows:
+
+```
+...
+--hisat2-opts="-p 6 --no-mixed --new-summary"
+...
+```
+
+Any adjustment to the HISAT2 options with `--hisat2-opts` **requires** that you set **all** of the HISAT2 options. For example, if you are handling data that has "PHRED+64" quality scores, you would specify `--phred64`, but you will then also have to specify the multithreading options and pair-handling options:
+
+```
+...
+---hisat2-opts="-p 6 --phred64 --no-mixed"
+...
+```
+
+We require this because it is impossible for us to verify every possible combination of HISAT2 options. It is also possible that the custom HISAT2 options are incompatible with downstream expression quantification routines. If you encounter errors while providing custom HISAT2 options, you must troubleshoot the errors independently.
+
+### <a name="S2.2"></a>Supplement 2.2: Custom Trimmomatic Options
+CHURP also provides the `--trimmomatic-opts` option for adjusting the behavior of Trimmomatic. This would be required when handling data that have non-standard adapter sequences or if your data have a quality score encoding that is not "PHRED+33."
+
+The default options string that we pass to Trimmomatic is below:
+
+```
+ILLUMINACLIP:4:15:7:2:true LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:18
+```
+
+Which performs the following steps:
+
+1. `ILLUMINACLIP:4:15:7:2:true`: trim the standard Illumina adapters, allowing up to 4 mismatches, a palindrome clip threshold of 15 (when "read-through" into the adapter is detected in short fragments), minimum palindrome adapter length of 7, and keep both reads in the pair if a palindrome is detected.
+2. `LEADING:3`: trim bases from the start of the read if they have quality scores lower than 3.
+3. `TRAILING:3`: trim bases from the end of the read if they have quality scores lower than 3.
+4. `SLIDINGWINDOW:4:15`: divide the read into 4-base wide sliding windows, removing windows where the mean quality score is below 15.
+5. `MINLEN:18`: remove read if it is shorter than 18bp after the previous trimming steps have been applied.
+
+Like with the custom HISAT2 options, these must be passed as a quoted string. The default options would look like the following:
+
+```
+...
+--trimmomatic-opts="ILLUMINACLIP:/path/to/adapters.fa:4:15:7:2:true LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:18"
+...
+```
+
+Additionally, any adjustment to the Trimmomatic options requires that you specify the **entire** options string. The only exception is adding a `HEADCROP` operation, which can be done through CHURP by adding the `--headcrop` option (we provide this for handling the Takara Bio library preparation protocols).
+
+Please see the Trimmomatic homepage to view the manual that gives the full range of options that are supported:  
+<http://www.usadellab.org/cms/?page=trimmomatic>
+
+## <a name="S3"></a>Supplement 3: Transcript-level Analyses
+By default, CHURP performs expression quantification at the *gene* feature level. This is the feature level that is targeted by most bulk RNAseq experiments and the feature level at which expression is most confidently measured. If you would like to instead measure *transcript* (isoform) feature expression, you will have to take special care with the molecular protocol and sequencing (data collection) as well as the downstream analytical workflow.
+
+We cannot provide nearly complete scripts like we can with [Supplement 1](#S1) because transcript-level analyses are highly specific to each study. Both the experimental design and the idiosyncrasies of the study system affect how the analysis is carried out. We instead provide points to consider when performing a transcript-level analysis. Of course, if you work in a research system that does not have alternative splicing, then this does not apply!
+
+### <a name="S3.1"></a>Supplement 3.1: Data Collection Considerations
+Measuring isoform expression requires that you be able to distinguish the transcripts based on their splicing junctions or untranslated sequences. Additionally, detecting isoforms that have low expression requires deeper sequencing than detecting gene-level expression. You may also be interested in conditionally-expressed isoforms (tissue-specific, disease-specific, etc), which requires special experimental designs.
+
+Unfortunately, we cannot provide general recommendations for sequencing depth nor sampling strategies to capture these cases. You should have a good sense of the "dynamics" of the genome of your study species - the distribution of the number of annotated isoforms for each gene model and the circumstances under which they are expressed will help to guide your experiments. The moments of that distribution will also guide you in sequencing depth; for example, if there are 4 isoforms per gene on average, you should expect to collect **at least** 4 times as much sequence data as for a gene-level experiment. The real number will be higher because not every isoform is expressed at the same level.
+
+For human or mouse RNAseq experiments, this means you will need to collect at least 100 million read pairs (fragments) **per sample** for isoform level expression studies. If you want to assay the rare isoforms, then you likely will need to collect at least 200 million read pairs **per sample**. You may be able to use shorter read length to offset the cost of collecting so many reads, but that depends on the nature of the genes in your study system.
+
+### <a name="S3.2"></a>Supplement 3.2: Analytical Workflow Considerations
+The read QC and trimming portions of the workflow can proceed as they would with CHURP. However, obtaining accurate transcript-level counts requires deviating from the CHURP workflow at the read mapping step. Instead of mapping read pairs to the reference genome with HISAT2, you should use a tool like RSEM (**R**NA**S**eq by **E**xpectation **M**aximization; Li and Dewey 2011; <https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-12-323>) to perform transcript quantification. The reason you need to change the read mapping workflow is that RSEM can estimate the transcript of origin for each fragment, while HISAT2 cannot. Because the multiple transcripts from a gene model are highly overlapping, the mapping-then-counting approach with HISAT2 and featureCounts cannot accurately estimate expression of the isoforms.
+
+Please see the RSEM GitHub page (<https://github.com/deweylab/RSEM#readme-for-rsem>) for usage information and examples that show how to use it.
+
+If you are confident that the reads from your experimental samples are **very similar** to the reference genome (less than 0.1% different at the nucleotide level), then you can use tools like Salmon (Patro et al. 2017; <https://www.nature.com/articles/nmeth.4197>) or Kallisto (Bray et al. 2016; <https://www.nature.com/articles/nbt.3519>) to estimate transcript abundances from reads. These two methods rely on very high similarity between the reads the reference genome, however, so we do not recommend them for general-purpose RNAseq, where you expect sequence differences between the experimental samples and the reference genome.
+
+See the Salmon documentation (<https://salmon.readthedocs.io/en/latest/>) and the Kallisto documentation (<https://pachterlab.github.io/kallisto/manual>) for instructions on how to use their software to estimate transcript abundance.
+
+All of RSEM, Salmon, and Kallisto are available on MSI systems as software modules:
+
+```
+% module avail rsem
+-------------------------------- /panfs/roc/soft/modulefiles.common --------------------------------
+rsem/1.3.0
+% module avail salmon
+--------------------------------- /panfs/roc/soft/modulefiles.hpc ----------------------------------
+salmon/0.14.1  salmon/1.2.1
+% module avail kallisto
+-------------------------------- /panfs/roc/soft/modulefiles.common --------------------------------
+kallisto/0.43.1  kallisto/0.46.2
+```
+
+Transcript abundance estimates from the above-mentioned tools will **not** work with the same routines for differential expression testing as gene-level counts data. Gene-level expression is **count**-based (i.e., the data are integers), while transcript abundances are often reported in "TPM" (transcripts per million) values and "estimated counts" values. You can use the "estimated counts" values in a differential expression workflow built for analyzing counts data, like those in DESeq2 or EdgeR. If you use the TPM values, you can use a program like Sleuth (Pimentel et al. 2017; <https://www.nature.com/articles/nmeth.4324>; <https://github.com/pachterlab/sleuth>) to perform differential expression analysis.
+
+## <a name="S4"></a>Supplement 4: CPM, TPM, FPKM, RPKM, etc
+
+## <a name="S5"></a>Supplement 5: Alignment-free Expression Analyses
+- Kallisto
+- Salmon
+- RSEM
+
+## <a name="S6"></a>Supplement 6: Transcriptome Assemblies
+- Considerations for data collection methods
+- Trinity
+
+### <a name="S6.1"></a>Supplement 6.1: Functional Annotation
+- Trinotate
+- Dammit
+- BLAST2GO
+
+## <a name="S7"></a>Supplement 7: Coexpression Analyses
+- Experimental design considerations
+- WGCNA
+
+## <a name="S8"></a>Supplement 8: Depositing Data into GEO
+After you have finished analyzing your experiment and interpreting the results, you will likely want to publish your findings. Many journals require that your raw reads and processed expression data be made available in public repositories, like NCBI's Gene Expression Omnibus (GEO). GEO accession numbers may also be required **during peer review** so it is important to note this section as you are preparing your manuscript. GEO can also place a hold or embargo on your data until publication, so your data can remain private until you decide to release it.
+
+Submitting your raw and processed data to GEO will make it available in **both** GEO and NCBI's Sequence Read Archive (SRA).
+
+<div class="warn" markdown="1">
+
+GEO says it can take up to five (5) business days to issue accession numbers for your dataset. Please plan accordingly!
+
+</div>
+
+The lab who is publishing the study should be the ones to manage the GEO submission. The submission process requires detailed knowledge of the experimental design, so the people who performed the experiment should be the ones to submit the data.
+
+### Required Data/Information
+GEO requires both data and *metadata* for your submission. It is important that your metadata be complete and informative; these are what make datasets in public repositories useful.
+
+You will also need to log in to GEO (requires an NCBI account) to initiate the submission process. You can initiate the submission process here:  
+<https://www.ncbi.nlm.nih.gov/geo/submitter/>
+
+Do make a note of the FTP URL and credentials (FTP username and FTP password) for later. You will need these for data transfer.
+
+#### Required Data
+The data required are the raw demultiplexed FASTQ files and the processed relative expression data. If you collected your data through the UMGC, then the raw data are the FASTQ files that are included in the data release from UMGC. If you processed your data through CHURP, then the `cpm_list.txt` normalized relative expression matrix and `subread_counts.txt` raw read counts matrix have the expression data that are required. Additionally, the MD5 sums for verifying file integrity are required; we will go over this in a later section.
+
+The metadata required are given in the GEO submission template linked below (Example 1 is for ChIP-seq, and example 2 is for RNAseq):  
+<https://www.ncbi.nlm.nih.gov/geo/info/seq.html#metadata>
+
+The required information includes:
+
+- Project title
+- Project summary
+- Short description of the experimental design
+- Contributors' names
+- Study organism, including genotype/strain if applicable
+- Sample characteristics:
+    + Human-readable sample name
+    + Experimental treatment or condition
+    + Age (if applicable)
+    + Sex (if applicable)
+    + Tissue/organ (if applicable)
+    + Other characteristics that are important for the experimental design
+- Molecule type (e.g., messenger RNA)
+- Sample rearing/handling protocol:
+    + Growth conditions (if applicable)
+    + Experimental treatment protocol (if applicable)
+- Molecular protocol information:
+    + Nucleic acid extraction protocol
+    + Library preparation protocol
+- Data processing protocol*
+
+\*: This tutorial covers the data processing protocol! The read trimming, read mapping, alignment filtering, expression quantification, and expression normalization steps described in this tutorial describe the steps taken to handle the data.
+
+### Calculating MD5 Sums
+The MD5 sums are required for all raw and processed data that will be deposited into GEO. These are strings that can be used to verify file integrity in non-cryptographic situations, e.g., to make sure the file you are using is not unintentionally corrupted.
+
+<div class="info" markdown="1">
+
+If you are working on a **funded collaboration** with RIS, we can perform the MD5 sum calculation step for you!
+
+</div>
+
+You can perform this calculation on MSI's compute servers. First, request an interactive compute session:
+
+```
+% srun -N 1 -n 1 -c 1 --mem=2gb -t 4:00:00 -p interactive --pty bash -l
+```
+
+Once you have an interactive session, navigate to where your raw reads are stored. For this example, we will use the tutorial reads:
+
+```
+% cd /home/msistaff/public/RNAseq_Tutorial/Reads
+```
+
+Then use the `md5sum` command to generate the checksums and write them to a file:
+
+```
+% md5sum *.fastq.gz > ~/geo_submission_md5sums.txt
+```
+
+You can verify they were properly generated by passing the `-c` option to the `md5sum` command:
+
+```
+% md5sum -c ~/geo_submission_md5sums.txt
+BoneMarrow-1_S23_R1_001.fastq.gz: OK
+BoneMarrow-1_S23_R2_001.fastq.gz: OK
+BoneMarrow-2_S21_R1_001.fastq.gz: OK
+BoneMarrow-2_S21_R2_001.fastq.gz: OK
+BoneMarrow-3_S19_R1_001.fastq.gz: OK
+BoneMarrow-3_S19_R2_001.fastq.gz: OK
+BoneMarrow-4_S17_R1_001.fastq.gz: OK
+BoneMarrow-4_S17_R2_001.fastq.gz: OK
+Spleen-1_S31_R1_001.fastq.gz: OK
+Spleen-1_S31_R2_001.fastq.gz: OK
+Spleen-2_S29_R1_001.fastq.gz: OK
+Spleen-2_S29_R2_001.fastq.gz: OK
+Spleen-3_S27_R1_001.fastq.gz: OK
+Spleen-3_S27_R2_001.fastq.gz: OK
+Spleen-4_S25_R1_001.fastq.gz: OK
+Spleen-4_S25_R2_001.fastq.gz: OK
+```
+
+Every file passes! The contents of the file are pasted below. The first column is the MD5 sum and the second column is the filename. The strings listed in the first column are what you would enter into your GEO submission sheet:
+
+```
+ee99e5e5262a0131451460845197378d  BoneMarrow-1_S23_R1_001.fastq.gz
+b7ad1164d691010b397942cca8f6fc39  BoneMarrow-1_S23_R2_001.fastq.gz
+614195cfc82221d93861ec265c627d29  BoneMarrow-2_S21_R1_001.fastq.gz
+b49dc13ae696334525daa0b91fb1bda6  BoneMarrow-2_S21_R2_001.fastq.gz
+ae2071b5c9f7e966a01e8c73779de204  BoneMarrow-3_S19_R1_001.fastq.gz
+2208e126306480767354b135e9d3475b  BoneMarrow-3_S19_R2_001.fastq.gz
+7c5168e84f55ba2bf6072ff2bbdb855b  BoneMarrow-4_S17_R1_001.fastq.gz
+de2a0f9b67a61444cbd6d2bdd9840263  BoneMarrow-4_S17_R2_001.fastq.gz
+e7900214eef5872f7797656933b32182  Spleen-1_S31_R1_001.fastq.gz
+2d9fde82c0dc57fff855897eac1bc6b2  Spleen-1_S31_R2_001.fastq.gz
+5d17363dc573b37c2c23c9acc592a200  Spleen-2_S29_R1_001.fastq.gz
+9112d0acbb1f7eace510f00e72ddd828  Spleen-2_S29_R2_001.fastq.gz
+821f8d7ed25d6e37a8a5bd0123193833  Spleen-3_S27_R1_001.fastq.gz
+eebe5f6e30ab1fafd38426e20887a09e  Spleen-3_S27_R2_001.fastq.gz
+b20468603ce262c38f5378e7feb580e8  Spleen-4_S25_R1_001.fastq.gz
+5ba0d064a1bc09e7f38138f4fe55dec3  Spleen-4_S25_R2_001.fastq.gz
+```
+
+The process is the same for the raw read counts matrix and the normalized expression matrix.
+
+### Uploading Data to GEO
+Now that you have the MD5 sums calculated and entered into your submission spreadsheet, you can upload the data files to GEO.
+
+<div class="info" markdown="1">
+
+If you are working on a **funded collaboration** with RIS, we can upload the data for you, too!
+
+</div>
+
+<div class="warn" markdown="1">
+
+If your data are larger than 1 terabyte (TB, 1000 GB) in volume, you must contact GEO and wait for a response from them before uploading the data.
+
+</div>
+
+Again, we can do this from the MSI compute node. First request an interactive compute session:
+
+```
+% srun -N 1 -n 1 -c 1 --mem=2gb -t 4:00:00 -p interactive --pty bash -l
+```
+
+Then, navigate to the directory where your raw data are stored. This example has the tutorial dataset, but you should use your raw FASTQ folder:
+
+```
+% cd /home/msistaff/public/RNAseq_Tutorial/Reads
+```
+
+We will then use an FTP client (`lftp`) to connect to the GEO upload location and put the files there. Fetch the FTP address and username and password that were provided to you by GEO. Use these to connect to the server. Note that there are no spaces between the `USERNAME` and `PASSWORD` in the following command, just a comma:
+
+```
+% lftp -u USERNAME,PASSWORD ftp://ftp.ncbi.../your_submission_dir/
+lftp ftp.ncbi.nlm.nih.gov:/your_submission_dir> mput *.fastq.gz
+```
+
+Note that the `lftp` prompt shows you which server you are connected to and which directory you are in. Once these files are uploaded, you can use the `lcd` command to navigate to where your raw read counts and normalized expression matrices are stored. Upload these, too. Again, we will use the tutorial directory, but you should use your real data:
+
+```
+lftp ftp.ncbi.nlm.nih.gov:/your_submission_dir> lcd /scratch.global/konox006/RNAseq_Tutorial/Out/Counts
+lftp ftp.ncbi.nlm.nih.gov:/your_submission_dir> put subread_counts.txt
+lftp ftp.ncbi.nlm.nih.gov:/your_submission_dir> put cpm_list.txt
+lftp ftp.ncbi.nlm.nih.gov:/your_submission_dir> bye
+```
+
+The `bye` command closes the FTP connection. Note that your terminal may print more output messages than what I have listed here. So long as you do not see errors, your command worked.
+
+Using your favorite desktop FTP client (OSX Finder or Windows Explorer both work for this; if you are on Linux, then you can find an FTP client on your own), transfer your GEO metadata spreadsheet into the submission directory as well. You can transfer it through MSI servers via the same process above if you are more comfortable with it, but I find it more convenient to transfer from my workstation.
+
+### Notifying GEO of File Upload
+Once your raw data, processed data, and metadata spreadsheet are uploaded, you can go to this link to notify GEO that your files are ready for review:  
+<https://submit.ncbi.nlm.nih.gov/geo/submission/>
+
+<div class="info" markdown="1">
+
+If you have a **funded collaboration** with RIS, then we can do this step for you!
+
+</div>
+
+This form will require the following information:
+
+- FTP directory where the data and metadata are deposited
+- List of filenames that were uploaded
+- Release date of the data (can be in the future for data to be held privately during review)
+- Optional information:
+    + NCBI account name for someone who should be associated with the study, e.g., the PI of the study if you are uploading on behalf of them
+    + Explanations of incomplete data
+
+Once you submit the form, wait for a response from GEO. They will contact you if any of the metadata are incomplete or if any files were corrupted during upload. Once everything checks out, they will send you a link to the study that you can include for peer review.
+
+# <a name="Glossary"></a>Glossary of Terms
+
