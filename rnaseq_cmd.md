@@ -3,7 +3,7 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2021-03-23
+updated: 2021-03-24
 delivered: 2019-11-07
 ---
 
@@ -1663,20 +1663,22 @@ Then, navigate to the directory where your raw data are stored. This example has
 % cd /home/msistaff/public/RNAseq_Tutorial/Reads
 ```
 
-We will then use an FTP client (`lftp`) to connect to the GEO upload location and put the files there. Fetch the FTP address and username and password that were provided to you by GEO. Use these to connect to the server. Note that there are no spaces between the `USERNAME` and `PASSWORD` in the following command, just a comma:
+We will then use an FTP client (`lftp`) to connect to the GEO upload location and put the files there. Fetch the FTP address and username and password that were provided to you by GEO. Use these to connect to the server, make a directory for your data uploads, and then upload the files. Note that there are no spaces between the `USERNAME` and `PASSWORD` in the following command, just a comma:
 
 ```
-% lftp -u USERNAME,PASSWORD ftp://ftp.ncbi.../your_submission_dir/
-lftp ftp.ncbi.nlm.nih.gov:/your_submission_dir> mput *.fastq.gz
+% lftp -u USERNAME,PASSWORD ftp://ftp.ncbi.../uploads/
+lftp ftp.ncbi.nlm.nih.gov:/uploads> mkdir my_submission
+lftp ftp.ncbi.nlm.nih.gov:/uploads> cd my_submission
+lftp ftp.ncbi.nlm.nih.gov:/uploads/my_submission> mput *.fastq.gz
 ```
 
 Note that the `lftp` prompt shows you which server you are connected to and which directory you are in. Once these files are uploaded, you can use the `lcd` command to navigate to where your raw read counts and normalized expression matrices are stored. Upload these, too. Again, we will use the tutorial directory, but you should use your real data:
 
 ```
-lftp ftp.ncbi.nlm.nih.gov:/your_submission_dir> lcd /scratch.global/konox006/RNAseq_Tutorial/Out/Counts
-lftp ftp.ncbi.nlm.nih.gov:/your_submission_dir> put subread_counts.txt
-lftp ftp.ncbi.nlm.nih.gov:/your_submission_dir> put cpm_list.txt
-lftp ftp.ncbi.nlm.nih.gov:/your_submission_dir> bye
+lftp ftp.ncbi.nlm.nih.gov:/uploads/my_submission> lcd /scratch.global/konox006/RNAseq_Tutorial/Out/Counts
+lftp ftp.ncbi.nlm.nih.gov:/uploads/my_submission> put subread_counts.txt
+lftp ftp.ncbi.nlm.nih.gov:/uploads/my_submission> put cpm_list.txt
+lftp ftp.ncbi.nlm.nih.gov:/uploads/my_submission> bye
 ```
 
 The `bye` command closes the FTP connection. Note that your terminal may print more output messages than what I have listed here. So long as you do not see errors, your command worked.
@@ -1695,7 +1697,7 @@ If you have a **funded collaboration** with RIS, then we can do this step for yo
 
 This form will require the following information:
 
-- FTP directory where the data and metadata are deposited
+- FTP directory where the data and metadata are deposited (in this example `/uploads/my_submission`)
 - List of filenames that were uploaded
 - Release date of the data (can be in the future for data to be held privately during review)
 - Optional information:
