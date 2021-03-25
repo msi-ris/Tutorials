@@ -3,7 +3,7 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2021-03-24
+updated: 2021-03-25
 delivered: 2019-11-07
 ---
 
@@ -132,6 +132,12 @@ Commands that are to be entered on the command-line will begin with `%`. Do not 
 
 [Return to top](#top)
 ### <a name="0.2"></a>0.2: Goals
+By the end of this tutorial you should be able to:
+
+- Use the UMII-MSI workflow to generate relative gene expression data from RNAseq data
+- Assess the quality of your libraries with post-lab metrics
+- Identify differentially-expressed genes among experimental groups
+- Identify GO terms, KEGG pathways, and Reactome pathways that are enriched in the differentially expressed genes
 
 [Return to top](#top)
 ### <a name="0.3"></a>0.3: Scope of the Tutorial
