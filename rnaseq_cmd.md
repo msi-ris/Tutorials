@@ -216,7 +216,7 @@ The sequencing reads from the sequencing facility must be supplied in FASTQ form
 
     ```
     Sample_01_R1_001.fastq.gz
-    Sample_01_R2_002.fastq.gz
+    Sample_01_R2_001.fastq.gz
     ```
 
     If your samples are split across lanes, then you must combine them before running them through CHURP. Alternately, you can keep them separate but rename them to match the format above, and use them to look for "lane effects" in your expression analyses.
