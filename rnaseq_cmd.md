@@ -85,7 +85,7 @@ Please see <http://z.umn.edu/ris-rnaseq/> for the latest version of this tutoria
 *Last Updated: {{page.updated}}*  
 *Last Delivered: {{page.delivered}}*
 
-<a onclick="javascript:openall()" href="#">Expand all details</a>(Useful for printing!)  
+<a onclick="javascript:openall()" href="#">Expand all details</a> (Useful for printing!)  
 <a onclick="javascript:closeall()" href="#">Collapse all details</a>
 
 ## <a name="0"></a>Part 0: Introduction
