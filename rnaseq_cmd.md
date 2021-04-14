@@ -4,7 +4,7 @@ title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
 updated: 2021-03-25
-delivered: 2019-11-07
+delivered: 2021-03-25
 ---
 
 <!-- Some daft javascript to open all <details> on print. -->
