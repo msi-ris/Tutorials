@@ -3,7 +3,7 @@ layout: default
 title: Interacting with dbGaP Data on Stratus
 permalink: /stratus_dbgap/
 exclude: false
-updated: 2020-06-04
+updated: 2021-05-20
 delivered: NA
 ---
 
@@ -556,10 +556,53 @@ The software packages available in the `yum` repositories are not always the mos
 </div>
 
 ### <a name="7.2"></a> Part 7.2: RIS Conda Environment Files
-To be written! I still have to make the Conda files.
+The RIS group at MSI maintains a collection of Conda environment files that you can use to easily install suites of software into your virtual machine.
+
+Clone the repository into your virtual machine (may require your UMN InternetID and password):
+
+```
+(virtual machine) % git clone https://github.umn.edu/MSI-RIS/RIS_Stratus_Software.git
+```
+
+Then, install the `general` environment to get started:
+
+```
+(virtual machine) % conda env create -n my_analysis -f ./RIS_Stratus_Software/general.yml
+```
+
+This will create a new Conda environment called `my_analysis` based on the packages listed in `general.yml`. You can name the environment whatever you like, but be sure to remember it. You can then "activate" the environment to make the programs available to use via interactive command line or scripts:
+
+```
+(virtual machine) % conda activate my_analysis
+```
+
+replacing `my_analysis` with the name that you chose when creating it.
+
+You can then "update" the environment with other package lists specified in other environment files. For an end-to-end analysis, you may need several environment files. For example, if you wanted to perform a differential gene expression analysis starting with raw FASTQ data, you would need to install the `ngs-general`, `ngs-aln`, and `ngs-rnaseq` environments:
+
+```
+(virtual machine) % conda env update -n my_analysis -f ./RIS_Stratus_Software/ngs-gen.yml
+(virtual machine) % conda env update -n my_analysis -f ./RIS_Stratus_Software/ngs-aln.yml
+(virtual machine) % conda env update -n my_analysis -f ./RIS_Stratus_Software/ngs-rnaseq.yml
+```
+
+<div class="info" markdown="1">
+
+The `ngs-gen` environment contains tools for handling FASTQ data, such as FastQC, Trimmomatic, FASTX-toolkit, and prinseq. The `ngs-aln` environment contains tools for mapping reads to a genome and processing BAM files, such as BWA, Bowtie2, picard-tools, samtools, and sambamba. The `ngs-rnaseq` environment contains tools for processing transcriptomics data, such as Kallisto, RSEM, Subread, and Trinity.
+
+</div>
+
+For a more detailed description of all of the environments available, please see the page at <https://github.umn.edu/MSI-RIS/RIS_Stratus_Software>.
+
+#### A Note about R/Bioconductor
+Our Conda environment files do **not** contain any R packages or Bioconductor packages as explicit tools to be installed. However, they may be installed as dependencies (e.g., for GATK or Picard-tools). This is because R already maintains its own environment, and installing Conda-based R packages will create many new R environments, which are likely to be incomplete and incompatible with each other.
+
+Instead, we recommend that you use the **system** R that is installed as part of the RIS Stratus image by calling R by its full path, `/usr/bin/R`. From here, you can install packages like `edgeR` or `DESeq2`, and they will be installed into an environment that is separate from the Conda environments. This will help ensure that your R environment is stable and complete.
+
+Unfortunately, this is one of the downsides of using Conda.
 
 ## <a name="8"></a> Part 8: Managing Access to Your Virtual Machines
-To be written!!
+To be written
 
 ## <a name="9"></a> Part 9: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
