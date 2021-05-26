@@ -3,7 +3,7 @@ layout: default
 title: Interacting with dbGaP Data on Stratus
 permalink: /stratus_dbgap/
 exclude: false
-updated: 2021-05-20
+updated: 2021-05-26
 delivered: NA
 ---
 
@@ -57,7 +57,7 @@ function closeall() {
 - [Installing Software](#7)
     + [With "yum"](#7.1)
     + [With RIS Conda Files](#7.2)
-- [Managing VM Access](#8)
+- [Adding New Users and Groups](#8)
 
 </div>
 
@@ -256,7 +256,7 @@ From your local machine, connect to `stratus-login.msi.umn.edu` with your UMN In
 Then, generate the SSH key. Leave the default paths for the private key.
 
 ```
-(local machine) % ssh-keygen -t rsa -b 4096
+(stratus-login) % ssh-keygen -t rsa -b 4096
 ```
 
 Then, `cat` the `~/.ssh/id_rsa.pub` file and copy the text from `ssh-rsa` until the end of the line (`. . .umn.edu`).
@@ -396,6 +396,8 @@ Finally, open the permissions to the newly mounted filesystem so that your regul
 ```
 
 ## <a name="6"></a> Part 6: Downloading dbGaP Data
+If you would like to download dbGaP data as a separate user account (for example, to provide an additional safeguard against accidental deletion or corruption by overwriting), please see [Part 8](#8) of this document!
+
 Your virtual machine should be ready to go when you are, at this point! However, there are some important items to keep in mind when it comes to fetching data from dbGaP. You must use the "AsperaConnect" software to download data from dbGaP, so you must install and configure this software on the virtual machine. Additionally, you will need to make sure that your dbGaP "key file" is available on the virtual machine for decrypting the data once it is downloaded. This section will go over how to configure and use the "AsperaConnect" software for downloading data and how to use your key to decrypt it.
 
 ### <a name="6.1"></a> Part 6.1: AsperaConnect
@@ -601,8 +603,81 @@ Instead, we recommend that you use the **system** R that is installed as part of
 
 Unfortunately, this is one of the downsides of using Conda.
 
-## <a name="8"></a> Part 8: Managing Access to Your Virtual Machines
-To be written
+## <a name="8"></a> Part 8: Adding New Users and Groups to Your Virtual Machine
+This is a special topic for situations in which multiple users in a PI group need to access a Stratus VM. This may arise, for example, if two researchers under the same dbGaP authorization would like to perform different analyses on the same dataset. Another case is if one person will handle the data downloading and staging, and another person will handle the analyses. In either case, it is helpful to have multiple user accounts for those who are authorized to access the data so each person can manage their software environments and files. It also adds an additional safeguard against accidental data deletion or corruption by allowing you to grant read and write access via UNIX groups, rather than pure trust.
+
+<div class="warn" markdown="1">
+
+By default, only the `centos` user account (or `ubuntu`/`debian` depending on the image you chose to create your VM) can use `sudo` to install system software or perform other superuser actions. You can add other users to the `sudoers` file, but that is outside the scope of this tutorial.
+
+</div>
+
+To add new users and groups to your virtual machine, first connect as the `centos` (or `ubuntu`/`debian`) user account:
+
+```
+(local machine) % ssh YOUR_UMN_ID@stratus-login.msi.umn.edu
+(stratus-login) % ssh centos@10.11.12.13
+```
+
+We will first create the groups that will hold our new users. We will make a group for a dbGaP data downloader (`dbgap_data`) and a group for an analyst (`analysis`):
+
+```
+(virtual machine) % sudo groupadd dbgap_data
+(virtual machine) % sudo groupadd analysis
+```
+
+Then, add a new user with the `useradd` command. In this example, we will add a user account for a downloader, called `dbgap_downloader`, and add this user to the `dbgap_data` group that we made in the previous step. We will also add one for an analyst, called `analyst`:
+
+```
+(virtual machine) % sudo useradd -g dbgap_data dbgap_downloader
+(virtual machine) % sudo useradd -g analysis analyst
+```
+
+Then, set passwords. Note that as you type the passwords, they will not be printed to the terminal. This is normal:
+
+```
+(virtual machine) % sudo passwd dbgap_downloader
+Changing password for user dbgap_downloader.
+New password:
+Retype new password:
+passwd: all authentication tokens updated successfully.
+(virtual machine) % sudo passwd analyst
+Changing password for user analyst.
+New password:
+Retype new password:
+passwd: all authentication tokens updated successfully.
+```
+
+You can then log out of the VM and test your new accounts. Again, the password will not be displayed as you type it:
+
+```
+(virtual machine) % logout
+(stratus-login) % ssh analyst@10.11.12.13
+analyst@10.11.12.13's password:
+Last login: ... from stratus-login.msi.umn.edu
+```
+
+The next step is only relevant if you have already downloaded dbGaP data. If you have not already downloaded data, you can perform all the download steps as the `dbgap_downloader` account, and the permissions will automatically be set.
+
+Log out of the virtual machine, and reconnect as the `centos` account. We will change the ownership and permissions on the dbGaP data directory to the `dbgap_downloader` account:
+
+```
+(virtual machine) % logout
+(stratus-login) % ssh centos@10.11.12.13
+(virtual machine) % sudo chown -R dbgap_downloader:dbgap_data /mnt/dbGaP_Data/
+(virtual machine) % sudo find /mnt/dbGaP_Data -type f -exec chmod 644 {} \;
+(virtual machine) % sudo find /mnt/dbGaP_Data -type d -exec chmod 755 {} \;
+```
+
+<div class="info" markdown="1">
+
+The first `sudo find ...` command will find all files (`-type f`) under the `/mnt/dbGaP_Data` directory and change their permission mode to `644`. `644` is read+write for the owner (`dbgap_downloader` in this case), read-only for the group, and read-only for everyone else. This ensures that only the `dbgap_downloader` user account can *change* any of the file contents.
+
+The second `sudo find...` command will find all directories (`-type d`) under the `/mnt/dbGaP_Data` directory and change their permission mode to `755`. `755` is read+write+execute for the owner, read and execute for the group, and read and execute for everyone else. Permission to view directory contents (including `cd` into a directory) is called "execute" in UNIX permission string terms.
+
+This combination of permissions ensures that only the `dbgap_downloader` account has permission to change *any* of the data in the `/mnt/dbGaP_Data` directory, including adding new files or changing the names of files. This helps a lot with making sure the data directory remains "clean" and that timestamps for file modification are preserved.
+
+</div>
 
 ## <a name="9"></a> Part 9: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
