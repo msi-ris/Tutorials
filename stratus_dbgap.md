@@ -3,7 +3,7 @@ layout: default
 title: Interacting with dbGaP Data on Stratus
 permalink: /stratus_dbgap/
 exclude: false
-updated: 2021-05-26
+updated: 2021-05-27
 delivered: NA
 ---
 
@@ -246,6 +246,12 @@ If you would like to use remote desktop to access your virtual machine, then you
 This section involves running commands on both your *local machine* and the remote *virtual machine*. Commands that are to be run on the local machine will have `(local machine)` before them, and commands that are to be run on the virtual machine will have `(virtual machine)` before them.
 
 Now that you have made a group for `ssh` access, you must generate SSH keys for connecting from the protected Stratus gateway to a virtual machine. Like the SSH security group, the SSH keys need only be generated and registered once for your Stratus project. You can add the key you generate to as many virtual machines as you want within your project. The key is manged through the Openstack Dashboard. First, you must log in to the Status gateway.
+
+<div class="warn" markdown="1">
+
+`stratus-login` has very small user quotas. Users are not meant to transfer data to/from their virtual machines via the `stratus-login` host. Users should use Tier2 to move data between their virtual machines and primary MSI systems.
+
+</div>
 
 From your local machine, connect to `stratus-login.msi.umn.edu` with your UMN Internet ID and password. You will need to authenticate with DUO:
 
