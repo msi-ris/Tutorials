@@ -71,6 +71,11 @@ function closeall() {
 - [S1: Custom HISAT2 Index](#S1)
 - [S2: Custom Mapping and Trimming](#S2)
 - [S3: Transcript-level Analyses](#S3)
+- [S4: CPM, TPM, FPKM, RPKM, etc] (#S4)
+- [S5: Alignment-free Expression Analyses] (#S5)
+- [S6: Transcriptome Assemblies] (#S6)
+- [S7: Coexpression Analyses] (#S7)
+- [S8: Depositing Data into GEO] (#S8)
 
 </div>
 
