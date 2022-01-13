@@ -3,7 +3,7 @@ layout: default
 title: Interacting with dbGaP Data on Stratus
 permalink: /stratus_dbgap/
 exclude: false
-updated: 2021-05-27
+updated: 2022-01-13
 delivered: NA
 ---
 
@@ -52,8 +52,9 @@ function closeall() {
     + [AsperaConnect](#6.1)
     + [SRAToolKit](#6.2)
     + [Downloader Key](#6.3)
-    + [Non-SRA dbGaP Data](#6.4)
-    + [Decrypting dbGaP Data](#6.5)
+    + [SRA dbGaP Data](#6.4)
+    + [Non-SRA dbGaP Data](#6.5)
+    + [Decrypting dbGaP Data](#6.6)
 - [Installing Software](#7)
     + [With "yum"](#7.1)
     + [With RIS Conda Files](#7.2)
@@ -458,8 +459,53 @@ Use `scp` to copy the key file to `stratus-login.msi.umn.edu`. Then, you must us
 
 where `YOUR_UMN_ID` is your UMN Internet ID.
 
-### <a name="6.4"></a> Part 6.4: Fetching Non-SRA dbGaP Data
+### <a name="6.4"></a> Part 6.4: Fetching SRA dbGaP Data
 Now, you should have all of the requirements in place for actually downloading and decrypting dbGaP data. Go back to the web browser where you are logged into dbGaP. Click the "My Requests" tab, underneath the "Authorized Access" tab.
+
+![dbGaP requests]({{ "/graphics/stratus_dbgap/dbgap_my_requests.png" | prepend: site.baseurl }})
+
+Find the project of your choice in the list of authorized data requests. Click on the "run selector" link:
+
+![dbGaP requests]({{ "/graphics/stratus_dbgap/dbgap_sra_run_selector.png" | prepend: site.baseurl }})
+
+This will take you to the NCBI SRA Run Sector tool, which will let you interactively filter and choose which files you would like to download from the SRA. For example, if your dbGaP project contains both whole genome resequencing (WGS) and RNAseq data, you can use the `Assay Type` filter on the left side of the page to select only one type of data to download:
+
+![dbGaP requests]({{ "/graphics/stratus_dbgap/sra_filter.png" | prepend: site.baseurl }})
+
+If you choose to subset the files (27 RNAseq samples, in this example), be sure to "select" the filtered list by clicking the checkbox in the header row of the sample metadata table displayed at the bottom of the page:
+
+![dbGaP requests]({{ "/graphics/stratus_dbgap/sra_apply_filter.png" | prepend: site.baseurl }})
+
+You can clear the selection by clicking the "X" next to the checkbox. Once you have selected the samples of interest, click the toggle switch in the "Select" box above the metadata table. If the background of the toggle switch is grey, then the selection is not active. If the background of the toggle switch is blue, then the selection is active:
+
+![dbGaP requests]({{ "/graphics/stratus_dbgap/sra_select.png" | prepend: site.baseurl }})
+
+Once the selection is active, click the green "Cart file" button in the center of the "Select" box. This will serve your browser a binary `.krt` file that you can use with the SRA toolkit to download the data. Copy this file to the Stratus login server, then copy it to your virtual machine:
+
+```
+(local machine) % scp cart_prjXXXXX_YYYYMMDDHHmm.krt YOUR_UMN_ID@stratus-login.msi.umn.edu:
+(local machine) % ssh YOUR_UMN_ID@stratus-login.msi.umn.edu
+(stratus-login) % scp cart_prjXXXXX_YYYYMMDDHHmm.krt centos@10.11.12.13:
+```
+
+Substitute the appropriate filenames, usernames, and IP addresses for your Stratus instance and user credentials.
+
+<div class="info" markdown="1">
+
+The SRA run selector will give you a cart file that has a name in the following format:
+
+```
+cart_prjXXXXX_YYYYMMDDHHmm.krt
+```
+
+where `XXXXX` is the dbGaP authorization number, and `YYYYMMDDHHmm` is a time stamp, with `YYYY` representing the year, `MM` representing the month, `DD` representing the day, `HH` representing the hour of the local time, and `mm` representing the minute of the local time.
+
+</div>
+
+
+
+### <a name="6.5"></a> Part 6.5: Fetching Non-SRA dbGaP Data
+This will look very similar to fetching SRA data, but you will not use the SRA run selector to download kart files. Instead, you will generate a special command to fetch data from NCBI. Access your requests as with SRA data:
 
 ![dbGaP requests]({{ "/graphics/stratus_dbgap/dbgap_my_requests.png" | prepend: site.baseurl }})
 
@@ -485,7 +531,7 @@ Navigate to the root of the data volume. We will make a new directory here to ho
 
 Copy the modified `ascp` command from your text window and paste it into your terminal in the virtual machine. This will download the data. Depending on the size of your dataset, this may take a while to fetch.
 
-### <a name="6.5"></a> Part 6.5: Decrypting dbGaP Data
+### <a name="6.6"></a> Part 6.6: Decrypting dbGaP Data
 Now that you have downloaded some dbGaP data, we will cover how to use your dbGaP key file to decrypt the data. Recall the path to your installation of the SRA toolkit from earlier in this section. Also note the path to the dbGaP workspace that you made above.
 
 NCBI maintains a guide (<https://www.ncbi.nlm.nih.gov/books/NBK63512/>) for decrypting data from dbGaP. Refer to their guide for the latest policies and how to handle edge and corner cases.
