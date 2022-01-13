@@ -502,7 +502,24 @@ where `XXXXX` is the dbGaP authorization number, and `YYYYMMDDHHmm` is a time st
 
 </div>
 
+Once your `.krt` file has been copied to your virtual machine, `ssh` in to the VM and move it to the same volume as the directory you will use to download your data. For example, if you made a separate data volume and mounted it to `/mnt/dbGaP_Data`:
 
+```
+(stratus-login) % ssh centos@10.11.12.13
+(virtual machine) % mv cart_prjXXXXX_YYYYMMDDHHmm.krt /mnt/dbGaP_Data/
+```
+
+Then, you can use the `prefetch` utility from the SRA toolkit to download the files from the SRA. You will need to supply the dbGaP downloader key as well. Additionally, I have found that it helps to supply a high maximum prefetch file size with the `-X` option, else `prefetch` will skip the file:
+
+```
+(virtual machine) % cd /mnt/dbGaP_Data
+(virtual machine) % /mnt/dbGaP_Data/Software/sratoolkit.2.xx.0-centos_linux64/bin/prefetch \
+    --ngc /path/to/key.ngc \
+    -X 100000000 \
+    /mnt/dbGaP_Data/cart_prjXXXXX_YYYYMMDDHHmm.krt
+```
+
+Depending on how much data is referenced in your `.krt` file, this can take a long time!
 
 ### <a name="6.5"></a> Part 6.5: Fetching Non-SRA dbGaP Data
 This will look very similar to fetching SRA data, but you will not use the SRA run selector to download kart files. Instead, you will generate a special command to fetch data from NCBI. Access your requests as with SRA data:
