@@ -597,6 +597,51 @@ Now, you can decrypt your data with the SRA toolkit. Use the `vdb-decrypt` binar
 
 Your workspace should now have replaced the `.ncbi_enc` files with standard files, such as `.csv`, `.txt`, or `.tar.gz`, and you can process these with standard Linux utilities or analysis software.
 
+If you are decrpyting data from SRA, you can use the `.ngc` file with `fastq-dump` to extract the FASTQ files:
+
+```
+(virtual machine) % /mnt/dbGaP_Data/Software/sratoolkit.2.10.2-centos_linux64/bin/fastq-dump \
+    -Q 33 \
+    --defline-seq '@$sn[_$rn]/$ri' \
+    --defline-qual '+$sn[_$rn]/$ri' \
+    --split-files \
+    --gzip \
+    --ngc /path/to/key.ngc \
+    /path/to/archive.sra
+```
+
+<div class="info" markdown="1">
+
+The values we are giving to the `--defline-seq` and `--defline-qual` options here are to ensure that the read pairs are properly parsed by downstream read mapping tools. These options will cause the reads to have a format like the following:
+
+```
+@1/1
+ATCGATCG...
++1/1
+xxxxxxxx...
+@2/1
+ATCGATCG...
++2/1
+xxxxxxxx...
+```
+
+for read 1, and
+
+```
+@1/2
+ATCGATCG...
++1/2
+xxxxxxxx...
+@2/2
+ATCGATCG...
++2/2
+xxxxxxxx...
+```
+
+for read 2. This format is expected by tools such as `bwa` and `hisat2`.
+
+</div>
+
 ## <a name="7"></a> Part 7: Installing Software
 Now that you know how to download data from dbGaP into your virtual machine, we will cover how to install the software packages that you may need to perform your analyses. For software that offers core functionality, you can use the version that is bundled for CentOS. For specialized bioinformatics analysis software, we provide a set of Conda environment files that will install suites of software based on the type of analysis that you may need to do. These include separate software suites for handling Illumina reads, or genotyping arrays. We will go over how to install software from both the CentOS central repositories, and from our pre-defined Conda environment files.
 
