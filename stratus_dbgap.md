@@ -797,7 +797,7 @@ This combination of permissions ensures that only the `dbgap_downloader` account
 ## <a name="9"></a> Part 9: Moving Data Out of Stratus
 There are two easy ways to move data out of Stratus: via `scp` (for small files) and `s3cmd` (for large files). 
 
-<div class="warning" markdown="1">
+<div class="warn" markdown="1">
 
 Any data that you move out of Stratus must not contain any individual patient-level sequence data or personally-identifiable information. This includes sequence reads (FASTQ), read mapping files (SAM/BAM/CRAM), whole-genome variant call sets (VCF/BCF), personal information (name, address, date of birth, e.g.), and any imagery in which a person can be identified.
 
@@ -811,7 +811,7 @@ Files that are up to megabytes in size can be easily transferred via `scp` with 
 (MSI cluster) % scp YOUR_UMN_ID@stratus-login.msi.umn.edu:file.dat /path/to/destination
 ```
 
-<div class="warning" markdown="1">
+<div class="warn" markdown="1">
 
 Note that there is a quota of 100MB on `stratus-login`! This host is not meant for large data transfers.
 
