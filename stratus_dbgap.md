@@ -3,7 +3,7 @@ layout: default
 title: Interacting with dbGaP Data on Stratus
 permalink: /stratus_dbgap/
 exclude: false
-updated: 2022-01-13
+updated: 2022-01-14
 delivered: NA
 ---
 
@@ -59,6 +59,7 @@ function closeall() {
     + [With "yum"](#7.1)
     + [With RIS Conda Files](#7.2)
 - [Adding New Users and Groups](#8)
+- [Moving Data Out of Stratus](#9)
 
 </div>
 
@@ -250,7 +251,7 @@ Now that you have made a group for `ssh` access, you must generate SSH keys for 
 
 <div class="warn" markdown="1">
 
-`stratus-login` has very small user quotas. Users are not meant to transfer data to/from their virtual machines via the `stratus-login` host. Users should use Tier2 to move data between their virtual machines and primary MSI systems.
+`stratus-login` has very small user quotas (100MB). Users are not meant to transfer large data files to/from their virtual machines via the `stratus-login` host. Users should use Tier2 to move data between their virtual machines and primary MSI systems. See [Section 9](#9).
 
 </div>
 
@@ -793,7 +794,57 @@ This combination of permissions ensures that only the `dbgap_downloader` account
 
 </div>
 
-## <a name="9"></a> Part 9: Feedback
+## <a name="9"></a> Part 9: Moving Data Out of Stratus
+There are two easy ways to move data out of Stratus: via `scp` (for small files) and `s3cmd` (for large files). 
+
+<div class="warning" markdown="1">
+
+Any data that you move out of Stratus must not contain any individual patient-level sequence data or personally-identifiable information. This includes sequence reads (FASTQ), read mapping files (SAM/BAM/CRAM), whole-genome variant call sets (VCF/BCF), personal information (name, address, date of birth, e.g.), and any imagery in which a person can be identified.
+
+</div>
+
+Files that are up to megabytes in size can be easily transferred via `scp` with `stratus-login`:
+
+```
+(virtual machine) % scp /path/to/small/file.dat YOUR_UMN_ID@stratus-login.msi.umn.edu:
+(local machine) % scp YOUR_UMN_ID@stratus-login.msi.umn.edu:file.dat /path/to/destination
+(MSI cluster) % scp YOUR_UMN_ID@stratus-login.msi.umn.edu:file.dat /path/to/destination
+```
+
+<div class="warning" markdown="1">
+
+Note that there is a quota of 100MB on `stratus-login`! This host is not meant for large data transfers.
+
+</div>
+
+Files that are larger than several megabytes can be transferred through MSI's Tier2 storage system. To access the Tier2 system from your Stratus VM, you must configure the `s3cmd` command to use MSI's instance. First, get your MSI S3 credentials by logging in to this page: <https://www.msi.umn.edu/content/s3-credentials>. Then, run the `s3cmd` configuration command in the virtual machine. This is an interactive command:
+
+```
+(virtual machine) % s3cmd --configure
+```
+
+When you see a prompt for `Access Key:`, paste the value from the `Your S3 access key is:` field from the S3 credentials webpage. Paste the value `Your S3 secret key is:` field and the `Secret Key:` prompt. Do not change the default region from `US`.
+
+For the `S3 Endpoint` prompt, enter `s3.msi.umn.edu`. For the `DNS-Style bucket+hostname:port template` prompt, enter `%(bucket)s.s3.msi.umn.edu`.
+
+For the `Encryption password` prompt, you can enter any password you like. **NOTE** though that this password will show up in plain text. Do not change the path to the GPG program from its default.
+
+Leave the defaults for the other prompts, then let `s3cmd` test the connection. If you get an error message or a message that the connection failed, check the spellings of your S3 access key, S3 secret key, and the endpoint name. If those are correct, but you still get an error message, please contact the MSI help desk!
+
+Then, use `s3cmd mb` and `s3cmd put` to make buckets in your Tier2 storage space and deposit data:
+
+```
+(virtual machine) % s3cmd mb s3://stratus-xfer
+(virtual machine) % s3cmd put -v /path/to/big/file.dat s3://stratus-xfer/
+```
+
+You can then pull the data to your MSI home directory:
+
+```
+(MSI cluster) % s3cmd get -v s3://stratus-xfer/file.dat /path/to/destination
+```
+
+## <a name="10"></a> Part 10: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
 tutorial delivery feedback to that address.
