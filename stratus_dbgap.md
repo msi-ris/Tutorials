@@ -60,6 +60,7 @@ function closeall() {
     + [With RIS Conda Files](#7.2)
 - [Adding New Users and Groups](#8)
 - [Moving Data Out of Stratus](#9)
+- [Advanced Tips and Tricks](#10)
 
 </div>
 
@@ -844,7 +845,57 @@ You can then pull the data to your MSI home directory:
 (MSI cluster) % s3cmd get -v s3://stratus-xfer/file.dat /path/to/destination
 ```
 
-## <a name="10"></a> Part 10: Feedback
+## <a name="10"></a> Part 10: Advanced Tips and Tricks
+Note that none of the content in this section is *required* for working with Stratus! These are more advanced tricks for working with Linux systems. On the primary MSI systems, these are handled by a team of professional system administrators, but when using Stratus, you may have to deal with these on your own.
+
+### <a name="10.1"></a> Part 10.1: Making a Swapfile
+The recommended VM image does not come with a swap partition, so you may want to make a swap space for your work.
+
+<div class="info" markdown="1">
+
+A swap partition is a space on disk that can be used like an extension of RAM. When RAM gets full, less-active parts of memory are written to the disk ("swapped out") to make room for more active memory.
+
+</div>
+
+If you are encountering out-of-memory errors with your work, you can try to add swap space before purchasing expansions to memory on your Stratus subscription. To make a swapfile, run the following:
+
+```
+(virtual machine) % sudo dd if=/dev/zero of=/swapfile bs=1M count=8192
+(virtual machine) % sudo chown root:root /swapfile
+(virtual machine) % sudo chmod 600 /swapfile
+(virtual machine) % sudo mkswap /swapfile
+(virtual machine) % sudo swapon /swapfile
+```
+
+These commands will make a swap area that is 8GB in size, turn it into a swapfile, then activate it as a swap area. You can verify that it is working by looking at the `/proc/swaps` file:
+
+```
+(virtual machine) % cat /proc/swaps
+Filename                Type        Size    Used    Priority
+/swapfile               file        8388604 4240632 -2
+```
+
+This information will also be displayed in the output of `top`:
+
+```
+(virtual machine) % top -b -n 1
+top - 16:18:38 up 29 days, 18:20,  1 user,  load average: 5.99, 6.04, 5.91
+Tasks: 258 total,   3 running, 253 sleeping,   0 stopped,   2 zombie
+%Cpu(s): 37.6 us,  1.3 sy,  0.0 ni, 60.8 id,  0.3 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem : 32778384 total,   234028 free, 32091340 used,   453016 buff/cache
+KiB Swap:  8388604 total,  4128968 free,  4259636 used.   322448 avail Mem
+
+...
+```
+
+<div class="warn" markdown="1">
+
+Swap space is NOT the solution to needing additional RAM! It can help in the cases where you know your analyses will use almost the total amount of RAM in your VM. If you try to use swap space in place of RAM, your VM will start to "thrash," which means it is constantly "swapping in" and "swapping out." This will make the VM unstable and will also make your analyses take much longer to finish.
+
+</div>
+
+
+## <a name="11"></a> Part 11: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
 tutorial delivery feedback to that address.
