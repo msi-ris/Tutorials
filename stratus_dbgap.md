@@ -868,7 +868,7 @@ If you are encountering out-of-memory errors with your work, you can try to add 
 (virtual machine) % sudo swapon /swapfile
 ```
 
-These commands will make a swap area that is 8GB in size, turn it into a swapfile, then activate it as a swap area. You can verify that it is working by looking at the `/proc/swaps` file:
+These commands will make a file that is 8GB in size, turn it into a swapfile, then activate it. You can verify that it is working by looking at the `/proc/swaps` file:
 
 ```
 (virtual machine) % cat /proc/swaps
