@@ -61,6 +61,7 @@ function closeall() {
 - [Adding New Users and Groups](#8)
 - [Moving Data Out of Stratus](#9)
 - [Advanced Tips and Tricks](#10)
+    + [Making a Swapfile](#10.1)
 
 </div>
 
