@@ -934,6 +934,8 @@ Actual DISK READ:      31.86 M/s | Actual DISK WRITE:       0.00 B/s
 
 Here, we see that two processes, `some-program` and `another-program` are using a lot of the disk I/O. If these are not critical processes to either the system or the analysis, you can kill them. If they are critical to the analysis, then you will have to schedule them such that they do not exceed the resources of the VM. If they are critical to the system, then you might consider rebooting the VM.
 
+To reduce the number of processes that are trying to read from disk at once, you can try to reduce the number of concurrent processing steps that you are running. For example, if you are trying to convert multiple SAM files to BAM files at once, you should try to reduce the number of file processing commands you are running in parallel. If you are calling variants with a multi-threaded program, you can try to reduce the number of threads the program uses.
+
 ## <a name="11"></a> Part 11: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
 Please send feedback and comments to konox006 [at] umn.edu. You may also send
