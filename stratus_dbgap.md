@@ -3,7 +3,7 @@ layout: default
 title: Interacting with dbGaP Data on Stratus
 permalink: /stratus_dbgap/
 exclude: false
-updated: 2022-01-14
+updated: 2022-01-28
 delivered: NA
 ---
 
@@ -62,6 +62,7 @@ function closeall() {
 - [Moving Data Out of Stratus](#9)
 - [Advanced Tips and Tricks](#10)
     + [Making a Swapfile](#10.1)
+    + [Managing Disk Input/Output](#10.2)
 
 </div>
 
@@ -102,7 +103,7 @@ This is a warning. Common pitfalls, cautionary information, and important points
 This is code, or a literal value that you must enter or select to run a part of the tutorial
 ```
 
-This tutorial involves running commands on multiple machines (your local workstation, the Stratus login host, and the virtual machine). Commands that are to be run on your local machine will have `(local machine)` before them; commands that are to be run on the Stratus login host will have `(stratus-login)` before them; and commands that are to be run on the virtual machine have `(virtual-machine)` before them.
+This tutorial involves running commands on multiple machines (your local workstation, the Stratus login host, and the virtual machine). Commands that are to be run on your local machine will have `(local machine)` before them; commands that are to be run on the Stratus login host will have `(stratus-login)` before them; and commands that are to be run on the virtual machine have `(virtual machine)` before them.
 
 <details markdown="1">
 <summary>These boxes contain detailed information. Click on them to expand them</summary>
@@ -895,6 +896,43 @@ Swap space is NOT the solution to needing additional RAM! It can help in the cas
 
 </div>
 
+### <a name="10.2"></a> Part 10.2: Managing Disk Input/Output
+With Stratus, you have to be a bit more careful with managing disk input/output (I/O) than with MSI's primary systems. You still have to be careful wth the primary systems, but they seem to have *much* higher bandwidth than the Stratus VMs. If you notice that your processes are running much more slowly on Stratus than you would expect, then you should check the disk activity. If the disk read and/or write bandwidth is fully used, then other processes that need to read data from disk will have to wait, slowing your analyses.
+
+To see if you have processes that are stalled and waiting for data from disk, you can look at the `S` column in the output of `top`. If a process has `D` (uninterruptible sleep), then that is a sign that it is stalled for disk I/O reasons:
+
+```
+(virtual machine) % top -u centos -n 1 -b
+top - 17:48:38 up 37 days, 19:50,  1 user,  load average: 1.09, 1.12, 1.13
+Tasks: 253 total,   3 running, 250 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  5.7 us,  0.4 sy,  0.0 ni, 93.4 id,  0.4 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem : 32778384 total,   219208 free,  1705820 used, 30853356 buff/cache
+KiB Swap:  8388604 total,  8018460 free,   370144 used. 30621740 avail Mem
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+ 1554 centos    20   0 1593488   1.1g   2520 D  81.4  3.5  14:55.51 some-program...
+...
+```
+
+<div class="info" markdown="1">
+
+There are multiple reasons why a process may be in uninterruptible sleep, but disk I/O limitations is the one we are considering here. Technically, any process that needs to make an uninterruptible system call enters the `D` state, but in a healthy system, it lasts microseconds and will not slow down your work.
+
+</div>
+
+You can use the `iotop` tool to check which processes are using a lot of disk bandwidth. This tool shows output similar to what `top` shows, but for disk activity. `iotop` is not installed by default, so we will use `yum` to install it. It also requires root privileges:
+
+```
+(virtual machine) % sudo yum install iotop
+(virtual machine) % sudo iotop -u centos
+Total DISK READ :      31.95 M/s | Total DISK WRITE :    1380.73 K/s
+Actual DISK READ:      31.86 M/s | Actual DISK WRITE:       0.00 B/s
+  TID  PRIO  USER     DISK READ  DISK WRITE  SWAPIN     IO>    COMMAND
+ 1554 be/4 centos     31.95 M/s    0.00 B/s  0.00 %  8.20 % some-program...
+ 1553 be/4 centos      0.00 B/s 1380.73 K/s  0.00 %  0.00 % another-program...
+```
+
+Here, we see that two processes, `some-program` and `another-program` are using a lot of the disk I/O. If these are not critical processes to either the system or the analysis, you can kill them. If they are critical to the analysis, then you will have to schedule them such that they do not exceed the resources of the VM. If they are critical to the system, then you might consider rebooting the VM.
 
 ## <a name="11"></a> Part 11: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
