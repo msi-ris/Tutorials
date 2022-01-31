@@ -3,7 +3,7 @@ layout: default
 title: Interacting with dbGaP Data on Stratus
 permalink: /stratus_dbgap/
 exclude: false
-updated: 2022-01-28
+updated: 2022-01-31
 delivered: NA
 ---
 
@@ -935,6 +935,31 @@ Actual DISK READ:      31.86 M/s | Actual DISK WRITE:       0.00 B/s
 Here, we see that two processes, `some-program` and `another-program` are using a lot of the disk I/O. If these are not critical processes to either the system or the analysis, you can kill them. If they are critical to the analysis, then you will have to schedule them such that they do not exceed the resources of the VM. If they are critical to the system, then you might consider rebooting the VM.
 
 To reduce the number of processes that are trying to read from disk at once, you can try to reduce the number of concurrent processing steps that you are running. For example, if you are trying to convert multiple SAM files to BAM files at once, you should try to reduce the number of file processing commands you are running in parallel. If you are calling variants with a multi-threaded program, you can try to reduce the number of threads the program uses.
+
+You can view some quick stats of the disk performance with the `hdparm` (read speed) and `dd` (write speed) utilities. `hdparm` is not installed in the RIS Stratus image by default and must be installed via `yum`:
+
+```
+(virtual machine) % sudo yum install hdparm
+```
+
+Once `hdparm` is installed, run it on the volume that you would like to measure. It is recommended that you run the command several times because the throughput is sensitive to the other processes on the system:
+
+```
+(virtual machine) % sudo hdparm -t /dev/vdb
+
+/dev/vdb:
+ Timing buffered disk reads: 1162 MB in  3.01 seconds = 385.98 MB/sec
+```
+
+You can get an idea of the disk write speed by making a file with the `dd` command:
+
+```
+(virtual machine) % cd /mnt/dbGaP_Data
+(virtual machine) % dd if=/dev/zero of=zero.dat bs=1G count=10
+10+0 records in
+10+0 records out
+10737418240 bytes (11 GB) copied, 16.4047 s, 655 MB/s
+```
 
 ## <a name="11"></a> Part 11: Feedback
 This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
