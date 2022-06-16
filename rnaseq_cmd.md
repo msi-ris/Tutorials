@@ -3,8 +3,8 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2021-03-25
-delivered: 2021-03-25
+updated: 2022-06-15
+delivered: 2022-03-03
 ---
 
 <!-- Some daft javascript to open all <details> on print. -->
@@ -71,11 +71,6 @@ function closeall() {
 - [S1: Custom HISAT2 Index](#S1)
 - [S2: Custom Mapping and Trimming](#S2)
 - [S3: Transcript-level Analyses](#S3)
-- [S4: CPM, TPM, FPKM, RPKM, etc](#S4)
-- [S5: Alignment-free Expression Analyses](#S5)
-- [S6: Transcriptome Assemblies](#S6)
-- [S7: Coexpression Analyses](#S7)
-- [S8: Depositing Data into GEO](#S8)
 
 </div>
 
@@ -89,6 +84,9 @@ Please see <http://z.umn.edu/ris-rnaseq/> for the latest version of this tutoria
 # <a name="top"></a>{{page.title}}
 *Last Updated: {{page.updated}}*  
 *Last Delivered: {{page.delivered}}*
+
+Previous recording on YouTube:  
+<https://www.youtube.com/watch?v=uQzSCPiuLCc>
 
 <a onclick="javascript:openall()" href="#">Expand all details</a> (Useful for printing!)  
 <a onclick="javascript:closeall()" href="#">Collapse all details</a>
@@ -340,14 +338,22 @@ CHURP is available on MSI systems as part of the software module system. Use the
 ```
 % module avail churp
 -------------------------------- /panfs/roc/soft/modulefiles.common --------------------------------
-churp/0.2.2-slurm
+churp/0.2.2-slurm  churp/0.2.3
 ```
 
-The only version of CHURP available is `0.2.2-slurm`. We will now load the module:
+There are two versions of CHURP available: `0.2.2-slurm` and `0.2.3`. We will load the latest version of the module:
 
 ```
-% module load churp/0.2.2-slurm
-This is CHURP version 0.2.2-slurm.
+% module load churp/0.2.3
+Latest changes: 2022-05-11
+ - agsmall (Agate) and amd512 (Mangi) partitions added
+ - Option --command-log added to group_template
+ - Option --tmp for requesting local scratch space during processing
+
+!!! NOTE !!! If you use Agate, we recommend you request 4000MB of memory per CPU
+
+!!! NOTE !!! To submit jobs to Agate, you must be logged in to an Agate login node (ssh agate.msi.umn.edu)
+This is CHURP version 0.2.3.
 CHURP can be called by running $CHURP.
 ```
 
@@ -374,8 +380,8 @@ Currently, the following subcommands are supported:
     - bulk_rnaseq
 
 For issues, contact help@msi.umn.edu.
-Version: 0.2.2-slurm
-2020-10-19
+Version: 0.2.3
+2022-05-06
 ```
 
 The message above tells us that CHURP has loaded successfully and works - it is just waiting for us to tell it what to do!
@@ -515,7 +521,8 @@ We will now use the `bulk_rnaseq` routine in CHURP to analyze the tutorial RNAse
     -o /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out \
     -d /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Work \
     --strand U \
-    --ppn 4 --mem 12000 -w 2 --no-submit
+    -q agsmall \
+    --ppn 4 --mem 16000 -w 2 --no-submit
 ----------
 Thank you for using CHURP. [ . . . ]
 ```
@@ -548,7 +555,7 @@ We supply a lot of special options for the tutorial run. Descriptions of the opt
 - `-d /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Work`: specify path to working directory. Default behavior is to put it in global scratch with a name based on the system clock time.
 - `--strand U`: count reads in a **strand non-specific** way (default is reversely-stranded)
 - `--ppn 4`: use **4** CPUs for multithreaded processes (default is 6).
-- `--mem 12000`: use 12000MB (12GB) of RAM (default is 12000MB)
+- `--mem 16000`: use 16000MB (16GB) of RAM (default is 12000MB)
 - `-w 2`: use **2** hours of time (default is 12).
 - `--no-submit`: do not automatically submit pipeline jobs.
 
