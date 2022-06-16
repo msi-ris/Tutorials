@@ -72,6 +72,7 @@ function closeall() {
 - [S2: Custom Mapping and Trimming](#S2)
 - [S3: Transcript-level Analyses](#S3)
 - [S4: CPM, TPM, FPKM, RPKM, etc](#S4)
+- [S8: Depositing Data into GEO](#S8)
 
 </div>
 
