@@ -3,7 +3,7 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2022-06-15
+updated: 2022-06-16
 delivered: 2022-03-03
 ---
 
@@ -71,6 +71,7 @@ function closeall() {
 - [S1: Custom HISAT2 Index](#S1)
 - [S2: Custom Mapping and Trimming](#S2)
 - [S3: Transcript-level Analyses](#S3)
+- [S4: CPM, TPM, FPKM, RPKM, etc](#S4)
 
 </div>
 
@@ -889,13 +890,13 @@ The `subread_counts.txt.summary` file contains high-level summaries of the read 
 
 <div class="warn" markdown="1">
 
-If you want to analyze the "log(CPM)" values from edgeR, for example, to visualize the per-sample expression levels of DEGs, do keep the following in mind. We (and edgeR) call the values "log(CPM)" but this is not an accurate name. The numerical values are actually defined by the following expression:
+If you want to analyze the "log(CPM)" values from edgeR, for example, to visualize the per-sample expression levels of DEGs, do keep the following in mind. In some cases, the "log(CPM)" value is written as "log(1+CPM)" to reflect the fact that a pseudocount of 1 has been added to the raw fragment counts, but this is not an accurate name. The numerical values are actually defined by the following expression:
 
 ```
 log2([raw counts + 1] / [library size in millions of fragments])
 ```
 
-This means it is possible that there are *negative values* for specific genes, which would be impossible if the value were literally "log(CPM)." For example, in a library with 20 million fragments, a gene may have six fragments mapped to it. This gene's "log(CPM)" value is then:
+This means it is possible that there are *negative values* for specific genes, which would be impossible if the value were literally "log(1+CPM)." For example, in a library with 20 million fragments, a gene may have six fragments mapped to it. This gene's "log(1+CPM)" value is then:
 
 ```
   log2([6 + 1] / 20)
@@ -903,7 +904,7 @@ This means it is possible that there are *negative values* for specific genes, w
 = -1.514573
 ```
 
-The reasoning from the edgeR developers is that adding `1` to the raw read counts before normalization has a very minor effect on the inferred expression responses, but adding `1` to the normalized log(CPM) values has a large effect, because it effectively changes the order of magnitude of the expression value.
+The reasoning from the edgeR developers is that adding a pseudocount of `1` to the fragment counts before normalization has a very minor effect on the inferred expression responses, but adding `1` to the CPM value before taking the log has a large effect, because it effectively changes the order of magnitude of the expression value.
 
 </div>
 
@@ -1511,6 +1512,32 @@ kallisto/0.43.1  kallisto/0.46.2
 Transcript abundance estimates from the above-mentioned tools will **not** work with the same routines for differential expression testing as gene-level counts data. Gene-level expression is **count**-based (i.e., the data are integers), while transcript abundances are often reported in "TPM" (transcripts per million) values and "estimated counts" values. You can use the "estimated counts" values in a differential expression workflow built for analyzing counts data, like those in DESeq2 or EdgeR. If you use the TPM values, you can use a program like Sleuth (Pimentel et al. 2017; <https://www.nature.com/articles/nmeth.4324>; <https://github.com/pachterlab/sleuth>) to perform differential expression analysis.
 
 ## <a name="S4"></a>Supplement 4: CPM, TPM, FPKM, RPKM, etc
+RNAseq expression analyses are sometimes performed with *normalized relative expression* values rather than with *raw fragment counts* like we have done in this tutorial. Some analyses like coexpression network analyses, require normalized relative expression values rather than fragment counts.
+
+<div class="warn" markdown="1">
+
+Differential gene expression analyses should always be done with the raw fragment counts because the software packages that perform these analyses have statistical routines to properly model the distribution of expression values from fragment count data. The R packages discussed in this tutorial (`edgeR` and `DESeq2`) additionally perform robust cross-sample normalization, which none of the units described here will incorporate. These expression values should only be used as auxiliary to the results from the actual differential gene expression tests.
+
+These units are also specific to the experiment or sequencing run. They NOT not comparable across experiments because they are very sensitive to the composition of the libraries. To properly analyze data from multiple experiments, you must take a *meta-analysis* approach; consult with a statistician!
+
+</div>
+
+Normalized relative expression values are useful for comparing genes or samples when there are differences in *sequencing depth* and *gene length*. For example, if you were to compare the fragment counts of a single gene across multiple samples, then both gene expression variation and sequencing depth variation will contribute to the fragment counts differences. On a related note, if you were to compare the fragment counts of different genes in the same sample (e.g., to check if knock-down of one gene leads to other gene expression responses), then both gene expression response and gene length differences will contribute to counts differences. This is because longer genes and transcripts have a larger "sequencing target" than shorter genes and transcripts. If two genes have the same transcript abundance, then the longer gene will have higher fragment counts simply because there is a higher representation of its transcript in the sequencing library.
+
+One common relative expression value is normalized *counts per million* (CPM). To calculate CPM, first sum the fragment counts from all genes, and divide the sum by 1,000,000: this is the "per million" scaling factor. Then, for each gene, divide its fragment count by the scaling factor. This value is useful for comparing the *same gene across samples* because it accounts for sequencing depth variation. It is not useful for comparing *different genes within the same sample* because it does not account for gene length differences. Specifically with EdgeR, the values are output on the log2 scale, and a "pseudocount" is added to the raw counts value before normalizing by library size to avoid calculating `log2(0)`.
+
+Another common relative expression value is *transcripts per kilobase-million* (TPM). This value is proportional to transcript relative abundance within a single sequencing library. For each gene or transcript, calculate a "counts per kilobase" value, which is the fragment counts divided by the length of the gene/transcript in kilobases (`length / 1000`). Sum the "counts per kilobase" values across all genes or transcripts and divide by 1,000,000: this is the "per million" scaling factor. Divide each gene or transcript's "counts per kilobase" value by the scaling factor. One feature of TPM values is that the sum of all per-feature TPM values will be equal across samples. This makes it useful for comparing relative expression values both between samples and within a sample.
+
+<div class="warn" markdown="1">
+
+Really, RPKM and FPKM should just be abandoned. We include them here just because some researchers still use them (and older publications report them).
+
+</div>
+
+Older units like *reads per kilobase per million* (RPKM; single-read data) and *fragments per kilobase per million* (FPKM; paired-end and single-read data) are very similar in spirit to TPM. The main difference is that TPM normalizes first by the gene or transcript length, then by sequencing depth, while RPKM and FPKM normalize first by sequencing depth then by gene or transcript length. While this difference seems minor, RPKM and FPKM do not have the property that the sum of expression values is the same for each sample. Thus, it is not possible to interpret FPKM or RPKM differences as proportional differences in transcript abundance. It is also worth noting that `Cufflinks` includes some probabilistic read mapping parameters in its FPKM calculations, so the FPKM values obtained from `Cufflinks` will be different than if you calculate them via the formula as written.
+
+This was once a topic of much discussion, and you can read a nice summary of various expression values and their merits and weaknesses here:  
+<https://haroldpimentel.wordpress.com/2014/05/08/what-the-fpkm-a-review-rna-seq-expression-units/>
 
 ## <a name="S5"></a>Supplement 5: Alignment-free Expression Analyses
 - Kallisto
