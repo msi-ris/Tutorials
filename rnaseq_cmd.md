@@ -2751,6 +2751,10 @@ upload. Once everything checks out, they will send you a link to the study that
 you can include for peer review.
 
 # <a name="Glossary"></a>Glossary of Terms
+This section describes the specialized terms that we use in this tutorial. I
+have tried to point out terms that may be used differently from how I use them
+in this tutorial.
+
 ## Molecular Biology (Wet Bench) Terms
 - **(Sequencing) Adapter**: Short nucleotide oligomers that are ligated to the
   5′ and 3′ ends of a fragment in a *sequencing library*. These are
