@@ -3,7 +3,7 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2022-11-02
+updated: 2022-11-08
 delivered: 2022-11-08
 ---
 
@@ -1921,8 +1921,7 @@ link:
 <https://pages.github.umn.edu/MSI-RIS/Tutorials_Beta/materials/rnaseq_cmd/Bulk_RNAseq_Report.html>
 
 **This is a long file!** The organization and format of the contents are still
-works in progress. The tutorial will guide you through the major parts that
-we in RIS find useful.
+works in progress.
 
 <div class="info" markdown="1">
 
