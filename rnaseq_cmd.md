@@ -89,7 +89,7 @@ tutorial document!
 *Last Delivered: {{page.delivered}}*
 
 Previous recording on YouTube:  
-<https://www.youtube.com/watch?v=uQzSCPiuLCc>
+<https://www.youtube.com/watch?v=x3H8pn_wSjA>
 
 <a onclick="javascript:openall()" href="#">Expand all details</a> (Useful for printing!)  
 <a onclick="javascript:closeall()" href="#">Collapse all details</a>
