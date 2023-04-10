@@ -121,8 +121,7 @@ points to consider will appear like this.
 </div>
 
 ```
-This is code, or a literal value that you must enter or select to run a part
-of the tutorial
+This is code, or a literal value that you must enter or select to run a part of the tutorial
 ```
 
 <details markdown="1">
@@ -1058,7 +1057,7 @@ decision. Let us make assignments by editing the CSV template file. Open the
 file in the `nano` text editor. This is command **6** in the text file:
 
 ```
-nano /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out/Groups.csv
+nano /scratch.global/${ME}/RNAseq_Tutorial/Out/Groups.csv
 ```
 
 The CSV file will look like what is below:
@@ -1328,14 +1327,13 @@ to see what went wrong. We cover the log files and how to read them in [Part 8]
 Recall from [Part 6](#6) that the output directory we are using is
 
 ```
-/scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out
+/scratch.global/${ME}/RNAseq_Tutorial/Out
 ```
 
-where `YOUR_INTERNET_ID` is your UMN Internet ID. Navigate to this directory and
-use `ls` to view the contents:
+Navigate to this directory and use `ls` to view the contents:
 
 ```
-cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out
+cd /scratch.global/${ME}/RNAseq_Tutorial/Out
 ls
 2021-02-03.YOUR_INTERNET_ID.bulk_rnaseq.pipeline.sh
 2021-02-03.YOUR_INTERNET_ID.bulk_rnaseq.qsub_array.txt
@@ -1372,10 +1370,10 @@ run_summary_stats-802739.out
 singlesamples_work_directory
 ```
 
-There is a lot here, so we will go through it in pieces, and each piece will be
-discussed in detail in its own section. If your output folder has fewer files
-than the listing above, then either your run is not yet complete or encountered
-an error.
+where `YOUR_INTERNET_ID` is your UMN Internet ID. There is a lot here, so we
+will go through it in pieces, and each piece will be discussed in detail in its
+own section. If your output folder has fewer files than the listing above, then
+either your run is not yet complete or encountered an error.
 
 The major components of the CHURP output are as follows:
 
@@ -1455,7 +1453,7 @@ The next log file we will examine is located in the `Logs/` sub-directory of the
 output folder. Navigate to this directory and list the contents:
 
 ```
-cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out
+cd /scratch.global/${ME}/RNAseq_Tutorial/Out
 ls
 BoneMarrow-1_Analysis.log
 BoneMarrow-1_Trace.log
@@ -1537,11 +1535,11 @@ this section.
 Navigate to the sub-directory in your CHURP output folder:
 
 ```
-cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out/InsertSizeMetrics
+cd /scratch.global/${ME}/RNAseq_Tutorial/Out/InsertSizeMetrics
 ```
 
-where `YOUR_INTERNET_ID` is your UMN Internet ID. List the contents of this
-directory to see what files are written for each sample:
+List the contents of this directory to see what files are written for each
+sample:
 
 ```
 ls
@@ -1620,11 +1618,10 @@ Navigate to the sub-directory of the output folder for the expression counts
 matrix:
 
 ```
-cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out/Counts
+cd /scratch.global/${ME}/RNAseq_Tutorial/Out/Counts
 ```
 
-where `YOUR_INTERNET_ID` is your UMN Internet ID. List the contents of this
-directory to see the files:
+List the contents of this directory to see the files:
 
 ```
 ls
@@ -1763,16 +1760,16 @@ Navigate to the sub-directory in the output folder that contains the lists of
 differentially-expressed genes and list the contents:
 
 ```
-cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out/DEGs
+cd /scratch.global/${ME}/RNAseq_Tutorial/Out/DEGs
 ls
 DE_Spleen-BoneMarrow_list.txt
 ```
 
-where `YOUR_INTERNET_ID` is your UMN Internet ID. There is one file here. It is
-not the best practice, but the filename has some interpretative meaning here.
-You will notice that the filename has a pair of the group names that we
-assigned in [Part 4.2](#4.2), in this case `Spleen` and `BoneMarrow`. These
-denote the groups that were compared for differential gene expression.
+There is one file here. It is not the best practice, but the filename has some
+interpretative meaning here. You will notice that the filename has a pair of
+the group names that we assigned in [Part 4.2](#4.2), in this case `Spleen` and
+`BoneMarrow`. These denote the groups that were compared for differential gene
+expression.
 
 The general form the filename takes is `DE_GROUP2-GROUP1_list.txt`, and `GROUP1`
 is treated as the reference group and `GROUP2` is treated as the test group.
@@ -1865,7 +1862,7 @@ experiment or guide you on making adjustments to the analysis.
 Navigate to the output folder and list its contents:
 
 ```
-cd /scratch.global/YOUR_INTERNET_ID/RNAseq_Tutorial/Out
+cd /scratch.global/${ME}/RNAseq_Tutorial/Out
 ls
 2021-02-03.YOUR_INTERNET_ID.bulk_rnaseq.pipeline.sh
 2021-02-03.YOUR_INTERNET_ID.bulk_rnaseq.qsub_array.txt
