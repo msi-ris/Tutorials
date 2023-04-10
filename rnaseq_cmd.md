@@ -3,7 +3,7 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2022-11-08
+updated: 2023-04-10
 delivered: 2022-11-08
 ---
 
@@ -49,7 +49,7 @@ function closeall() {
     + [3.1: FASTQ](#3.1)
     + [3.2: HISAT2 Index](#3.2)
     + [3.3: Annotations](#3.3)
-    + [3.4: RISDB](#3.4)
+    + [3.4: `bioref`](#3.4)
     + [3.5: Experimental Groups](#3.5)
 - [4: Accessing CHURP](#4)
 - [5: Generating Groups](#5)
@@ -791,7 +791,7 @@ The next piece of required input for CHURP is a reference genome that has been
 indexed for use with HISAT2. For this tutorial, we will be using a genome index
 that was prepared specially for the tutorial dataset. For an analysis of a real
 dataset, you will need to use an index prepared from a full genome assembly. A
-collection of pre-made indices for MSI users ("RISDB," see [Part 2.4]
+collection of pre-made indices for MSI users ("bioref," see [Part 2.4]
 (#2.4)) and instructions for making your own indices will not be covered
 directly as part of this tutorial, but will be described in [Supplement 1]
 (#S1).
@@ -807,23 +807,24 @@ compression to save disk space.
 For this tutorial, we will be using a GTF annotation file that was
 specially-prepared for use with the HISAT2 index. For an analysis of a real
 dataset, you will need to use a GTF that comes with a reference genome
-assembly. RISDB contains GTF files that are compatible with the collection of
+assembly. bioref contains GTF files that are compatible with the collection of
 HISAT2 genome indices. This is covered in [Part 2.4](#2.4).
 
-### <a name="3.4"></a>Part 3.4: RISDB Collection of Indices
+### <a name="3.4"></a>Part 3.4: `bioref` Collection of Indices
 For researchers working on MSI systems, a collection of reference genome indices
 and annotations for most model species is available in the following
 directory:
 
 ```
-/common/risdb/ensembl
+/common/bioref/ensembl
 ```
 
 These are organized by Ensembl section, and we maintain the following sections:
 
 - `main`: Model organisms and vertebrates
+- `grch37`: GRCh37 build of the human genome
 - `fungi`: Fungi
-- `metazoa`: Invertebrate and other animals
+- `metazoa`: Invertebrates and other animals
 - `plants`: Green plants and algae
 - `protists`: Organisms colloquially known as "protists"
 
@@ -831,10 +832,10 @@ Under each of these, you will find sub-directories corresponding to the binomial
 species name of the organism and the Ensembl release. Under that, there will be
 sub-directories corresponding to the genome assembly/annotation version. For
 example, the files for the `GRCh38.p13` version of the human genome from Ensembl
-release 107 are located here:
+release 109 are located here:
 
 ```
-/common/risdb/ensembl/main/Homo_sapiens-107/GRCh38.p13
+/common/bioref/ensembl/main/Homo_sapiens-109/GRCh38.p13
 ```
 
 Under the directory that corresponds to a specific genome version of a given
@@ -854,13 +855,13 @@ for CHURP. For example, to use the `GRCh38.p13` version of the human genome for
 a bulk RNAseq analysis, the HISAT2 index would be:
 
 ```
-/common/risdb/ensembl/main/Homo_sapiens-107/GRCh38.p13/hisat2/genome
+/common/bioref/ensembl/main/Homo_sapiens-109/GRCh38.p13/hisat2/genome
 ```
 
 and the GTF annotation would be
 
 ```
-/common/risdb/ensembl/main/Homo_sapiens-107/GRCh38.p13/annotation/Homo_sapiens.GRCh38.107.gtf.gz
+/common/bioref/ensembl/main/Homo_sapiens-109/GRCh38.p13/annotation/Homo_sapiens.GRCh38.109.gtf.gz
 ```
 
 ### <a name="3.5"></a>Part 3.4 Optional - Experimental Groups
@@ -1712,9 +1713,9 @@ These counts are generated at the *gene* level, meaning the counts are
 aggregated and assigned on a gene-by-gene basis. We do not support counting at
 the *transcript-level*, because transcript-level expression requires very
 specific data and analytical routines. If you are interested in
-transcript-level analyses (isoform expression), please contact RIS and/or the
-UMGC for consultation or make sure you already know how to collect
-transcript-level expression data!
+transcript-level analyses (isoform expression), please contact RI
+Bioinformatics and/or the UMGC for consultation or make sure you already know
+how to collect transcript-level expression data!
 
 </div>
 
@@ -2026,9 +2027,9 @@ This will resubmit the workflow jobs and recreate the output files.
 [Return to top](#top)
 
 ## <a name="13"></a>Part 13: Feedback
-This tutorial document was prepared by Thomas Kono, in the RIS group at MSI.
-Please send feedback and comments to konox006 [at] umn.edu. You may also send
-tutorial delivery feedback to that address.
+This tutorial document was prepared by Thomas Kono, in the RI Bioinformatics
+group at MSI.Please send feedback and comments to konox006 [at] umn.edu. You
+may also send tutorial delivery feedback to that address.
 
 [Return to top](#top)
 
@@ -2039,7 +2040,7 @@ relevant to RNAseq analysis, but only come up in special circumstances.
 
 ## <a name="S1"></a>Supplement 1: Custom HISAT2 Indices
 In the cases where your study organism does not have a reference genome in the
-sections of Ensembl that we include in RISDB, you will need to prepare your own
+sections of Ensembl that we include in bioref, you will need to prepare your own
 index files for read mapping. You may also want to prepare a custom index if
 you want to restrict the genome to a specific set of regions (like we did for
 the tutorial), or if you have an experiment that involves a transgenic organism
@@ -2575,8 +2576,8 @@ unintentionally corrupted.
 
 <div class="info" markdown="1">
 
-If you are working on a **funded collaboration** with RIS, we can perform the
-MD5 sum calculation step for you!
+If you are working on a **funded collaboration** with RI Bioinformatics, we can
+perform the MD5 sum calculation step for you!
 
 </div>
 
@@ -2656,8 +2657,8 @@ spreadsheet, you can upload the data files to GEO.
 
 <div class="info" markdown="1">
 
-If you are working on a **funded collaboration** with RIS, we can upload the
-data for you, too!
+If you are working on a **funded collaboration** with RI Bioinformatics, we can
+upload the data for you, too!
 
 </div>
 
@@ -2727,8 +2728,8 @@ can go to this link to notify GEO that your files are ready for review:
 
 <div class="info" markdown="1">
 
-If you have a **funded collaboration** with RIS, then we can do this step for
-you!
+If you have a **funded collaboration** with RI Bioinformatics, then we can do
+this step for you!
 
 </div>
 
