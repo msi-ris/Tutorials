@@ -1046,7 +1046,7 @@ to add columns for `Age` and `Sex`, you can include `-e Age -e Sex` in the
 command. This makes it easy to build a metadata CSV that can accommodate a more
 complicated experimental design. Our automated testing, however, only considers
 the `Group` column. For analysis of more complicated experiments, please
-consult with a statistician or with us at RIS!
+consult with a statistician or with us at RI Bioinformatics!
 
 </div>
 
