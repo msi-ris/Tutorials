@@ -1,0 +1,64 @@
+These are the commands that we will run during the RNAseq command line
+tutorial. You can copy this file into your workspace and edit it to customize
+the tutorial commands to fit your own analysis.
+
+If you do want to customize these commands to fit your own analysis, be sure
+to specify the correct path to the FASTQ folder (-f in steps 5 and 7 below).
+Also be sure to specify the correct reference genome index (-x), GTF annotation
+file (-g), and strand specificity (--strand) for the CHURP run in step 7. The
+values provided here are suitable for the tutorial only. You will also likely
+have to increase the computational resources requested (CPUs: --ppn, 
+RAM: --mem, and time: -w).
+
+Please note that these commands (step 7 in particular) are written to be run
+on the Agate cluster. If you wish to run on Mesabi, you will have to specify
+a different partition name (-q, in step 7).
+
+Update 2023-12-04:
+These instructions have been updated to use the latest version of CHURP (0.2.4
+at the time of writing).
+
+Update 2023-04-27:
+The formatting of the commands has been altered such that the long commands
+are not wrapped with the backslash (\) character.
+
+1. Define a variable that contains your user name to easily set up your
+analysis space.
+
+ME=$(id -un)
+
+2. Make directories in global scratch for your RNAseq analysis output files.
+
+mkdir -p /scratch.global/${ME}/RNAseq_Tutorial/Out
+
+3. Load the CHURP module.
+
+module load churp/0.2.4
+
+4. Verify that CHURP is properly loaded.
+
+$CHURP
+
+5. Make the experimental groups template from the FASTQ files.
+
+$CHURP group_template bulk_rnaseq -f /home/msistaff/public/RNAseq_Tutorial/Reads -o /scratch.global/${ME}/RNAseq_Tutorial/Out/Groups.csv
+
+6. Edit the experimental groups template to specify the experimental groups
+   that each sample belongs to.
+
+nano /scratch.global/${ME}/RNAseq_Tutorial/Out/Groups.csv
+
+7. Generate the samplesheet.txt file and pipeline.sh job file.
+
+$CHURP bulk_rnaseq -e /scratch.global/${ME}/RNAseq_Tutorial/Out/Groups.csv -f /home/msistaff/public/RNAseq_Tutorial/Reads -x /home/msistaff/public/RNAseq_Tutorial/Reference/GRCm38_19 -g /home/msistaff/public/RNAseq_Tutorial/Reference/Annotations.gtf.gz -o /scratch.global/${ME}/RNAseq_Tutorial/Out -d /scratch.global/${ME}/RNAseq_Tutorial/Work --strand U -q agsmall --ppn 4 --mem 16000 -w 2 --no-submit
+
+8. Verify that the samplesheet.txt file looks correct. Because this file has a
+   different name depending on when it is run, we cannot provide a command
+   template. But, step 7 prints the paths to the terminal, so you can copy and
+   paste from the output of step 7 to do this.
+
+9. Run the pipeline.sh file to submit the jobs. Similarly, the pipeline.sh file
+   has a different name each time you run CHURP, so we cannot provide a command
+   template. The path name is printed to the terminal after step 7, however, so
+   you can can copy and paste from the output of step 7. Note that you must run
+   this file with "bash" and NOT with "sbatch"!
