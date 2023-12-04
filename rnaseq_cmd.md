@@ -956,7 +956,7 @@ the following path on MSI systems:
 ```
 
 You can also download the file at this link:  
-<https://pages.github.umn.edu/MSI-RIS/Tutorials_Beta/materials/rnaseq_cmd/Tutorial_Commands.txt>
+<https://pages.github.umn.edu/MSI-RIS/Tutorials/materials/rnaseq_cmd/Tutorial_Commands.txt>
 
 You can follow along with the tutorial by copying and pasting some of the
 commands as we encounter them in the tutorial. We will go over what each
@@ -1981,7 +1981,7 @@ collaborators.
 
 We have put a sample of the report from the tutorial dataset analysis at this
 link:  
-<https://pages.github.umn.edu/MSI-RIS/Tutorials_Beta/materials/rnaseq_cmd/Bulk_RNAseq_Report.html>
+<https://pages.github.umn.edu/MSI-RIS/Tutorials/materials/rnaseq_cmd/Bulk_RNAseq_Report.html>
 
 **This is a long file!** The organization and format of the contents are still
 works in progress.
