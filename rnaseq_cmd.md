@@ -863,7 +863,73 @@ and the GTF annotation would be
 /common/bioref/ensembl/main/Homo_sapiens-109/GRCh38.p13/annotation/Homo_sapiens.GRCh38.109.gtf.gz
 ```
 
-### <a name="3.5"></a>Part 3.4 Optional - Experimental Groups
+#### <a name="3.4.1"></a>Part 3.4.1: `genome_aliases` Shorthand
+CHURP (as of version 0.2.4) includes a `genome_aliases` subcommand that will
+print a table of common genomics models that we maintain in bioref. You can use
+these shorthands to automatically specify a reference genome and annotation for
+use with CHURP. The table is below:
+
+```
+$CHURP genome_aliases
+Genome Aliases
+
+The species listed in the table below are common genomics models for which we
+have provided convenient shortcuts in CHURP. Use the value in the "Alias" column
+to automatically set the relevant genome indices and annotation files in other
+CHURP pipelines. These names are *case sensitive.* To read more about MSI's
+collection of genomics reference data, including the update schedule, please
+see the following page:
+
+https://www.msi.umn.edu/content/bioref
+
+|         Alias | Binomial Name              | Assembly/Annotation             |
+|---------------|----------------------------|---------------------------------|
+|   arabidopsis | Arabidopsis thaliana       | TAIR10                          |
+|        barley | Hordeum vulgare            | MorexV3_pseudomolecules_assembly|
+|       chicken | Gallus gallus              | bGalGal1.mat.broiler.GRCg7b     |
+| chlamydomonas | Chlamydomonas reinhardtii  | Chlamydomonas_reinhardtii_v5.5  |
+|          corn | Zea mays                   | Zm-B73-REFERENCE-NAM-5.0        |
+|           cow | Bos taurus                 | ARS-UCD1.2                      |
+|           dog | Canis lupus familiaris     | ROS_Cfam_1.0                    |
+|           fly | Drosophila melanogaster    | BDGP6.32                        |
+|         human | Homo sapiens               | GRCh38.p13                      |
+|         mouse | Mus musculus               | GRCm39                          |
+|           pig | Sus scrofa                 | Sscrofa11.1                     |
+|           rat | Rattus norvegicus          | mRatBN7.2                       |
+|    slime_mold | Dictyostelium discoideum   | dicty_2.7                       |
+|       soybean | Glycine max                | Glycine_max_v2.1                |
+|         wheat | Triticum aestivum          | IWGSC                           |
+|          worm | Caenorhabditis elegans     | WBcel235                        |
+|         yeast | Saccharomyces cerevisiae   | R64-1-1                         |
+|     zebrafish | Danio rerio                | GRCz11                          |
+```
+
+These can be used with the `-r` option with CHURP instead of specifying the
+`-x` (path to HISAT2 index) and `-g` (path to GTF annotation) values. For
+example, these options would be equivalent:
+
+```
+$CHURP bulk_rnaseq -r corn ...
+```
+
+and
+
+```
+$CHURP bulk_rnaseq \
+    -x /common/bioref/ensembl/plants/Zea_mays-56/Zm-B73-REFERENCE-NAM-5.0/hisat2/genome \
+    -g /common/bioref/ensembl/plants/Zea_mays-56/Zm-B73-REFERENCE-NAM-5.0/annotation/Zea_mays.Zm-B73-REFERENCE-NAM-5.0.56.gtf \
+    ...
+```
+
+The full paths and names of the HISAT2 index and GTF are still printed into the
+HTML report, so you will have a record of the specific genome and annotation
+that were used for your analysis.
+
+If you can make a good case for another genomics model to be listed in the
+table, please let us know! The genome must be present in Ensembl and be part of
+our bioref library.
+
+### <a name="3.5"></a>Part 3.5: Optional - Experimental Groups
 An optional input for CHURP is a CSV file that describes the experimental
 metadata for the samples in the dataset. Providing this file to CHURP enables
 group-based coloring of plots in the final report and differential gene
