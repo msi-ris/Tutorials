@@ -3,8 +3,8 @@ layout: default
 title: RNASeq Analysis With the Command Line
 permalink: /rnaseq_cmd/
 exclude: false
-updated: 2023-12-04
-delivered: 2022-11-08
+updated: 2023-12-05
+delivered: 2023-12-05
 ---
 
 <!-- Some daft javascript to open all <details> on print. -->
@@ -943,9 +943,9 @@ Goal: By the end of this section, you should be able to view the CHURP versions
 that are available, load the correct version of CHURP, and verify that it
 works.
 
-**Note:** this section requires that you be connected to MSI and logged in to a
-Mesabi or Mangi login node. Please review the instructions for connecting to
-MSI systems at the following link:  
+**Note:** this section requires that you be connected to MSI and logged in to an
+Agate login node. Please review the instructions for connecting to MSI systems
+at the following link:  
 <https://www.msi.umn.edu/content/connecting-hpc-resources>
 
 The commands in the following sections can be found in a text file located at
@@ -1251,7 +1251,7 @@ options are given below:
     - Default behavior is to put it in global scratch with a name based on the
       system clock time
 - `--strand U`
-    - Count reads in a **strand non-specific** way.e
+    - Count reads in a **strand non-specific** way
     - Default is reverse-stranded-specific
 - `--ppn 4`
     - Use **4** CPUs for multithreaded processes
@@ -1986,78 +1986,71 @@ link:
 **This is a long file!** The organization and format of the contents are still
 works in progress.
 
+This file contains some very important information. In particular:
+
+- Section 3.3.1 has a downloadable file with relative expression information.
+  If you need access to the **raw read counts** matrix, this file will give you
+  the information you need!
+- Section 5.3 has a downloadable file with the pipeline.sh file that you use
+  to submit and run the CHURP RNAseq jobs. If you lose your original file on
+  MSI servers, you can download a copy from here.
+- Section 5.4 has a downloadable file with the samplesheet.txt file. If you lose
+  the original copy, you can use the one bundled with the report.
+
 <div class="info" markdown="1">
 
-An example look through the QC report might be as follows. The values shown
-and interpretations provided are merely for illustration. As with any other
-data summary, the meanings of these values will change depending on your
-expectations and experimental design.
+As you look through your HTML report, you can evaluate your RNAseq experiment
+by checking the summary statistics against your expectations based on wetlab
+QC reports and your experimental design. Some example guiding questions are
+listed below, but you may have more specific criteria, depending on your
+experiment and protocols.
 
-1. Scroll to section 2.1 in the report, "Experiment Summary." Check the
-   following:
-    - Does the experiment contain the correct number of samples?
+1. Section 1: Data Processed
     - Are the sample names correct?
-    - Is the reference genome the correct assembly and version?
-2. Scroll to section 2.2, "Fragment Counts Plot." This plot displays the read
-   counts before trimming and after trimming. Check the following:
-    - Do any of the samples have unusually high or low fragment counts?
-    - Do any of the samples lose a lot of reads after trimming?
-3. Scroll to section 2.3, "Read Quality Plots." The plots in this section
-   display an overview of the mean base quality scores across the read. Check
-   the following:
-    - Are there reads with large stretches of low quality bases (yellow or
-      red)?
-    - Are R1 and R2 properly detected for each sample?
-4. Scroll to section 2.4, "HISAT2 Plots." The plots in this section display
-   summaries of the HISAT2 mapping of the trimmed reads against the reference
-   genome. Check the following:
-    - Are there any samples with many more unmapped reads than the others? Or
-      discordantly mapped reads?
-    - Of the mapped reads in each sample, do most of them map uniquely, or
-      multiply?
-5. Scroll to section 2.5, "Expression Plots." The plots in this section display
-   summaries of the estimated gene expression in the experiment. Check the
-   following:
-    - Are the number of expressed features approximately the same in each
-      sample?
-    - Do the "CPM" distributions have roughly the same shape for each sample?
-    - Do the samples cluster as you would expect in the clustering heatmap?
-    - Can you identify the major axes of differentiation among the samples in
-      the MDS plot? Is it what you expect it to be? For example, to the samples
-      cluster by a biological character that "makes sense?"
-6. Navigate to section 4.2, "rRNA Contamination (Based on Kmer Matching)." This
-   section shows an estimate of the proportion of reads in each sample that come
-   from ribosomal sequences. Check the following:
-    - Are there samples that have an unusually high or low proportion of rRNA
-      reads?
-    - Are all of the samples below about 0.4\*?
-7. Scroll to section 4.3, "Mapping-based QC Metrics." This section contains
-  plots that summarize how well the RNAseq data covers the protein coding
-  portion of the genome. Check the following:
-    - Are there any samples that have especially low exon profiling efficiency?
-      Are all of the samples above 0.4\*?
-    - Do any of the samples have especially high sequence duplication levels?
-    - Do the "strand-aware" and "unstranded metrics" barplots look very
-      different from each other? Are there a lot of "intergenic" reads?
-8. Navigate to section 5.3, "Insert Size Metrics." This section contains a
-   high-level summary of the insert size metrics that we examined earlier in
-   this tutorial. Check the following:
-    - Do all of the samples have similar insert size summary statistics?
-9. Navigate to section 3.3, "Pipeline Script." This section contains a verbatim
-   reproduction of the `pipeline.sh` file that was produced by CHURP. Click the
-   arrow to show the pipeline script. You can copy and paste this into a
-   **plain text editor** (Notepad, TextWrangler, Notepad++, etc) and save it
-   for rerunning an analysis.
-10. Scroll to section 3.4, "Samplesheet." This section contains a verbatim
-    reproduction of the `samplesheet.txt` file that was produced by CHURP.
-    Click the arrow to show the samplesheet. You can copy and paste this into a
-    **plain text editor** and save it for rerunning an analysis.
+    - Is the number of samples correct?
+    - Are the reference genome and annotation correct?
+2. Section 2.1: Read Counts
+    - Do any samples have extreme (high or low) values for fragment count?
+    - Do any samples lose a lot of reads after trimming?
+3. Section 2.2: Insert Size Metrics
+    - Do any samples have insert size distributions that do not match
+      your expectations from a gel or BioAnalyzer?
+4. Section 2.3: Estimated rRNA Content
+    - Do any samples have very high rRNA content? Is it unexpected?
+5. Section 2.4: Basecall Quality
+    - Do any samples have very low quality overall?
+    - Is there a stretch of low-quality bases in the beginnings of reads?
+6. Section 2.5: QC Based on Mapping to Reference Genome
+    - Is the exon profiling efficiency close to 1? Are there samples with very
+      low values for exon profiling efficiency?
+    - Are there samples with very low estimated library complexity? It should
+      ideally be close to the number of sequenced fragments.
+    - Are there samples with very high sequence duplication levels?
+    - Do the reads look like they were sequenced from the expected strand?
+7. Section 3.1: Mapping Statistics
+    - Are there samples with very high proportions of MAPQ=0 reads?
+    - Are there samples that have very low mapping rates relative to others?
+8. Section 3.2: HISAT2 Summaries
+    - Are there samples with very high discordantly mapped or unmapped reads?
+9. Section 3.3: Feature Counts
+    - Are there samples with a high proportion of "Unassigned" fragments?
+    - Do all samples have roughly the same number of genes detected in the
+      expression data?
+10. Section 4.1: Exploratory Plots\*
+    - Do all samples have roughly the same distribution of expression values?
+    - What are the major groups identified in the clustering heatmap and the
+      MDS plot? Do samples tend to cluster by group, or by some other variable?
+11. Section 4.2: Differential Expression Testing
+    - Are the groups correctly specified?
+    - Do the most significant DEGs make sense given your experimental design?
 
-\*: These are not magic numbers nor general recommendations! They are simply
-alues that we have found to be worrisome from a data quality standpoint.
-Depending on your library type, source material quality, and sequencing
-target, these values may be inappropriate. Always think about your
-experiment when assessing data quality!
+\*: Please note that it does not necessarily indicate a failure or a quality
+problem if your samples do not cluster by experimental group! In fact, one of
+the assumptions underlying bulk RNAseq for differential gene expression
+analysis is that only a small number of genes (relative to all genes assayed)
+are truly differentially expressed across groups. The clustering plots show
+patterns of **genome-wide** gene expression, so it is not necessarily expected
+that experimental group is the primary axis of variation.
 
 </div>
 
