@@ -1995,7 +1995,30 @@ This file contains some very important information. In particular:
   to submit and run the CHURP RNAseq jobs. If you lose your original file on
   MSI servers, you can download a copy from here.
 - Section 5.4 has a downloadable file with the samplesheet.txt file. If you lose
-  the original copy, you can use the one bundled with the report.
+  the original copy, you can use the one bundled with the report
+
+To rerun the workflow to regenerate the results, you must do the following:
+
+1. Make sure the **output** and **working** directories defined in the
+   `pipeline.sh` script exist.
+2. Make sure that FASTQ input folder is the same as when you first ran the
+   workflow. If you are using data from the UMGC, then this path should be
+   stable. If you are using data from the SRA, you will have to be careful
+   with it.
+3. Make sure the reference genome index and GTF annotation are in the same
+   location and have the same name as when you first ran the workflow.
+4. Make sure you have saved the `samplesheet.txt` file as *plain text*, and
+   that it has the same name and path as those defined by `pipeline.sh`.
+5. Make sure you have saved the `pipeline.sh` file as *plain text*.
+
+Once you have verified that the above conditions, run the `pipeline.sh` script
+with `bash`:
+
+```
+bash /path/to/pipeline.sh
+```
+
+This will resubmit the workflow jobs and recreate the output files.
 
 <div class="info" markdown="1">
 
@@ -2051,31 +2074,6 @@ analysis is that only a small number of genes (relative to all genes assayed)
 are truly differentially expressed across groups. The clustering plots show
 patterns of **genome-wide** gene expression, so it is not necessarily expected
 that experimental group is the primary axis of variation.
-
-</div>
-
-To rerun the workflow to regenerate the results, you must do the following:
-
-1. Make sure the **output** and **working** directories defined in the
-   `pipeline.sh` script exist.
-2. Make sure that FASTQ input folder is the same as when you first ran the
-   workflow. If you are using data from the UMGC, then this path should be
-   stable. If you are using data from the SRA, you will have to be careful
-   with it.
-3. Make sure the reference genome index and GTF annotation are in the same
-   location and have the same name as when you first ran the workflow.
-4. Make sure you have saved the `samplesheet.txt` file as *plain text*, and
-   that it has the same name and path as those defined by `pipeline.sh`.
-5. Make sure you have saved the `pipeline.sh` file as *plain text*.
-
-Once you have verified that the above conditions, run the `pipeline.sh` script
-with `bash`:
-
-```
-bash /path/to/pipeline.sh
-```
-
-This will resubmit the workflow jobs and recreate the output files.
 
 </div>
 
