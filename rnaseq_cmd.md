@@ -2020,6 +2020,7 @@ bash /path/to/pipeline.sh
 
 This will resubmit the workflow jobs and recreate the output files.
 
+## <a name="12.1"></a>Part 12.1: A Guide Through the HTML Report
 <div class="info" markdown="1">
 
 As you look through your HTML report, you can evaluate your RNAseq experiment
