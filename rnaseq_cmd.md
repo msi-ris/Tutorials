@@ -791,7 +791,7 @@ The next piece of required input for CHURP is a reference genome that has been
 indexed for use with HISAT2. For this tutorial, we will be using a genome index
 that was prepared specially for the tutorial dataset. For an analysis of a real
 dataset, you will need to use an index prepared from a full genome assembly. A
-collection of pre-made indices for MSI users ("bioref," see [Part 2.4](#2.4))
+collection of pre-made indices for MSI users ("bioref," see [Part 3.4](#3.4))
 and instructions for making your own indices will not be covered
 directly as part of this tutorial, but will be described in [Supplement 1](#S1).
 
