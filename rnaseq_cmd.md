@@ -68,6 +68,7 @@ function closeall() {
 - [10: Expression Counts Matrix](#10)
 - [11: Differentially Expressed Genes](#11)
 - [12: HTML Report](#12)
+    + [12.1: Guide Through HTML Report](#12.1)
 - [S1: Custom HISAT2 Index](#S1)
 - [S2: Custom Mapping and Trimming](#S2)
 - [S3: Transcript-level Analyses](#S3)
@@ -2020,7 +2021,7 @@ bash /path/to/pipeline.sh
 
 This will resubmit the workflow jobs and recreate the output files.
 
-## <a name="12.1"></a>Part 12.1: A Guide Through the HTML Report
+### <a name="12.1"></a>Part 12.1: A Guide Through the HTML Report
 <div class="info" markdown="1">
 
 As you look through your HTML report, you can evaluate your RNAseq experiment
